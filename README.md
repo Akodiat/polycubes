@@ -1,1 +1,1 @@
-Built on [https://threejs.org/examples/#webgl_interactive_voxelpainter]
+Built on https://threejs.org/examples/#webgl_interactive_voxelpainter
