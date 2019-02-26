@@ -10,14 +10,13 @@ var rollOverMesh, rollOverMaterial;
 var cubeGeo, cubeMaterial;
 
 var objects = [];
-
 init();
 render();
 
 function init() {
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window
         .innerHeight, 1, 10000);
-    camera.position.set(500, 800, 1300);
+    camera.position.set(5, 8, 13);
     camera.lookAt(0, 0, 0);
 
     scene = new THREE.Scene();
@@ -25,7 +24,7 @@ function init() {
 
     // roll-over helpers
 
-    var rollOverGeo = new THREE.BoxBufferGeometry(50, 50, 50);
+    var rollOverGeo = new THREE.BoxBufferGeometry(1, 1, 1);
     rollOverMaterial = new THREE.MeshBasicMaterial({
         color: 0xff0000,
         opacity: 0.5,
@@ -36,14 +35,15 @@ function init() {
 
     // cubes
 
-    cubeGeo = new THREE.BoxBufferGeometry(50, 50, 50);
+    cubeGeo = new THREE.BoxBufferGeometry(1, 1, 1);
     cubeMaterial = new THREE.MeshLambertMaterial({
         color: 0xb3ccff
     });
 
     // grid
 
-    var gridHelper = new THREE.GridHelper(1000, 20);
+    var gridHelper = new THREE.GridHelper(100, 100);
+    gridHelper.position.set(-0.5, -0.5, 0.5);
     scene.add(gridHelper);
 
     //
@@ -51,12 +51,13 @@ function init() {
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
 
-    var geometry = new THREE.PlaneBufferGeometry(1000, 1000);
+    var geometry = new THREE.PlaneBufferGeometry(100, 100);
     geometry.rotateX(-Math.PI / 2);
 
     plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
         visible: false
     }));
+    plane.position.set(-0.5, -0.5, 0.5);
     scene.add(plane);
 
     objects.push(plane);
@@ -86,6 +87,7 @@ function init() {
 
     window.addEventListener('resize', onWindowResize, false);
 
+    addCube(new THREE.Vector3(0,0,0))
 }
 
 function onWindowResize() {
@@ -103,9 +105,7 @@ function onDocumentMouseMove(event) {
     var intersects = raycaster.intersectObjects(objects);
     if (intersects.length > 0) {
         var intersect = intersects[0];
-        rollOverMesh.position.copy(intersect.point).add(intersect.face.normal);
-        rollOverMesh.position.divideScalar(50).floor().multiplyScalar(50)
-            .addScalar(25);
+        rollOverMesh.position.copy(intersect.point).add(intersect.face.normal).floor();
     }
     render();
 }
@@ -132,16 +132,20 @@ function onDocumentMouseDown(event) {
 
         // create cube
         } else {
-            var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
-            voxel.position.copy(intersect.point).add(intersect.face.normal);
-            voxel.position.divideScalar(50).floor().multiplyScalar(50)
-                .addScalar(25);
-            scene.add(voxel);
-            objects.push(voxel);
+            pos = intersect.point.clone().add(intersect.face.normal).floor();
+            addCube(pos);
         }
 
         render();
     }
+}
+
+function addCube(position) {
+    var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+    voxel.name = "voxel";
+    voxel.position.copy(position);
+    scene.add(voxel);
+    objects.push(voxel);
 }
 
 function onDocumentKeyDown(event) {
