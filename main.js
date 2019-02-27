@@ -3,13 +3,24 @@ if (WEBGL.isWebGLAvailable() === false) {
 }
 
 var camera, scene, renderer;
-var plane, cube;
+var plane;
 var mouse, raycaster, isShiftDown = false;
 
 var rollOverMesh, rollOverMaterial;
 var cubeGeo, cubeMaterial;
 
 var objects = [];
+var moves = {};
+
+var ruleOrder = [
+    new THREE.Vector3( 0, 0,-1),
+    new THREE.Vector3( 0, 0, 1),
+    new THREE.Vector3( 0, 1, 0),
+    new THREE.Vector3( 0,-1, 0),
+    new THREE.Vector3(-1, 0, 0),
+    new THREE.Vector3( 1, 0, 0),
+];
+
 init();
 render();
 
@@ -87,7 +98,7 @@ function init() {
 
     window.addEventListener('resize', onWindowResize, false);
 
-    addCube(new THREE.Vector3(0,0,0))
+    addCube(new THREE.Vector3(0,0,0), [0,0,1,0,-2,0]);
 }
 
 function onWindowResize() {
@@ -133,19 +144,36 @@ function onDocumentMouseDown(event) {
         // create cube
         } else {
             pos = intersect.point.clone().add(intersect.face.normal).floor();
-            addCube(pos);
+            addCube(pos, [0,1,2,0,0,0]);
         }
 
         render();
     }
 }
 
-function addCube(position) {
+function addCube(position, rule) {
     var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
     voxel.name = "voxel";
     voxel.position.copy(position);
     scene.add(voxel);
     objects.push(voxel);
+    
+    for(i=0; i<rule.length; i++) {
+        if(rule[i]) {
+           var move = {
+               position: position.clone().add(ruleOrder[i]),
+               direction: ruleOrder[i].clone().negate(),
+               rule: rule[i]
+           }
+           var key = `(${move.position.x},${move.position.y},${move.position.z})`;
+           if(!(key in moves)) {
+               moves[key] = [];
+           } else {
+               console.log("Non deterministic move:", move);
+           }
+           moves[key].push(move); 
+        }
+    }
 }
 
 function onDocumentKeyDown(event) {
