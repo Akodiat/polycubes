@@ -172,7 +172,7 @@ function onDocumentMouseDown(event) {
         // create cube
         } else {
             pos = intersect.point.clone().add(intersect.face.normal).floor();
-            addCube(pos, [0,1,2,0,-1,0]);
+            addCube(pos, [0,0,1,0,-2,0]);
         }
 
         render();
@@ -185,8 +185,9 @@ function processMoves() {
     var move = moves[moveKeys[moveKey]];
 
     rules.forEach(function(rule){
-        if(arrayEquals(rule,move)){
+        if(arrayEquals(rule, move.rule)){
             console.log("Yay");
+            addCube(move.pos, move.rule);
             delete moves[moveKeys[moveKey]];
             moveKeys.splice(moveKey, 1);
         }
@@ -211,16 +212,16 @@ function addCube(position, rule) {
            var pos = position.clone().add(ruleOrder[i])
            var key = `(${pos.x},${pos.y},${pos.z})`;
            if(!(key in moves)) {
-               moves[key] = [0,0,0,0,0,0];
+               moves[key] = {pos: pos, rule: [0,0,0,0,0,0]};
                moveKeys.push(key);
            }
            var r = position.clone().sub(pos);
            var rulePos = ruleOrder.findIndex(function(element){return r.equals(element)});
 
            //Make sure we haven't written anything here before:
-           console.assert(!(moves[key][rulePos]));
+           console.assert(!(moves[key].rule[rulePos]));
 
-           moves[key][rulePos] = rule[i] * -1;
+           moves[key].rule[rulePos] = rule[i] * -1;
         }
     }
 }
