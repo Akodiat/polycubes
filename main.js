@@ -14,6 +14,17 @@ var moves = {};
 var moveKeys = [];
 
 var rules = [[0,0,0,0,0,2]]
+var params = {
+    rule: {
+        front: 0,
+        back: 0,
+        up: 0,
+        down: 0,
+        left: 0,
+        right: 0
+    },
+    color: '#b3ccff'
+}
 
 var ruleOrder = [
     new THREE.Vector3( 0, 0,-1),
@@ -126,6 +137,15 @@ function init() {
 
     window.addEventListener('resize', onWindowResize, false);
 
+    // gui
+    var gui = new dat.GUI();
+    for(p in params.rule){
+        gui.add(params.rule, p);
+    }
+    gui.addColor(params, 'color');
+
+    gui.open();
+
     addCube(new THREE.Vector3(0,0,0), [0,0,1,0,-2,0]);
 }
 
@@ -196,6 +216,7 @@ function processMoves() {
 
 function addCube(position, rule) {
     var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+    voxel.material.color.set(params.color);
     voxel.name = "voxel";
     voxel.position.copy(position);
     scene.add(voxel);
