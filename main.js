@@ -12,6 +12,7 @@ var cubeGeo, cubeMaterial;
 var objects = [];
 var moves = {};
 var moveKeys = [];
+var cubeMap = {};
 
 var rules = [[0,0,1,0,0,0],[0,0,0,-1,2,3], [0,0,0,0,-2,0], [0,0,0,0,0,-3]];
 var ruleColors = ['#b3ccff', '#b3aabb', '#b4aabb', '#b5aabb'];
@@ -212,7 +213,6 @@ function processMoves() {
 
         // Loop through moves
         for(moveKey=0; moveKey<moveKeys.length; moveKey++) {
-            console.log(moveKey);
             var move = moves[moveKeys[moveKey]];
 
             // We should not automatically add cubes where they are not connected
@@ -256,6 +256,10 @@ function addCube(position, ruleIdx) {
             var direction = ruleOrder[i].clone().negate();
             var movePos = position.clone().add(ruleOrder[i])
             var key = vecToStr(movePos);
+            if(key in cubeMap) {
+                console.log("There is already a cube at pos "+key);
+                continue
+            }
             if(!(key in moves)) {
                 moves[key] = {pos: movePos, rule: [null,null,null,null,null,null]};
                 moveKeys.push(key);
@@ -279,6 +283,7 @@ function addCube(position, ruleIdx) {
     voxel.position.copy(position);
     scene.add(voxel);
     objects.push(voxel);
+    cubeMap[vecToStr(position)] = true;
     console.log("Added cube at pos "+vecToStr(position)+" with rule "+rule);
 }
 
