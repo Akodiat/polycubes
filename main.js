@@ -14,8 +14,8 @@ var moves = {};
 var moveKeys = [];
 var cubeMap = {};
 
-var rules = [[0,0,1,0,0,0],[0,0,0,-1,2,3], [0,0,0,0,-2,0], [0,0,0,0,0,-3]];
-var ruleColors = ['#b3ccff', '#b3aabb', '#b4aabb', '#b5aabb'];
+var rules = [[0,0,1,0,0,0],[0,0,0,-1,2,3], [0,0,0,0,-3,0], [0,0,0,0,0,-2]];
+var ruleColors = ['#b3ccff', '#b3aabb', '#14a2b2', '#f5aa0b'];
 var params = {
     rules: [{
         rule: {front: 0, back: 0, up: 0, down: 0, left: 0, right: 0},
