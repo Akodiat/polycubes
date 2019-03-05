@@ -13,7 +13,8 @@ var objects = [];
 var moves = {};
 var moveKeys = [];
 
-var rules = [[0,0,1,-1,0,-2],[0,0,0,-1,0,2]]
+var rules = [[0,0,1,0,0,0],[0,0,0,-1,0,0]];
+var ruleColors = ['#b3ccff', '#b3aabb'];
 var params = {
     rules: [{
         rule: {front: 0, back: 0, up: 0, down: 0, left: 0, right: 0},
@@ -37,8 +38,9 @@ render();
 
 function ruleFits(a,b) {
     for (var i = 0, l=a.length; i < l; i++) {
+        // if a[i] is zero it has a neigbour who does not want anything here
         // if a[i] is not null it has to agree with b[i]
-        if (a[i] && a[i] != b[i]) {
+        if (a[i]==0 || (a[i] && a[i] != b[i])) {
             return false;
         }
     }
@@ -134,7 +136,7 @@ function init() {
 
     gui.open();
 
-    addCube(new THREE.Vector3(0,0,0), rules[0]);
+    addCube(new THREE.Vector3(0,0,0), 0);
 }
 
 function onWindowResize() {
@@ -180,7 +182,14 @@ function onDocumentMouseDown(event) {
         // create cube
         } else {
             pos = intersect.point.clone().add(intersect.face.normal).floor();
-            addCube(pos, [0,0,1,0,-2,0]);
+            ruleIdx = 0;
+            // Make sure manually added cube is allowed given the moves
+            var posStr = vecToStr(pos);
+            if(posStr in moves && !ruleFits(moves[posStr].rule, rules[ruleIdx])) {
+                console.log("Cannot add cube at pos "+posStr+" with rule "+rules[ruleIdx]);
+            } else {
+                addCube(pos, ruleIdx);
+            }
         }
 
         render();
@@ -193,41 +202,56 @@ function processMoves() {
         var moveKey = Math.floor(Math.random()*moveKeys.length);
         var move = moves[moveKeys[moveKey]];
 
-        rules.forEach(function(rule){
-            if(ruleFits(move.rule, rule)){
+        // We should not automatically add cubes where they are not connected
+        var isEmpty = true;
+        for(i=0; i<move.rule.length; i++){
+            if(move.rule[i]){
+                isEmpty = false;
+                break;
+            }
+        }
+
+        // Check if we have a rule that fits this move
+        for(i=0; i<rules.length; i++) {
+            if(ruleFits(move.rule, rules[i])){
                 console.log("Yay");
-                addCube(move.pos, move.rule);
+                addCube(move.pos, i);
                 delete moves[moveKeys[moveKey]];
                 moveKeys.splice(moveKey, 1);
             }
-        });
+        }
     }
 }
 
-function addCube(position, rule) {
+function addCube(position, ruleIdx) {
+    var rule = rules[ruleIdx];
+
+
+    // Go through all non-zero parts of the rule and add potential moves
     for(i=0; i<rule.length; i++) {
-        if(rule[i]) {
-           var direction = ruleOrder[i].clone().negate();
-           var pos = position.clone().add(ruleOrder[i])
-           var key = `(${pos.x},${pos.y},${pos.z})`;
-           if(!(key in moves)) {
-               moves[key] = {pos: pos, rule: [null,null,null,null,null,null]};
-               moveKeys.push(key);
-           }
-           var r = position.clone().sub(pos);
-           var rulePos = ruleOrder.findIndex(function(element){return r.equals(element)});
+    //  if(rule[i]) {
+            var direction = ruleOrder[i].clone().negate();
+            var movePos = position.clone().add(ruleOrder[i])
+            var key = vecToStr(movePos);
+            if(!(key in moves)) {
+                moves[key] = {pos: movePos, rule: [null,null,null,null,null,null]};
+                moveKeys.push(key);
+            }
+            var r = position.clone().sub(movePos);
+            var dirIdx = ruleOrder.findIndex(function(element){return r.equals(element)});
 
-           //Make sure we haven't written anything here before:
-           if(moves[key].rule[rulePos]) {
-               console.log("Cannot add cube at pos "+key+" with rule "+rule);
-               return;
-           }
+            //Make sure we haven't written anything here before:
+            if(moves[key].rule[dirIdx]) {
+                console.log("Cannot add cube at pos "+vecToStr(position)+" with rule "+rule);
+                return;
+            }
 
-           moves[key].rule[rulePos] = rule[i] * -1;
-        }
+               moves[key].rule[dirIdx] = rule[i] * -1;
+     // }
     }
-    var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
-    voxel.material.color.set(params.color);
+    var material = cubeMaterial.clone();
+    material.color.set(ruleColors[ruleIdx])
+    var voxel = new THREE.Mesh(cubeGeo, material);
     voxel.name = "voxel";
     voxel.position.copy(position);
     scene.add(voxel);
