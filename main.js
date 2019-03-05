@@ -13,8 +13,8 @@ var objects = [];
 var moves = {};
 var moveKeys = [];
 
-var rules = [[0,0,1,0,0,0],[0,0,0,-1,0,0]];
-var ruleColors = ['#b3ccff', '#b3aabb'];
+var rules = [[0,0,1,0,0,0],[0,0,0,-1,2,3], [0,0,0,0,-2,0], [0,0,0,0,0,-3]];
+var ruleColors = ['#b3ccff', '#b3aabb', '#b4aabb', '#b5aabb'];
 var params = {
     rules: [{
         rule: {front: 0, back: 0, up: 0, down: 0, left: 0, right: 0},
@@ -27,8 +27,8 @@ var params = {
 var ruleOrder = [
     new THREE.Vector3( 0, 0,-1),
     new THREE.Vector3( 0, 0, 1),
-    new THREE.Vector3( 0, 1, 0),
     new THREE.Vector3( 0,-1, 0),
+    new THREE.Vector3( 0, 1, 0),
     new THREE.Vector3(-1, 0, 0),
     new THREE.Vector3( 1, 0, 0),
 ];
@@ -135,8 +135,6 @@ function init() {
     gui.add(params, 'test');
 
     gui.open();
-
-    addCube(new THREE.Vector3(0,0,0), 0);
 }
 
 function onWindowResize() {
@@ -189,6 +187,7 @@ function onDocumentMouseDown(event) {
                 console.log("Cannot add cube at pos "+posStr+" with rule "+rules[ruleIdx]);
             } else {
                 addCube(pos, ruleIdx);
+                processMoves();
             }
         }
 
@@ -196,28 +195,52 @@ function onDocumentMouseDown(event) {
     }
 }
 
+// From stackoverflow/a/12646864
+function shuffleArray(a) {
+    for(var i = a.length -1; i>0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+}
+
 function processMoves() {
     if(moveKeys.length > 0) { //If we have moves to process
-        // Select random move destination
-        var moveKey = Math.floor(Math.random()*moveKeys.length);
-        var move = moves[moveKeys[moveKey]];
+        // Shuffle movekeys randomly
+        shuffleArray(moveKeys);
 
-        // We should not automatically add cubes where they are not connected
-        var isEmpty = true;
-        for(i=0; i<move.rule.length; i++){
-            if(move.rule[i]){
-                isEmpty = false;
-                break;
+        // Loop through moves
+        for(moveKey=0; moveKey<moveKeys.length; moveKey++) {
+            console.log(moveKey);
+            var move = moves[moveKeys[moveKey]];
+
+            // We should not automatically add cubes where they are not connected
+            var isEmpty = true;
+            for(i=0; i<move.rule.length; i++){
+                if(move.rule[i]){
+                    isEmpty = false;
+                    break;
+                }
             }
-        }
+            if(isEmpty) {
+                continue;
+            }
 
-        // Check if we have a rule that fits this move
-        for(i=0; i<rules.length; i++) {
-            if(ruleFits(move.rule, rules[i])){
-                console.log("Yay");
-                addCube(move.pos, i);
-                delete moves[moveKeys[moveKey]];
-                moveKeys.splice(moveKey, 1);
+            // Check if we have a rule that fits this move
+            for(i=0; i<rules.length; i++) {
+                if(ruleFits(move.rule, rules[i])){
+                    addCube(move.pos, i);
+
+                    // Remove processed move
+                    delete moves[moveKeys[moveKey]];
+                    moveKeys.splice(moveKey, 1);
+
+                    // Any new moves added by the added cube will be appended to the
+                    // end of the shuffled moveKeys list.
+                    // Deterministic but efficient. If not desired, shuffle remaining list
+                    // from moveKeys.length as it was before addCube.
+                }
             }
         }
     }
@@ -256,6 +279,7 @@ function addCube(position, ruleIdx) {
     voxel.position.copy(position);
     scene.add(voxel);
     objects.push(voxel);
+    console.log("Added cube at pos "+vecToStr(position)+" with rule "+rule);
 }
 
 function vecToStr(v){
@@ -280,6 +304,5 @@ function onDocumentKeyUp(event) {
 
 function render() {
     renderer.render(scene, camera);
-    processMoves();
 }
 
