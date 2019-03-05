@@ -13,18 +13,15 @@ var objects = [];
 var moves = {};
 var moveKeys = [];
 
-var rules = [[0,0,0,0,0,2]]
+var rules = [[0,0,1,-1,0,-2],[0,0,0,-1,0,2]]
 var params = {
-    rule: {
-        front: 0,
-        back: 0,
-        up: 0,
-        down: 0,
-        left: 0,
-        right: 0
-    },
-    color: '#b3ccff'
-}
+    rules: [{
+        rule: {front: 0, back: 0, up: 0, down: 0, left: 0, right: 0},
+        color: '#b3ccff'
+    }],
+    step: processMoves,
+    test: '[1,1,0,1,-2,0]'
+    }
 
 var ruleOrder = [
     new THREE.Vector3( 0, 0,-1),
@@ -38,28 +35,13 @@ var ruleOrder = [
 init();
 render();
 
-// From answer: https://stackoverflow.com/a/14853974
-function arrayEquals(a,b) {
-    // if the other array is a falsy value, return
-    if (!b)
-        return false;
-
-    // compare lengths - can save a lot of time 
-    if (a.length != b.length)
-        return false;
-
+function ruleFits(a,b) {
     for (var i = 0, l=a.length; i < l; i++) {
-        // Check if we have nested arrays
-        if (a[i] instanceof Array && b[i] instanceof Array) {
-            // recurse into the nested arrays
-            if (!a[i].equals(b[i]))
-                return false;       
-        }           
-        else if (a[i] != b[i]) { 
-            // Warning - two different object instances will never be equal: {x:20} != {x:20}
-            return false;   
-        }           
-    }       
+        // if a[i] is not null it has to agree with b[i]
+        if (a[i] && a[i] != b[i]) {
+            return false;
+        }
+    }
     return true;
 }
 
@@ -139,14 +121,20 @@ function init() {
 
     // gui
     var gui = new dat.GUI();
-    for(p in params.rule){
-        gui.add(params.rule, p);
+
+    for(i=0, l=params.rules.length; i<l; i++) {
+        f = gui.addFolder('Rule '+i);
+        for(p in params.rules[i].rule){
+            f.add(params.rules[i].rule, p);
+        }
+        f.addColor(params.rules[i], 'color');
     }
-    gui.addColor(params, 'color');
+    gui.add(params, 'step');
+    gui.add(params, 'test');
 
     gui.open();
 
-    addCube(new THREE.Vector3(0,0,0), [0,0,1,0,-2,0]);
+    addCube(new THREE.Vector3(0,0,0), rules[0]);
 }
 
 function onWindowResize() {
@@ -200,51 +188,50 @@ function onDocumentMouseDown(event) {
 }
 
 function processMoves() {
-    // Select random move destination
-    var moveKey = Math.floor(Math.random()*moveKeys.length);
-    var move = moves[moveKeys[moveKey]];
+    if(moveKeys.length > 0) { //If we have moves to process
+        // Select random move destination
+        var moveKey = Math.floor(Math.random()*moveKeys.length);
+        var move = moves[moveKeys[moveKey]];
 
-    rules.forEach(function(rule){
-        if(arrayEquals(rule, move.rule)){
-            console.log("Yay");
-            addCube(move.pos, move.rule);
-            delete moves[moveKeys[moveKey]];
-            moveKeys.splice(moveKey, 1);
-        }
-    }); 
+        rules.forEach(function(rule){
+            if(ruleFits(move.rule, rule)){
+                console.log("Yay");
+                addCube(move.pos, move.rule);
+                delete moves[moveKeys[moveKey]];
+                moveKeys.splice(moveKey, 1);
+            }
+        });
+    }
 }
 
 function addCube(position, rule) {
-    var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
-    voxel.material.color.set(params.color);
-    voxel.name = "voxel";
-    voxel.position.copy(position);
-    scene.add(voxel);
-    objects.push(voxel);
-    
     for(i=0; i<rule.length; i++) {
         if(rule[i]) {
-     //    var move = {
-     //        position: position.clone().add(ruleOrder[i]),
-     //        direction: ruleOrder[i].clone().negate(),
-     //        rule: rule[i]
-     //    }
            var direction = ruleOrder[i].clone().negate();
            var pos = position.clone().add(ruleOrder[i])
            var key = `(${pos.x},${pos.y},${pos.z})`;
            if(!(key in moves)) {
-               moves[key] = {pos: pos, rule: [0,0,0,0,0,0]};
+               moves[key] = {pos: pos, rule: [null,null,null,null,null,null]};
                moveKeys.push(key);
            }
            var r = position.clone().sub(pos);
            var rulePos = ruleOrder.findIndex(function(element){return r.equals(element)});
 
            //Make sure we haven't written anything here before:
-           console.assert(!(moves[key].rule[rulePos]));
+           if(moves[key].rule[rulePos]) {
+               console.log("Cannot add cube at pos "+key+" with rule "+rule);
+               return;
+           }
 
            moves[key].rule[rulePos] = rule[i] * -1;
         }
     }
+    var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+    voxel.material.color.set(params.color);
+    voxel.name = "voxel";
+    voxel.position.copy(position);
+    scene.add(voxel);
+    objects.push(voxel);
 }
 
 function vecToStr(v){
