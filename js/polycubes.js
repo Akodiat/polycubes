@@ -16,8 +16,8 @@ var cubeMap = {};
 var maxCoord = 500;
 
 var activeRuleIdx = 0;
-var rules = [[0,0,0,1,0,-2],[0,0,-1,0,2,3], [0,0,0,0,-3,0], [0,0,0,0,0,-2]];
-var ruleColors = ['#b3ccff', '#b3aabb', '#14a2b2', '#f5aa0b'];
+var rules;
+var ruleColors = []; // = ['#b3ccff', '#b3aabb', '#14a2b2', '#f5aa0b'];
 var ruleMaterials = [];
 var params = {
     rules: [{
@@ -40,6 +40,20 @@ var ruleOrder = [
 init();
 render();
 
+// From: https://html-online.com/articles/get-url-parameters-javascript/
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
+function getUrlParam(param, defaultVal) {
+    var vars = getUrlVars();
+    return param in vars ? vars[param] : defaultVal;
+}
+
 function ruleFits(a,b) {
     for (var i = 0, l=a.length; i < l; i++) {
         // if a[i] is zero it has a neigbour who does not want anything here
@@ -60,6 +74,9 @@ function init() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
 
+    defaultRule = "[[0,0,0,1,0,-2],[0,0,-1,0,2,3], [0,0,0,0,-3,0], [0,0,0,0,0,-2]]";
+    rules = JSON.parse(getUrlParam("rules",defaultRule));
+    ruleColors = randomColor({luminosity: 'light', count: rules.length});
     // orbit controls
 
     var orbit = new THREE.OrbitControls(camera);
