@@ -13,12 +13,13 @@ var objects = [];
 var moves = {};
 var moveKeys = [];
 var cubeMap = {};
+var maxCoord = 500;
 
-var rules = [[0,0,1,0,0,0],[0,0,0,-1,2,3], [0,0,0,0,-3,0], [0,0,0,0,0,-2]];
+var rules = [[0,0,0,1,0,-2],[0,0,-1,0,2,3], [0,0,0,0,-3,0], [0,0,0,0,0,-2]];
 var ruleColors = ['#b3ccff', '#b3aabb', '#14a2b2', '#f5aa0b'];
 var params = {
     rules: [{
-        rule: {front: 0, back: 0, up: 0, down: 0, left: 0, right: 0},
+        rule: {front: 0, back: 0, down: 0, up: 0, left: 0, right: 0},
         color: '#b3ccff'
     }],
     step: processMoves,
@@ -256,6 +257,13 @@ function addCube(position, ruleIdx) {
     //  if(rule[i]) {
             var direction = ruleOrder[i].clone().negate();
             var movePos = position.clone().add(ruleOrder[i])
+            if(Math.abs(movePos.x)>maxCoord ||
+               Math.abs(movePos.y)>maxCoord ||
+               Math.abs(movePos.z)>maxCoord)
+            {
+                console.log("Neigbour at "+key+" outside of bounding box, stopping here")
+                continue;
+            }
             var key = vecToStr(movePos);
             if(key in cubeMap) {
                 console.log("There is already a cube at pos "+key);
