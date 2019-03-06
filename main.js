@@ -60,6 +60,12 @@ function init() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
 
+    // orbit controls
+
+    var orbit = new THREE.OrbitControls(camera);
+    orbit.damping = 0.2;
+    orbit.addEventListener('change', render);
+
     // roll-over helpers
 
     var rollOverGeo = new THREE.BoxBufferGeometry(1, 1, 1);
