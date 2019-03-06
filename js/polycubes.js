@@ -179,26 +179,18 @@ function onDocumentMouseMove(event) {
 function onDocumentMouseDown(event) {
     event.preventDefault();
 
-    mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY /
-        window.innerHeight) * 2 + 1);
+    if(event.button == THREE.MOUSE.LEFT) {
+        mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY /
+            window.innerHeight) * 2 + 1);
 
-    raycaster.setFromCamera(mouse, camera);
+        raycaster.setFromCamera(mouse, camera);
 
-    var intersects = raycaster.intersectObjects(objects);
+        var intersects = raycaster.intersectObjects(objects);
 
-    if (intersects.length > 0) {
-        var intersect = intersects[0];
-
-        // delete cube
-        if (isShiftDown) {
-            if (intersect.object !== plane) {
-                scene.remove(intersect.object);
-                objects.splice(objects.indexOf(intersect.object), 1);
-            }
-
-        // create cube
-        } else {
+        if (intersects.length > 0) {
+            var intersect = intersects[0];
             pos = intersect.point.clone().add(intersect.face.normal).floor();
+
             // Make sure manually added cube is allowed given the moves
             var posStr = vecToStr(pos);
             if(posStr in moves && !ruleFits(moves[posStr].rule, rules[activeRuleIdx])) {
@@ -207,9 +199,9 @@ function onDocumentMouseDown(event) {
                 addCube(pos, activeRuleIdx);
                 processMoves();
             }
-        }
 
-        render();
+            render();
+        }
     }
 }
 
