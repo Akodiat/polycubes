@@ -198,13 +198,27 @@ function onDocumentMouseDown(event) {
 }
 
 // From stackoverflow/a/12646864
-function shuffleArray(a) {
-    for(var i = a.length -1; i>0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
+function shuffleArrayFrom(a, from) {
+    for(var i = a.length -1; i>from; i--) {
+     // var j = Math.floor(Math.random() * (i + 1));
+        var j = Math.floor(Math.random() * (i+1-from))+from;
         var temp = a[i];
         a[i] = a[j];
         a[j] = temp;
     }
+}
+
+function shuffleArray(a) {
+    shuffleArrayFrom(a, 0)
+}
+
+function randOrdering(length) {
+    l = new Array(length);
+    for(var i=0; i<length; i++) {
+        l[i]=i;
+    }
+    shuffleArray(l);
+    return l;
 }
 
 function processMoves() {
@@ -228,10 +242,13 @@ function processMoves() {
                 continue;
             }
 
+            ruleIdxs = randOrdering(rules.length);
             // Check if we have a rule that fits this move
             for(i=0; i<rules.length; i++) {
-                if(ruleFits(move.rule, rules[i])){
-                    addCube(move.pos, i);
+                rule = rules[ruleIdxs[i]];
+                if(ruleFits(move.rule, rule)){
+                    currLastMove = moveKeys.length-1;
+                    addCube(move.pos, ruleIdxs[i]);
 
                     // Remove processed move
                     delete moves[moveKeys[moveKey]];
@@ -240,6 +257,7 @@ function processMoves() {
 
                     // Any new moves added by the added cube will be appended to the
                     // end of the shuffled moveKeys list.
+                    shuffleArrayFrom(moveKeys, currLastMove);
                     // Deterministic but efficient. If not desired, shuffle remaining list
                     // from moveKeys.length as it was before addCube.
                 }
