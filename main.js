@@ -15,8 +15,10 @@ var moveKeys = [];
 var cubeMap = {};
 var maxCoord = 500;
 
+var activeRuleIdx = 0;
 var rules = [[0,0,0,1,0,-2],[0,0,-1,0,2,3], [0,0,0,0,-3,0], [0,0,0,0,0,-2]];
 var ruleColors = ['#b3ccff', '#b3aabb', '#14a2b2', '#f5aa0b'];
+var ruleMaterials = [];
 var params = {
     rules: [{
         rule: {front: 0, back: 0, down: 0, up: 0, left: 0, right: 0},
@@ -72,9 +74,12 @@ function init() {
     // cubes
 
     cubeGeo = new THREE.BoxBufferGeometry(1, 1, 1);
-    cubeMaterial = new THREE.MeshLambertMaterial({
-        color: 0xb3ccff
-    });
+    for(i=0; i<ruleColors.length; i++) {
+        ruleMaterial = new THREE.MeshLambertMaterial({
+            color: ruleColors[i]
+        });
+        ruleMaterials.push(ruleMaterial);
+    }
 
     // grid
 
@@ -155,6 +160,12 @@ function onDocumentMouseMove(event) {
     if (intersects.length > 0) {
         var intersect = intersects[0];
         rollOverMesh.position.copy(intersect.point).add(intersect.face.normal).floor();
+        var posStr = vecToStr(rollOverMesh.position);
+        if(posStr in moves && !ruleFits(moves[posStr].rule, rules[activeRuleIdx])) {
+            rollOverMesh.material = rollOverMaterial;
+        } else {
+            rollOverMesh.material = ruleMaterials[activeRuleIdx];
+        }
     }
     render();
 }
@@ -182,13 +193,12 @@ function onDocumentMouseDown(event) {
         // create cube
         } else {
             pos = intersect.point.clone().add(intersect.face.normal).floor();
-            ruleIdx = 0;
             // Make sure manually added cube is allowed given the moves
             var posStr = vecToStr(pos);
-            if(posStr in moves && !ruleFits(moves[posStr].rule, rules[ruleIdx])) {
-                console.log("Cannot add cube at pos "+posStr+" with rule "+rules[ruleIdx]);
+            if(posStr in moves && !ruleFits(moves[posStr].rule, rules[activeRuleIdx])) {
+                console.log("Cannot add cube at pos "+posStr+" with rule "+rules[activeRuleIdx]);
             } else {
-                addCube(pos, ruleIdx);
+                addCube(pos, activeRuleIdx);
                 processMoves();
             }
         }
@@ -303,9 +313,9 @@ function addCube(position, ruleIdx) {
                moves[key].rule[dirIdx] = rule[i] * -1;
      // }
     }
-    var material = cubeMaterial.clone();
-    material.color.set(ruleColors[ruleIdx])
-    var voxel = new THREE.Mesh(cubeGeo, material);
+//  var material = cubeMaterial.clone();
+//  material.color.set(ruleColors[ruleIdx])
+    var voxel = new THREE.Mesh(cubeGeo, ruleMaterials[ruleIdx]);
     voxel.name = "voxel";
     voxel.position.copy(position);
     scene.add(voxel);
