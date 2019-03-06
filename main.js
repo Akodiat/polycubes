@@ -235,6 +235,7 @@ function processMoves() {
                     // Remove processed move
                     delete moves[moveKeys[moveKey]];
                     moveKeys.splice(moveKey, 1);
+                    moveKey--; // Make sure we don't skip the next move
 
                     // Any new moves added by the added cube will be appended to the
                     // end of the shuffled moveKeys list.
