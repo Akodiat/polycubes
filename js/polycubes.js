@@ -152,6 +152,7 @@ function init() {
     window.addEventListener('resize', onWindowResize, false);
 
     // gui
+/*
     var gui = new dat.GUI();
 
     for(i=0, l=params.rules.length; i<l; i++) {
@@ -165,6 +166,7 @@ function init() {
     gui.add(params, 'test');
 
     gui.open();
+*/
 }
 
 function onWindowResize() {
