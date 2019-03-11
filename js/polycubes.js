@@ -13,7 +13,7 @@ var objects = [];
 var moves = {};
 var moveKeys = [];
 var cubeMap = {};
-var maxCoord = 500;
+var maxCoord = 50;
 
 var activeRuleIdx = 0;
 var rules;
