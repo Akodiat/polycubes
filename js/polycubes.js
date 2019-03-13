@@ -4,7 +4,7 @@ if (WEBGL.isWebGLAvailable() === false) {
 
 var camera, scene, renderer;
 var plane;
-var mouse, raycaster, isShiftDown = false;
+var mouse, raycaster;
 
 var rollOverMesh, rollOverMaterial;
 var cubeGeo, cubeMaterial;
@@ -12,21 +12,14 @@ var cubeGeo, cubeMaterial;
 var objects = [];
 var moves = {};
 var moveKeys = [];
+var blocked = {};
 var cubeMap = {};
 var maxCoord = 50;
 
 var activeRuleIdx = 0;
 var rules;
-var ruleColors = []; // = ['#b3ccff', '#b3aabb', '#14a2b2', '#f5aa0b'];
+var ruleColors = [];
 var ruleMaterials = [];
-var params = {
-    rules: [{
-        rule: {front: 0, back: 0, down: 0, up: 0, left: 0, right: 0},
-        color: '#b3ccff'
-    }],
-    step: processMoves,
-    test: '[1,1,0,1,-2,0]'
-    }
 
 var ruleOrder = [
     new THREE.Vector3( 0, 0,-1),
@@ -65,6 +58,65 @@ function ruleFits(a,b) {
     return true;
 }
 
+function arrayContainCount(array, element) {
+    return array.reduce((acc, curr) => acc + (curr==element), 0);
+}
+
+function ruleFitsRotated(a,b) {
+    var l = a.length;
+    var r = randOrdering(l);
+
+    var aDirs = a.filter(e => e).reduce((acc,curr,idx)=>acc.add(ruleOrder[idx]), new THREE.Vector3());
+    var bDirs = b.filter(e => a.includes(e)).reduce((acc,curr,idx)=>acc.add(ruleOrder[idx]), new THREE.Vector3());
+
+    if (!aDirs.equals(bDirs)) {
+        return false;
+    }
+
+    var rotationCount = 0;
+
+    for (var ri=0; ri<l; ri++) {
+        if (rotationCount > 2) {
+            return false;
+        }
+        var i = r[ri];
+        // if a[i] is zero it has a neigbour who does not want anything here
+        if (a[i]==0) {
+            return false;
+        }
+        // if a[i] is not null and it doesn't agree with b[i]
+        if (a[i] && a[i] != b[i]) {
+            var j = b.indexOf(a[i]);
+            if (j<0 ||
+                arrayContainCount(a, a[i]) !==
+                arrayContainCount(b, a[i]))
+            {
+                return false;
+            }
+            
+            b = rotateRule(b, ruleOrder[j], ruleOrder[i]);
+            rotationCount++;
+            ri=0;
+        }        
+    }
+    return b;
+}
+
+//https://stackoverflow.com/a/25199671
+function rotateRule(rule, vFrom, vTo) {
+    var quaternion = new THREE.Quaternion(); // create one and reuse it
+    quaternion.setFromUnitVectors(vFrom, vTo);
+    l=6;
+    newRule = Array(l);
+    for (var i=0; i<l; i++) {
+        dir = ruleOrder[i];
+        newDir = dir.clone().applyQuaternion(quaternion).round();
+        var iNewDir = ruleOrder.findIndex(function(element){return newDir.equals(element)});
+        newRule[iNewDir] = rule[i];
+    }
+    return newRule;
+}
+
 function init() {
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window
         .innerHeight, 1, 10000);
@@ -74,7 +126,7 @@ function init() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
 
-    defaultRule = "[[0,0,0,1,0,-2],[0,0,-1,0,2,3], [0,0,0,0,-3,0], [0,0,0,0,0,-2]]";
+    defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
     rules = JSON.parse(getUrlParam("rules",defaultRule));
     ruleColors = randomColor({luminosity: 'light', count: rules.length});
     // orbit controls
@@ -97,7 +149,7 @@ function init() {
     // cubes
 
     cubeGeo = new THREE.BoxBufferGeometry(1, 1, 1);
-    for(i=0; i<ruleColors.length; i++) {
+    for (var i=0; i<ruleColors.length; i++) {
         ruleMaterial = new THREE.MeshLambertMaterial({
             color: ruleColors[i]
         });
@@ -150,23 +202,6 @@ function init() {
     //
 
     window.addEventListener('resize', onWindowResize, false);
-
-    // gui
-/*
-    var gui = new dat.GUI();
-
-    for(i=0, l=params.rules.length; i<l; i++) {
-        f = gui.addFolder('Rule '+i);
-        for(p in params.rules[i].rule){
-            f.add(params.rules[i].rule, p);
-        }
-        f.addColor(params.rules[i], 'color');
-    }
-    gui.add(params, 'step');
-    gui.add(params, 'test');
-
-    gui.open();
-*/
 }
 
 function onWindowResize() {
@@ -186,7 +221,8 @@ function onDocumentMouseMove(event) {
         var intersect = intersects[0];
         rollOverMesh.position.copy(intersect.point).add(intersect.face.normal).floor();
         var posStr = vecToStr(rollOverMesh.position);
-        if(posStr in moves && !ruleFits(moves[posStr].rule, rules[activeRuleIdx])) {
+        var rule = posStr in moves ? ruleFitsRotated(moves[posStr].rule, rules[activeRuleIdx]): false;
+        if(posStr in blocked || rule) {
             rollOverMesh.material = rollOverMaterial;
         } else {
             rollOverMesh.material = ruleMaterials[activeRuleIdx];
@@ -212,10 +248,11 @@ function onDocumentMouseDown(event) {
 
             // Make sure manually added cube is allowed given the moves
             var posStr = vecToStr(pos);
-            if(posStr in moves && !ruleFits(moves[posStr].rule, rules[activeRuleIdx])) {
+            var rule = posStr in moves ? ruleFitsRotated(moves[posStr].rule, rules[activeRuleIdx]): false;
+            if(posStr in blocked || rule) {
                 console.log("Cannot add cube at pos "+posStr+" with rule "+rules[activeRuleIdx]);
             } else {
-                addCube(pos, activeRuleIdx);
+                addCube(pos, rules[activeRuleIdx], activeRuleIdx);
                 processMoves();
             }
 
@@ -226,7 +263,7 @@ function onDocumentMouseDown(event) {
 
 // From stackoverflow/a/12646864
 function shuffleArrayFrom(a, from) {
-    for(var i = a.length -1; i>from; i--) {
+    for (var i = a.length -1; i>from; i--) {
      // var j = Math.floor(Math.random() * (i + 1));
         var j = Math.floor(Math.random() * (i+1-from))+from;
         var temp = a[i];
@@ -240,8 +277,8 @@ function shuffleArray(a) {
 }
 
 function randOrdering(length) {
-    l = new Array(length);
-    for(var i=0; i<length; i++) {
+    var l = new Array(length);
+    for (var i=0; i<length; i++) {
         l[i]=i;
     }
     shuffleArray(l);
@@ -249,116 +286,101 @@ function randOrdering(length) {
 }
 
 function processMoves() {
-    if(moveKeys.length > 0) { //If we have moves to process
-        // Shuffle movekeys randomly
-        shuffleArray(moveKeys);
+    if (moveKeys.length > 0) { // While we have moves to process
+        // Pick a random move
+        var key = moveKeys[Math.floor(Math.random()*moveKeys.length)];
 
-        // Loop through moves
-        for(moveKey=0; moveKey<moveKeys.length; moveKey++) {
-            var move = moves[moveKeys[moveKey]];
-
-            // We should not automatically add cubes where they are not connected
-            var isEmpty = true;
-            for(i=0; i<move.rule.length; i++){
-                if(move.rule[i]){
-                    isEmpty = false;
-                    break;
-                }
-            }
-            if(isEmpty) {
-                continue;
-            }
-
-            ruleIdxs = randOrdering(rules.length);
-            // Check if we have a rule that fits this move
-            for(i=0; i<rules.length; i++) {
-                rule = rules[ruleIdxs[i]];
-                if(ruleFits(move.rule, rule)){
-                    currLastMove = moveKeys.length-1;
-                    addCube(move.pos, ruleIdxs[i]);
-
-                    // Remove processed move
-                    delete moves[moveKeys[moveKey]];
-                    moveKeys.splice(moveKey, 1);
-                    moveKey--; // Make sure we don't skip the next move
-
-                    // Any new moves added by the added cube will be appended to the
-                    // end of the shuffled moveKeys list.
-                    shuffleArrayFrom(moveKeys, currLastMove);
-                    // Deterministic but efficient. If not desired, shuffle remaining list
-                    // from moveKeys.length as it was before addCube.
-                }
+        // Pick a random rule order
+        var ruleIdxs = randOrdering(rules.length);
+        // Check if we have a rule that fits this move
+        for (var r=0; r<rules.length; r++) {
+            rule = rules[ruleIdxs[r]];
+            rule = ruleFitsRotated(moves[key].rule, rule);
+            if(rule){
+                console.log("Processing move: "+key+"(="+vecToStr(moves[key].pos)+"), trying to add cube with rule:"+rule);
+                addCube(moves[key].pos, rule, ruleIdxs[r]);
+                // Remove processed move
+                delete moves[key];
+                moveKeys.splice(moveKeys.indexOf(key), 1);
+                console.log("Done processing move: "+key+", removing. Remaining moves:"+moveKeys);
+                break;
             }
         }
+    } else {
+        return;
     }
+    render();
+    requestAnimationFrame(processMoves);
 }
 
-function addCube(position, ruleIdx) {
-    var rule = rules[ruleIdx];
-
-
+//Need both rule and ruleIdx to determine color as the rule might be rotated
+function addCube(position, rule, ruleIdx) {
     // Go through all non-zero parts of the rule and add potential moves
-    for(i=0; i<rule.length; i++) {
-    //  if(rule[i]) {
-            var direction = ruleOrder[i].clone().negate();
-            var movePos = position.clone().add(ruleOrder[i])
-            if(Math.abs(movePos.x)>maxCoord ||
-               Math.abs(movePos.y)>maxCoord ||
-               Math.abs(movePos.z)>maxCoord)
-            {
-                console.log("Neigbour at "+key+" outside of bounding box, stopping here")
-                continue;
-            }
-            var key = vecToStr(movePos);
-            if(key in cubeMap) {
-                console.log("There is already a cube at pos "+key);
-                continue
-            }
-            if(!(key in moves)) {
-                moves[key] = {pos: movePos, rule: [null,null,null,null,null,null]};
-                moveKeys.push(key);
-            }
-            var r = position.clone().sub(movePos);
-            var dirIdx = ruleOrder.findIndex(function(element){return r.equals(element)});
+    var potentialMoves = [];
+    var potentialBlocked = [];
+    for (var i=0; i<rule.length; i++) {
+        var direction = ruleOrder[i].clone().negate();
+        var movePos = position.clone().add(ruleOrder[i])
+        if(Math.abs(movePos.x)>maxCoord ||
+           Math.abs(movePos.y)>maxCoord ||
+           Math.abs(movePos.z)>maxCoord)
+        {
+            console.log("Neigbour at "+key+" outside of bounding box, stopping here")
+            continue;
+        }
+        var key = vecToStr(movePos);
+        if(key in cubeMap) {
+            console.log(vecToStr(position)+": There is already a cube at pos "+key+", no need to add this neigbour to moves. Rule: "+rule);
+            continue
+        }
+        if(key in blocked) {
+            console.log(vecToStr(position)+": Another neigbour to "+key+" is already blocking it, so no need to add this neigbour to moves. Rule: "+rule);
+            continue
+        }
+        if(!(key in moves)) {
+            moves[key] = {pos: movePos, rule: [null,null,null,null,null,null]};
+            moveKeys.push(key);
+        }
+        var r = position.clone().sub(movePos);
+        var dirIdx = ruleOrder.findIndex(function(element){return r.equals(element)});
 
-            //Make sure we haven't written anything here before:
-            if(moves[key].rule[dirIdx]) {
-                console.log("Cannot add cube at pos "+vecToStr(position)+" with rule "+rule);
-                return;
-            }
+        //Make sure we haven't written anything here before:
+        if(moves[key].rule[dirIdx]) {
+            console.log(vecToStr(position)+": Cannot add cube at pos "+vecToStr(position)+" with rule "+rule);
+            return;
+        }
 
-               moves[key].rule[dirIdx] = rule[i] * -1;
-     // }
+        if(rule[i] == 0) {
+            potentialBlocked.push(key);
+        }
+        potentialMoves.push({'key': key, 'dirIdx': dirIdx, 'val': rule[i]*-1});
     }
-//  var material = cubeMaterial.clone();
-//  material.color.set(ruleColors[ruleIdx])
+    potentialMoves.forEach(function(i){
+        moves[i.key].rule[i.dirIdx] = i.val;
+        if(i.val) {
+            console.log(vecToStr(position)+": Adding move at pos"+i.key+" Rule: "+moves[i.key].rule);
+        }
+    });
+    potentialBlocked.forEach(function(key){
+        blocked[key] = moves[key];
+        delete moves[key];
+        moveKey = moveKeys.indexOf(key);
+        moveKeys.splice(moveKey, 1);
+        console.log(vecToStr(position)+": Blocking move at pos"+key+" Rule: "+blocked[key].rule);
+    });
+
     var voxel = new THREE.Mesh(cubeGeo, ruleMaterials[ruleIdx]);
-    voxel.name = "voxel";
+    voxel.name = "voxel_rule"+ruleIdx;
     voxel.position.copy(position);
     scene.add(voxel);
     objects.push(voxel);
     cubeMap[vecToStr(position)] = true;
     console.log("Added cube at pos "+vecToStr(position)+" with rule "+rule);
+    render();
 }
 
 function vecToStr(v){
     return `(${v.x},${v.y},${v.z})`;
-}
-
-function onDocumentKeyDown(event) {
-    switch (event.keyCode) {
-    case 16:
-        isShiftDown = true;
-        break;
-    }
-}
-
-function onDocumentKeyUp(event) {
-    switch (event.keyCode) {
-    case 16:
-        isShiftDown = false;
-        break;
-    }
 }
 
 function render() {

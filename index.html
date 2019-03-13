@@ -17,8 +17,12 @@
 
         #info {
             position: absolute;
+            margin: auto;
             top: 0px;
+            background-color: white;
+            opacity: 0.8;
             width: 100%;
+            max-width: 800px;
             padding: 5px;
             font-family: Monospace;
             font-size: 13px;
@@ -26,7 +30,7 @@
         }
 
         a {
-            color: #ff0000;
+            color: #20ccf0;
         }
     </style>
 </head>
@@ -34,12 +38,15 @@
 <body>
 
     <div id="info">
-        Polycubes, a 3D version of <a href="http://chaoticsymmetry.co.uk/polyominoes/index-old.php">Polyominoes</a><br>
+        Polycubes, by Joakim Bohlin. A 3D version of <a href="http://chaoticsymmetry.co.uk/polyominoes/index-old.php">Polyominoes</a><br>
         <strong>click</strong> to add a cube.
         <p>Examples:
-            <a href="./index.html?rules=[[0,0,0,1,0,-2],[0,0,-1,0,2,3],[0,0,0,0,-3,0],[0,0,0,0,0,-2]]">Giraffe-duck (default)</a>,
-            <a href="./index.html?rules=[[0,0,0,2,0,-7],[0,0,-2,0,7,-7]]">Uphill</a>,
-            <a href="./index.html?rules=[[0,0,0,1,0,0],[0,0,-1,1,0,0],[-5,-4,-1,0,2,3],[0,0,0,0,-3,0],[0,0,0,0,0,-2],[4,0,0,0,0,0],[0,5,0,0,0,0]]">Flower</a>,
+            <a href="./index.html?rules=[[0,0,0,1,0,-2],[0,0,-1,0,2,3],[0,0,0,0,-3,0],[0,0,0,0,0,-2]]">Giraffe-duck</a>,
+            <a href="./index.html?rules=[[0,0,0,1,0,2],[0,0,-1,0,-2,2]]">Uphill</a>,
+            <a href="./index.html?rules=[[1,1,0,1,0,-3],[0,0,-1,0,2,3],[0,0,0,0,3,-2]]">Wedge</a>,
+            <a href="./index.html?rules=[[1,1,1,1,1,1],[-1,0,0,0,0,0]]">Cross (default)</a>,
+            <a href="./index.html?rules=[[0,0,1,-1,0,0],[1,0,0,0,-1,0]]">Likely bound</a>,
+            <a href="./index.html?rules=[[0,0,0,1,0,0],[0,0,-1,1,0,0],[2,2,-1,0,2,2],[-2,0,0,0,0,0]]">Flower</a>,
             <a href="./index.html?rules=[[1,2,0,0,3,4],[-2,-1,0,0,-4,-3],[1,0,0,0,3,0],[0,-1,0,0,0,-3]]">Cracked checkerboard</a>
     </div>
 
