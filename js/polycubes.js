@@ -65,14 +65,6 @@ function arrayContainCount(array, element) {
 function ruleFitsRotated(a,b) {
     var l = a.length;
     var r = randOrdering(l);
-
-    var aDirs = a.filter(e => e).reduce((acc,curr,idx)=>acc.add(ruleOrder[idx]), new THREE.Vector3());
-    var bDirs = b.filter(e => a.includes(e)).reduce((acc,curr,idx)=>acc.add(ruleOrder[idx]), new THREE.Vector3());
-
-    if (!aDirs.equals(bDirs)) {
-        return false;
-    }
-
     var rotationCount = 0;
 
     for (var ri=0; ri<l; ri++) {
