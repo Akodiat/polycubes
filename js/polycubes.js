@@ -67,6 +67,10 @@ function ruleFitsRotated(a,b) {
     var r = randOrdering(l);
     var rotationCount = 0;
 
+    // Choose random starting rotation for b
+    var iRand = Math.floor(Math.random() * l);
+    b = rotateRule(b, ruleOrder[0], ruleOrder[iRand]);
+
     for (var ri=0; ri<l; ri++) {
         if (rotationCount > 2) {
             return false;
