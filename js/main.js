@@ -69,8 +69,9 @@ function render() {
 }
 
 function init() {
-    camera = new THREE.PerspectiveCamera(45, window.innerWidth / window
-        .innerHeight, 1, 10000);
+    camera = new THREE.PerspectiveCamera(
+        45, window.innerWidth / window.innerHeight,
+        1, 10000);
     camera.position.set(5, 8, 13);
     camera.lookAt(0, 0, 0);
 
@@ -102,7 +103,7 @@ function init() {
         if(typeof face == "number") {
             return {'c':face, 'd':r};
         } else {
-            r.applyAxisAngle(ruleOrder[i], face[1]*2*Math.PI);
+            r.applyAxisAngle(ruleOrder[i], face[1]*Math.PI/2);
             return {'c':face[0], 'd':r};
         }
     });});
