@@ -22,10 +22,18 @@ var ruleColors = [];
 var ruleMaterials = [];
 
 var ruleOrder = [
-    new THREE.Vector3( 0, 0,-1),
-    new THREE.Vector3( 0, 0, 1),
+    new THREE.Vector3(-1, 0, 0),
+    new THREE.Vector3( 1, 0, 0),
     new THREE.Vector3( 0,-1, 0),
     new THREE.Vector3( 0, 1, 0),
+    new THREE.Vector3( 0, 0,-1),
+    new THREE.Vector3( 0, 0, 1),
+]
+var faceRotations = [
+    new THREE.Vector3( 0,-1, 0),
+    new THREE.Vector3( 0, 1, 0),
+    new THREE.Vector3( 0, 0,-1),
+    new THREE.Vector3( 0, 0, 1),
     new THREE.Vector3(-1, 0, 0),
     new THREE.Vector3( 1, 0, 0),
 ];
@@ -48,69 +56,61 @@ function getUrlParam(param, defaultVal) {
 }
 
 function ruleFits(a,b) {
-    for (var i = 0, l=a.length; i < l; i++) {
-        // if a[i] is zero it has a neigbour who does not want anything here
-        // if a[i] is not null it has to agree with b[i]
-        if (a[i]==0 || (a[i] && a[i] != b[i])) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function arrayContainCount(array, element) {
-    return array.reduce((acc, curr) => acc + (curr==element), 0);
-}
-
-function ruleFitsRotated(a,b) {
     var l = a.length;
-    var r = randOrdering(l);
-    var rotationCount = 0;
-
-    // Choose random starting rotation for b
-    var iRand = Math.floor(Math.random() * l);
-    b = rotateRule(b, ruleOrder[0], ruleOrder[iRand]);
-
-    for (var ri=0; ri<l; ri++) {
-        if (rotationCount > 2) {
-            return false;
-        }
-        var i = r[ri];
-        // if a[i] is zero it has a neigbour who does not want anything here
-        if (a[i]==0) {
-            return false;
-        }
-        // if a[i] is not null and it doesn't agree with b[i]
-        if (a[i] && a[i] != b[i]) {
-            var j = b.indexOf(a[i]);
-            if (j<0 ||
-                arrayContainCount(a, a[i]) !==
-                arrayContainCount(b, a[i]))
-            {
-                return false;
+    var ra = randOrdering(l);
+    var rb = randOrdering(l);
+    for (var ria=0; ria<l; ria++) {
+        var i = ra[ria];
+        if (a[i] && a[i].c != 0) {
+            for (var rib=0; rib<l; rib++) {
+                var j = rb[rib];
+                if (a[i].c == b[j].c) {
+                    b = rotateRuleFromTo(b, ruleOrder[j], ruleOrder[i]);
+                    console.assert(a[i].c == b[i].c);
+                    b = rotateRuleAroundAxis(b, ruleOrder[i], -getSignedAngle(a[i].d, b[i].d, ruleOrder[i]));
+                    console.assert(a[i].c == b[i].c);
+                    return b;
+                }
             }
-            
-            b = rotateRule(b, ruleOrder[j], ruleOrder[i]);
-            rotationCount++;
-            ri=0;
-        }        
+        }
     }
-    return b;
+    return false;
 }
+
+function getSignedAngle(v1, v2, axis) {
+    var s = v1.clone().cross(v2);
+    var c = v1.clone().dot(v2);
+    var a = Math.atan2(s.length(), c);
+    if (!s.equals(axis)) {
+        a *= -1;
+    }
+    return a;
+}
+
 
 //https://stackoverflow.com/a/25199671
-function rotateRule(rule, vFrom, vTo) {
-    var quaternion = new THREE.Quaternion(); // create one and reuse it
-    quaternion.setFromUnitVectors(vFrom, vTo);
-    l=6;
-    newRule = Array(l);
+function rotateRule(rule, quaternion) {
+    var l=6;
+    var newRule = Array(l);
     for (var i=0; i<l; i++) {
-        dir = ruleOrder[i];
-        newDir = dir.clone().applyQuaternion(quaternion).round();
-        var iNewDir = ruleOrder.findIndex(function(element){return newDir.equals(element)});
-        newRule[iNewDir] = rule[i];
+        var face = ruleOrder[i];
+        var newFace = face.clone().applyQuaternion(quaternion).round();
+        var newFaceDir = rule[i].d.clone().applyQuaternion(quaternion).round();
+        var iNewFace = ruleOrder.findIndex(function(element){return newFace.equals(element)});
+        newRule[iNewFace] = {'c': rule[i].c, 'd': newFaceDir};
     }
     return newRule;
+}
+//https://stackoverflow.com/a/25199671
+function rotateRuleFromTo(rule, vFrom, vTo) {
+    var quaternion = new THREE.Quaternion(); // create one and reuse it
+    quaternion.setFromUnitVectors(vFrom, vTo);
+    return rotateRule(rule, quaternion);
+}
+function rotateRuleAroundAxis(rule, axis, angle) {
+    var quaternion = new THREE.Quaternion(); // create one and reuse it
+    quaternion.setFromAxisAngle(axis, angle);
+    return rotateRule(rule, quaternion);
 }
 
 function init() {
@@ -124,7 +124,17 @@ function init() {
 
     defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
     rules = JSON.parse(getUrlParam("rules",defaultRule));
+    rules = rules.map(function(rule) {return rule.map(function(face, i) {
+        var r = faceRotations[i].clone();
+        if(typeof face == "number") {
+            return {'c':face, 'd':r};
+        } else {
+            r.applyAxisAngle(ruleOrder[i], face[1]*2*Math.PI);
+            return {'c':face[0], 'd':r};
+        }
+    });});
     ruleColors = randomColor({luminosity: 'light', count: rules.length});
+
     // orbit controls
 
     var orbit = new THREE.OrbitControls(camera);
@@ -213,7 +223,7 @@ function onDocumentMouseMove(event) {
         var intersect = intersects[0];
         rollOverMesh.position.copy(intersect.point).add(intersect.face.normal).floor();
         var posStr = vecToStr(rollOverMesh.position);
-        var rule = posStr in moves ? ruleFitsRotated(moves[posStr].rule, rules[activeRuleIdx]): false;
+        var rule = posStr in moves ? ruleFits(moves[posStr].rule, rules[activeRuleIdx]): false;
         if(posStr in blocked || rule) {
             rollOverMesh.material = rollOverMaterial;
         } else {
@@ -240,7 +250,7 @@ function onDocumentMouseDown(event) {
 
             // Make sure manually added cube is allowed given the moves
             var posStr = vecToStr(pos);
-            var rule = posStr in moves ? ruleFitsRotated(moves[posStr].rule, rules[activeRuleIdx]): false;
+            var rule = posStr in moves ? ruleFits(moves[posStr].rule, rules[activeRuleIdx]): false;
             if(posStr in blocked || rule) {
                 console.log("Cannot add cube at pos "+posStr+" with rule "+rules[activeRuleIdx]);
             } else {
@@ -286,9 +296,9 @@ function processMoves() {
         var ruleIdxs = randOrdering(rules.length);
         // Check if we have a rule that fits this move
         for (var r=0; r<rules.length; r++) {
-            rule = rules[ruleIdxs[r]];
-            rule = ruleFitsRotated(moves[key].rule, rule);
-            if(rule){
+            var rule = rules[ruleIdxs[r]];
+            rule = ruleFits(moves[key].rule, rule);
+            if(rule) {
                 console.log("Processing move: "+key+"(="+vecToStr(moves[key].pos)+"), trying to add cube with rule:"+rule);
                 addCube(moves[key].pos, rule, ruleIdxs[r]);
                 // Remove processed move
@@ -311,6 +321,9 @@ function addCube(position, rule, ruleIdx) {
     var potentialMoves = [];
     var potentialBlocked = [];
     for (var i=0; i<rule.length; i++) {
+        if(rule[i].c == 0) {
+            continue;
+        }
         var direction = ruleOrder[i].clone().negate();
         var movePos = position.clone().add(ruleOrder[i])
         if(Math.abs(movePos.x)>maxCoord ||
@@ -341,18 +354,20 @@ function addCube(position, rule, ruleIdx) {
             console.log(vecToStr(position)+": Cannot add cube at pos "+vecToStr(position)+" with rule "+rule);
             return;
         }
-
+/*
         if(rule[i] == 0) {
             potentialBlocked.push(key);
         }
-        potentialMoves.push({'key': key, 'dirIdx': dirIdx, 'val': rule[i]*-1});
+*/
+        potentialMoves.push({'key': key, 'dirIdx': dirIdx, 'val': rule[i].c*-1, 'd': rule[i].d});
     }
     potentialMoves.forEach(function(i){
-        moves[i.key].rule[i.dirIdx] = i.val;
+        moves[i.key].rule[i.dirIdx] = {'c': i.val, 'd': i.d};
         if(i.val) {
             console.log(vecToStr(position)+": Adding move at pos"+i.key+" Rule: "+moves[i.key].rule);
         }
     });
+/*
     potentialBlocked.forEach(function(key){
         blocked[key] = moves[key];
         delete moves[key];
@@ -360,7 +375,7 @@ function addCube(position, rule, ruleIdx) {
         moveKeys.splice(moveKey, 1);
         console.log(vecToStr(position)+": Blocking move at pos"+key+" Rule: "+blocked[key].rule);
     });
-
+*/
     var voxel = new THREE.Mesh(cubeGeo, ruleMaterials[ruleIdx]);
     voxel.name = "voxel_rule"+ruleIdx;
     voxel.position.copy(position);
