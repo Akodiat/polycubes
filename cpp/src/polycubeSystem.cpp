@@ -42,7 +42,7 @@ void PolycubeSystem::processMoves() {
     while (this->moveKeys.size() > 0) {
         // Pick a random move
         std::uniform_int_distribution<uint32_t> key_distribution(
-            0, this->moveKeys.size()
+            0, this->moveKeys.size()-1
         );
         size_t keyIdx = key_distribution(this->randomNumGen);
         std::string key = this->moveKeys[keyIdx];
@@ -82,24 +82,27 @@ void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
         }
         std::string key = vecToStr(movePos);
 
-        if (this->cubeMap.find(key) == this->cubeMap.end()) {
+        if (this->cubeMap.find(key) != this->cubeMap.end()) {
             // There is already a cube at pos,
             // no need to add this neigbour to moves
             continue;
         }
 
-        if (this->moves.find(key) != this->moves.end()) {
-            this->moves.at(key) = Move(movePos);
+        if (this->moves.find(key) == this->moves.end()) {
+            this->moves.emplace(key, Move(movePos));
             this->moveKeys.push_back(key);
         }
         Eigen::Vector3f r = position - movePos;
         size_t dirIdx = this->ruleToOrderIdx[key];
-
+/*
         //Make sure we haven't written anything here before:
-        if(this->moves.at(key).getRule()[dirIdx]) {
+        try {
+            this->moves.at(key).getRule().at(dirIdx);
             return;
+        } catch (const std::exception&) {
+            // If we couldn't find anything, all is well
         }
-
+*/
         POTENTIAL_MOVE potMove;
         potMove.key = key;
         potMove.dirIdx = dirIdx;
@@ -110,10 +113,22 @@ void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
     }
     for (size_t i=0; i<potentialMoves.size(); i++) {
         POTENTIAL_MOVE m = potentialMoves[i];
-        this->moves.at(m.key).getRule()[m.dirIdx] = new Face(m.val, m.orientation);
+        Face* f = new Face(m.val, m.orientation);
+        this->moves.at(m.key).setRuleAt(m.dirIdx, f);
     }
 
     this->cubeMap[vecToStr(position)] = true;
+}
+
+std::vector<Eigen::Vector3f> PolycubeSystem::getRuleOrder() {
+    std::vector<Eigen::Vector3f> ruleOrder(6); 
+    ruleOrder[0] = Eigen::Vector3f( 0,-1, 0);
+    ruleOrder[1] = Eigen::Vector3f( 0, 1, 0);
+    ruleOrder[2] = Eigen::Vector3f( 0, 0,-1);
+    ruleOrder[3] = Eigen::Vector3f( 0, 0, 1);
+    ruleOrder[4] = Eigen::Vector3f(-1, 0, 0);
+    ruleOrder[5] = Eigen::Vector3f( 1, 0, 0);
+    return ruleOrder;
 }
 
 Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {

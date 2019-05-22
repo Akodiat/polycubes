@@ -73,10 +73,11 @@ Eigen::Vector3f getOrientation(int index, int orientation) {
 
 std::vector<Rule> parseRules(std::string ruleStr) {
     std::vector<Rule> rules;
-    for(size_t i = 0; i<ruleStr.size(); i+=ruleSize) {
+    for(size_t i = 0; i<ruleStr.size(); i+=2*ruleSize) {
         Rule rule;
-        for(size_t j = 0; j<ruleSize; j+=2) {
-            std::string s = ruleStr.substr(i+j, 2);
+        std::cout<<"Rule "<<i+1<<std::endl;
+        for(size_t j = 0; j<ruleSize; j++) {
+            std::string s = ruleStr.substr(i+(2*j), 2);
             int hex = std::stoi(s, 0, 16);
             std::bitset<8> bitset(hex);
             std::bitset<8> colorMask(0b01111100);
@@ -88,6 +89,7 @@ std::vector<Rule> parseRules(std::string ruleStr) {
             rule[j] = new Face(color, getOrientation(j, orientation));
         }
         rules.push_back(rule);
+        std::cout<<std::endl;
     }
     return rules;
 }
@@ -95,10 +97,13 @@ int main(int argc, char** argv) {
     std::cout<<"Welcome to polycubes!"<<std::endl;
 
     if(argc > 1) {
-        std::cout<<argv[1]<<std::endl;
-
         std::vector<Rule> rules = parseRules(argv[1]);
+        std::cout<<"Rules parsed"<<std::endl;
         PolycubeSystem p(rules);
+        std::cout<<"Initialized"<<std::endl;
+        p.addCube(Eigen::Vector3f(0,0,0), rules[0], 0);
+        std::cout<<"Added cube"<<std::endl;
+        p.processMoves();
     }
 
     return 0;

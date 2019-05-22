@@ -16,6 +16,20 @@
         },
         {
             "type": "shell",
+            "label": "g++ build all files",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-g",
+                "${workspaceFolder}/src/*.cpp",
+                "-o",
+                "${workspaceFolder}/bin/polycubes",
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            }
+        },
+        {
+            "type": "shell",
             "label": "g++ build active file",
             "command": "/usr/bin/g++",
             "args": [

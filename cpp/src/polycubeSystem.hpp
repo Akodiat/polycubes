@@ -14,15 +14,15 @@ private:
     Eigen::Vector3f orientation;
     int* color;
 public:
-    Face(int color, Eigen::Vector3f orientation){
-        this->color = &color;
+    Face(int color, Eigen::Vector3f orientation) {
+        this->color = new int(color);
         this->orientation = orientation;
     }
-    Face(Eigen::Vector3f orientation){
+    Face(Eigen::Vector3f orientation) {
         this->color = nullptr;
         this->orientation = orientation;
     }
-    Eigen::Vector3f getOrientation(){
+    Eigen::Vector3f getOrientation() {
         return this->orientation;
     }
     int getColor(){
@@ -56,26 +56,19 @@ public:
     Eigen::Vector3f getMovePos() {
         return this->movePos;
     }
+    void setRuleAt(int i, Face* f) {
+        this->rule[i] = f;
+    }
 };
 
 class PolycubeSystem {
 public:
     PolycubeSystem(std::vector<Rule> rules);
-    PolycubeSystem(std::string rules);
 
     void processMoves();
     void addCube(Eigen::Vector3f position, Rule rule, int ruleIdx);
     
-    static std::vector<Eigen::Vector3f> getRuleOrder() {
-        std::vector<Eigen::Vector3f> ruleOrder(6); 
-        ruleOrder[0] = Eigen::Vector3f( 0,-1, 0);
-        ruleOrder[1] = Eigen::Vector3f( 0, 1, 0);
-        ruleOrder[2] = Eigen::Vector3f( 0, 0,-1);
-        ruleOrder[3] = Eigen::Vector3f( 0, 0, 1);
-        ruleOrder[4] = Eigen::Vector3f(-1, 0, 0);
-        ruleOrder[5] = Eigen::Vector3f( 1, 0, 0);
-        return ruleOrder;
-    }
+    static std::vector<Eigen::Vector3f> getRuleOrder();
 
 private:
     //Mersenne Twister random number generator
