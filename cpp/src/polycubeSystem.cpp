@@ -48,7 +48,7 @@ void PolycubeSystem::processMoves() {
         std::string key = this->moveKeys[keyIdx];
 
         // Pick a random rule order
-        unsigned short* ruleIdxs = this->randOrdering(ruleSize);
+        std::array<unsigned short, ruleSize> ruleIdxs = this->randRuleOrdering();
         // Check if we have a rule that fits this move
         for (size_t r=0; r<ruleSize; r++) {
             Rule rule = this->rules[ruleIdxs[r]];
@@ -121,7 +121,7 @@ void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
 }
 
 std::vector<Eigen::Vector3f> PolycubeSystem::getRuleOrder() {
-    std::vector<Eigen::Vector3f> ruleOrder(6); 
+    std::vector<Eigen::Vector3f> ruleOrder(6);
     ruleOrder[0] = Eigen::Vector3f( 0,-1, 0);
     ruleOrder[1] = Eigen::Vector3f( 0, 1, 0);
     ruleOrder[2] = Eigen::Vector3f( 0, 0,-1);
@@ -132,16 +132,15 @@ std::vector<Eigen::Vector3f> PolycubeSystem::getRuleOrder() {
 }
 
 Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
-    unsigned short* ra = this->randOrdering(ruleSize);
-    unsigned short* rb = this->randOrdering(ruleSize);
+    std::array<unsigned short, ruleSize> ra = this->randRuleOrdering();
+    std::array<unsigned short, ruleSize> rb = this->randRuleOrdering();
     for (unsigned short ria=0; ria<ruleSize; ria++) {
         unsigned short i = ra[ria];
 
-        //TODO: is the first condition correct?    
-        if (a[i] && a[i]->getColor() != 0) {
+        if (a[i]->hasColor() && a[i]->getColor() != 0) {
             for (unsigned short rib=0; rib<ruleSize; rib++) {
                 unsigned short j = rb[rib];
-                if (a[i]->getColor()  == b[j]->getColor()) {
+                if (a[i]->getColor() == b[j]->getColor()) {
                     //TODO: is the original pointer updated?
                     // https://stackoverflow.com/a/766905
                     b = this->rotateRuleFromTo(b, 
@@ -204,8 +203,8 @@ Rule PolycubeSystem::rotateRuleAroundAxis(Rule rule, Eigen::Vector3f axis, float
 }
 
 // From stackoverflow/a/12646864
-unsigned short* PolycubeSystem::shuffleArray(unsigned short a[], size_t size) {
-    for (size_t i = size-1; i>0; i--) {
+std::array<unsigned short, ruleSize> PolycubeSystem::shuffleArray(std::array<unsigned short, ruleSize> a) {
+    for (size_t i = ruleSize-1; i>0; i--) {
         std::uniform_int_distribution<size_t> rnd_dist(0, i+1);
         size_t j = rnd_dist(randomNumGen);
         unsigned short temp = a[i];
@@ -214,12 +213,12 @@ unsigned short* PolycubeSystem::shuffleArray(unsigned short a[], size_t size) {
     }
 }
 
-unsigned short* PolycubeSystem::randOrdering(size_t l) {
-    unsigned short* a = new unsigned short[l];
-    for (size_t i=0; i<l; i++) {
+std::array<unsigned short, ruleSize> PolycubeSystem::randRuleOrdering() {
+    std::array<unsigned short, ruleSize> a;
+    for (size_t i=0; i<ruleSize; i++) {
         a[i]=i;
     }
-    this->shuffleArray(a,l);
+    this->shuffleArray(a);
     return a;
 }
 

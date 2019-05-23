@@ -25,8 +25,11 @@ public:
     Eigen::Vector3f getOrientation() {
         return this->orientation;
     }
+    bool hasColor() {
+        return this->color != nullptr;
+    }
     int getColor(){
-        return *this->color;
+        return *(this->color);
     }
     int setColor(int color) {
         this->color = &color;
@@ -95,6 +98,6 @@ private:
     Rule rotateRuleFromTo(Rule rule, Eigen::Vector3f vFrom, Eigen::Vector3f vTo);
     Rule rotateRuleAroundAxis(Rule rule, Eigen::Vector3f axis, float angle);
 
-    unsigned short* shuffleArray(unsigned short a[], size_t size);
-    unsigned short* randOrdering(size_t l);
+    std::array<unsigned short, ruleSize> shuffleArray(std::array<unsigned short, ruleSize> a);
+    std::array<unsigned short, ruleSize> randRuleOrdering();
 };
