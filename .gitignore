@@ -1,3 +1,5 @@
+*.rule
+
 ## Visual Studio Code files
 cpp/.vscode/*
 !cpp/.vscode/settings.json

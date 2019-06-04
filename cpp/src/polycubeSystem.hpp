@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <string>
 #include <random>
+#include <iostream>
 #include "../lib/Eigen/Dense"
 #include "../lib/Eigen/Geometry"
 
@@ -64,14 +65,19 @@ public:
     }
 };
 
+
 class PolycubeSystem {
 public:
     PolycubeSystem(std::vector<Rule> rules);
+    PolycubeSystem(std::string rules);
 
     void processMoves();
     void addCube(Eigen::Vector3f position, Rule rule, int ruleIdx);
-    
+    void addCube(Eigen::Vector3f position, int ruleIdx);
+    std::string toString();
+
     static std::vector<Eigen::Vector3f> getRuleOrder();
+    static std::vector<Rule> parseRules(std::string ruleStr);
 
 private:
     //Mersenne Twister random number generator
@@ -85,6 +91,8 @@ private:
     Eigen::Vector3f ruleOrder[ruleSize];
     std::map<std::string,size_t> ruleToOrderIdx;
     std::vector<Rule> rules;
+
+    void init(std::vector<Rule> rules);
 
     Rule* ruleFits(Rule a, Rule b);
 

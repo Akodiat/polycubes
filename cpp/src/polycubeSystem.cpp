@@ -1,5 +1,5 @@
 #include "polycubeSystem.hpp"
-#include <iostream>
+#include <bitset>
 
 // Make any -0 into 0
 // Why does roundf even give us -0?
@@ -24,6 +24,15 @@ Move::Move(Eigen::Vector3f movePos) {
 }
 
 PolycubeSystem::PolycubeSystem(std::vector<Rule> rules) {
+    init(rules);
+}
+
+PolycubeSystem::PolycubeSystem(std::string rules) {
+    std::vector<Rule> parsedRules = parseRules(rules);
+    init(parsedRules);
+}
+
+void PolycubeSystem::init(std::vector<Rule> rules) {
     this->moves = std::unordered_map<std::string, Move>();
     this->moveKeys = std::vector<std::string>();
     this->cubeMap = std::map<std::string,bool>();
@@ -73,7 +82,12 @@ void PolycubeSystem::processMoves() {
     }
 }
 
-//Need both rule and ruleIdx to determine color as the rule might be rotated
+// Add cube with default orientation
+void PolycubeSystem::addCube(Eigen::Vector3f position, int ruleIdx) {
+    Rule rule = this->rules[ruleIdx];
+    return this->addCube(position, rule, ruleIdx);
+}
+// Need both rule and ruleIdx to determine color as the rule might be rotated
 void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
     std::cout<<"About to add cube at "<<vecToStr(position)<<" (rule #"<<ruleIdx<<")"<<std::endl;
     // Go through all non-zero parts of the rule and add potential moves
@@ -146,6 +160,51 @@ std::vector<Eigen::Vector3f> PolycubeSystem::getRuleOrder() {
     ruleOrder[4] = Eigen::Vector3f(-1, 0, 0);
     ruleOrder[5] = Eigen::Vector3f( 1, 0, 0);
     return ruleOrder;
+}
+
+Eigen::Vector3f getOrientation(int index, int orientation) {
+    Eigen::Vector3f v;
+    switch (index) {
+        case 0: v = Eigen::Vector3f( 0,-1, 0); break;
+        case 1: v = Eigen::Vector3f( 0, 1, 0); break;
+        case 2: v = Eigen::Vector3f( 0, 0,-1); break;
+        case 3: v = Eigen::Vector3f( 0, 0, 1); break;
+        case 4: v = Eigen::Vector3f(-1, 0, 0); break;
+        case 5: v = Eigen::Vector3f( 1, 0, 0); break;
+    default:
+        break;
+    }
+    const std::vector<Eigen::Vector3f> ruleOrder = PolycubeSystem::getRuleOrder();
+    const Eigen::Vector3f dir = ruleOrder[index];
+    const float angle = ((float) orientation) * M_PI_2;
+    Eigen::AngleAxis<float> a = Eigen::AngleAxis<float>(
+        angle, dir
+    );
+    Eigen::Quaternion<float> q = Eigen::Quaternion<float>(a);
+    return (q*v);
+}
+
+std::vector<Rule> PolycubeSystem::parseRules(std::string ruleStr) {
+    std::vector<Rule> rules;
+    for(size_t i = 0; i<ruleStr.size(); i+=2*ruleSize) {
+        Rule rule;
+        std::cout<<"Rule "<<(i/(2*ruleSize))+1<<std::endl;
+        for(size_t j = 0; j<ruleSize; j++) {
+            std::string s = ruleStr.substr(i+(2*j), 2);
+            int hex = std::stoi(s, 0, 16);
+            std::bitset<8> bitset(hex);
+            std::bitset<8> colorMask(0b01111100);
+            std::bitset<8> orientationMask(0b00000011);
+            int color = ((bitset & colorMask) >> 2).to_ulong();
+            if(bitset[7]) color *= -1; // Why is there no .to_long()?
+            int orientation = (bitset & orientationMask).to_ulong();
+            std::cout<<"Colour: "<<color<<"\t Orientation: "<<orientation<<std::endl;
+            rule[j] = new Face(color, getOrientation(j, orientation));
+        }
+        rules.push_back(rule);
+        std::cout<<std::endl;
+    }
+    return rules;
 }
 
 Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
@@ -257,6 +316,17 @@ std::vector<unsigned short> PolycubeSystem::randOrdering(size_t size) {
         a[j] = temp;
     }
     return a;
+}
+
+std::string PolycubeSystem::toString() {
+    std::string s;
+    std::map<std::string, bool>::iterator it;
+
+    for (it= this->cubeMap.begin(); it!=this->cubeMap.end(); it++) {
+        s += it->first;
+        s += "\n";
+    }
+    return s;
 }
 
 
