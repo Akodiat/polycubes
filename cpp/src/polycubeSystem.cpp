@@ -1,8 +1,15 @@
 #include "polycubeSystem.hpp"
+#include <iostream>
+
+// Make any -0 into 0
+// Why does roundf even give us -0?
+float noNeg0(float f) {
+    return f==-0 ? 0 : f;
+}
 
 std::string vecToStr(Eigen::Vector3f v) {
     std::ostringstream oss;
-    oss <<"("<<v.x()<<","<<v.y()<<","<<v.z()<<")";
+    oss <<"("<<noNeg0(v.x())<<","<<noNeg0(v.y())<<","<<noNeg0(v.z())<<")";
     return oss.str();
 }
 
@@ -48,31 +55,40 @@ void PolycubeSystem::processMoves() {
         std::string key = this->moveKeys[keyIdx];
 
         // Pick a random rule order
-        std::array<unsigned short, ruleSize> ruleIdxs = this->randRuleOrdering();
+        std::vector<unsigned short> ruleIdxs = this->randOrdering(this->rules.size());
         // Check if we have a rule that fits this move
-        for (size_t r=0; r<ruleSize; r++) {
+        for (size_t r=0; r<this->rules.size(); r++) {
             Rule rule = this->rules[ruleIdxs[r]];
             Move move = this->moves.at(key);
-            if(this->ruleFits(move.getRule(), rule)) {
-                this->addCube(move.getMovePos(), rule, ruleIdxs[r]);
+            Rule* fittedRule = ruleFits(move.getRule(), rule);
+            if(fittedRule != nullptr) {
+                this->addCube(move.getMovePos(), *fittedRule, ruleIdxs[r]);
                 // Remove processed move
-                this->moves.erase(key);
                 break;
             }
         }
+        this->moves.erase(key);
+        this->moveKeys.erase(std::find(this->moveKeys.begin(), this->moveKeys.end(), key));
+        std::cout<<"Moves to process: "<<this->moveKeys.size()<<std::endl<<std::endl;
     }
 }
 
 //Need both rule and ruleIdx to determine color as the rule might be rotated
 void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
+    std::cout<<"About to add cube at "<<vecToStr(position)<<" (rule #"<<ruleIdx<<")"<<std::endl;
     // Go through all non-zero parts of the rule and add potential moves
     std::vector<POTENTIAL_MOVE> potentialMoves;
+    for (size_t i=0; i<ruleSize; i++) {
+        std::cout<<rule[i]->getColor() <<" ";
+    }
+    std::cout<<std::endl;
+
     for (size_t i=0; i<ruleSize; i++) {
         if (rule[i]->getColor() == 0) {
             continue;
         }
-        Eigen::Vector3f direction = this->ruleOrder[i] *= -1;
-        Eigen::Vector3f movePos = position + this->ruleOrder[i];
+        Eigen::Vector3f direction = this->ruleOrder[i] * -1;
+        Eigen::Vector3f movePos = position + direction;
         if (abs(movePos.x()) > this->maxCoord ||
             abs(movePos.y()) > this->maxCoord ||
             abs(movePos.z()) > this->maxCoord)
@@ -110,6 +126,7 @@ void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
         potMove.orientation = rule[i]->getOrientation();
 
         potentialMoves.push_back(potMove);
+        std::cout<<"\tAdd move to neigbour at "<<key<<" (val = "<<potMove.val<<")"<<std::endl;
     }
     for (size_t i=0; i<potentialMoves.size(); i++) {
         POTENTIAL_MOVE m = potentialMoves[i];
@@ -132,8 +149,8 @@ std::vector<Eigen::Vector3f> PolycubeSystem::getRuleOrder() {
 }
 
 Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
-    std::array<unsigned short, ruleSize> ra = this->randRuleOrdering();
-    std::array<unsigned short, ruleSize> rb = this->randRuleOrdering();
+    std::vector<unsigned short> ra = this->randOrdering(ruleSize);
+    std::vector<unsigned short> rb = this->randOrdering(ruleSize);
     for (unsigned short ria=0; ria<ruleSize; ria++) {
         unsigned short i = ra[ria];
 
@@ -151,7 +168,9 @@ Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
                         - this->getSignedAngle(
                             a[i]->getOrientation(),
                             b[i]->getOrientation(),
-                        this->ruleOrder[i]));
+                            this->ruleOrder[i]
+                        )
+                    );
                     return new Rule(b);
                 }
             }
@@ -165,6 +184,9 @@ float PolycubeSystem::getSignedAngle(
         Eigen::Vector3f v2,
         Eigen::Vector3f axis)
 {
+    if (v1 == v2)  return 0.f;
+    if (v1 == -v2) return M_PI;
+
     Eigen::Vector3f s = v1.cross(v2);
     float c = v1.dot(v2);
     // float a = atan2(s.length(), c);
@@ -172,6 +194,7 @@ float PolycubeSystem::getSignedAngle(
     if (s != axis) {
         a *= -1;
     }
+  //std::cout<<"The angle from "<<vecToStr(v1)<<" to "<<vecToStr(v2)<<" around axis "<<vecToStr(axis)<<" is "<<a<<" ("<<a*M_1_PI*180<<" degrees)"<<std::endl;
     return a;
 }
 
@@ -182,8 +205,15 @@ Rule PolycubeSystem::rotateRule(Rule rule, Eigen::Quaternion<float> q) {
     for (size_t i=0; i<ruleSize; i++) {
         Eigen::Vector3f face = this->ruleOrder[i];
         Eigen::Vector3f newFace = q * face;
-        Eigen::Vector3f newFaceDir = q* rule[i]->getOrientation();
-        int iNewFace = this->ruleToOrderIdx[vecToStr(newFace)];
+        Eigen::Vector3f newFaceDir = q * rule[i]->getOrientation();
+     // std::cout<<vecToStr(face)<<" rotates into "<<vecToStr(newFace)<<std::endl;
+        newFace = Eigen::Vector3f(
+            roundf(newFace.x()),
+            roundf(newFace.y()),
+            roundf(newFace.z())
+        );
+        std::string key = vecToStr(newFace);
+        int iNewFace = this->ruleToOrderIdx.at(key);
         newRule[iNewFace] = new Face(rule[i]->getColor(), newFaceDir);
     }
     return newRule;
@@ -203,22 +233,29 @@ Rule PolycubeSystem::rotateRuleAroundAxis(Rule rule, Eigen::Vector3f axis, float
 }
 
 // From stackoverflow/a/12646864
-std::array<unsigned short, ruleSize> PolycubeSystem::shuffleArray(std::array<unsigned short, ruleSize> a) {
-    for (size_t i = ruleSize-1; i>0; i--) {
+std::vector<unsigned short> PolycubeSystem::shuffleArray(std::vector<unsigned short> a) {
+    for (size_t i = a.size()-1; i>0; i--) {
         std::uniform_int_distribution<size_t> rnd_dist(0, i+1);
         size_t j = rnd_dist(randomNumGen);
         unsigned short temp = a[i];
         a[i] = a[j];
         a[j] = temp;
     }
+    return a;
 }
 
-std::array<unsigned short, ruleSize> PolycubeSystem::randRuleOrdering() {
-    std::array<unsigned short, ruleSize> a;
-    for (size_t i=0; i<ruleSize; i++) {
+std::vector<unsigned short> PolycubeSystem::randOrdering(size_t size) {
+    std::vector<unsigned short> a(size);
+    for (size_t i=0; i<size; i++)
         a[i]=i;
+
+    for (size_t i = size-1; i>0; i--) {
+        std::uniform_int_distribution<size_t> rnd_dist(0, i);
+        size_t j = rnd_dist(randomNumGen);
+        unsigned short temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
     }
-    this->shuffleArray(a);
     return a;
 }
 

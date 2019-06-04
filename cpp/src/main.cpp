@@ -75,7 +75,7 @@ std::vector<Rule> parseRules(std::string ruleStr) {
     std::vector<Rule> rules;
     for(size_t i = 0; i<ruleStr.size(); i+=2*ruleSize) {
         Rule rule;
-        std::cout<<"Rule "<<i+1<<std::endl;
+        std::cout<<"Rule "<<(i/(2*ruleSize))+1<<std::endl;
         for(size_t j = 0; j<ruleSize; j++) {
             std::string s = ruleStr.substr(i+(2*j), 2);
             int hex = std::stoi(s, 0, 16);
@@ -104,6 +104,7 @@ int main(int argc, char** argv) {
         p.addCube(Eigen::Vector3f(0,0,0), rules[0], 0);
         std::cout<<"Added cube"<<std::endl;
         p.processMoves();
+        std::cout<<"All moves processed"<<std::endl;
     }
 
     return 0;

@@ -98,6 +98,6 @@ private:
     Rule rotateRuleFromTo(Rule rule, Eigen::Vector3f vFrom, Eigen::Vector3f vTo);
     Rule rotateRuleAroundAxis(Rule rule, Eigen::Vector3f axis, float angle);
 
-    std::array<unsigned short, ruleSize> shuffleArray(std::array<unsigned short, ruleSize> a);
-    std::array<unsigned short, ruleSize> randRuleOrdering();
+    std::vector<unsigned short> shuffleArray(std::vector<unsigned short> a);
+    std::vector<unsigned short> randOrdering(size_t size);
 };

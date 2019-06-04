@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/polycubes",
-            "args": ["420043f4e700"],
+            "args": ["040404040404840000000000"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
