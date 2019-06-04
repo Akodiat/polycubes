@@ -37,6 +37,9 @@ int main(int argc, char** argv) {
         fs << s;
         fs.close();
     }
+    else {
+        std::cout<<"Sorry, you need to supply a rule"<<std::endl;
+    }
 
     return 0;
 }

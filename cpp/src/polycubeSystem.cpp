@@ -185,6 +185,10 @@ Eigen::Vector3f getOrientation(int index, int orientation) {
 }
 
 std::vector<Rule> PolycubeSystem::parseRules(std::string ruleStr) {
+    if (ruleStr.size() % 2*ruleSize != 0) {
+        std::cerr<<"Error: Incomplete rule"<<std::endl;
+        exit(EXIT_FAILURE);
+    }
     std::vector<Rule> rules;
     for(size_t i = 0; i<ruleStr.size(); i+=2*ruleSize) {
         Rule rule;
@@ -238,22 +242,16 @@ Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
     return nullptr;
 }
 
+// https://stackoverflow.com/a/16544330
 float PolycubeSystem::getSignedAngle(
         Eigen::Vector3f v1,
         Eigen::Vector3f v2,
         Eigen::Vector3f axis)
 {
-    if (v1 == v2)  return 0.f;
-    if (v1 == -v2) return M_PI;
-
-    Eigen::Vector3f s = v1.cross(v2);
-    float c = v1.dot(v2);
-    // float a = atan2(s.length(), c);
-    float a = atan2(1.f, c);
-    if (s != axis) {
-        a *= -1;
-    }
-  //std::cout<<"The angle from "<<vecToStr(v1)<<" to "<<vecToStr(v2)<<" around axis "<<vecToStr(axis)<<" is "<<a<<" ("<<a*M_1_PI*180<<" degrees)"<<std::endl;
+    float dot = v1.dot(v2);
+    float det = axis.dot(v1.cross(v2));
+    float a = atan2(det, dot);
+    // std::cout<<"The angle from "<<vecToStr(v1)<<" to "<<vecToStr(v2)<<" around axis "<<vecToStr(axis)<<" is "<<a<<" ("<<a*M_1_PI*180<<" degrees)"<<std::endl;
     return a;
 }
 
@@ -265,7 +263,7 @@ Rule PolycubeSystem::rotateRule(Rule rule, Eigen::Quaternion<float> q) {
         Eigen::Vector3f face = this->ruleOrder[i];
         Eigen::Vector3f newFace = q * face;
         Eigen::Vector3f newFaceDir = q * rule[i]->getOrientation();
-     // std::cout<<vecToStr(face)<<" rotates into "<<vecToStr(newFace)<<std::endl;
+        // std::cout<<vecToStr(face)<<" rotates into "<<vecToStr(newFace)<<std::endl;
         newFace = Eigen::Vector3f(
             roundf(newFace.x()),
             roundf(newFace.y()),
