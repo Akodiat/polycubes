@@ -5,6 +5,7 @@
 #include <string>
 #include <random>
 #include <iostream>
+#include <chrono>
 #include "../lib/Eigen/Dense"
 #include "../lib/Eigen/Geometry"
 

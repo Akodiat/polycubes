@@ -7,8 +7,9 @@ cpp/.vscode/*
 !cpp/.vscode/launch.json
 !cpp/.vscode/extensions.json
 
-# Ignore bin directory
+# Ignore bin and out directories
 cpp/bin
+cpp/out
 
 ## C++ files
 

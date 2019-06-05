@@ -42,6 +42,9 @@ void PolycubeSystem::init(std::vector<Rule> rules, int nMaxCubes) {
     this->nMaxCubes = nMaxCubes;
     this->rules = rules;
 
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    this->randomNumGen = std::mt19937(seed);
+
     this->ruleOrder[0] = Eigen::Vector3f(-1, 0, 0);
     this->ruleOrder[1] = Eigen::Vector3f( 1, 0, 0);
     this->ruleOrder[2] = Eigen::Vector3f( 0,-1, 0);

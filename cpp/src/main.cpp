@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
     std::cout<<"Welcome to polycubes!"<<std::endl;
 
     static int nTries = 5;
+    int nCubes = 0;
     if (argc > 1) {
         std::ofstream fs;
         std::string s = "";
@@ -34,7 +35,7 @@ int main(int argc, char** argv) {
             std::cout<<"Initialized"<<std::endl;
             p.addCube(Eigen::Vector3f(0,0,0), 0);
             std::cout<<"Added cube"<<std::endl;
-            int nCubes = p.processMoves();
+            nCubes = p.processMoves();
             if (nCubes <= 0) {
                 fs.open(
                     std::string(argv[1]) +
@@ -63,5 +64,5 @@ int main(int argc, char** argv) {
         std::cout<<"Sorry, you need to supply a rule"<<std::endl;
     }
 
-    return 0;
+    return nCubes;
 }
