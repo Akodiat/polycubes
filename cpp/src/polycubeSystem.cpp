@@ -110,7 +110,7 @@ void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
             continue;
         }
         Eigen::Vector3f direction = this->ruleOrder[i] * -1;
-        Eigen::Vector3f movePos = position + direction;
+        Eigen::Vector3f movePos = position - direction;
         if (abs(movePos.x()) > this->maxCoord ||
             abs(movePos.y()) > this->maxCoord ||
             abs(movePos.z()) > this->maxCoord)
@@ -131,7 +131,7 @@ void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
             this->moveKeys.push_back(key);
         }
         Eigen::Vector3f r = position - movePos;
-        size_t dirIdx = this->ruleToOrderIdx[key];
+        size_t dirIdx = this->ruleToOrderIdx[vecToStr(r)];
 /*
         //Make sure we haven't written anything here before:
         try {

@@ -22,28 +22,40 @@
 int main(int argc, char** argv) {
     std::cout<<"Welcome to polycubes!"<<std::endl;
 
+    static int nTries = 5;
     if (argc > 1) {
-        PolycubeSystem p = 
-            argc > 2 ?
-            PolycubeSystem(argv[1], std::stoi(argv[2])) : 
-            PolycubeSystem(argv[1]);
-        std::cout<<"Initialized"<<std::endl;
-        p.addCube(Eigen::Vector3f(0,0,0), 0);
-        std::cout<<"Added cube"<<std::endl;
-        int nCubes = p.processMoves();
         std::ofstream fs;
-        if (nCubes > 0) {
-            std::cout<<"All moves processed, "<<nCubes<<" cubes in total"<<std::endl;
-            std::string s = p.toString();
-            std::cout<<s<<std::endl;
-            fs.open(std::string(argv[1])+"."+std::to_string(nCubes)+"-mer");
-            fs << s;
-        } else {
-            fs.open(
-                std::string(argv[1]) +
-                ".oub" +
-                std::to_string(p.getNMaxCubes())
-            );
+        std::string s = "";
+        while(nTries--) {
+            PolycubeSystem p =
+                argc > 2 ?
+                PolycubeSystem(argv[1], std::stoi(argv[2])) :
+                PolycubeSystem(argv[1]);
+            std::cout<<"Initialized"<<std::endl;
+            p.addCube(Eigen::Vector3f(0,0,0), 0);
+            std::cout<<"Added cube"<<std::endl;
+            int nCubes = p.processMoves();
+            if (nCubes <= 0) {
+                fs.open(
+                    std::string(argv[1]) +
+                    ".oub" +
+                    std::to_string(p.getNMaxCubes())
+                );
+                break;
+            }
+            std::string s_new = p.toString();
+            if (s == "") {
+                s = s_new;
+                fs.open(std::string(argv[1])+"."+std::to_string(nCubes)+"-mer");
+                fs << s;
+            }
+            else if (s != s_new) {
+                fs.open(
+                    std::string(argv[1]) +
+                    ".nondet"
+                );
+                break;
+            }
         }
         fs.close();
     }
