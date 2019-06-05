@@ -7,7 +7,7 @@ int main(void) {
     std::mt19937 randomNumGen(seed);
     std::uniform_int_distribution<size_t> rnd_dist(0, hex-1);
     for(int i=0; i<12; i++) {
-        size_t r = rnd_dist(randomNumGen);
+        unsigned int r = rnd_dist(randomNumGen);
         printf("%x", r);
     }
 }
