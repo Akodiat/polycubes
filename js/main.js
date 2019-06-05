@@ -108,7 +108,9 @@ function init() {
         }
     });});
 
-    polycubeSystem = new PolycubeSystem(rules, ruleOrder);
+    nMaxCubes = JSON.parse(getUrlParam("nMaxCubes",100));
+
+    polycubeSystem = new PolycubeSystem(rules, ruleOrder, nMaxCubes);
 
     // orbit controls
 

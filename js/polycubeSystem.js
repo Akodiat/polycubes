@@ -1,10 +1,11 @@
 class PolycubeSystem {
 
-    constructor(rules, ruleOrder) {
+    constructor(rules, ruleOrder, nMaxCubes=100, maxCoord=50) {
         this.moves = {};
         this.moveKeys = [];
-        this.cubeMap = {};
-        this.maxCoord = 50;
+        this.cubeMap = new Map();
+        this.nMaxCubes = nMaxCubes;
+        this.maxCoord = maxCoord;
 
         this.ruleMaterials = [];
 
@@ -126,6 +127,10 @@ class PolycubeSystem {
                     // Remove processed move
                     delete this.moves[key];
                     this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
+                    if (this.cubeMap.size >= this.nMaxCubes) {
+                        alert("Polycube is larger than a "+this.nMaxCubes+"-mer, aborting");
+                        return;
+                    }
                     break;
                 }
             }
@@ -141,12 +146,12 @@ class PolycubeSystem {
         // Go through all non-zero parts of the rule and add potential moves
         var potentialMoves = [];
         for (var i=0; i<rule.length; i++) {
-            if(rule[i].c == 0) {
+            if (rule[i].c == 0) {
                 continue;
             }
             var direction = this.ruleOrder[i].clone().negate();
             var movePos = position.clone().add(this.ruleOrder[i])
-            if(Math.abs(movePos.x)>this.maxCoord ||
+            if (Math.abs(movePos.x)>this.maxCoord ||
                Math.abs(movePos.y)>this.maxCoord ||
                Math.abs(movePos.z)>this.maxCoord)
             {
@@ -154,13 +159,13 @@ class PolycubeSystem {
                 continue;
             }
             var key = vecToStr(movePos);
-            if(key in this.cubeMap) {
+            if (this.cubeMap.has(key)) {
                 // There is already a cube at pos,
                 // no need to add this neigbour to moves
                 continue
             }
 
-            if(!(key in this.moves)) {
+            if (!(key in this.moves)) {
                 this.moves[key] = {
                     'pos': movePos,
                     'rule': [null,null,null,null,null,null]};
@@ -172,9 +177,10 @@ class PolycubeSystem {
             );
 
             //Make sure we haven't written anything here before:
-            if(this.moves[key].rule[dirIdx]) {
+            if (this.moves[key].rule[dirIdx]) {
                 return;
             }
+
 
             potentialMoves.push({
                 'key': key,
@@ -192,7 +198,7 @@ class PolycubeSystem {
         voxel.position.copy(position);
         scene.add(voxel);
         objects.push(voxel);
-        this.cubeMap[vecToStr(position)] = true;
+        this.cubeMap.set(vecToStr(position), true);
         render();
     }
 }
