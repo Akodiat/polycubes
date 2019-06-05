@@ -22,19 +22,29 @@
 int main(int argc, char** argv) {
     std::cout<<"Welcome to polycubes!"<<std::endl;
 
-    if(argc > 1) {
-        PolycubeSystem p(argv[1]);
+    if (argc > 1) {
+        PolycubeSystem p = 
+            argc > 2 ?
+            PolycubeSystem(argv[1], std::stoi(argv[2])) : 
+            PolycubeSystem(argv[1]);
         std::cout<<"Initialized"<<std::endl;
         p.addCube(Eigen::Vector3f(0,0,0), 0);
         std::cout<<"Added cube"<<std::endl;
-        p.processMoves();
-        std::cout<<"All moves processed"<<std::endl;
-        std::string s = p.toString();
-        std::cout<<s<<std::endl;
-
+        int nCubes = p.processMoves();
         std::ofstream fs;
-        fs.open(std::string(argv[1])+".rule");
-        fs << s;
+        if (nCubes > 0) {
+            std::cout<<"All moves processed, "<<nCubes<<" cubes in total"<<std::endl;
+            std::string s = p.toString();
+            std::cout<<s<<std::endl;
+            fs.open(std::string(argv[1])+"."+std::to_string(nCubes)+"-mer");
+            fs << s;
+        } else {
+            fs.open(
+                std::string(argv[1]) +
+                ".oub" +
+                std::to_string(p.getNMaxCubes())
+            );
+        }
         fs.close();
     }
     else {

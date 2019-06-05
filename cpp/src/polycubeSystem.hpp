@@ -70,11 +70,15 @@ class PolycubeSystem {
 public:
     PolycubeSystem(std::vector<Rule> rules);
     PolycubeSystem(std::string rules);
+    PolycubeSystem(std::string rules, int nMaxCubes);
 
-    void processMoves();
+    int processMoves();
     void addCube(Eigen::Vector3f position, Rule rule, int ruleIdx);
     void addCube(Eigen::Vector3f position, int ruleIdx);
     std::string toString();
+    int getNMaxCubes() {
+        return this->nMaxCubes;
+    }
 
     static std::vector<Eigen::Vector3f> getRuleOrder();
     static std::vector<Rule> parseRules(std::string ruleStr);
@@ -86,13 +90,14 @@ private:
     std::unordered_map<std::string, Move> moves;
     std::vector<std::string> moveKeys;
     std::map<std::string,bool> cubeMap;
-    int maxCoord = 50;
+    int maxCoord;
+    int nMaxCubes;
 
     Eigen::Vector3f ruleOrder[ruleSize];
     std::map<std::string,size_t> ruleToOrderIdx;
     std::vector<Rule> rules;
 
-    void init(std::vector<Rule> rules);
+    void init(std::vector<Rule> rules, int nMaxCubes);
 
     Rule* ruleFits(Rule a, Rule b);
 

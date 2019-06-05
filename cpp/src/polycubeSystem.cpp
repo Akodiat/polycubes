@@ -24,19 +24,22 @@ Move::Move(Eigen::Vector3f movePos) {
 }
 
 PolycubeSystem::PolycubeSystem(std::vector<Rule> rules) {
-    init(rules);
+    init(rules, 100);
 }
 
 PolycubeSystem::PolycubeSystem(std::string rules) {
-    std::vector<Rule> parsedRules = parseRules(rules);
-    init(parsedRules);
+    init(parseRules(rules), 100);
+}
+PolycubeSystem::PolycubeSystem(std::string rules, int nMaxCubes) {
+    init(parseRules(rules), nMaxCubes);
 }
 
-void PolycubeSystem::init(std::vector<Rule> rules) {
+void PolycubeSystem::init(std::vector<Rule> rules, int nMaxCubes) {
     this->moves = std::unordered_map<std::string, Move>();
     this->moveKeys = std::vector<std::string>();
     this->cubeMap = std::map<std::string,bool>();
     this->maxCoord = 50;
+    this->nMaxCubes = nMaxCubes;
     this->rules = rules;
 
     this->ruleOrder[0] = Eigen::Vector3f(-1, 0, 0);
@@ -53,7 +56,7 @@ void PolycubeSystem::init(std::vector<Rule> rules) {
     }
 }
 
-void PolycubeSystem::processMoves() {
+int PolycubeSystem::processMoves() {
     // While we have moves to process
     while (this->moveKeys.size() > 0) {
         // Pick a random move
@@ -72,14 +75,19 @@ void PolycubeSystem::processMoves() {
             Rule* fittedRule = ruleFits(move.getRule(), rule);
             if(fittedRule != nullptr) {
                 this->addCube(move.getMovePos(), *fittedRule, ruleIdxs[r]);
-                // Remove processed move
+                if (this->cubeMap.size() >= this->nMaxCubes) {
+                    std::cerr<<"Polycube is larger than a "<<this->nMaxCubes<<"-mer, aborting"<<std::endl;
+                    return -1;
+                }
                 break;
             }
         }
+        // Remove processed move
         this->moves.erase(key);
         this->moveKeys.erase(std::find(this->moveKeys.begin(), this->moveKeys.end(), key));
         std::cout<<"Moves to process: "<<this->moveKeys.size()<<std::endl<<std::endl;
     }
+    return this->cubeMap.size();
 }
 
 // Add cube with default orientation
