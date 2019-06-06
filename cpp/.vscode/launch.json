@@ -5,11 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "g++ build and debug all files",
+            "name": "g++ build polycubes",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/bin/polycubes",
-            "args": ["040404040404840000000000"],
+            "args": ["040000000000000000840084"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
@@ -22,7 +22,28 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "g++ build all files",
+            "preLaunchTask": "g++ build polycubes",
+            "miDebuggerPath": "/usr/bin/gdb"
+        },
+        {
+            "name": "g++ build randRule",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/randRule",
+            "args": [50],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "g++ build randRule",
             "miDebuggerPath": "/usr/bin/gdb"
         }
     ]

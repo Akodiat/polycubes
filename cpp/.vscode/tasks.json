@@ -16,11 +16,26 @@
         },
         {
             "type": "shell",
-            "label": "g++ build all files",
+            "label": "g++ build randRule",
             "command": "/usr/bin/g++",
             "args": [
                 "-g",
-                "${workspaceFolder}/src/*.cpp",
+                "${workspaceFolder}/src/randRule.cpp",
+                "-o",
+                "${workspaceFolder}/bin/randRule",
+            ],
+            "options": {
+                "cwd": "/usr/bin"
+            }
+        },
+        {
+            "type": "shell",
+            "label": "g++ build polycubes",
+            "command": "/usr/bin/g++",
+            "args": [
+                "-g",
+                "${workspaceFolder}/src/main.cpp",
+                "${workspaceFolder}/src/polycubeSystem.cpp",
                 "-o",
                 "${workspaceFolder}/bin/polycubes",
             ],
