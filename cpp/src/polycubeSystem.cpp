@@ -38,7 +38,6 @@ void PolycubeSystem::init(std::vector<Rule> rules, int nMaxCubes) {
     this->moves = std::unordered_map<std::string, Move>();
     this->moveKeys = std::vector<std::string>();
     this->cubeMap = std::map<std::string,bool>();
-    this->maxCoord = 50;
     this->nMaxCubes = nMaxCubes;
     this->rules = rules;
 
@@ -100,27 +99,22 @@ void PolycubeSystem::addCube(Eigen::Vector3f position, int ruleIdx) {
 }
 // Need both rule and ruleIdx to determine color as the rule might be rotated
 void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
-    std::cout<<"About to add cube at "<<vecToStr(position)<<" (rule #"<<ruleIdx<<")"<<std::endl;
+    //std::cout<<"About to add cube at "<<vecToStr(position)<<" (rule #"<<ruleIdx<<")"<<std::endl;
     // Go through all non-zero parts of the rule and add potential moves
     std::vector<POTENTIAL_MOVE> potentialMoves;
+    /*
     for (size_t i=0; i<ruleSize; i++) {
         std::cout<<rule[i]->getColor() <<" ";
     }
     std::cout<<std::endl;
-
+    */
     for (size_t i=0; i<ruleSize; i++) {
         if (rule[i]->getColor() == 0) {
             continue;
         }
+
         Eigen::Vector3f direction = this->ruleOrder[i] * -1;
         Eigen::Vector3f movePos = position - direction;
-        if (abs(movePos.x()) > this->maxCoord ||
-            abs(movePos.y()) > this->maxCoord ||
-            abs(movePos.z()) > this->maxCoord)
-        {
-            // Neigbour outside of bounding box, stopping here
-            continue;
-        }
         std::string key = vecToStr(movePos);
 
         if (this->cubeMap.find(key) != this->cubeMap.end()) {
@@ -151,7 +145,7 @@ void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
         potMove.orientation = rule[i]->getOrientation();
 
         potentialMoves.push_back(potMove);
-        std::cout<<"\tAdd move to neigbour at "<<key<<" (val = "<<potMove.val<<")"<<std::endl;
+    //  std::cout<<"\tAdd move to neigbour at "<<key<<" (val = "<<potMove.val<<")"<<std::endl;
     }
     for (size_t i=0; i<potentialMoves.size(); i++) {
         POTENTIAL_MOVE m = potentialMoves[i];

@@ -91,7 +91,6 @@ private:
     std::unordered_map<std::string, Move> moves;
     std::vector<std::string> moveKeys;
     std::map<std::string,bool> cubeMap;
-    int maxCoord;
     int nMaxCubes;
 
     Eigen::Vector3f ruleOrder[ruleSize];
