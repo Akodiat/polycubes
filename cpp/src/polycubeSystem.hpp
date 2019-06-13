@@ -81,7 +81,7 @@ public:
         return this->nMaxCubes;
     }
 
-    static std::vector<Eigen::Vector3f> getRuleOrder();
+    static Eigen::Vector3f getRuleOrder(int index);
     static std::vector<Rule> parseRules(std::string ruleStr);
 
 private:

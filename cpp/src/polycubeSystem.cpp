@@ -17,9 +17,8 @@ Move::Move(Eigen::Vector3f movePos) {
     this->movePos = movePos;
     this->rule = Rule();
     // Initialize with default orientations
-    std::vector<Eigen::Vector3f> ruleOrder = PolycubeSystem::getRuleOrder();
     for (int i=0; i<ruleSize; i++) {
-        this->rule[i] = new Face(ruleOrder[i]);
+        this->rule[i] = new Face(PolycubeSystem::getRuleOrder(i));
     }
 }
 
@@ -44,17 +43,10 @@ void PolycubeSystem::init(std::vector<Rule> rules, int nMaxCubes) {
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     this->randomNumGen = std::mt19937(seed);
 
-    this->ruleOrder[0] = Eigen::Vector3f(-1, 0, 0);
-    this->ruleOrder[1] = Eigen::Vector3f( 1, 0, 0);
-    this->ruleOrder[2] = Eigen::Vector3f( 0,-1, 0);
-    this->ruleOrder[3] = Eigen::Vector3f( 0, 1, 0);
-    this->ruleOrder[4] = Eigen::Vector3f( 0, 0,-1);
-    this->ruleOrder[5] = Eigen::Vector3f( 0, 0, 1);
-
     // Create reverse map of rule order
     for (size_t i=0; i<ruleSize; i++) {
-        Eigen::Vector3f* r = this->ruleOrder + i;
-        this->ruleToOrderIdx[vecToStr(*r)] = i;
+        Eigen::Vector3f v = PolycubeSystem::getRuleOrder(i);
+        this->ruleToOrderIdx[vecToStr(v)] = i;
     }
 }
 
@@ -113,7 +105,7 @@ void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
             continue;
         }
 
-        Eigen::Vector3f direction = this->ruleOrder[i] * -1;
+        Eigen::Vector3f direction = PolycubeSystem::getRuleOrder(i) * -1;
         Eigen::Vector3f movePos = position - direction;
         std::string key = vecToStr(movePos);
 
@@ -156,15 +148,19 @@ void PolycubeSystem::addCube(Eigen::Vector3f position, Rule rule, int ruleIdx) {
     this->cubeMap[vecToStr(position)] = true;
 }
 
-std::vector<Eigen::Vector3f> PolycubeSystem::getRuleOrder() {
-    std::vector<Eigen::Vector3f> ruleOrder(6);
-    ruleOrder[0] = Eigen::Vector3f( 0,-1, 0);
-    ruleOrder[1] = Eigen::Vector3f( 0, 1, 0);
-    ruleOrder[2] = Eigen::Vector3f( 0, 0,-1);
-    ruleOrder[3] = Eigen::Vector3f( 0, 0, 1);
-    ruleOrder[4] = Eigen::Vector3f(-1, 0, 0);
-    ruleOrder[5] = Eigen::Vector3f( 1, 0, 0);
-    return ruleOrder;
+Eigen::Vector3f PolycubeSystem::getRuleOrder(int index) {
+    Eigen::Vector3f v;
+    switch (index) {
+        case 0: v = Eigen::Vector3f(-1, 0, 0); break;
+        case 1: v = Eigen::Vector3f( 1, 0, 0); break;
+        case 2: v = Eigen::Vector3f( 0,-1, 0); break;
+        case 3: v = Eigen::Vector3f( 0, 1, 0); break;
+        case 4: v = Eigen::Vector3f( 0, 0,-1); break;
+        case 5: v = Eigen::Vector3f( 0, 0, 1); break;
+    default:
+        break;
+    }
+    return v;
 }
 
 Eigen::Vector3f getOrientation(int index, int orientation) {
@@ -179,8 +175,7 @@ Eigen::Vector3f getOrientation(int index, int orientation) {
     default:
         break;
     }
-    const std::vector<Eigen::Vector3f> ruleOrder = PolycubeSystem::getRuleOrder();
-    const Eigen::Vector3f dir = ruleOrder[index];
+    const Eigen::Vector3f dir = PolycubeSystem::getRuleOrder(index);
     const float angle = ((float) orientation) * M_PI_2;
     Eigen::AngleAxis<float> a = Eigen::AngleAxis<float>(
         angle, dir
@@ -229,14 +224,14 @@ Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
                     //TODO: is the original pointer updated?
                     // https://stackoverflow.com/a/766905
                     b = this->rotateRuleFromTo(b, 
-                        this->ruleOrder[j],
-                        this->ruleOrder[i]);
+                        PolycubeSystem::getRuleOrder(j),
+                        PolycubeSystem::getRuleOrder(i));
                     b = this->rotateRuleAroundAxis(b, 
-                        this->ruleOrder[i],
+                        PolycubeSystem::getRuleOrder(i),
                         - this->getSignedAngle(
                             a[i]->getOrientation(),
                             b[i]->getOrientation(),
-                            this->ruleOrder[i]
+                            PolycubeSystem::getRuleOrder(i)
                         )
                     );
                     return new Rule(b);
@@ -265,7 +260,7 @@ float PolycubeSystem::getSignedAngle(
 Rule PolycubeSystem::rotateRule(Rule rule, Eigen::Quaternion<float> q) {
     Rule newRule = Rule();
     for (size_t i=0; i<ruleSize; i++) {
-        Eigen::Vector3f face = this->ruleOrder[i];
+        Eigen::Vector3f face = PolycubeSystem::getRuleOrder(i);
         Eigen::Vector3f newFace = q * face;
         Eigen::Vector3f newFaceDir = q * rule[i]->getOrientation();
         // std::cout<<vecToStr(face)<<" rotates into "<<vecToStr(newFace)<<std::endl;
