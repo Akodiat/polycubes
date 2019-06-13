@@ -68,6 +68,26 @@ function render() {
     renderer.render(scene, camera);
 }
 
+// https://stackoverflow.com/a/45054052
+function parseHexRule(ruleStr) {
+    var ruleSize = 6;
+    var rules = [];
+    for (var i=0; i<ruleStr.length; i+=2*ruleSize) {
+        var rule = [];
+        console.log("Rule ",(i/(2*ruleSize))+1);
+        for (var j = 0; j<ruleSize; j++) {
+            var face = ruleStr.substring(i+(2*j), i+(2*j) + 2);
+            var binStr = (parseInt(face, 16).toString(2)).padStart(8, '0');
+            var sign = parseInt(binStr[0], 2);
+            var color = parseInt(binStr.substring(1,6),2);
+            var orientation = parseInt(binStr.substring(6,8),2);
+            rule.push( [color * (sign ? -1:1), orientation] );
+        }
+        rules.push(rule);
+    }
+    return rules;
+}
+
 function init() {
     camera = new THREE.PerspectiveCamera(
         45, window.innerWidth / window.innerHeight,
@@ -96,8 +116,16 @@ function init() {
         new THREE.Vector3( 1, 0, 0),
     ];
 
-    defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
-    rules = JSON.parse(getUrlParam("rules",defaultRule));
+    // Parse rule
+    var vars = getUrlVars();
+    if ("hexRule" in vars) {
+        rules = parseHexRule(vars["hexRule"]);
+    } else {
+        defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
+        rules = JSON.parse(getUrlParam("rules",defaultRule));
+    }
+
+    // Replace rotation number with vector
     rules = rules.map(function(rule) {return rule.map(function(face, i) {
         var r = faceRotations[i].clone();
         if(typeof face == "number") {
