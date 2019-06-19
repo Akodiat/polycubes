@@ -35,6 +35,9 @@ class PolycubeSystem {
         this.connectorCubeGeo = new THREE.BoxBufferGeometry(
             connectorCubeSize, connectorCubeSize, connectorCubeSize
         );
+        this.connectorPointerGeo = new THREE.BoxBufferGeometry(
+            connectorCubeSize/2, connectorCubeSize/2, connectorCubeSize/2
+        );
         this.centerCubeGeo = new THREE.BoxBufferGeometry(
             centerCubeSize, centerCubeSize, centerCubeSize
         );
@@ -225,9 +228,16 @@ class PolycubeSystem {
                     this.colorMaterials[Math.abs(rule[j].c) - 1]
                 );
                 connectorCube.position.add(
-                    this.ruleOrder[j].clone().multiplyScalar(0.4)
+                    this.ruleOrder[j].clone().multiplyScalar(0.3)
                 );
+                var connectorPointer = new THREE.Mesh(
+                    this.connectorPointerGeo,
+                    this.colorMaterials[Math.abs(rule[j].c) - 1]
+                );
+                connectorPointer.position.copy(connectorCube.position);
+                connectorPointer.position.add(rule[j].d.clone().multiplyScalar(0.2));
                 cube.add(connectorCube);
+                cube.add(connectorPointer);
             }
         }
         cube.position.copy(position);
