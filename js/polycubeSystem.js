@@ -7,22 +7,37 @@ class PolycubeSystem {
         this.nMaxCubes = nMaxCubes;
         this.maxCoord = maxCoord;
 
-        this.ruleMaterials = [];
+        this.colorMaterials = [];
 
         this.ruleOrder = ruleOrder;
         this.rules = rules;
-        var ruleColors = randomColor({
+        var nColors = Math.max.apply(Math, rules.map(x => Math.max.apply(
+            Math, x.map(r => r.c)))
+        );
+        var colors = randomColor({
             luminosity: 'light',
-            count: this.rules.length
+            count: nColors
+        });
+        for (var i=0; i<colors.length; i++) {
+            var colorMaterial = new THREE.MeshLambertMaterial({
+                color: colors[i]
+            });
+            this.colorMaterials.push(colorMaterial);
+        }
+        this.cubeMaterial = new THREE.MeshLambertMaterial({
+                color: "White",
         });
 
-        this.cubeGeo = new THREE.BoxBufferGeometry(1, 1, 1);
-        for (var i=0; i<ruleColors.length; i++) {
-            var ruleMaterial = new THREE.MeshLambertMaterial({
-                color: ruleColors[i]
-            });
-            this.ruleMaterials.push(ruleMaterial);
-        }
+        this.ruleCubes = [];
+
+        var centerCubeSize = 0.7;
+        var connectorCubeSize = (1-centerCubeSize);
+        this.connectorCubeGeo = new THREE.BoxBufferGeometry(
+            connectorCubeSize, connectorCubeSize, connectorCubeSize
+        );
+        this.centerCubeGeo = new THREE.BoxBufferGeometry(
+            centerCubeSize, centerCubeSize, centerCubeSize
+        );
     }
 
     ruleFits(a,b) {
@@ -193,12 +208,31 @@ class PolycubeSystem {
             this.moves[i.key].rule[i.dirIdx] = {'c': i.val, 'd': i.d};
         });
 
-        var voxel = new THREE.Mesh(this.cubeGeo, this.ruleMaterials[ruleIdx]);
-        voxel.name = "voxel_rule"+ruleIdx;
-        voxel.position.copy(position);
-        scene.add(voxel);
-        objects.push(voxel);
+        this.drawCube(position, rule);
         this.cubeMap.set(vecToStr(position), true);
         render();
     }
+
+    drawCube(position, rule) {
+        var cube = new THREE.Group();
+        var centerCube = new THREE.Mesh(this.centerCubeGeo, this.cubeMaterial);
+        cube.add(centerCube);
+        for (var j=0; j<rule.length; j++) {
+            if (rule[j].c != 0) {
+                console.log(Math.abs(rule[j].c));
+                var connectorCube = new THREE.Mesh(
+                    this.connectorCubeGeo,
+                    this.colorMaterials[Math.abs(rule[j].c) - 1]
+                );
+                connectorCube.position.add(
+                    this.ruleOrder[j].clone().multiplyScalar(0.4)
+                );
+                cube.add(connectorCube);
+            }
+        }
+        cube.position.copy(position);
+        scene.add(cube);
+        objects.push(cube);
+    }
+
 }
