@@ -25,7 +25,7 @@ class PolycubeSystem {
             this.colorMaterials.push(colorMaterial);
         }
         this.cubeMaterial = new THREE.MeshLambertMaterial({
-                color: "White",
+                color: 0xfefeff
         });
 
         this.ruleCubes = [];
@@ -223,16 +223,20 @@ class PolycubeSystem {
         for (var j=0; j<rule.length; j++) {
             if (rule[j].c != 0) {
                 console.log(Math.abs(rule[j].c));
+                var material = this.colorMaterials[Math.abs(rule[j].c) - 1].clone();
+                console.log(material.color);
+                if (rule[j].c < 0) {
+                    material.color.addScalar(-0.2);
+                }
+                console.log(material.color);
                 var connectorCube = new THREE.Mesh(
-                    this.connectorCubeGeo,
-                    this.colorMaterials[Math.abs(rule[j].c) - 1]
+                    this.connectorCubeGeo, material
                 );
                 connectorCube.position.add(
                     this.ruleOrder[j].clone().multiplyScalar(0.3)
                 );
                 var connectorPointer = new THREE.Mesh(
-                    this.connectorPointerGeo,
-                    this.colorMaterials[Math.abs(rule[j].c) - 1]
+                    this.connectorPointerGeo, material
                 );
                 connectorPointer.position.copy(connectorCube.position);
                 connectorPointer.position.add(rule[j].d.clone().multiplyScalar(0.2));
