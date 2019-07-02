@@ -79,7 +79,7 @@ int PolycubeSystem::processMoves() {
         // Remove processed move
         this->moves.erase(key);
         this->moveKeys.erase(std::find(this->moveKeys.begin(), this->moveKeys.end(), key));
-        std::cout<<"Moves to process: "<<this->moveKeys.size()<<std::endl<<std::endl;
+        //std::cout<<"Moves to process: "<<this->moveKeys.size()<<std::endl<<std::endl;
     }
     return this->cubeMap.size();
 }
@@ -192,7 +192,7 @@ std::vector<Rule> PolycubeSystem::parseRules(std::string ruleStr) {
     std::vector<Rule> rules;
     for(size_t i = 0; i<ruleStr.size(); i+=2*ruleSize) {
         Rule rule;
-        std::cout<<"Rule "<<(i/(2*ruleSize))+1<<std::endl;
+        //std::cout<<"Rule "<<(i/(2*ruleSize))+1<<std::endl;
         for(size_t j = 0; j<ruleSize; j++) {
             std::string s = ruleStr.substr(i+(2*j), 2);
             int hex = std::stoi(s, 0, 16);
@@ -202,11 +202,11 @@ std::vector<Rule> PolycubeSystem::parseRules(std::string ruleStr) {
             int color = ((bitset & colorMask) >> 2).to_ulong();
             if(bitset[7]) color *= -1; // Why is there no .to_long()?
             int orientation = (bitset & orientationMask).to_ulong();
-            std::cout<<"Colour: "<<color<<"\t Orientation: "<<orientation<<std::endl;
+            //std::cout<<"Colour: "<<color<<"\t Orientation: "<<orientation<<std::endl;
             rule[j] = new Face(color, getOrientation(j, orientation));
         }
         rules.push_back(rule);
-        std::cout<<std::endl;
+        //std::cout<<std::endl;
     }
     return rules;
 }
