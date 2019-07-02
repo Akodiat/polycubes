@@ -13,7 +13,7 @@ else
 fi
 
 for i in $(seq $N_TIMES); do
-    RULE=$(../bin/randRule $MAX_N_COLORS $MAX_N_RULES)
+    RULE=$(../bin/randRule 1 $MAX_N_COLORS $MAX_N_RULES)
     ../bin/polycubes $RULE &> /dev/null &
 done
 

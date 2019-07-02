@@ -9,7 +9,7 @@ cpp/.vscode/*
 
 # Ignore bin and out directories
 cpp/bin
-cpp/out
+cpp/out*
 
 ## C++ files
 
