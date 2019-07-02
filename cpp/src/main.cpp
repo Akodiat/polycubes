@@ -20,7 +20,7 @@
 
 
 int main(int argc, char** argv) {
-    std::cout<<"Welcome to polycubes!"<<std::endl;
+    //std::cout<<"Welcome to polycubes!"<<std::endl;
 
     static int nTries = 5;
     if (argc > 1) {

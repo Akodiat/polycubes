@@ -70,7 +70,7 @@ int PolycubeSystem::processMoves() {
             if(fittedRule != nullptr) {
                 this->addCube(move.getMovePos(), *fittedRule, ruleIdxs[r]);
                 if (this->cubeMap.size() >= this->nMaxCubes) {
-                    std::cerr<<"Polycube is larger than a "<<this->nMaxCubes<<"-mer, aborting"<<std::endl;
+                    //std::cerr<<"Polycube is larger than a "<<this->nMaxCubes<<"-mer, aborting"<<std::endl;
                     return -1;
                 }
                 break;
