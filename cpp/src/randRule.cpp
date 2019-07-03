@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
         nRules = (int) std::stod(argv[1]);
     }
     if (argc > 2) {
-        maxColor = std::stoi(argv[1]);
+        maxColor = std::stoi(argv[2]);
     }
     if (argc > 3) {
         maxCubes = std::stoi(argv[3]);
