@@ -12,7 +12,7 @@ class PolycubeSystem {
         this.ruleOrder = ruleOrder;
         this.rules = rules;
         var nColors = Math.max.apply(Math, rules.map(x => Math.max.apply(
-            Math, x.map(r => r.c)))
+            Math, x.map(r => Math.abs(r.c))))
         );
         var colors = randomColor({
             luminosity: 'light',
