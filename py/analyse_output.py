@@ -17,14 +17,6 @@ def coordsFromFile(filename):
     with open(outDir+'/'+nMer+'/'+filename) as f:
         return [[int(c) for c in line.strip('()\n').split(',')] for line in f]
 
-#nmers = [f for f in os.scandir(outDir) if f.is_dir()]
-"""
-with os.scandir(outDir) as it:
-    for f in it:
-        if(f.is_dir()):
-            print(f.name)
-"""
-
 def readNMers(outDir):
     nMers = {}
     maxN = 100
@@ -73,20 +65,42 @@ def normCoords(coords):
 
     return a, b, c
 
+def calcPoints(nMers):
+    points = []
+    for key in nMers:
+        nMer = nMers[key]
+        for f in nMer:
+            if f is not None:
+                points.append([pSizeFromFile(f), rSizeFromFile(f)])
+    with open(outDir+'/1-mer') as f:
+        for line in f:
+            points.append([1, rSizeFromFile(line)])
+    return points
+
+def toUrl(filename):
+    rule = filename.split('.')[0]
+    url = 'https://akodiat.github.io/polycubes/index.html?hexRule='
+    return url+rule
+
 nMers = readNMers(outDir)
-
-points = []
-for key in nMers:
-    nMer = nMers[key]
-    for f in nMer:
-        if f is not None:
-            points.append([pSizeFromFile(f), rSizeFromFile(f)])
-
+points = calcPoints(nMers)
 x, y = np.transpose(points)
-sns.jointplot(x,y, kind='kde').set_axis_labels('Polycube size', 'Rule size')
 
-plt.figure()
+#sns.jointplot(x,y, kind='kde').set_axis_labels('Polycube size', 'Rule size')
 
-plt.hist2d(x, y, norm=mpl.colors.LogNorm(), bins=(30, 4), cmap='Blues')
+xMax, yMax = max(x), max(y)
+plt.figure(figsize=mpl.figure.figaspect(yMax/xMax))
+
+plt.hist2d(x, y,
+    norm=mpl.colors.LogNorm(),
+    bins=(np.arange(1,xMax+2) - 0.5, np.arange(1,yMax+2) - 0.5),
+    cmap='Blues'
+)
+plt.grid(b=None)
+plt.xticks(range(1,xMax+1))
+plt.yticks(range(1,yMax+1))
 plt.colorbar(label='frequency')
+plt.xlabel('Polycube size')
+plt.ylabel('Rule size')
 plt.show()
+
