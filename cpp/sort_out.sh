@@ -1,22 +1,44 @@
 set -e
 
-cd out
-# Move all unbounded, nondeterministic and monomer
-# rules to a single file. We don't need to save
-# coordinates for them
-find *.oub* -delete -print >> oub 2>/dev/null | true 
-find *.nondet -delete -print >> nondet 2>/dev/null | true
-find *.1-mer -delete -print >> 1-mer 2>/dev/null | true
+polymer="[0-f]+\.([0-9]+-mer)"
+oub="[0-f]+\.(oub[0-9]+)"
+nondet="[0-f]+\.(nondet)"
+monomer="[0-f]+\.(1-mer)"
 
-# Move all polymers to their own directories
-regex="[0-f]+\.([0-9]+-mer)"
-for f in *.*-mer; do
-  if [[ $f =~ $regex ]]; then
-    nmer="${BASH_REMATCH[1]}"
-    mkdir -p $nmer
-    mv $f $nmer
-  fi
-done 
+# Move all unbounded, nondeterministic and monomer
+# rules to a single files. We don't need to save
+# coordinates for them.
+sortToFile () {
+  for f in *; do
+    if [[ $f =~ $1 ]]; then
+      match="${BASH_REMATCH[1]}"
+      echo $f >> $match
+      #echo "Writing $f to $match"
+      rm $f
+    fi
+  done
+  echo "Filesort $1 done"
+}
+
+sortToDir () {
+  for f in *; do
+    # Move all polymers to their own directories.
+    if [[ $f =~ $polymer ]]; then
+      match="${BASH_REMATCH[1]}"
+      mkdir -p $match
+      mv $f $match
+      #echo "Moving $f to $match"
+    fi
+  done
+  echo "Dirsort $1 done"
+}
+
+cd out
+
+sortToFile $monomer # Sort first
+sortToFile $oub &
+sortToFile $nondet &
+sortToDir $polymer &
+
 cd ..
 
-echo "Done"
