@@ -1,3 +1,49 @@
+var ruleOrder = [
+    new THREE.Vector3(-1, 0, 0),
+    new THREE.Vector3( 1, 0, 0),
+    new THREE.Vector3( 0,-1, 0),
+    new THREE.Vector3( 0, 1, 0),
+    new THREE.Vector3( 0, 0,-1),
+    new THREE.Vector3( 0, 0, 1),
+]
+
+var faceRotations = [
+    new THREE.Vector3( 0,-1, 0),
+    new THREE.Vector3( 0, 1, 0),
+    new THREE.Vector3( 0, 0,-1),
+    new THREE.Vector3( 0, 0, 1),
+    new THREE.Vector3(-1, 0, 0),
+    new THREE.Vector3( 1, 0, 0),
+];
+
+function vecToStr(v) {
+    return `(${v.x},${v.y},${v.z})`;
+}
+
+// https://stackoverflow.com/a/45054052
+function parseHexRule(ruleStr) {
+    var ruleSize = 6;
+    var rules = [];
+    for (var i=0; i<ruleStr.length; i+=2*ruleSize) {
+        var rule = [];
+        console.log("Rule ",(i/(2*ruleSize))+1);
+        for (var j = 0; j<ruleSize; j++) {
+            var face = ruleStr.substring(i+(2*j), i+(2*j) + 2);
+            var binStr = (parseInt(face, 16).toString(2)).padStart(8, '0');
+            var sign = parseInt(binStr[0], 2);
+            var color = parseInt(binStr.substring(1,6),2);
+            var orientation = parseInt(binStr.substring(6,8),2);
+
+            var r = faceRotations[j].clone();
+            r.applyAxisAngle(ruleOrder[j], orientation*Math.PI/2);
+            r.round();
+            rule.push( {'c': color * (sign ? -1:1), 'd': r} );
+        }
+        rules.push(rule);
+    }
+    return rules;
+}
+
 class PolycubeSystem {
 
     constructor(rules, ruleOrder, nMaxCubes=100, maxCoord=50) {

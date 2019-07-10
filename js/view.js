@@ -23,43 +23,6 @@ function onWindowResize() {
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
-function onDocumentMouseMove(event) {
-    event.preventDefault();
-    mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY /
-        window.innerHeight) * 2 + 1);
-    raycaster.setFromCamera(mouse, camera);
-
-    var intersects = raycaster.intersectObjects(objects);
-    if (intersects.length > 0) {
-        var i = intersects[0];
-        rollOverMesh.position.copy(i.point).add(i.face.normal).floor();
-    }
-    render();
-}
-
-function onDocumentMouseDown(event) {
-    event.preventDefault();
-
-    if(event.button == THREE.MOUSE.LEFT) {
-        mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY /
-            window.innerHeight) * 2 + 1);
-
-        raycaster.setFromCamera(mouse, camera);
-
-        var intersects = raycaster.intersectObjects(objects);
-
-        if (intersects.length > 0) {
-            var intersect = intersects[0];
-            pos = intersect.point.clone().add(intersect.face.normal).floor();
-
-            polycubeSystem.addCube(pos, rules[activeRuleIdx], activeRuleIdx);
-            polycubeSystem.processMoves();
-
-            render();
-        }
-    }
-}
-
 function render() {
     renderer.render(scene, camera);
 }
@@ -81,7 +44,7 @@ function init() {
     } else {
         defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
         rules = JSON.parse(getUrlParam("rules",defaultRule));
-
+        
         // Replace rotation number with vector
         rules = rules.map(function(rule) {return rule.map(function(face, i) {
             var r = faceRotations[i].clone();
@@ -104,37 +67,6 @@ function init() {
     orbit.damping = 0.2;
     orbit.addEventListener('change', render);
 
-    // roll-over helpers
-
-    var rollOverGeo = new THREE.BoxBufferGeometry(1, 1, 1);
-    rollOverMaterial = new THREE.MeshBasicMaterial({
-        color: 0xff0000,
-        opacity: 0.5,
-        transparent: true
-    });
-    rollOverMesh = new THREE.Mesh(rollOverGeo, rollOverMaterial);
-    scene.add(rollOverMesh);
-
-    // grid
-
-    var gridHelper = new THREE.GridHelper(100, 100);
-    gridHelper.position.set(-0.5, -0.5, 0.5);
-    scene.add(gridHelper);
-
-    raycaster = new THREE.Raycaster();
-    mouse = new THREE.Vector2();
-
-    var geometry = new THREE.PlaneBufferGeometry(100, 100);
-    geometry.rotateX(-Math.PI / 2);
-
-    plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
-        visible: false
-    }));
-    plane.position.set(-0.5, -0.5, 0.5);
-    scene.add(plane);
-
-    objects.push(plane);
-
     // lights
 
     var ambientLight = new THREE.AmbientLight(0x606060);
@@ -151,8 +83,6 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    document.addEventListener('mousemove', onDocumentMouseMove, false);
-    document.addEventListener('mousedown', onDocumentMouseDown, false);
     window.addEventListener('resize', onWindowResize, false);
 }
 
@@ -161,9 +91,11 @@ var plane;
 var mouse, raycaster;
 var rollOverMesh, rollOverMaterial;
 var polycubeSystem;
-var activeRuleIdx = 0;
+
 var objects = [];
 
 init();
+polycubeSystem.addCube(new THREE.Vector3(), rules[0], 0);
+polycubeSystem.processMoves();
 render();
 
