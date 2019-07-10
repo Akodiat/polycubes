@@ -25,9 +25,11 @@ sortToDir () {
     # Move all polymers to their own directories.
     if [[ $f =~ $polymer ]]; then
       match="${BASH_REMATCH[1]}"
-      mkdir -p $match
-      mv $f $match
-      #echo "Moving $f to $match"
+      if [ "$match" != "1-mer" ]; then
+        mkdir -p $match
+        mv $f $match
+        #echo "Moving $f to $match"
+      fi
     fi
   done
   echo "Dirsort $1 done"
@@ -35,7 +37,7 @@ sortToDir () {
 
 cd out
 
-sortToFile $monomer # Sort first
+sortToFile $monomer &
 sortToFile $oub &
 sortToFile $nondet &
 sortToDir $polymer &
