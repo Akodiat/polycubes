@@ -108,7 +108,7 @@ function init() {
 
     var rollOverGeo = new THREE.BoxBufferGeometry(1, 1, 1);
     rollOverMaterial = new THREE.MeshBasicMaterial({
-        color: 0xff0000,
+        color: 0xff2222,
         opacity: 0.5,
         transparent: true
     });
