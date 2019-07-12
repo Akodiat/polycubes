@@ -60,21 +60,17 @@ class PolycubeSystem {
         var nColors = Math.max.apply(Math, rules.map(x => Math.max.apply(
             Math, x.map(r => Math.abs(r.c))))
         );
-        var colors = randomColor({
-            luminosity: 'light',
-            count: nColors
-        });
-        for (var i=0; i<colors.length; i++) {
+        nColors = Math.max(nColors, 2) //Avoid getting only red colors
+
+        for (var i=0; i<nColors; i++) {
             var colorMaterial = new THREE.MeshLambertMaterial({
-                color: colors[i]
+                color: randomColor({luminosity: 'light'})
             });
             this.colorMaterials.push(colorMaterial);
         }
         this.cubeMaterial = new THREE.MeshLambertMaterial({
                 color: 0xfefeff
         });
-
-        this.ruleCubes = [];
 
         var centerCubeSize = 0.7;
         var connectorCubeSize = (1-centerCubeSize);
@@ -87,6 +83,15 @@ class PolycubeSystem {
         this.centerCubeGeo = new THREE.BoxBufferGeometry(
             centerCubeSize, centerCubeSize, centerCubeSize
         );
+    }
+
+    reset() {
+        objects = objects.filter(function(e) { return e.name !== "Cube" })
+        scene.children = scene.children.filter(function(e) { return e.name !== "Cube" })
+        this.moves = {};
+        this.moveKeys = [];
+        this.cubeMap = new Map();
+        render();
     }
 
     ruleFits(a,b) {
@@ -268,13 +273,10 @@ class PolycubeSystem {
         cube.add(centerCube);
         for (var j=0; j<rule.length; j++) {
             if (rule[j].c != 0) {
-                console.log(Math.abs(rule[j].c));
                 var material = this.colorMaterials[Math.abs(rule[j].c) - 1].clone();
-                console.log(material.color);
                 if (rule[j].c < 0) {
                     material.color.addScalar(-0.2);
                 }
-                console.log(material.color);
                 var connectorCube = new THREE.Mesh(
                     this.connectorCubeGeo, material
                 );
@@ -291,6 +293,7 @@ class PolycubeSystem {
             }
         }
         cube.position.copy(position);
+        cube.name = "Cube";
         scene.add(cube);
         objects.push(cube);
     }

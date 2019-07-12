@@ -61,12 +61,6 @@ function init() {
 
     polycubeSystem = new PolycubeSystem(rules, ruleOrder, nMaxCubes);
 
-    // orbit controls
-
-    var orbit = new THREE.OrbitControls(camera);
-    orbit.damping = 0.2;
-    orbit.addEventListener('change', render);
-
     // lights
 
     var ambientLight = new THREE.AmbientLight(0x707070);
@@ -76,17 +70,25 @@ function init() {
     directionalLight.position.set(1, 0.75, 0.5).normalize();
     scene.add(directionalLight);
 
+    canvas = document.getElementById("threeCanvas");
     renderer = new THREE.WebGLRenderer({
-        antialias: true
+        antialias: true,
+        canvas: canvas
     });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
     window.addEventListener('resize', onWindowResize, false);
+
+    // orbit controls
+
+    var orbit = new THREE.OrbitControls(camera, canvas);
+    orbit.damping = 0.2;
+    orbit.addEventListener('change', render);
 }
 
-var camera, scene, renderer;
+var camera, scene, renderer, canvas;
 var plane;
 var mouse, raycaster;
 var rollOverMesh, rollOverMaterial;
