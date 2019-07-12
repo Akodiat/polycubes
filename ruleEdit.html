@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Polycubes</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            height: 100%;
+        }
+
+        #info {
+            position: fixed;
+            z-index: 1;
+            margin: auto;
+            top: 0px;
+            background-color: white;
+            overflow-y: scroll;
+            opacity: 0.8;
+            width: 260px;
+            max-height: 100%;
+            padding: 3px;
+            font-family: Monospace;
+            font-size: 13px;
+            text-align: right;
+        }
+
+        a {
+            color: #20ccf0;
+        }
+
+        input[type=number] {
+            width: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="info">
+        Polycubes, by Joakim Bohlin. A 3D version of <a href="http://chaoticsymmetry.co.uk/polyominoes/index-old.php">Polyominoes</a><br>
+        <fieldset>
+        <legend>Rule set:</legend>
+        <div id="ruleset"></div>
+        <button onclick="addRule()">Add rule</button>
+        <!--https://stackoverflow.com/a/19965480 location.search-->
+        </fieldset>
+    </div>
+    <canvas id="threeCanvas"></canvas>
+
+    <script src="js/libs/three.min.js"></script>
+    <script src="js/libs/randomColor.min.js"></script> <!--from: https://github.com/davidmerfield/randomColor-->
+    <script src="js/libs/WebGL.js"></script>
+    <script src="js/controls/OrbitControls.js"></script>
+    <script src="js/polycubeSystem.js"></script>
+    <script src="js/view.js"></script>
+    <script src="js/ruleEdit.js"></script>
+
+</body>
+
+</html>
