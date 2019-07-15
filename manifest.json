@@ -1,0 +1,21 @@
+{
+  "short_name": "Polycubes",
+  "name": "Polycubes",
+  "icons": [
+    {
+      "src": "/doc/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/image/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/ruleEdit",
+  "background_color": "#3367D6",
+  "display": "standalone",
+  "theme_color": "#3367D6"
+}
+
