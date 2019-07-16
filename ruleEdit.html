@@ -62,8 +62,9 @@
         <fieldset>
         <legend>Rule set:</legend>
         <div id="ruleset" style="overflow: hidden"></div>
-        <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>
+        <input type="checkbox" id="autoUpdate" checked="True", onchange="regenerate()">Auto update
         <button onclick="addRule()">Add rule</button>
+        <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>
         <!--https://stackoverflow.com/a/19965480 location.search-->
         </fieldset>
     </div>

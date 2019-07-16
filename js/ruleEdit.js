@@ -66,7 +66,9 @@ function updateRuleColor(e, rule, faceIdx) {
     }
     e.style.backgroundColor = c;
     rules[ruleIdx][faceIdx].c = e.value;
-    regenerate();
+    if(document.getElementById("autoUpdate").checked) {
+        regenerate();
+    }
 }
 
 function updateRuleRot(e, rule, faceIdx) {
@@ -76,17 +78,22 @@ function updateRuleRot(e, rule, faceIdx) {
     var r = faceRotations[faceIdx].clone();
     r.applyAxisAngle(ruleOrder[faceIdx], e.value*Math.PI/2);
     rules[ruleIdx][faceIdx].d = r.round();
-    regenerate();
+    if(document.getElementById("autoUpdate").checked) {
+        regenerate();
+    };
 }
 
 function removeRule(rule, ruleField) {
     var ruleIdx = rules.indexOf(rule);
     ruleField.parentNode.removeChild(ruleField);
     rules.splice(ruleIdx, 1);
-    regenerate();
+    if(document.getElementById("autoUpdate").checked) {
+        regenerate();
+    }
 }
 
 function regenerate() {
+    scene.background = bgColor;
     polycubeSystem.reset();
     polycubeSystem.addCube(new THREE.Vector3(), rules[0], 0);
     polycubeSystem.processMoves();
@@ -109,6 +116,14 @@ function toggleRuleSet() {
     }
 }
 
+function alert(msg) {
+    scene.background = new THREE.Color(0xeecccc);
+    render();
+}
+
+var bgColor = scene.background;
+
+polycubeSystem.nMaxCubes = 500;
 rules.forEach(addRule);
 
 
