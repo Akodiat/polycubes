@@ -90,7 +90,19 @@ function regenerate() {
 }
 
 function rgbToHex(rgb) {
-  return "#" + ((1 << 24) + (rgb.r*255 << 16) + (rgb.g*255 << 8) + rgb.b*255).toString(16).slice(1);
+    return "#" + ((1 << 24) + (rgb.r*255 << 16) + (rgb.g*255 << 8) + rgb.b*255).toString(16).slice(1);
+}
+
+function toggleRuleSet() {
+    var ruleDiv = document.getElementById("ruleset");
+    var hideToggle = document.getElementById("hideToggle");
+    if (ruleDiv.style.height == "0px") {
+        ruleDiv.style.height = "100%"
+        hideToggle.innerHTML = "Hide";
+    } else {
+        ruleDiv.style.height = "0px"
+        hideToggle.innerHTML = "Show";
+    }
 }
 
 rules.forEach(addRule);

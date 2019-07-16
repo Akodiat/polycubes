@@ -23,17 +23,22 @@
         #info {
             position: fixed;
             z-index: 1;
-            margin: auto;
+            margin: 0px;
             top: 0px;
             background-color: white;
             overflow-y: scroll;
-            opacity: 0.8;
-            width: 260px;
+            opacity: 0.6;
             max-height: 100%;
-            padding: 3px;
+            width: 220px;
+            padding: 2px;
             font-family: Monospace;
-            font-size: 13px;
+            font-size: 12px;
             text-align: right;
+        }
+
+        fieldset {
+            padding: 3px;
+            margin: 2px;
         }
 
         a {
@@ -52,7 +57,8 @@
         Polycubes, by Joakim Bohlin. A 3D version of <a href="http://chaoticsymmetry.co.uk/polyominoes/index-old.php">Polyominoes</a><br>
         <fieldset>
         <legend>Rule set:</legend>
-        <div id="ruleset"></div>
+        <div id="ruleset" style="overflow: hidden"></div>
+        <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>
         <button onclick="addRule()">Add rule</button>
         <!--https://stackoverflow.com/a/19965480 location.search-->
         </fieldset>
