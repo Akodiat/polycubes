@@ -24,11 +24,13 @@ function addRule(rule) {
         color.addEventListener("change", updateRuleColor.bind(
             event, color, rule, i)
         );
-        var rotation = document.createElement("input");
-        rotation.type = "number";
-        rotation.value = faceRotations[i].angleTo(rule[i].d)*(180/Math.PI);
-        rotation.step = 90;
-        rotation.addEventListener("change", updateRuleRot.bind(
+        var rotation = document.createElement("img");
+        rotation.value = faceRotations[i].angleTo(rule[i].d)*(2/Math.PI);
+        rotation.src = "doc/face.svg"
+        rotation.height = "35";
+        rotation.style="vertical-align:middle";
+        rotation.className = "rot" + rotation.value;
+        rotation.addEventListener("click", updateRuleRot.bind(
             event, rotation, rule, i)
         );
         face.appendChild(color);
@@ -46,6 +48,7 @@ function addRule(rule) {
 
 function updateRuleColor(e, rule, faceIdx) {
     var ruleIdx = rules.indexOf(rule);
+    var c;
     if(e.value != 0) {
         while (Math.abs(e.value) > polycubeSystem.colorMaterials.length) {
             var color = randomColor({
@@ -56,21 +59,22 @@ function updateRuleColor(e, rule, faceIdx) {
             });
             polycubeSystem.colorMaterials.push(colorMaterial);
         }
-        e.style.backgroundColor = rgbToHex(polycubeSystem.colorMaterials[Math.abs(e.value)-1].color)
+        c = rgbToHex(polycubeSystem.colorMaterials[Math.abs(e.value)-1].color)
     }
     else {
-        e.style.backgroundColor = "White";
+        c = "White";
     }
+    e.style.backgroundColor = c;
     rules[ruleIdx][faceIdx].c = e.value;
     regenerate();
 }
 
 function updateRuleRot(e, rule, faceIdx) {
     var ruleIdx = rules.indexOf(rule);
-    var rot = (parseInt(e.value) + 360) % 360;
-    e.value = rot;
+    e.value = (parseInt(e.value) + 1) % 4;
+    e.className = "rot" + e.value;
     var r = faceRotations[faceIdx].clone();
-    r.applyAxisAngle(ruleOrder[faceIdx], rot*Math.PI/180);
+    r.applyAxisAngle(ruleOrder[faceIdx], e.value*Math.PI/2);
     rules[ruleIdx][faceIdx].d = r.round();
     regenerate();
 }
