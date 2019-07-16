@@ -104,6 +104,26 @@ class PolycubeSystem {
         render();
     }
 
+    getHexRule() {
+        var ruleSize = 6;
+        var ruleStr = "";
+        for (var i=0; i< this.rules.length; i++) {
+            for (var j = 0; j<ruleSize; j++) {
+                var face = this.rules[i][j];
+                var sign = face.c < 0 ? "1" : "0";
+                var color = Math.abs(face.c).toString(2).padStart(5,'0');
+                var orientation = (this.getSignedAngle(faceRotations[j], face.d, ruleOrder[j])*(2/Math.PI)+4)%4
+                //var orientation = face.d.angleTo(faceRotations[j])*(2/Math.PI);
+                orientation = orientation.toString(2).padStart(2,'0');
+                var binStr = sign + color + orientation;
+                var hexStr = parseInt(binStr,2).toString(16).padStart(2,'0');
+                ruleStr += hexStr;
+            }
+        }
+        return ruleStr;
+
+    }
+
     ruleFits(a,b) {
         var l = a.length;
         var ra = this.randOrdering(l);

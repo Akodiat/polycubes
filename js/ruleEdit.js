@@ -99,6 +99,8 @@ function regenerate() {
     polycubeSystem.addCube(new THREE.Vector3(), rules[0], 0);
     polycubeSystem.processMoves();
     render();
+    var argstr = rules.length > 0 ? "?hexRule="+polycubeSystem.getHexRule() : ""
+    window.history.replaceState(null, null, argstr);
 }
 
 function rgbToHex(rgb) {
