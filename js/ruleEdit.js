@@ -5,11 +5,15 @@ function addRule(rule) {
         for(var i=0; i<faces.length; i++) {
            rule.push({'c': 0, 'd': faceRotations[i]})
         }
-        ruleIdx = rules.length
         rules.push(rule);
+        var cubeMaterial = new THREE.MeshLambertMaterial({
+            color: randomColor({luminosity: 'light',  hue: 'monochrome'})
+        });
+        polycubeSystem.cubeMaterials.push(cubeMaterial);
     }
     var ruleset = document.getElementById("ruleset");
     var ruleField = document.createElement("fieldset");
+    ruleField.style.borderColor = rgbToHex(polycubeSystem.cubeMaterials[rules.indexOf(rule)].color)
     for(var i=0; i<faces.length; i++) {
         var face = document.createElement("div");
         //face.faceIdx = i;
@@ -51,11 +55,8 @@ function updateRuleColor(e, rule, faceIdx) {
     var c;
     if(e.value != 0) {
         while (Math.abs(e.value) > polycubeSystem.colorMaterials.length) {
-            var color = randomColor({
-                luminosity: 'light'
-            });
             var colorMaterial = new THREE.MeshLambertMaterial({
-                color: color
+                color: randomColor({luminosity: 'light'})
             });
             polycubeSystem.colorMaterials.push(colorMaterial);
         }

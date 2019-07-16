@@ -54,6 +54,7 @@ class PolycubeSystem {
         this.maxCoord = maxCoord;
 
         this.colorMaterials = [];
+        this.cubeMaterials = [];
 
         this.ruleOrder = ruleOrder;
         this.rules = rules;
@@ -68,10 +69,19 @@ class PolycubeSystem {
             });
             this.colorMaterials.push(colorMaterial);
         }
+
+        for (var i=0; i<rules.length; i++) {
+            var cubeMaterial = new THREE.MeshLambertMaterial({
+                color: randomColor({luminosity: 'light',  hue: 'monochrome'})
+            });
+            this.cubeMaterials.push(cubeMaterial);
+        }
+
+/*
         this.cubeMaterial = new THREE.MeshLambertMaterial({
                 color: 0xfefeff
         });
-
+*/
         var centerCubeSize = 0.7;
         var connectorCubeSize = (1-centerCubeSize);
         this.connectorCubeGeo = new THREE.BoxBufferGeometry(
@@ -262,14 +272,15 @@ class PolycubeSystem {
             this.moves[i.key].rule[i.dirIdx] = {'c': i.val, 'd': i.d};
         });
 
-        this.drawCube(position, rule);
+        this.drawCube(position, rule, ruleIdx);
         this.cubeMap.set(vecToStr(position), true);
         render();
     }
 
-    drawCube(position, rule) {
+    drawCube(position, rule, ruleIdx) {
         var cube = new THREE.Group();
-        var centerCube = new THREE.Mesh(this.centerCubeGeo, this.cubeMaterial);
+        var centerCube = new THREE.Mesh(
+            this.centerCubeGeo, this.cubeMaterials[ruleIdx]);
         cube.add(centerCube);
         for (var j=0; j<rule.length; j++) {
             if (rule[j].c != 0) {
