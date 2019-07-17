@@ -100,7 +100,7 @@ function regenerate() {
     polycubeSystem.processMoves();
     render();
     var argstr = rules.length > 0 ? "?hexRule="+polycubeSystem.getHexRule() : ""
-    window.history.replaceState(null, null, argstr);
+    window.history.pushState(null, null, argstr);
 }
 
 function rgbToHex(rgb) {
