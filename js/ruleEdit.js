@@ -124,6 +124,7 @@ function alert(msg) {
     render();
 }
 
+scene.background = new THREE.Color(0xf0f0f0);
 var bgColor = scene.background;
 
 polycubeSystem.nMaxCubes = 500;
