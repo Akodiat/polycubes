@@ -126,28 +126,38 @@ class PolycubeSystem {
 
     ruleFits(a,b) {
         var l = a.length;
+        // Traverse rule faces in random order
         var ra = this.randOrdering(l);
         var rb = this.randOrdering(l);
+        // For each face in rule a...
         for (var ria=0; ria<l; ria++) {
             var i = ra[ria];
+            // ...that is non-zero
             if (a[i] && a[i].c != 0) {
+                // Check each face in rule b
                 for (var rib=0; rib<l; rib++) {
                     var j = rb[rib];
+                    // If we find an equal color
                     if (a[i].c == b[j].c) {
+                        // Rotate rule b so that the matching face has
+                        // the same direction:
                         b = this.rotateRuleFromTo(b, 
                             this.ruleOrder[j],
                             this.ruleOrder[i]);
                         console.assert(a[i].c == b[i].c);
+                        // ...and the same rotation:
                         b = this.rotateRuleAroundAxis(b, 
                             this.ruleOrder[i],
                            -this.getSignedAngle(a[i].d, b[i].d,
                             this.ruleOrder[i]));
                         console.assert(a[i].c == b[i].c);
+                        // Return the rotated rule b
                         return b;
                     }
                 }
             }
         }
+        // Return false if we didn't find any matching faces
         return false;
     }
 
