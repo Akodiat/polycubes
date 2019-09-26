@@ -233,9 +233,6 @@ class PolycubeSystem {
                 rule = this.ruleFits(this.moves[key].rule, rule);
                 if(rule) {
                     this.addCube(this.moves[key].pos, rule, ruleIdxs[r]);
-                    // Remove processed move
-                    delete this.moves[key];
-                    this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
                     if (this.cubeMap.size >= this.nMaxCubes) {
                         alert("Polycube is larger than a "+this.nMaxCubes+"-mer, aborting");
                         return;
@@ -243,7 +240,12 @@ class PolycubeSystem {
                     break;
                 }
             }
+            // Remove processed move
+            delete this.moves[key];
+            this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
         } else {
+            window.dispatchEvent(new Event('movesProcessed'));
+            console.log("Moves processed")
             return;
         }
         render();
