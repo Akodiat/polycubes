@@ -119,17 +119,9 @@ function toggleRuleSet() {
     }
 }
 
-function alert(msg) {
-    scene.background = new THREE.Color(0xeecccc);
-    render();
-}
-
 scene.background = new THREE.Color(0xf0f0f0);
 var bgColor = scene.background;
 
 polycubeSystem.nMaxCubes = 500;
 rules.forEach(addRule);
-
-
-
 

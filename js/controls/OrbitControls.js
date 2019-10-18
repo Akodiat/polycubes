@@ -677,7 +677,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		switch ( event.button ) {
 
-			case scope.mouseButtons.MIDDLE:
+			case scope.mouseButtons.LEFT:
 
 				if ( scope.enableRotate === false ) return;
 

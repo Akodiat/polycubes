@@ -46,7 +46,7 @@ function parseHexRule(ruleStr) {
 
 class PolycubeSystem {
 
-    constructor(rules, ruleOrder, nMaxCubes=100, maxCoord=50) {
+    constructor(rules, ruleOrder, nMaxCubes=1000, maxCoord=50) {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
@@ -234,7 +234,8 @@ class PolycubeSystem {
                 if(rule) {
                     this.addCube(this.moves[key].pos, rule, ruleIdxs[r]);
                     if (this.cubeMap.size >= this.nMaxCubes) {
-                        alert("Polycube is larger than a "+this.nMaxCubes+"-mer, aborting");
+                        scene.background = new THREE.Color(0xeecccc);
+                        render();
                         return;
                     }
                     break;

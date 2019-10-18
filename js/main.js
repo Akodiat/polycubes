@@ -37,26 +37,24 @@ function onDocumentMouseMove(event) {
     render();
 }
 
-function onDocumentMouseDown(event) {
+function onDocumentMouseDblclick(event) {
     event.preventDefault();
 
-    if(event.button == THREE.MOUSE.LEFT) {
-        mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY /
-            window.innerHeight) * 2 + 1);
+    mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY /
+        window.innerHeight) * 2 + 1);
 
-        raycaster.setFromCamera(mouse, camera);
+    raycaster.setFromCamera(mouse, camera);
 
-        var intersects = raycaster.intersectObjects(objects);
+    var intersects = raycaster.intersectObjects(objects);
 
-        if (intersects.length > 0) {
-            var intersect = intersects[0];
-            pos = intersect.point.clone().add(intersect.face.normal).floor();
+    if (intersects.length > 0) {
+        var intersect = intersects[0];
+        pos = intersect.point.clone().add(intersect.face.normal).floor();
 
-            polycubeSystem.addCube(pos, rules[activeRuleIdx], activeRuleIdx);
-            polycubeSystem.processMoves();
+        polycubeSystem.addCube(pos, rules[activeRuleIdx], activeRuleIdx);
+        polycubeSystem.processMoves();
 
-            render();
-        }
+        render();
     }
 }
 
@@ -152,7 +150,7 @@ function init() {
     document.body.appendChild(renderer.domElement);
 
     document.addEventListener('mousemove', onDocumentMouseMove, false);
-    document.addEventListener('mousedown', onDocumentMouseDown, false);
+    document.addEventListener('dblclick', onDocumentMouseDblclick, false);
     window.addEventListener('resize', onWindowResize, false);
 }
 
