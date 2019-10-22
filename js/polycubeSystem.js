@@ -56,6 +56,8 @@ class PolycubeSystem {
         this.colorMaterials = [];
         this.cubeMaterials = [];
 
+        this.bgColor = scene.background;
+
         this.ruleOrder = ruleOrder;
         this.rules = rules;
         var nColors = Math.max.apply(Math, rules.map(x => Math.max.apply(
@@ -77,11 +79,6 @@ class PolycubeSystem {
             this.cubeMaterials.push(cubeMaterial);
         }
 
-/*
-        this.cubeMaterial = new THREE.MeshLambertMaterial({
-                color: 0xfefeff
-        });
-*/
         var centerCubeSize = 0.7;
         var connectorCubeSize = (1-centerCubeSize);
         this.connectorCubeGeo = new THREE.BoxBufferGeometry(
@@ -98,6 +95,7 @@ class PolycubeSystem {
     reset() {
         objects = objects.filter(function(e) { return e.name !== "Cube" })
         scene.children = scene.children.filter(function(e) { return e.name !== "Cube" })
+        scene.background = this.bgColor;
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
