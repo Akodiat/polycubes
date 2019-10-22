@@ -1,17 +1,19 @@
-function alert(msg) {
-    regenerate()
-}
-
 var rotation = 0;
 rotateCamera();
 
 scene.background = new THREE.Color(0xf0f0f0);
 var bgColor = scene.background;
 
-polycubeSystem.nMaxCubes = 200;
-
 regenerate()
 
+polycubeSystem.nMaxCubes = 200;
+
+// Regenerate when out of bounds (nMaxCubes reached)
+window.addEventListener('oub', function(e) {
+    regenerate();
+}, false);
+
+// Regenerate when there are no more cubes to add
 window.addEventListener('movesProcessed', async function(e) {
     await sleep(2000);
     regenerate();

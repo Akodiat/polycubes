@@ -265,6 +265,8 @@ class PolycubeSystem {
                     if (this.cubeMap.size >= this.nMaxCubes) {
                         scene.background = new THREE.Color(0xeecccc);
                         render();
+                        window.dispatchEvent(new Event('oub'));
+                        console.log("Unbounded");
                         return;
                     }
                     break;
@@ -275,7 +277,7 @@ class PolycubeSystem {
             this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
         } else {
             window.dispatchEvent(new Event('movesProcessed'));
-            console.log("Moves processed")
+            console.log("Moves processed");
             return;
         }
         render();
