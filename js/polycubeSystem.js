@@ -104,6 +104,35 @@ class PolycubeSystem {
         render();
     }
 
+    resetRule(rules) {
+        this.reset();
+        this.rules = rules;
+
+        var nColors = Math.max.apply(Math, rules.map(x => Math.max.apply(
+            Math, x.map(r => Math.abs(r.c))))
+        );
+        nColors = Math.max(nColors, 2) //Avoid getting only red colors
+
+        for (var i=0; i<nColors; i++) {
+            var colorMaterial = new THREE.MeshLambertMaterial({
+                color: randomColor({luminosity: 'light'})
+            });
+            this.colorMaterials.push(colorMaterial);
+        }
+
+        for (var i=0; i<rules.length; i++) {
+            var cubeMaterial = new THREE.MeshLambertMaterial({
+                color: randomColor({luminosity: 'light',  hue: 'monochrome'})
+            });
+            this.cubeMaterials.push(cubeMaterial);
+        }
+
+        this.addCube(new THREE.Vector3(), rules[0], 0);
+
+        this.processMoves();
+        render();
+    }
+
     getHexRule() {
         var ruleSize = 6;
         var ruleStr = "";

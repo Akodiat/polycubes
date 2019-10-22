@@ -41,30 +41,5 @@ function regenerate() {
     
     // Parse rule
     rules = parseHexRule(hexRule);
-    polycubeSystem.reset();
-    polycubeSystem.rules = rules;
-    
-    var nColors = Math.max.apply(Math, rules.map(x => Math.max.apply(
-        Math, x.map(r => Math.abs(r.c))))
-    );
-    nColors = Math.max(nColors, 2) //Avoid getting only red colors
-
-    for (var i=0; i<nColors; i++) {
-        var colorMaterial = new THREE.MeshLambertMaterial({
-            color: randomColor({luminosity: 'light'})
-        });
-        polycubeSystem.colorMaterials.push(colorMaterial);
-    }
-
-    for (var i=0; i<rules.length; i++) {
-        var cubeMaterial = new THREE.MeshLambertMaterial({
-            color: randomColor({luminosity: 'light',  hue: 'monochrome'})
-        });
-        polycubeSystem.cubeMaterials.push(cubeMaterial);
-    }
-    
-    polycubeSystem.addCube(new THREE.Vector3(), rules[0], 0);
-    
-    polycubeSystem.processMoves();
-    render();
+    polycubeSystem.resetRule(rules);
 }
