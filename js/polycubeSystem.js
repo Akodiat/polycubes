@@ -342,6 +342,8 @@ class PolycubeSystem {
         this.cubeMap.set(vecToStr(position), true);
         this.centerOfMass.divideScalar(this.cubeMap.size);
 
+        camera.lookAt(this.centerOfMass);
+
         render();
     }
 
