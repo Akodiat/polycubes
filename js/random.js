@@ -23,7 +23,7 @@ function rotateCamera() {
     rotation += 0.005;
     camera.position.y = Math.sin(rotation) * 20;
     camera.position.x = Math.cos(rotation) * 20;
-    camera.lookAt(new THREE.Vector3(0, 0, 0));
+    camera.lookAt(polycubeSystem.centerOfMass);
     requestAnimationFrame(rotateCamera.bind(this));
 }
 

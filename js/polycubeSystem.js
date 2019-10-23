@@ -50,6 +50,7 @@ class PolycubeSystem {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
+        this.centerOfMass = new THREE.Vector3();
         this.nMaxCubes = nMaxCubes;
         this.maxCoord = maxCoord;
 
@@ -335,7 +336,12 @@ class PolycubeSystem {
         });
 
         this.drawCube(position, rule, ruleIdx);
+
+        this.centerOfMass.multiplyScalar(this.cubeMap.size);
+        this.centerOfMass.add(position);
         this.cubeMap.set(vecToStr(position), true);
+        this.centerOfMass.divideScalar(this.cubeMap.size);
+
         render();
     }
 

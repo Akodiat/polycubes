@@ -86,6 +86,8 @@ function init() {
     var orbit = new THREE.OrbitControls(camera, canvas);
     orbit.damping = 0.2;
     orbit.addEventListener('change', render);
+
+    orbit.target = polycubeSystem.centerOfMass;
 }
 
 var camera, scene, renderer, canvas;
