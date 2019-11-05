@@ -93,6 +93,13 @@ class PolycubeSystem {
         this.centerCubeGeo = new THREE.BoxBufferGeometry(
             centerCubeSize, centerCubeSize, centerCubeSize
         );
+
+        document.addEventListener("keydown", event => {
+            if (event.key == 's' && event.ctrlKey) {
+                event.preventDefault();
+                this.getCoordinateFile();
+            }
+        });
     }
 
     reset() {
@@ -157,7 +164,19 @@ class PolycubeSystem {
             }
         }
         return ruleStr;
+    }
 
+    getCoordinateFile() {
+        let filename = `${this.getHexRule()}.${this.cubeMap.size}-mer`;
+        let text = ""
+        this.cubeMap.forEach(function(value, key){text += key + '\n'});
+        let element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+        element.setAttribute('download', filename);
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
     }
 
     ruleFits(a,b) {
