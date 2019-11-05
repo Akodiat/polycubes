@@ -56,6 +56,8 @@ class PolycubeSystem {
 
         this.colorMaterials = [];
         this.cubeMaterials = [];
+        this.matches = 0;
+        this.mismatches = 0;
 
         this.bgColor = scene.background;
 
@@ -100,6 +102,8 @@ class PolycubeSystem {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
+        this.matches = 0;
+        this.mismatches = 0;
         render();
     }
 
@@ -130,6 +134,10 @@ class PolycubeSystem {
 
         this.processMoves();
         render();
+    }
+
+    getMismatchRatio() {
+        return this.mismatches / (this.matches + this.mismatches)
     }
 
     getHexRule() {
@@ -260,6 +268,16 @@ class PolycubeSystem {
                 var rule = this.rules[ruleIdxs[r]];
                 rule = this.ruleFits(this.moves[key].rule, rule);
                 if(rule) {
+                    for (var i=0; i<rule.length; i++) {
+                        let neigb = this.moves[key].rule[i]
+                        if (neigb != null) {
+                            if (neigb.c == rule[i].c && neigb.d.equals(rule[i].d)) {
+                                this.matches++;
+                            } else {
+                                this.mismatches++;
+                            }
+                        }
+                    }
                     this.addCube(this.moves[key].pos, rule, ruleIdxs[r]);
                     if (this.cubeMap.size >= this.nMaxCubes) {
                         scene.background = new THREE.Color(0xeecccc);
