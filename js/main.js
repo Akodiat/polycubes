@@ -32,7 +32,8 @@ function onDocumentMouseMove(event) {
     var intersects = raycaster.intersectObjects(objects);
     if (intersects.length > 0) {
         var i = intersects[0];
-        rollOverMesh.position.copy(i.point).add(i.face.normal).floor();
+        console.log(intersects.length);
+        rollOverMesh.position.copy(i.point).add(i.face.normal).add(new THREE.Vector3(0.5,0,0.5)).floor();
     }
     render();
 }
@@ -49,7 +50,7 @@ function onDocumentMouseDblclick(event) {
 
     if (intersects.length > 0) {
         var intersect = intersects[0];
-        pos = intersect.point.clone().add(intersect.face.normal).floor();
+        pos = intersect.point.clone().add(intersect.face.normal).add(new THREE.Vector3(0.5,0,0.5)).floor();
 
         polycubeSystem.addCube(pos, rules[activeRuleIdx], activeRuleIdx);
         polycubeSystem.processMoves();
