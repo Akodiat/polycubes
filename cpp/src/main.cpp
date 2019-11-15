@@ -112,9 +112,11 @@ int main(int argc, char **argv) {
             InterestingPolycubeResult* interestingRes = 
                 dynamic_cast<InterestingPolycubeResult*>(result);
             std::cout << interestingRes->getCoords();
+            delete interestingRes;
         } else {
             std::cout << result->toString() << std::endl;
         }
+        delete result;
     } else {
         std::ofstream fs;
         int tmp = getpid(); char pid[100]; sprintf(pid, "%d", tmp);
@@ -123,6 +125,7 @@ int main(int argc, char **argv) {
             rule = randRule(maxColors, maxRulesize);
             PolycubeResult* result = runTries(rule, nTries);
             fs << (result->toString()) << std::endl;
+            delete result;
         }
         fs.close();
     }

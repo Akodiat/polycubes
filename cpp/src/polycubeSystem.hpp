@@ -64,6 +64,10 @@ public:
         this->color = nullptr;
         this->orientation = orientation;
     }
+    ~Face()
+    {
+        delete color;
+    }
     Eigen::Vector3f getOrientation()
     {
         return this->orientation;
@@ -111,7 +115,13 @@ public:
     }
     void setRuleAt(int i, Face *f)
     {
-        this->rule[i] = f;
+        delete rule[i];
+        rule[i] = f;
+    }
+    void deleteRules(){
+        for(int i=0; i<ruleSize; i++) {
+            delete rule[i];
+        }
     }
 };
 
@@ -121,6 +131,7 @@ public:
     PolycubeSystem(std::vector<Rule> rules);
     PolycubeSystem(std::string rules);
     PolycubeSystem(std::string rules, int nMaxCubes);
+    ~PolycubeSystem();
 
     int processMoves();
     void addCube(Eigen::Vector3f position, Rule rule, int ruleIdx);

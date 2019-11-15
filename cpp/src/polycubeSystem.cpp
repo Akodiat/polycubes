@@ -33,6 +33,14 @@ PolycubeSystem::PolycubeSystem(std::string rules, int nMaxCubes) {
     init(parseRules(rules), nMaxCubes);
 }
 
+PolycubeSystem::~PolycubeSystem() {
+    for(int i=0; i<rules.size(); i++) {
+        for(int j=0; j<ruleSize; j++) {
+            delete rules[i][j];
+        }
+    }
+}
+
 void PolycubeSystem::init(std::vector<Rule> rules, int nMaxCubes) {
     this->moves = std::unordered_map<std::string, Move>();
     this->moveKeys = std::vector<std::string>();
@@ -60,26 +68,33 @@ int PolycubeSystem::processMoves() {
         size_t keyIdx = key_distribution(this->randomNumGen);
         std::string key = this->moveKeys[keyIdx];
 
-        Move move = this->moves.at(key);
-
         // Pick a random rule order
         std::vector<unsigned short> ruleIdxs = this->randOrdering(this->rules.size());
         // Check if we have a rule that fits this move
         for (size_t r=0; r<this->rules.size(); r++) {
             Rule rule = this->rules[ruleIdxs[r]];
-            Rule* fittedRule = ruleFits(move.getRule(), rule);
+            Rule* fittedRule = ruleFits(moves.at(key).getRule(), rule);
             if(fittedRule != nullptr) {
-                this->addCube(move.getMovePos(), *fittedRule, ruleIdxs[r]);
+                this->addCube(moves.at(key).getMovePos(), *fittedRule, ruleIdxs[r]);
+                for(int i=0; i<ruleSize;i++){
+                    delete (*fittedRule)[i];
+                }
+                delete fittedRule;
                 if (this->cubeMap.size() >= this->nMaxCubes) {
-                    //std::cerr<<"Polycube is larger than a "<<this->nMaxCubes<<"-mer, aborting"<<std::endl;
+                    // Make sure to clean up rules from unprocessed moves
+                    for(auto move : moves) {
+                        move.second.deleteRules();
+                    }
                     return -1;
                 }
                 break;
             }
         }
         // Remove processed move
+        moves.at(key).deleteRules();
         this->moves.erase(key);
         this->moveKeys.erase(std::find(this->moveKeys.begin(), this->moveKeys.end(), key));
+        
         //std::cout<<"Moves to process: "<<this->moveKeys.size()<<std::endl<<std::endl;
     }
     return this->cubeMap.size();
@@ -224,18 +239,21 @@ Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
                 if (a[i]->getColor() == b[j]->getColor()) {
                     //TODO: is the original pointer updated?
                     // https://stackoverflow.com/a/766905
-                    b = this->rotateRuleFromTo(b, 
+                    Rule b_faced = this->rotateRuleFromTo(b, 
                         PolycubeSystem::getRuleOrder(j),
                         PolycubeSystem::getRuleOrder(i));
-                    b = this->rotateRuleAroundAxis(b, 
+                    Rule b_oriented = this->rotateRuleAroundAxis(b_faced, 
                         PolycubeSystem::getRuleOrder(i),
                         - this->getSignedAngle(
                             a[i]->getOrientation(),
-                            b[i]->getOrientation(),
+                            b_faced[i]->getOrientation(),
                             PolycubeSystem::getRuleOrder(i)
                         )
                     );
-                    return new Rule(b);
+                    for(int i=0; i<ruleSize; i++){
+                        delete b_faced[i];
+                    }
+                    return new Rule(b_oriented);
                 }
             }
         }
