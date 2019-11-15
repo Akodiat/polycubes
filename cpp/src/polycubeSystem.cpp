@@ -60,12 +60,13 @@ int PolycubeSystem::processMoves() {
         size_t keyIdx = key_distribution(this->randomNumGen);
         std::string key = this->moveKeys[keyIdx];
 
+        Move move = this->moves.at(key);
+
         // Pick a random rule order
         std::vector<unsigned short> ruleIdxs = this->randOrdering(this->rules.size());
         // Check if we have a rule that fits this move
         for (size_t r=0; r<this->rules.size(); r++) {
             Rule rule = this->rules[ruleIdxs[r]];
-            Move move = this->moves.at(key);
             Rule* fittedRule = ruleFits(move.getRule(), rule);
             if(fittedRule != nullptr) {
                 this->addCube(move.getMovePos(), *fittedRule, ruleIdxs[r]);
