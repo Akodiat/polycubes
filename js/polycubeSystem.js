@@ -20,6 +20,16 @@ function vecToStr(v) {
     return `(${v.x},${v.y},${v.z})`;
 }
 
+function saveString(text, filename) {
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+
 // https://stackoverflow.com/a/45054052
 function parseHexRule(ruleStr) {
     var ruleSize = 6;
@@ -170,13 +180,24 @@ class PolycubeSystem {
         let filename = `${this.getHexRule()}.${this.cubeMap.size}-mer`;
         let text = ""
         this.cubeMap.forEach(function(value, key){text += key + '\n'});
-        let element = document.createElement('a');
-        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-        element.setAttribute('download', filename);
-        element.style.display = 'none';
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
+        saveString(text, filename);
+    }
+
+    exportGLTF() {
+        // Instantiate an exporter
+        var exporter = new THREE.GLTFExporter();
+        var options = {'forceIndices': true};
+
+        // Parse the input and generate the glTF output
+        exporter.parse(objects, function (result) {
+            if (result instanceof ArrayBuffer) {
+                saveArrayBuffer(result, 'scene.glb');
+            } else {
+                var output = JSON.stringify(result, null, 2);
+                console.log(output);
+                saveString(output, 'scene.gltf');
+            }
+        }, options);
     }
 
     ruleFits(a,b) {
