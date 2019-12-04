@@ -14,11 +14,48 @@
             font-weight: bold;
             overflow: hidden;
         }
+        
+        #info {
+            position: absolute;
+            margin: auto;
+            top: 0px;
+            background-color: white;
+            opacity: 0.8;
+            width: 100%;
+            max-width: 200px;
+            padding: 5px;
+            font-family: Monospace;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        a {
+            color: #20ccf0;
+        }
     </style>
     <link rel="manifest" href="/manifest.json">
 </head>
 
 <body>
+
+<div id="info">
+        Polycubes in VR, by Joakim Bohlin
+        <p>Examples:
+            <a href="./vr.html?hexRule=00000006008b00008600000c000000008c00080c0c000000048600000000">Giraffe-duck</a>,
+            <a href="./vr.html?rules=[[0,0,0,1,0,2],[0,0,-1,0,-2,2]]">Uphill</a>,
+            <a href="./vr.html?rules=[[1,0,0,0,0,0],[0,0,0,-1,0,-1]]">Corner</a>,
+            <a href="./vr.html?rules=[[1,[1,2],0,-2,0,0],[-1,0,5,0,0,0],[-3,2,0,0,0,0],[-4,5,0,0,0,0],[-6,3,[5,3],[5,3],[4,0],[4,2]],[-7,[6,2],0,0,0,0],[-5,0,0,0,0,0],[[5,2],5,7,0,0,0]]">DNA-robot</a>,
+            <a href="./vr.html?hexRule=000000008685050005000500">Cube</a>,
+            <a href="./vr.html?hexRule=0085008500850b000500000900008a870000">3-Cube</a>,
+            <a href="./vr.html?hexRule=0d85001300000000000004000b8e88908400">96-mer</a>,
+            <a href="./vr.html?rules=[[1,1,1,1,1,1],[-1,0,0,0,0,0]]">Cross (default)</a>,
+            <a href="./vr.html?rules=[[1,1,1,1,1,1],[-1,2,0,0,0,0],[-2,0,3,3,3,3],[-3,0,0,0,0,0]]">Flower ball</a>,
+            <a href="./vr.html?rules=[[0,0,1,-1,0,0],[1,0,0,0,-1,0]]">Likely bound</a>,
+            <a href="./vr.html?rules=[[0,0,0,1,0,0],[0,0,-1,1,0,0],[2,2,-1,0,2,2],[-2,0,0,0,0,0]]">Flower</a>,
+            <a href="./vr.html?hexRule=070000008900080100008500">Helix</a>,
+            <a href="./vr.html?hexRule=8b0207000d00090084008e00">Random walk</a>
+    </div>
+    
     <canvas id="threeCanvas"></canvas>
     <script src="js/libs/three.min.js"></script>
     <script src="js/libs/randomColor.min.js"></script> <!--from: https://github.com/davidmerfield/randomColor-->
