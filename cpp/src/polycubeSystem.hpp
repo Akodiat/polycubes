@@ -23,6 +23,10 @@ public:
         return this->rule + '.' + this->suffix;
     };
 
+    std::string getSuffix() {
+        return this->suffix;
+    }
+
     virtual bool isInteresting() {
         return false;
     }
