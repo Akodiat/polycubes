@@ -2,6 +2,7 @@
 #include <fstream>
 #include <vector>
 #include "polycubeSystem.hpp"
+#include "utils.hpp"
 #include <bitset>
 #include <getopt.h>
 #include <random>
@@ -66,6 +67,7 @@ std::string randRule(int maxColor, int maxCubes, int dim) {
     }
     return std::string(ruleBuf);
 }
+
 PolycubeResult* runTries(std::string rule, int nTries)
 {
     int nCubes = 0;
@@ -93,6 +95,7 @@ PolycubeResult* runTries(std::string rule, int nTries)
 static struct option long_options[] = {
     {"help", optional_argument, NULL, 'h'},
     {"rule", optional_argument, NULL, 'r'},
+    {"isEqual", optional_argument, NULL, 'e'},
     {"maxColors", optional_argument, NULL, 'c'},
     {"maxRulesize", optional_argument, NULL, 's'},
     {"dimensions", optional_argument, NULL, 'd'},
@@ -104,6 +107,7 @@ static struct option long_options[] = {
 int main(int argc, char **argv) {
     // Set default argument values
     std::string rule = "";
+    std::vector<std::string> equalityCheck;
     int maxColors = 8;
     int maxRulesize = 8;
     int dimensions = 3;
@@ -111,21 +115,23 @@ int main(int argc, char **argv) {
     int nTries = 5;
     // Loop over all of the provided arguments
     int ch;
-    while ((ch = getopt_long(argc, argv, "h r:c:s:d:n:t:", long_options, NULL)) != -1) {
+    while ((ch = getopt_long(argc, argv, "h r:c:s:d:n:t:e:", long_options, NULL)) != -1) {
         switch (ch) {
         case 'h':
             std::cout <<
                 "Usage: "<<argv[0]<<" [OPTIONS]"<<std::endl<<
                 "Options:"<<std::endl<<
                 "\t-h, --help\t\t Print this help text and exit"<<std::endl<<
-                "\t-r, --rule\t\t Specify a specific rule (don't generate randomly)"<<std::endl<<
-                "\t-c, --maxColors\t\t Maximum number of colors to use in random rule (default "<<maxColors<<")"<<std::endl<<
-                "\t-s, --maxRulesize\t Maximum size of random rule (default "<<maxRulesize<<")"<<std::endl<<
-                "\t-d, --dimensions\t Number of dimensions [1,2,3] of random rule (default "<<dimensions<<")"<<std::endl<<
-                "\t-n, --nTimes\t\t Number of random rules to generate (default "<<nTimes<<")"<<std::endl<<
-                "\t-t, --nTries\t\t Number of tries to determine if a rule is deterministic (default "<<nTries<<")"<<std::endl;
+                "\t-r, --rule\t\t [rule] Specify a specific rule (don't generate randomly)"<<std::endl<<
+                "\t-e, --isEqual\t\t [rule1=rule2] Check if rules generate the same polycube."<<std::endl<<
+                "\t-c, --maxColors\t\t [number] Maximum number of colors to use in random rule (default "<<maxColors<<")"<<std::endl<<
+                "\t-s, --maxRulesize\t [number] Maximum size of random rule (default "<<maxRulesize<<")"<<std::endl<<
+                "\t-d, --dimensions\t [number] Number of dimensions [1,2,3] of random rule (default "<<dimensions<<")"<<std::endl<<
+                "\t-n, --nTimes\t\t [number] Number of random rules to generate (default "<<nTimes<<")"<<std::endl<<
+                "\t-t, --nTries\t\t [number] Number of tries to determine if a rule is deterministic (default "<<nTries<<")"<<std::endl;
             return 0;
         case 'r': rule = std::string(optarg); break;
+        case 'e': equalityCheck = splitString(optarg, '='); break;
         case 'c': maxColors = std::stoi(optarg); break;
         case 's': maxRulesize = std::stoi(optarg); break;
         case 'd': dimensions = std::stoi(optarg); break;
@@ -134,13 +140,31 @@ int main(int argc, char **argv) {
         }
     }
 
-    if (rule.length() > 0) {
-        // Run with the rule provided, ignoring other parameters
+    if (equalityCheck.size() > 0) {
+        // Compare if the two rules form the same polycube
+        PolycubeResult *r1, *r2;
+        r1 = runTries(equalityCheck[0], nTries);
+        r2 = runTries(equalityCheck[1], nTries);
+        if(r1->isInteresting() && r2->isInteresting()) {
+            InterestingPolycubeResult *ir1, *ir2;
+            ir1 = dynamic_cast<InterestingPolycubeResult*>(r1);
+            ir2 = dynamic_cast<InterestingPolycubeResult*>(r2);
+            std::cout<<(
+                ir1->equals(ir2)? "true" : "false"
+            )<<std::endl;
+            delete ir1, ir2;
+        } else {
+            std::cout<<"false"<<std::endl;
+            delete r1, r2;
+        }
+    } else if (rule.length() > 0) {
+        // Run with the rule provided
         PolycubeResult* result = runTries(rule, nTries);
         if(result->isInteresting()) {
-            InterestingPolycubeResult* interestingRes = 
+            InterestingPolycubeResult* interestingRes =
                 dynamic_cast<InterestingPolycubeResult*>(result);
             std::cout << interestingRes->getCoords();
+            interestingRes->getCoordMatrix();
             delete interestingRes;
         } else {
             std::cout << result->getSuffix() << std::endl;

@@ -9,6 +9,7 @@
 #include "../lib/Eigen/Dense"
 #include "../lib/Eigen/Geometry"
 
+
 class PolycubeResult
 {
 private:
@@ -44,9 +45,14 @@ public:
     std::string getCoords() {
         return this->coords;
     }
+
+    Eigen::Matrix3Xf getCoordMatrix();
+
     bool isInteresting() {
         return true;
     }
+
+    bool equals(PolycubeResult *other);
 };
 
 const size_t ruleSize = 6;

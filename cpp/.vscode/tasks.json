@@ -36,6 +36,7 @@
                 "-g",
                 "${workspaceFolder}/src/main.cpp",
                 "${workspaceFolder}/src/polycubeSystem.cpp",
+                "${workspaceFolder}/src/utils.cpp",
                 "-o",
                 "${workspaceFolder}/bin/polycubes",
             ],

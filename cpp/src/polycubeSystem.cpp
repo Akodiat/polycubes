@@ -1,17 +1,6 @@
 #include "polycubeSystem.hpp"
+#include "utils.hpp"
 #include <bitset>
-
-// Make any -0 into 0
-// Why does roundf even give us -0?
-float noNeg0(float f) {
-    return f==-0 ? 0 : f;
-}
-
-std::string vecToStr(Eigen::Vector3f v) {
-    std::ostringstream oss;
-    oss <<"("<<noNeg0(v.x())<<","<<noNeg0(v.y())<<","<<noNeg0(v.z())<<")";
-    return oss.str();
-}
 
 Move::Move(Eigen::Vector3f movePos) {
     this->movePos = movePos;
@@ -20,6 +9,64 @@ Move::Move(Eigen::Vector3f movePos) {
     for (int i=0; i<ruleSize; i++) {
         this->rule[i] = new Face(PolycubeSystem::getRuleOrder(i));
     }
+}
+
+Eigen::Matrix3Xf InterestingPolycubeResult::getCoordMatrix() {
+    std::vector<std::string> lines = splitString(coords, '\n');
+    Eigen::Matrix3Xf m(3, lines.size());
+    for (int i=0; i<lines.size(); i++) {
+        std::string line = lines[i];
+        size_t l, r;
+        l = line.find('(');
+        r = line.rfind(')');
+        line = line.substr(l+1, r-l-1);
+        std::vector<std::string> vals = splitString(line, ',');
+        for (int j=0; j<3; j++) {
+            m(j, i) = stoi(vals[j]);
+        }
+    }
+    return m;
+}
+
+bool InterestingPolycubeResult::equals(PolycubeResult* other) {
+    if(!other->isInteresting()){
+        return false;
+    }
+    InterestingPolycubeResult *intrOther; 
+    intrOther = dynamic_cast<InterestingPolycubeResult*>(other);
+
+    Eigen::Matrix3Xf m1, m2;
+    m1 = this->getCoordMatrix();
+    m2 = intrOther->getCoordMatrix();
+
+    if (m1.size() != m2.size()) {
+        return false;
+    }
+
+    // Find the centroids then shift to the origin
+    Eigen::Vector3f m1_ctr = Eigen::Vector3f::Zero();
+    Eigen::Vector3f m2_ctr = Eigen::Vector3f::Zero();
+    for (int col = 0; col < m1.cols(); col++) {
+        m1_ctr += m1.col(col);
+        m2_ctr += m2.col(col);
+    }
+    m1_ctr /= m1.cols();
+    m2_ctr /= m2.cols();
+    for (int col = 0; col < m1.cols(); col++) {
+        m1.col(col) -= m1_ctr;
+        m2.col(col) -= m2_ctr;
+    }
+
+    std::vector<Eigen::Matrix3f> rots = calcAllRotations();
+
+    int nrot = rots.size();
+    for(int i=0; i<nrot; i++) {
+        if (compCols(m1, rots[i]*m2)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 PolycubeSystem::PolycubeSystem(std::vector<Rule> rules) {
