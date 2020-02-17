@@ -6,6 +6,9 @@ import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 from collections import Counter
 import re
+import subprocess
+import multiprocessing
+import polycubes
 
 sns.set()
 
@@ -14,9 +17,8 @@ def rSizeFromRule(rule):
     return int(len(rule)/12)
 
 
-def coordsFromFile(filename):
-    nMer = filename.split('.')[-1]
-    with open(outDir+'/'+nMer+'/'+filename) as f:
+def coordsFromFile(path):
+    with open(path) as f:
         return [[int(c) for c in line.strip('()\n').split(',')] for line in f]
 
 
@@ -171,7 +173,7 @@ def calcPoints(nMers):
         nMer = nMers[key]
         for rule in nMer:
             if rule is not None:
-                points.append([key, rSizeFromRule(rule)])
+                points.append([key, calcComplexity(rule)])
     return points
 
 def calcNRulesTested_old(outdir):
@@ -254,19 +256,47 @@ def getNColors(ruleset):
 
 
 def getNColorsFromFilename(filename):
-    #return getNColors(parseHexRule(filename.split('.')[0]))
-    return getNColors(parseHexRule(simplifyHexRule(filename)))
+    return getNColors(simplifyRuleset(parseHexRule(filename)))
 
 
 def getMinimumColorsPerNMer():
     return [
     [
-            getNColorsFromFilename(f), simplifyHexRule(f), f.split('.')[-1]
-    ] for f in [
+            getNColorsFromFilename(f), simplifyHexRule(f), n
+    ] for f, n in [
             min(nMers[n],
                 key = lambda x: getNColorsFromFilename(x)
             ) for n in nMers if len(nMers[n]) > 0
     ]]
+
+def printMinimumColorsPerNMer():
+    for n in nMers:
+        if len(nMers[n]) > 0:
+            f = min(nMers[n], key = lambda x: getNColorsFromFilename(x))
+            print(getNColorsFromFilename(f), simplifyHexRule(f), n)
+
+
+def printMinimumComplPerNMer():
+    for n in nMers:
+        if len(nMers[n]) > 0:
+            f = min(nMers[n], key = lambda x: calcComplexity(x))
+            print(calcComplexity(f), simplifyHexRule(f), n)
+
+
+def getRulesInRuleset(hexRule):
+    n = 12
+    return set(hexRule[i:i+n] for i in range(0, len(hexRule), n))
+
+
+def calcRuleIntersection(hexRuleA, hexRuleB):
+    return len(getRulesInRuleset(hexRuleA) & getRulesInRuleset(hexRuleB))
+
+
+def findOverlappingRule(rule, nMer):
+    for other in nMers[nMer]:
+        other = simplifyHexRule(other)
+        if calcRuleIntersection(rule, other) == rSizeFromRule(rule):
+            print(other)
 
 
 def calculateSearchSpaceSize(
@@ -305,24 +335,45 @@ def simplifyRuleset(ruleset):
                 allZero = False
         if not allZero:
             newRuleset.append(rule)
-    ruleset[:] = newRuleset
     colorset = [x for x in {
-            abs(face['color']) for rule in ruleset for face in rule
+            abs(face['color']) for rule in newRuleset for face in rule
     }.difference({0})]
-    for rule in ruleset:
+    for rule in newRuleset:
         for face in rule:
             c = face['color']
             if c != 0:
                 face['color'] = colorset.index(abs(c)) + 1
                 if c < 0:
                     face['color'] *= -1
+    return newRuleset
+
+
+def calcComplexity(hexRule):
+    ruleset = parseHexRule(hexRule)
+    simplifyRuleset(ruleset)
+    nColors = max(face['color'] for rule in ruleset for face in rule)
+    nRules = len(ruleset)
+    return nColors*nRules
 
 
 def simplifyHexRule(hexRule):
-    hexRule = hexRule.split('.')[0] # Ignore any file endings
     ruleset = parseHexRule(hexRule)
     simplifyRuleset(ruleset)
     return ruleToHex(ruleset)
+
+
+def groupByPhenotype(rules):
+    groups = []
+    for rule in rules:
+        foundGroup = False
+        for group in groups:
+            if polycubes.checkEquality(rule, group[0]):
+                group.append(rule)
+                foundGroup = True
+                break
+        if not foundGroup:
+            groups.append([rule])
+    return groups
 
 
 def plotRuleSizeVsPolycubeSize(nMers):
@@ -341,7 +392,7 @@ def plotRuleSizeVsPolycubeSize(nMers):
     plt.yticks(range(1,yMax+1))
     plt.colorbar(label='Count')
     plt.xlabel('Polycube size')
-    plt.ylabel('Ruleset size')
+    plt.ylabel('Complexity (nColors+nRules)')
     plt.title(suffix.strip('_'))
     plt.draw()
     plt.savefig("../doc/rs_vs_ps"+suffix+".eps", bbox_inches='tight')
@@ -350,19 +401,72 @@ def plotRuleSizeVsPolycubeSize(nMers):
     plt.show()
 
 
+def getPhenosForNMer(n):
+    phenosn = []
+    if(n==2):
+        groups = [nMers[n]] # Only one phenotype possible
+    else:
+        groups = groupByPhenotype(nMers[n])
+    for group in groups:
+        compl = min(calcComplexity(rule) for rule in group)
+        count = len(group)
+        phenosn.append({
+            'count': count,
+            'compl': compl,
+            'rule': simplifyHexRule(group[0])
+        })
+    return (n, phenosn)
+
+
+phenos = {}
+def calcPhenos():
+    global phenos
+    phenos = {}
+    with multiprocessing.Pool(8) as p:
+        for n, phenosn in p.imap_unordered(
+                getPhenosForNMer,
+                reversed(sorted([k for k in nMers.keys() if k != 1]))):
+            print("{} phenotypes of {}-mers".format(len(phenosn), n))
+            phenos[n] = phenosn
+
+
+def plotProbVsPhenotypeCompl(nMers, nRules):
+    x = []
+    y = []
+    for n in phenos:
+        nphenos = phenos[n]
+        for pheno in nphenos:
+            x.append(pheno['compl'])
+            y.append(pheno['count']/nRules)
+
+    # Plot
+    plt.figure()
+    ax = plt.gca()
+    ax.scatter(x, y, alpha=0.2, edgecolors='none')
+    ax.set_yscale('log')
+    plt.ylabel('P(x)')
+    plt.xlabel('Min complexity (# of colors * rulesize)')
+    ax.set_ylim(1/(2*nRules), 1/10)
+    plt.draw()
+    plt.savefig("../doc/prob_vs_compl"+suffix+".eps", bbox_inches='tight')
+    plt.savefig("../doc/prob_vs_compl"+suffix+".svg", bbox_inches='tight')
+    plt.savefig("../doc/prob_vs_compl"+suffix+".png", dpi=600, bbox_inches='tight')
+    plt.show()
+
+
 def plotProbVsSize(nMers, nRules):
     #[[n, ft.reduce((lambda x, y: x + rSizeFromFile(y)/nRules), nMers[n], 0)] for n in nMers]
     points = {}
     plt.figure()
     for n in nMers:
-        if len(nMers[n]) > 0:
-            points[n] = [rSizeFromRule(rule) for rule in nMers[n]]
+        if len(nMers[n]) > 0 and n > 1:
+            points[n] = [calcComplexity(rule) for rule in nMers[n]]
             counts, bin_edges = np.histogram(points[n], 1000)
             bin_centres = (bin_edges[:-1] + bin_edges[1:])/2
             ps = [[bin_centres[i], count] for i, count in enumerate(counts) if count > 0]
             plt.semilogy([p[0] for p in ps], [p[1] for p in ps], 'o',
                          color=cm.summer(np.sqrt(n/64)))
-    plt.xlabel('Ruleset size (complexity)')
+    plt.xlabel('Complexity (nColors+nRules)')
     plt.ylabel('Count')
     plt.title(suffix.strip('_'))
     plt.legend(ncol=3, bbox_to_anchor=(1, 1))
@@ -371,6 +475,8 @@ def plotProbVsSize(nMers, nRules):
     plt.savefig("../doc/prob_vs_size"+suffix+".svg", bbox_inches='tight')
     plt.savefig("../doc/prob_vs_size"+suffix+".png", dpi=600, bbox_inches='tight')
     plt.show()
+
+
 
 def plotCategoryPie(categories):
     categories['others'] = 0
@@ -392,17 +498,27 @@ def plotCategoryPie(categories):
     plt.pie(vals, labels=keys, autopct='%1.1f%%')
     plt.axis('equal')
 
-result = readResult('../cpp/out/out')
+result = readResult('/local/home/johansson/poly_out/out_1e7')
 nMers = result['nMers']
+
 
 nRules, categories = calcNRulesTested(result)
 suffix = '{:.1E} rules'.format(nRules)
 
-plotRuleSizeVsPolycubeSize(nMers)
+calcPhenos()
+plotProbVsPhenotypeCompl(nMers, nRules)
 
-plotProbVsSize(nMers, nRules)
+# x, y, phenos = plotProbVsPhenotypeCompl(nMers, nRules)
 
-percentages = {key: 100*val/nRules for key, val in categories.items() if val > 0}
+# topcompl = max((max(phenos[i], key=lambda p: p['compl']) for i in phenos), key=lambda p: p['compl'])
+
+# middle = min((min(phenos[i], key=lambda p: abs(p['compl']-9)+abs(p['count']/nRules - pow(10,-5))) for i in phenos), key=lambda p: abs(p['compl']-9)+abs(p['count']/nRules - pow(10,-5)))
+
+#plotRuleSizeVsPolycubeSize(nMers)
+
+#plotProbVsSize(nMers, nRules)
+
+#percentages = {key: 100*val/nRules for key, val in categories.items() if val > 0}
 #plt.figure()
 #plt.bar(range(len(percentages)), list(percentages.values()), align='center')
 #plt.xticks(range(len(percentages)), list(percentages.keys()))
