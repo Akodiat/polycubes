@@ -1,1 +1,1 @@
-c++ -O3 -Wall -shared -std=c++11 -fPIC -I/home/johansson/miniconda3/envs/sp/include/python3.7m -I/home/johansson/miniconda3/envs/sp/include src/polycubeSystem.cpp src/utils.cpp src/pybind.cpp -o ../py/polycubes.cpython-37m-x86_64-linux-gnu.so
+c++ -O3 -Wall -shared -std=c++11 -fPIC `python3 -m pybind11 --includes` src/polycubeSystem.cpp src/utils.cpp src/pybind.cpp -o ../py/polycubes`python3-config --extension-suffix`
