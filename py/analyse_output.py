@@ -1,4 +1,5 @@
 import os
+import sys
 import numpy as np
 import seaborn as sns
 import matplotlib as mpl
@@ -6,7 +7,6 @@ import matplotlib.cm as cm
 import matplotlib.pyplot as plt
 from collections import Counter
 import re
-import subprocess
 import multiprocessing
 import polycubes
 
@@ -211,7 +211,7 @@ def calcNRulesTested(result):
     nRules = 0
     categories = {}
     for cat, val in result.items():
-        if cat is 'nMers':
+        if cat == 'nMers':
             for n, rules in val.items():
                 if n not in categories:
                     categories[n] = 0
@@ -408,13 +408,16 @@ def getPhenosForNMer(n):
     else:
         groups = groupByPhenotype(nMers[n])
     for group in groups:
-        compl = min(calcComplexity(rule) for rule in group)
+        rule = min(group, key=calcComplexity)
+        compl = calcComplexity(rule)
         count = len(group)
+        rule = simplifyHexRule(group[0])
         phenosn.append({
             'count': count,
             'compl': compl,
-            'rule': simplifyHexRule(group[0])
+            'rule': rule
         })
+        print("{}-mer has {} phenos like {} (compl {})".format(n, count, rule, compl))
     return (n, phenosn)
 
 
@@ -430,7 +433,7 @@ def calcPhenos():
             phenos[n] = phenosn
 
 
-def plotProbVsPhenotypeCompl(nMers, nRules):
+def plotProbVsPhenotypeCompl(nMers, nRules, savedir):
     x = []
     y = []
     for n in phenos:
@@ -448,9 +451,9 @@ def plotProbVsPhenotypeCompl(nMers, nRules):
     plt.xlabel('Min complexity (# of colors * rulesize)')
     ax.set_ylim(1/(2*nRules), 1/10)
     plt.draw()
-    plt.savefig("../doc/prob_vs_compl"+suffix+".eps", bbox_inches='tight')
-    plt.savefig("../doc/prob_vs_compl"+suffix+".svg", bbox_inches='tight')
-    plt.savefig("../doc/prob_vs_compl"+suffix+".png", dpi=600, bbox_inches='tight')
+    plt.savefig(savedir+"/prob_vs_compl"+suffix+".eps", bbox_inches='tight')
+    plt.savefig(savedir+"/prob_vs_compl"+suffix+".svg", bbox_inches='tight')
+    plt.savefig(savedir+"/prob_vs_compl"+suffix+".png", dpi=600, bbox_inches='tight')
     plt.show()
 
 
@@ -498,15 +501,23 @@ def plotCategoryPie(categories):
     plt.pie(vals, labels=keys, autopct='%1.1f%%')
     plt.axis('equal')
 
-result = readResult('/local/home/johansson/poly_out/out_1e7')
-nMers = result['nMers']
 
+if __name__ == "__main__":
+    datapath = sys.argv[1]
+    datadir, name = os.path.split(datapath)
+    result = readResult(datapath)
+    print("...Done reading data")
+    nMers = result['nMers']
 
-nRules, categories = calcNRulesTested(result)
-suffix = '{:.1E} rules'.format(nRules)
+    nRules, categories = calcNRulesTested(result)
+    suffix = '{:.1E}_rules_{}'.format(nRules, name)
 
-calcPhenos()
-plotProbVsPhenotypeCompl(nMers, nRules)
+    calcPhenos()
+    print("Calculated all phenos")
+    plotProbVsPhenotypeCompl(nMers, nRules, datadir)
+    print("Done!")
+    print("Evaluated {} rules in total".format(nRules))
+
 
 # x, y, phenos = plotProbVsPhenotypeCompl(nMers, nRules)
 
@@ -523,7 +534,7 @@ plotProbVsPhenotypeCompl(nMers, nRules)
 #plt.bar(range(len(percentages)), list(percentages.values()), align='center')
 #plt.xticks(range(len(percentages)), list(percentages.keys()))
 
-print("Evaluated {} rules in total".format(nRules))
+
 #plotCategoryPie(categories)
 
 
