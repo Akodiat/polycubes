@@ -412,12 +412,15 @@ def getPhenosForNMer(n):
         compl = calcComplexity(rule)
         count = len(group)
         rule = simplifyHexRule(group[0])
-        phenosn.append({
-            'count': count,
-            'compl': compl,
-            'rule': rule
-        })
-        print("{}-mer has {} phenos like {} (compl {})".format(n, count, rule, compl), flush=True)
+        if count >= 10:
+            phenosn.append({
+                'count': count,
+                'compl': compl,
+                'rule': rule
+            })
+            print("{}-mer has {} phenos like {} (compl {})".format(
+                n, count, rule, compl
+            ), flush=True)
     return (n, phenosn)
 
 
@@ -449,12 +452,13 @@ def plotProbVsPhenotypeCompl(nMers, nRules, savedir):
     ax.set_yscale('log')
     plt.ylabel('P(x)')
     plt.xlabel('Min complexity (# of colors * rulesize)')
+    plt.title(suffix.strip('_').replace('_',' '))
     ax.set_ylim(1/(2*nRules), 1/10)
     plt.draw()
-    plt.savefig(savedir+"/prob_vs_compl"+suffix+".eps", bbox_inches='tight')
-    plt.savefig(savedir+"/prob_vs_compl"+suffix+".svg", bbox_inches='tight')
-    plt.savefig(savedir+"/prob_vs_compl"+suffix+".png", dpi=600, bbox_inches='tight')
-    plt.show()
+    plt.savefig(os.path.join(savedir,"prob_vs_compl"+suffix+".eps"), bbox_inches='tight')
+    plt.savefig(os.path.join(savedir,"prob_vs_compl"+suffix+".svg"), bbox_inches='tight')
+    plt.savefig(os.path.join(savedir,"prob_vs_compl"+suffix+".png"), dpi=600, bbox_inches='tight')
+    #plt.show()
 
 
 def plotProbVsSize(nMers, nRules):
