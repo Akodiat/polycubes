@@ -49,7 +49,7 @@ def readResult(filename):
                 n = int(nMer.group(1))
                 if n not in nMers:
                     nMers[n] = []
-                    print(n, end=' ')
+                    print(n, end=' ', flush=True)
                 nMers[n].append(rule)
             else:
                 if suffix not in result:
@@ -417,7 +417,7 @@ def getPhenosForNMer(n):
             'compl': compl,
             'rule': rule
         })
-        print("{}-mer has {} phenos like {} (compl {})".format(n, count, rule, compl))
+        print("{}-mer has {} phenos like {} (compl {})".format(n, count, rule, compl), flush=True)
     return (n, phenosn)
 
 
@@ -429,7 +429,7 @@ def calcPhenos():
         for n, phenosn in p.imap_unordered(
                 getPhenosForNMer,
                 reversed(sorted([k for k in nMers.keys() if k != 1]))):
-            print("{} phenotypes of {}-mers".format(len(phenosn), n))
+            print("{} phenotypes of {}-mers".format(len(phenosn), n), flush=True)
             phenos[n] = phenosn
 
 
