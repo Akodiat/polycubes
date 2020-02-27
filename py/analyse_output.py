@@ -1,5 +1,6 @@
 import os
 import sys
+import pickle
 import numpy as np
 import seaborn as sns
 import matplotlib as mpl
@@ -518,6 +519,9 @@ if __name__ == "__main__":
 
     calcPhenos()
     print("Calculated all phenos")
+    pickle.dump(phenos, open(
+        os.path.join(datadir, "phenos_{}.p".format(suffix)), "wb")
+    )
     plotProbVsPhenotypeCompl(nMers, nRules, datadir)
     print("Done!")
     print("Evaluated {} rules in total".format(nRules))
