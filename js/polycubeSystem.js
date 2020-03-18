@@ -36,7 +36,7 @@ function parseHexRule(ruleStr) {
     var rules = [];
     for (var i=0; i<ruleStr.length; i+=2*ruleSize) {
         var rule = [];
-        console.log("Rule ",(i/(2*ruleSize))+1);
+        //console.log("Rule ",(i/(2*ruleSize))+1);
         for (var j = 0; j<ruleSize; j++) {
             var face = ruleStr.substring(i+(2*j), i+(2*j) + 2);
             var binStr = (parseInt(face, 16).toString(2)).padStart(8, '0');
