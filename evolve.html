@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Polycubes</title>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        body {
+            overflow: hidden;
+        }
+        .grid-container {
+            background: #eee;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: auto auto auto;
+            height: 100vh;
+        }
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%
+        }
+    </style>
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+    <div id="grid" class="grid-container">
+        <iframe id="p1" src="view.html" onload="initFrame(this)"></iframe>
+        <iframe id="p2" src="view.html" onload="initFrame(this)"></iframe>
+        <iframe id="p3" src="view.html" onload="initFrame(this)"></iframe>
+        <iframe id="p4" src="view.html" onload="initFrame(this)"></iframe>
+        <iframe id="p5" src="view.html" onload="initFrame(this)"></iframe>
+        <iframe id="p6" src="view.html" onload="initFrame(this)"></iframe>
+        <iframe id="p7" src="view.html" onload="initFrame(this)"></iframe>
+        <iframe id="p8" src="view.html" onload="initFrame(this)"></iframe>
+        <iframe id="p9" src="view.html" onload="initFrame(this)"></iframe>
+    </div>
+
+    <script src="js/evolve.js"></script>
+</body>
+
+</html>
