@@ -11,6 +11,9 @@ import re
 import multiprocessing
 import polycubes
 
+# Force matplotlib to not use any Xwindows backend.
+mpl.use('Agg')
+
 sns.set()
 
 
@@ -417,7 +420,8 @@ def getPhenosForNMer(n):
             phenosn.append({
                 'count': count,
                 'compl': compl,
-                'rule': rule
+                'rule': rule,
+                'freq': count/nRules
             })
             print("{}-mer has {} phenos like {} (compl {})".format(
                 n, count, rule, compl
@@ -516,15 +520,18 @@ if __name__ == "__main__":
 
     nRules, categories = calcNRulesTested(result)
     suffix = '{:.1E}_rules_{}'.format(nRules, name)
+    print("Loaded {} rules in total".format(nRules))
 
     calcPhenos()
     print("Calculated all phenos")
     pickle.dump(phenos, open(
         os.path.join(datadir, "phenos_{}.p".format(suffix)), "wb")
     )
-    plotProbVsPhenotypeCompl(nMers, nRules, datadir)
+    try:
+        plotProbVsPhenotypeCompl(nMers, nRules, datadir)
+    except:
+        print("Failed to plot")
     print("Done!")
-    print("Evaluated {} rules in total".format(nRules))
 
 
 # x, y, phenos = plotProbVsPhenotypeCompl(nMers, nRules)
