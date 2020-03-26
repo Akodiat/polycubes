@@ -441,14 +441,14 @@ def calcPhenos():
             phenos[n] = phenosn
 
 
-def plotProbVsPhenotypeCompl(nMers, nRules, savedir):
+def plotProbVsPhenotypeCompl(phenos, nRules, savedir):
     x = []
     y = []
     for n in phenos:
         nphenos = phenos[n]
         for pheno in nphenos:
             x.append(pheno['compl'])
-            y.append(pheno['count']/nRules)
+            y.append(pheno['freq'])
 
     # Plot
     plt.figure()
@@ -509,6 +509,15 @@ def plotCategoryPie(categories):
     print(y_pos)
     plt.pie(vals, labels=keys, autopct='%1.1f%%')
     plt.axis('equal')
+
+
+def prinNMerPhenos(phenos, n):
+    print('\n\n'.join(["Compl: {}, Prob: {:.2e}, {}".format(
+        e['compl'],
+        (e['count']/(4.8*pow(10,8))),
+        toUrl(e['rule'])) for e in sorted(
+            phenos[n], key=lambda i: i['count'], reverse=True)])
+    )
 
 
 if __name__ == "__main__":
