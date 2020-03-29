@@ -537,13 +537,11 @@ if __name__ == "__main__":
         os.path.join(datadir, "phenos_{}.p".format(suffix)), "wb")
     )
     try:
-        plotProbVsPhenotypeCompl(nMers, nRules, datadir)
+        plotProbVsPhenotypeCompl(phenos, nRules, datadir)
     except:
         print("Failed to plot")
     print("Done!")
 
-
-# x, y, phenos = plotProbVsPhenotypeCompl(nMers, nRules)
 
 # topcompl = max((max(phenos[i], key=lambda p: p['compl']) for i in phenos), key=lambda p: p['compl'])
 

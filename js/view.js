@@ -74,7 +74,8 @@ function init() {
     canvas = document.getElementById("threeCanvas");
     renderer = new THREE.WebGLRenderer({
         antialias: true,
-        canvas: canvas
+        canvas: canvas,
+        preserveDrawingBuffer: true
     });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
