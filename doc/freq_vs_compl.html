@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    .error {
+        color: red;
+    }
+    body {
+        padding: 0;
+        margin: 0;
+        font-weight: bold;
+        overflow: hidden;
+    }
+    canvas {
+            position: absolute;
+    }
+    #vis {
+            position: absolute;
+            z-index: 1;
+            opacity:0.8;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@4.0.2"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
+</head>
+<body>
+  <canvas id="threeCanvas"></canvas>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 400, "continuousHeight": 600}}, "data": {"url": "altair-data-f93656266c033d20fbccbd89f3dbd86e.json", "format": {"type": "json"}}, "mark": {"type": "circle", "size": 60}, "encoding": {"color": {"type": "nominal", "field": "label"}, "href": {"type": "nominal", "field": "url"}, "size": {"type": "quantitative", "field": "size"}, "tooltip": [{"type": "nominal", "field": "rule"}, {"type": "nominal", "field": "label"}, {"type": "quantitative", "field": "size"}], "x": {"type": "quantitative", "field": "compl", "title": "Complexity"}, "y": {"type": "quantitative", "field": "freq", "scale": {"type": "log"}, "title": "Frequency"}}, "selection": {"selector002": {"type": "interval", "bind": "scales", "encodings": ["x", "y"]}}, "title": "Polycube data", "transform": [{"calculate": "('https://akodiat.github.io/polycubes/view?hexRule=' + datum.rule)", "as": "url"}], "$schema": "https://vega.github.io/schema/vega-lite/v4.0.2.json"};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt).then(({spec, view}) => {
+          view.addEventListener('mouseover', function (event, item) {
+            if(item && item.datum) {
+              console.log(item.datum.rule)
+              polycubeSystem.resetRule(parseHexRule(item.datum.rule))
+            }
+          })
+        })
+        .catch(error => showError(el, error))
+    })(vegaEmbed);
+
+  </script>
+  <script src="../js/libs/three.min.js"></script>
+  <script src="../js/libs/randomColor.min.js"></script> <!--from: https://github.com/davidmerfield/randomColor-->
+  <script src="../js/libs/WebGL.js"></script>
+  <script src="../js/libs/GLTFExporter.js"></script>
+  <script src="../js/controls/OrbitControls.js"></script>
+  <script src="../js/polycubeSystem.js"></script>
+  <script src="../js/view.js"></script>
+    <script>
+    var rotation = 0;
+    function rotateCamera() {
+        rotation += 0.005;
+        camera.position.y = Math.sin(rotation) * 10;
+        camera.position.x = Math.cos(rotation) * 10;
+        camera.updateProjectionMatrix();
+        camera.lookAt(polycubeSystem.centerOfMass);
+        //fitCamera();
+        render();
+        requestAnimationFrame(rotateCamera.bind(this));
+    }
+    rotateCamera();
+  </script>
+</body>
+</html>
