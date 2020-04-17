@@ -2,10 +2,7 @@ import os
 import sys
 import pickle
 import numpy as np
-import seaborn as sns
 import matplotlib as mpl
-import matplotlib.cm as cm
-import matplotlib.pyplot as plt
 from collections import Counter
 import re
 import multiprocessing
@@ -14,6 +11,10 @@ import polycubes
 # Force matplotlib to not use any Xwindows backend.
 mpl.use('Agg')
 
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+
+import seaborn as sns
 sns.set()
 
 
