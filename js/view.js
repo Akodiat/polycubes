@@ -24,6 +24,29 @@ function onWindowResize() {
     render();
 }
 
+// From https://github.com/mrdoob/three.js/pull/14526#issuecomment-497254491
+function fitCamera() {
+  const fitOffset = 1.3;
+  const box = new THREE.Box3();
+  box.expandByObject(polycubeSystem.cubeObjGroup);
+  const size = box.getSize(new THREE.Vector3()).addScalar(1.5);
+  const center = box.getCenter(new THREE.Vector3());
+  const maxSize = Math.max(size.x, size.y, size.z);
+  const fitHeightDistance = maxSize / (2 * Math.atan(Math.PI * camera.fov / 360));
+  const fitWidthDistance = fitHeightDistance / camera.aspect;
+  const distance = fitOffset * Math.max(fitHeightDistance, fitWidthDistance);
+  const direction = orbit.target.clone().sub(camera.position).normalize().multiplyScalar(distance);
+  orbit.maxDistance = distance * 10;
+  orbit.target.copy(center);
+  camera.near = distance / 100;
+  camera.far = distance * 100;
+  camera.updateProjectionMatrix();
+  camera.position.copy(orbit.target).sub(direction);
+  orbit.update();
+  render();
+}
+
+
 function render() {
     renderer.render(scene, camera);
 }
@@ -85,14 +108,14 @@ function init() {
 
     // orbit controls
 
-    var orbit = new THREE.OrbitControls(camera, canvas);
+    orbit = new THREE.OrbitControls(camera, canvas);
     orbit.damping = 0.2;
     orbit.addEventListener('change', render);
 
     orbit.target = polycubeSystem.centerOfMass;
 }
 
-var camera, scene, renderer, canvas;
+var camera, orbit, scene, renderer, canvas;
 var plane;
 var mouse, raycaster;
 var rollOverMesh, rollOverMaterial;
