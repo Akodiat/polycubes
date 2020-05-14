@@ -80,17 +80,15 @@ class PolycubeSystem {
         );
         nColors = Math.max(nColors, 2) //Avoid getting only red colors
 
+	var connectionColors = randomColor({luminosity: 'light', count: nColors, seed: 1});
         for (var i=0; i<nColors; i++) {
-            var colorMaterial = new THREE.MeshLambertMaterial({
-                color: randomColor({luminosity: 'light'})
-            });
+	    var colorMaterial = new THREE.MeshLambertMaterial({color: connectionColors[i]});
             this.colorMaterials.push(colorMaterial);
         }
 
+	var cubeColors = randomColor({luminosity: 'light',  hue: 'monochrome', count: rules.length, seed: 1});
         for (var i=0; i<rules.length; i++) {
-            var cubeMaterial = new THREE.MeshLambertMaterial({
-                color: randomColor({luminosity: 'light',  hue: 'monochrome'})
-            });
+	    var cubeMaterial = new THREE.MeshLambertMaterial({color: cubeColors[i]});
             this.cubeMaterials.push(cubeMaterial);
         }
 
