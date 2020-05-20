@@ -413,20 +413,19 @@ def getPhenosForNMer(n):
     else:
         groups = groupByPhenotype(nMers[n])
     for group in groups:
-        rule = min(group, key=calcComplexity)
-        compl = calcComplexity(rule)
+        print("Looking at {}-mer)".format(n), flush=True)
         count = len(group)
-        rule = simplifyHexRule(group[0])
+        print("{}-mer has {} phenos".format(n, count), flush=True)
         if count >= 10:
+            minRule = min((rule for rule in group), key=calcComplexity)
+            minCompl = calcComplexity(minRule)
             phenosn.append({
                 'count': count,
-                'compl': compl,
-                'rule': rule,
+                'compl': minCompl,
+                'rule': minRule,
                 'freq': count/nRules
             })
-            print("{}-mer has {} phenos like {} (compl {})".format(
-                n, count, rule, compl
-            ), flush=True)
+            print("{}-mer has {} phenos like {} (compl {})".format(n, count, minRule, minCompl), flush=True)
     return (n, phenosn)
 
 
