@@ -412,10 +412,11 @@ def getPhenosForNMer(n):
         groups = [nMers[n]] # Only one phenotype possible
     else:
         groups = groupByPhenotype(nMers[n])
+    pickle.dump(groups, open(
+        os.path.join(datadir, "{}-mer_phenos_{}.p".format(n, suffix)), "wb")
+    )
     for group in groups:
-        print("Looking at {}-mer)".format(n), flush=True)
         count = len(group)
-        print("{}-mer has {} phenos".format(n, count), flush=True)
         if count >= 10:
             minRule = min((rule for rule in group), key=calcComplexity)
             minCompl = calcComplexity(minRule)
