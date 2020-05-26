@@ -90,7 +90,7 @@ public:
     {
         return *(this->color);
     }
-    int setColor(int color)
+    void setColor(int color)
     {
         this->color = &color;
     }
@@ -129,7 +129,7 @@ public:
         rule[i] = f;
     }
     void deleteRules(){
-        for(int i=0; i<ruleSize; i++) {
+        for(size_t i=0; i<ruleSize; i++) {
             delete rule[i];
         }
     }
@@ -140,7 +140,7 @@ class PolycubeSystem
 public:
     PolycubeSystem(std::vector<Rule> rules);
     PolycubeSystem(std::string rules);
-    PolycubeSystem(std::string rules, int nMaxCubes);
+    PolycubeSystem(std::string rules, size_t nMaxCubes);
     ~PolycubeSystem();
 
     int processMoves();
@@ -161,13 +161,13 @@ private:
     std::unordered_map<std::string, Move> moves;
     std::vector<std::string> moveKeys;
     std::map<std::string, bool> cubeMap;
-    int nMaxCubes;
+    size_t nMaxCubes;
 
     Eigen::Vector3f ruleOrder[ruleSize];
     std::map<std::string, size_t> ruleToOrderIdx;
     std::vector<Rule> rules;
 
-    void init(std::vector<Rule> rules, int nMaxCubes);
+    void init(std::vector<Rule> rules, size_t nMaxCubes);
 
     Rule *ruleFits(Rule a, Rule b);
 

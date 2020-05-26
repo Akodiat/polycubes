@@ -6,7 +6,7 @@ Move::Move(Eigen::Vector3f movePos) {
     this->movePos = movePos;
     this->rule = Rule();
     // Initialize with default orientations
-    for (int i=0; i<ruleSize; i++) {
+    for (size_t i=0; i<ruleSize; i++) {
         this->rule[i] = new Face(PolycubeSystem::getRuleOrder(i));
     }
 }
@@ -14,7 +14,7 @@ Move::Move(Eigen::Vector3f movePos) {
 Eigen::Matrix3Xf InterestingPolycubeResult::getCoordMatrix() {
     std::vector<std::string> lines = splitString(coords, '\n');
     Eigen::Matrix3Xf m(3, lines.size());
-    for (int i=0; i<lines.size(); i++) {
+    for (size_t i=0; i<lines.size(); i++) {
         std::string line = lines[i];
         size_t l, r;
         l = line.find('(');
@@ -76,19 +76,19 @@ PolycubeSystem::PolycubeSystem(std::vector<Rule> rules) {
 PolycubeSystem::PolycubeSystem(std::string rules) {
     init(parseRules(rules), 100);
 }
-PolycubeSystem::PolycubeSystem(std::string rules, int nMaxCubes) {
+PolycubeSystem::PolycubeSystem(std::string rules, size_t nMaxCubes) {
     init(parseRules(rules), nMaxCubes);
 }
 
 PolycubeSystem::~PolycubeSystem() {
-    for(int i=0; i<rules.size(); i++) {
-        for(int j=0; j<ruleSize; j++) {
+    for(size_t i=0; i<rules.size(); i++) {
+        for(size_t j=0; j<ruleSize; j++) {
             delete rules[i][j];
         }
     }
 }
 
-void PolycubeSystem::init(std::vector<Rule> rules, int nMaxCubes) {
+void PolycubeSystem::init(std::vector<Rule> rules, size_t nMaxCubes) {
     this->moves = std::unordered_map<std::string, Move>();
     this->moveKeys = std::vector<std::string>();
     this->cubeMap = std::map<std::string,bool>();
@@ -123,7 +123,7 @@ int PolycubeSystem::processMoves() {
             Rule* fittedRule = ruleFits(moves.at(key).getRule(), rule);
             if(fittedRule != nullptr) {
                 this->addCube(moves.at(key).getMovePos(), *fittedRule, ruleIdxs[r]);
-                for(int i=0; i<ruleSize;i++){
+                for(size_t i=0; i<ruleSize;i++){
                     delete (*fittedRule)[i];
                 }
                 delete fittedRule;
@@ -297,7 +297,7 @@ Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
                             PolycubeSystem::getRuleOrder(i)
                         )
                     );
-                    for(int i=0; i<ruleSize; i++){
+                    for(size_t i=0; i<ruleSize; i++){
                         delete b_faced[i];
                     }
                     return new Rule(b_oriented);
