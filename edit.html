@@ -22,13 +22,13 @@
 
         #info {
             position: fixed;
-            margin: 0px;
+            margin: 10px;
             z-index: 1;
             background-color: white;
             overflow-y: scroll;
             opacity: 0.6;
             max-height: 100%;
-            width: 200px;
+            width: 180px;
             font-family: Monospace;
             font-size: 12px;
             text-align: center;
@@ -39,7 +39,6 @@
         .rot3 {transform: rotate(270deg);}
 
         fieldset {
-            text-align: right;
             padding: 0px;
             margin: 3px;
             border-width: thick;
@@ -51,8 +50,21 @@
             color: #20ccf0;
         }
 
+        span {
+           display: inline-block;
+        }
+
         input[type=number] {
-            width: 40px;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            border-width:0px;
+            border:none;
+            background: transparent;
+            vertical-align: middle;
+        }
+        button {
+            width: 100%
         }
     </style>
     <link rel="manifest" href="/manifest.json">
@@ -65,7 +77,7 @@
         <legend>Rule set:</legend>
         <div id="ruleset" style="overflow: hidden"></div>
         <input type="checkbox" id="autoUpdate" checked="True", onchange="regenerate()">Auto update
-        <button onclick="addRule()">Add rule</button>
+        <button onclick="addRule()">Add cube type</button>
         <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>
         <!--https://stackoverflow.com/a/19965480 location.search-->
         </fieldset>

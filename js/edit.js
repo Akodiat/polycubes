@@ -15,16 +15,15 @@ function addRule(rule) {
     var ruleField = document.createElement("fieldset");
     ruleField.style.borderColor = rgbToHex(polycubeSystem.cubeMaterials[rules.indexOf(rule)].color)
     for(var i=0; i<faces.length; i++) {
-        var face = document.createElement("div");
+        var face = document.createElement("span");
         //face.faceIdx = i;
         var color = document.createElement("input");
         color.type = "number";
         color.value = rule[i].c;
         if(color.value != 0) {
-            color.style.backgroundColor = rgbToHex(polycubeSystem.colorMaterials[Math.abs(color.value)-1].color)
+            face.style.backgroundColor = rgbToHex(polycubeSystem.colorMaterials[Math.abs(color.value)-1].color)
         }
-        var text = document.createTextNode(faces[i]+": ");
-        face.appendChild(text);
+	face.title = faces[i];
         color.addEventListener("change", updateRuleColor.bind(
             event, color, rule, i)
         );
@@ -37,12 +36,14 @@ function addRule(rule) {
         rotation.addEventListener("click", updateRuleRot.bind(
             event, rotation, rule, i)
         );
-        face.appendChild(color);
         face.appendChild(rotation);
+        face.appendChild(color);
         ruleField.appendChild(face);
     }
     var remove = document.createElement("button");
-    remove.innerHTML = "Remove rule";
+    remove.innerHTML = "Delete";
+    remove.style.height = "20px";
+    remove.style.border = "0px";
     remove.addEventListener("click", removeRule.bind(
         event, rule, ruleField)
     );
@@ -65,7 +66,7 @@ function updateRuleColor(e, rule, faceIdx) {
     else {
         c = "White";
     }
-    e.style.backgroundColor = c;
+    e.parentElement.style.backgroundColor = c;
     rules[ruleIdx][faceIdx].c = e.value;
     if(document.getElementById("autoUpdate").checked) {
         regenerate();
