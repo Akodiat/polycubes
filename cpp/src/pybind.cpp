@@ -51,7 +51,18 @@ bool checkEquality(std::string rule1, std::string rule2) {
     return false;
 }
 
+bool isBoundedAndDeterministic(std::string rule, int nTries) {
+    PolycubeResult *r = runTries(rule, nTries);
+    bool isDet = r->isInteresting();
+    delete r;
+    return isDet;
+}
+
 PYBIND11_MODULE(polycubes, m) {
     m.doc() = "Polycube python binding";
     m.def("checkEquality", &checkEquality, "Compare if the two rules form the same polycube");
+    m.def("isBoundedAndDeterministic", &isBoundedAndDeterministic,
+        "Check if the rule is bounded and form the same polycube every time (set nTries to 0 to only check if bounded)",
+        "rule"_a, "nTries"_a = 15
+    );
 }
