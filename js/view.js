@@ -25,26 +25,53 @@ function onWindowResize() {
 }
 
 // From https://github.com/mrdoob/three.js/pull/14526#issuecomment-497254491
-function fitCamera() {
-  const fitOffset = 1.3;
-  const box = new THREE.Box3();
-  box.expandByObject(polycubeSystem.cubeObjGroup);
-  const size = box.getSize(new THREE.Vector3()).addScalar(1.5);
-  const center = box.getCenter(new THREE.Vector3());
-  const maxSize = Math.max(size.x, size.y, size.z);
-  const fitHeightDistance = maxSize / (2 * Math.atan(Math.PI * camera.fov / 360));
-  const fitWidthDistance = fitHeightDistance / camera.aspect;
-  const distance = fitOffset * Math.max(fitHeightDistance, fitWidthDistance);
-  const direction = orbit.target.clone().sub(camera.position).normalize().multiplyScalar(distance);
-  orbit.maxDistance = distance * 10;
-  orbit.target.copy(center);
-  camera.near = distance / 100;
-  camera.far = distance * 100;
-  camera.updateProjectionMatrix();
-  camera.position.copy(orbit.target).sub(direction);
-  orbit.update();
-  render();
+function fitCamera(nSteps) {
+    nSteps = nSteps || 100;
+    const fitOffset = 1.3;
+    const box = new THREE.Box3();
+    box.expandByObject(polycubeSystem.cubeObjGroup);
+    const size = box.getSize(new THREE.Vector3()).addScalar(1.5);
+    const center = polycubeSystem.centerOfMass; //box.getCenter(new THREE.Vector3());
+    const maxSize = Math.max(size.x, size.y, size.z);
+    const fitHeightDistance = maxSize / (2 * Math.atan(Math.PI * camera.fov / 360));
+    const fitWidthDistance = fitHeightDistance / camera.aspect;
+    const distance = fitOffset * Math.max(fitHeightDistance, fitWidthDistance);
+    const direction = orbit.target.clone().sub(camera.position).normalize().multiplyScalar(distance);
+    orbit.maxDistance = distance * 10;
+    camera.near = distance / 100;
+    camera.far = distance * 100;
+    let targetPos = orbit.target.clone().sub(direction);
+
+    let i = 1;
+    let zoomOut = function() {
+        // The tail is boring, so cut it off
+        if (i/nSteps >= 0.5) {
+            i = nSteps;
+        }
+        camera.position.lerp(targetPos, i/nSteps);
+
+        let curr = camera.quaternion.clone();
+        camera.lookAt(polycubeSystem.centerOfMass);
+        let target = camera.quaternion.clone();
+        camera.quaternion.copy(curr);
+        camera.quaternion.slerp(target, i/nSteps)
+
+        render();
+        if(i < nSteps) {
+            i++;
+            requestAnimationFrame(zoomOut.bind(this));
+        } else {
+            orbit.target.copy(center);
+        }
+    }
+    zoomOut();
+
 }
+
+// Regenerate when there are no more cubes to add
+window.addEventListener('movesProcessed', function(e) {
+    fitCamera();
+}, false);
 
 
 function render() {
@@ -88,11 +115,13 @@ function init() {
     // lights
 
     var ambientLight = new THREE.AmbientLight(0x707070);
-    scene.add(ambientLight);
+    camera.add(ambientLight);
 
-    var directionalLight = new THREE.DirectionalLight(0x909090);
-    directionalLight.position.set(1, 0.75, 0.5).normalize();
-    scene.add(directionalLight);
+    var directionalLight = new THREE.PointLight(0x909090);
+    directionalLight.position.set(10, 10, 5).normalize();
+    camera.add(directionalLight);
+
+    scene.add(camera);
 
     canvas = document.getElementById("threeCanvas");
     renderer = new THREE.WebGLRenderer({

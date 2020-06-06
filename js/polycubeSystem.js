@@ -56,7 +56,7 @@ function parseHexRule(ruleStr) {
 
 class PolycubeSystem {
 
-    constructor(rules, ruleOrder, nMaxCubes=1000, maxCoord=50) {
+    constructor(rules, ruleOrder, nMaxCubes=1000, maxCoord=100) {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
@@ -88,7 +88,7 @@ class PolycubeSystem {
 
 	var cubeColors = randomColor({luminosity: 'light',  hue: 'monochrome', count: rules.length, seed: 1});
         for (var i=0; i<rules.length; i++) {
-	    var cubeMaterial = new THREE.MeshLambertMaterial({color: cubeColors[i]});
+	    var cubeMaterial = new THREE.MeshStandardMaterial({color: cubeColors[i], roughness:0.8, metallness:0.8});
             this.cubeMaterials.push(cubeMaterial);
         }
 
@@ -337,7 +337,7 @@ class PolycubeSystem {
             console.log("Moves processed");
             return;
         }
-        render();
+        //render();
         requestAnimationFrame(this.processMoves.bind(this));
     }
 
@@ -400,8 +400,6 @@ class PolycubeSystem {
         this.cubeMap.set(vecToStr(position), true);
         this.centerOfMass.divideScalar(this.cubeMap.size);
 
-        camera.lookAt(this.centerOfMass);
-
         render();
     }
 
@@ -413,8 +411,8 @@ class PolycubeSystem {
         for (var j=0; j<rule.length; j++) {
             if (rule[j].c != 0) {
                 var material = this.colorMaterials[Math.abs(rule[j].c) - 1].clone();
-                if (rule[j].c < 0) {
-                    material.color.addScalar(-0.2);
+                if (rule[j].c >= 0) {
+                    material.emissive = material.color.clone().addScalar(-0.5);
                 }
                 var connectorCube = new THREE.Mesh(
                     this.connectorCubeGeo, material
