@@ -69,7 +69,6 @@ class PolycubeSystem {
         this.matches = 0;
         this.mismatches = 0;
 
-        this.bgColor = scene.background;
         this.cubeObjGroup = new THREE.Group();
         scene.add(this.cubeObjGroup);
 
@@ -115,13 +114,24 @@ class PolycubeSystem {
     reset() {
         objects = objects.filter(function(e) { return e.name !== "Cube" })
         this.cubeObjGroup.children = [];
-        scene.background = this.bgColor;
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
         this.matches = 0;
         this.mismatches = 0;
         render();
+    }
+
+    resetRandom() {
+        var maxRuleSize = 8;
+        var ruleSize = Math.round(Math.random()*maxRuleSize)+1;
+        var hexRule = "";
+        while(ruleSize--) {
+            hexRule += (Math.abs(Math.random()*0xFFFFFFFFFFFF<<0)).toString(16);
+        }
+        var argstr = "?hexRule="+hexRule;
+        window.history.pushState(null, null, argstr);
+        this.resetRule(parseHexRule(hexRule));
     }
 
     resetRule(rules) {
@@ -320,7 +330,6 @@ class PolycubeSystem {
                     }
                     this.addCube(this.moves[key].pos, rule, ruleIdxs[r]);
                     if (this.cubeMap.size >= this.nMaxCubes) {
-                        scene.background = new THREE.Color(0xeecccc);
                         render();
                         window.dispatchEvent(new Event('oub'));
                         console.log("Unbounded");

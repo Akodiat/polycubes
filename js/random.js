@@ -1,9 +1,6 @@
 var rotation = 0;
 rotateCamera();
 
-scene.background = new THREE.Color(0xf0f0f0);
-var bgColor = scene.background;
-
 regenerate()
 
 polycubeSystem.nMaxCubes = 200;

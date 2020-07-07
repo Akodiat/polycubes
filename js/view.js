@@ -2,6 +2,11 @@ if (WEBGL.isWebGLAvailable() === false) {
     document.body.appendChild(WEBGL.getWebGLErrorMessage());
 }
 
+function toggleModal(id) {
+    let modal = document.getElementById(id);
+    modal.classList.toggle("show-modal");
+}
+
 // From: https://html-online.com/articles/get-url-parameters-javascript/
 function getUrlVars() {
     var vars = {};
@@ -73,6 +78,67 @@ window.addEventListener('movesProcessed', function(e) {
     fitCamera();
 }, false);
 
+function switchCamera() {
+    if (camera instanceof THREE.PerspectiveCamera) {
+        //get camera parameters
+        const far = camera.far;
+        const near = camera.near;
+        const focus = orbit.target;
+        const fov = camera.fov * Math.PI / 180; //convert to radians
+        const pos = camera.position;
+        let width = 2 * Math.tan(fov / 2) * focus.distanceTo(pos);
+        let height = width / camera.aspect;
+        const up = camera.up;
+        const quat = camera.quaternion;
+        let cameraHeading = new THREE.Vector3(0, 0, -1);
+        cameraHeading.applyQuaternion(quat);
+        //if the camera is upside down, you need to flip the corners of the orthographic box
+        /*
+        if (quat.dot(refQ) < 0 && quat.w > 0) {
+            width *= -1;
+            height *= -1;
+        }
+        */
+        //create a new camera with same properties as old one
+        const newCam = new THREE.OrthographicCamera(-width / 2, width / 2, height / 2, -height / 2, near, far);
+        camera.position.clone(pos);
+        newCam.up = up;
+        newCam.lookAt(focus);
+        camera.children.forEach(c => {
+            newCam.add(c);
+        });
+        scene.remove(camera);
+        camera = newCam;
+        orbit.object = camera;
+        scene.add(camera);
+    }
+    else if (camera instanceof THREE.OrthographicCamera) {
+        //get camera parameters
+        const far = camera.far;
+        const near = camera.near;
+        const focus = orbit.target;
+        const pos = camera.position;
+        const up = camera.up;
+        let fov = 2 * Math.atan((((camera.right - camera.left) / 2)) / focus.distanceTo(pos)) * 180 / Math.PI;
+        //if the camera is upside down, you need to flip the fov for the perspective camera
+        if (camera.left > camera.right) {
+            fov *= -1;
+        }
+        //create a new camera with same properties as old one
+        let newCam = createPerspectiveCamera(fov, near, far, pos.toArray());
+        newCam.up = up;
+        newCam.lookAt(focus);
+        let light = pointlight;
+        scene.remove(camera);
+        camera = newCam;
+        orbit.object = camera;
+        camera.add(light);
+        scene.add(camera);
+        document.getElementById("cameraSwitch").innerHTML = "Orthographic";
+    }
+    render();
+}
+
 
 function render() {
     renderer.render(scene, camera);
@@ -86,7 +152,8 @@ function init() {
     camera.lookAt(0, 0, 0);
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xffffff);
+
+    let rules = {};
 
     // Parse rule
     var vars = getUrlVars();
@@ -127,10 +194,12 @@ function init() {
     renderer = new THREE.WebGLRenderer({
         antialias: true,
         canvas: canvas,
+        alpha: true,
         preserveDrawingBuffer: true
     });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
     document.body.appendChild(renderer.domElement);
 
     window.addEventListener('resize', onWindowResize, false);
@@ -153,7 +222,7 @@ var polycubeSystem;
 var objects = [];
 
 init();
-polycubeSystem.addCube(new THREE.Vector3(), rules[0], 0);
+polycubeSystem.addCube(new THREE.Vector3(), polycubeSystem.rules[0], 0);
 polycubeSystem.processMoves();
 render();
 
