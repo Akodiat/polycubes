@@ -67,16 +67,21 @@ function removeBitAt(bin, i) {
 
 function mutateRule(hexRule) {
     let bin = hex2bin(hexRule);
+    //console.log(`\nFrom:\t${hexRule}`);
     let iRand = ()=> {return Math.floor(Math.random() * bin.length)};
     
-    let pFlip = 0.5;
-    let pInsert = 0.5;
-    let pRemove = 0.5;
+    let r = Math.random();
     
-    if (Math.random() < pFlip) bin = flipBitAt(bin, iRand());
-    if (Math.random() < pInsert) bin = insertBitAt(bin, iRand());
-    if (Math.random() < pRemove) bin = removeBitAt(bin, iRand());
+    if (r < 1/3) bin = flipBitAt(bin, iRand());
+    else if (r < 2/3) bin = insertBitAt(bin, iRand());
+    else bin = removeBitAt(bin, iRand());
+
+    let hex = bin2hex(bin);
+
+    // Avoid inputs
+    hex = splitEveryN(hex, 12).filter(i=>i !== '000000000000').join('');
     
-    return bin2hex(bin);
+
+    return hex;
 }
 
