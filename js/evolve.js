@@ -1,16 +1,19 @@
 function initFrame(frame) {
     let window = frame.contentWindow;
+    window.document.body.style.background = "#fff";
     window.polycubeSystem.resetRule(window.parseHexRule(randomRule()));
     window.document.ondblclick = ()=>{
         let hex = window.polycubeSystem.getHexRule();
         let frames = document.getElementById("grid").children;
         for (let i=0; i<frames.length; i++) {
+            let w = frames[i].contentWindow;
             if(frames[i] != frame) {
-                let w = frames[i].contentWindow;
                 let newRule = mutateRule(hex);
                 w.polycubeSystem.resetRule(w.parseHexRule(newRule));
+                w.document.body.style.background = "#fff";
             }
             else {
+                w.document.body.style.background = "#64b793";
                 console.log(`Selected #${i} with rule ${hex}`);
             }
         }
