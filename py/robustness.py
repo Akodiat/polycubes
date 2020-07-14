@@ -72,5 +72,13 @@ def calcPhenotypeRobustness(path='../cpp/out/3d', maxColor=8, maxCubes=8, dim=3)
 
 
 if __name__ == "__main__":
-    calcPhenotypeRobustness()
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--path")
+    parser.add_argument("--maxColor", default=8)
+    parser.add_argument("--maxCubes", default=8)
+    parser.add_argument("--dim", default=3)
+    args = parser.parse_args()
+    if args.path:
+        calcPhenotypeRobustness(args.path, args.maxColor, args.maxCubes, args.dim)
 
