@@ -61,12 +61,30 @@ def __f(arg):
 def calcPhenotypeRobustness(path='../cpp/out/3d', maxColor=8, maxCubes=8, dim=3):
     groupedPhenos = loadGroupedPhenos(os.path.join(path,'phenos'))
     total = sum(len(group) for group in groupedPhenos)
-    
-    with Pool(32) as p:
-        data = pd.DataFrame(data=p.map(
-            __f, 
-            ((pheno, maxColor, maxCubes, dim, total) for pheno in groupedPhenos)
-        ))
+    groupedPhenos.clear();
+
+    progress = 0
+    for root, _, files in os.walk(os.path.join(path,'phenos')):
+        for file in files:
+            phenos = pickle.load(open(os.path.join(root, file), "rb"))
+            robustnesses = []
+            for pheno in phenos:
+                n = len(pheno)
+                robustnesses.append({
+                    'rule': pheno[0],
+                    'robustness': sum(calcGenotypeRobustness(
+                        hexRule, maxColor, maxCubes, dim
+                        ) for hexRule in pheno) / n,
+                    'frequency': n / total
+                })
+                progress += 1
+                print("Progress: {:.2}% ({} of {})".format(100*progress/total, progress, total), end="\r", flush=True)
+            pickle.dump(robustnesses, open(os.path.join(path, 'robustness', file.replace('phenos', 'robustness')), 'wb'))
+    robustnesses = []
+    for root, _, files in os.walk(os.path.join(path,'robustness')):
+        for file in files:
+            robustnesses.extend(pickle.load(open(os.path.join(root, file), "rb")))
+    data = pd.DataFrame(data=robustnesses)
     pickle.dump(data, open(os.path.join(path, 'robustness.p'), 'wb'))
     return data
 
