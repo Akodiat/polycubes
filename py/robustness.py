@@ -3,6 +3,7 @@ import polycubes
 import numpy as np
 import pandas as pd
 import os
+import random
 import pickle
 from multiprocessing import Pool
 
@@ -58,34 +59,27 @@ def __f(arg):
         'frequency': n / total
     }
 
-def calcPhenotypeRobustness(path='../cpp/out/3d', maxColor=8, maxCubes=8, dim=3):
-    groupedPhenos = loadGroupedPhenos(os.path.join(path,'phenos'))
-    total = sum(len(group) for group in groupedPhenos)
-    groupedPhenos.clear();
-
-    progress = 0
-    for root, _, files in os.walk(os.path.join(path,'phenos')):
-        for file in files:
-            phenos = pickle.load(open(os.path.join(root, file), "rb"))
-            robustnesses = []
-            for pheno in phenos:
-                n = len(pheno)
-                robustnesses.append({
-                    'rule': pheno[0],
-                    'robustness': sum(calcGenotypeRobustness(
-                        hexRule, maxColor, maxCubes, dim
-                        ) for hexRule in pheno) / n,
-                    'frequency': n / total
-                })
-                progress += 1
-                print("Progress: {:.2}% ({} of {})".format(100*progress/total, progress, total), end="\r", flush=True)
-            pickle.dump(robustnesses, open(os.path.join(path, 'robustness', file.replace('phenos', 'robustness')), 'wb'))
+def calcPhenotypeRobustness(path='../cpp/out/3d', maxColor=8, maxCubes=8, dim=3, sampleSize=0):
+    phenos = loadGroupedPhenos(os.path.join(path,'phenos'))
+    total = len(phenos)
+    if sampleSize > 0:
+        phenos = random.sample(phenos, sampleSize)
+    else:
+         sampleSize = total
     robustnesses = []
-    for root, _, files in os.walk(os.path.join(path,'robustness')):
-        for file in files:
-            robustnesses.extend(pickle.load(open(os.path.join(root, file), "rb")))
+    for i, pheno in enumerate(phenos):
+        n = len(pheno)
+        robustnesses.append({
+            'rule': pheno[0],
+            'robustness': sum(calcGenotypeRobustness(
+                hexRule, maxColor, maxCubes, dim
+                ) for hexRule in pheno) / n,
+            'frequency': n / total
+        })
+        print("Progress: {:n}% ({} of {})".format(100*i/sampleSize, i, sampleSize), end="\r", flush=True)
+        if i % 100 == 0 and i>0:
+            pickle.dump(pd.DataFrame(data=robustnesses), open(os.path.join(path, 'robustness.p'), 'wb'))
     data = pd.DataFrame(data=robustnesses)
-    pickle.dump(data, open(os.path.join(path, 'robustness.p'), 'wb'))
     return data
 
 
@@ -96,7 +90,9 @@ if __name__ == "__main__":
     parser.add_argument("--maxColor", default=8)
     parser.add_argument("--maxCubes", default=8)
     parser.add_argument("--dim", default=3)
+    parser.add_argument("--sampleSize", default=0)
     args = parser.parse_args()
     if args.path:
-        calcPhenotypeRobustness(args.path, args.maxColor, args.maxCubes, args.dim)
+        data = calcPhenotypeRobustness(args.path, int(args.maxColor), int(args.maxCubes), int(args.dim), int(args.sampleSize))
+        pickle.dump(data, open(os.path.join(args.path, 'robustness.p'), 'wb'))
 
