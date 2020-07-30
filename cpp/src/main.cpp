@@ -36,11 +36,10 @@ std::string randRule(int maxColor, int maxCubes, int dim) {
     std::uniform_int_distribution<size_t> signDist(0, 1);
     std::uniform_int_distribution<size_t> colorDist(0, maxColor-1);
     std::uniform_int_distribution<size_t> rotDist(0, nRotations-1);
-    std::uniform_int_distribution<size_t> nRuleDist(1, maxCubes);
-    int nCubes = nRuleDist(r);
+    int nCubes = maxCubes;
     char ruleBuf[nCubes*12];
     strcpy(ruleBuf, "");
-    while (nCubes --) {
+    while (nCubes--) {
         for(int i=0; i<6; i++) {
             int sign, color, rot;
 
@@ -108,8 +107,8 @@ int main(int argc, char **argv) {
     // Set default argument values
     std::string rule = "";
     std::vector<std::string> equalityCheck;
-    int maxColors = 8;
-    int maxRulesize = 8;
+    int maxColors = 32;
+    int maxRulesize = 5;
     int dimensions = 3;
     int nTimes = 1;
     int nTries = 5;
