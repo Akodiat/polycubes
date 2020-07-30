@@ -94,9 +94,53 @@ function removeRule(rule, ruleField) {
     }
 }
 
+function simplifyRule() {
+    let ruleset = polycubeSystem.rules;
+    let colors = new Set([].concat.apply([], ruleset.map(r=>r.map(f=>{return f.c}))));
+    let newRuleset = [];
+    ruleset.forEach((cube, iCube)=>{
+        let allZero = true;
+        cube.forEach((face, iFace)=>{
+            let c = face['c']
+            if (!colors.has(c*-1)) {
+                face.c = 0;
+            }
+            if (face.c == 0) {
+                face.d = faceRotations[iFace];
+            }
+            else {
+                allZero = false;
+            }
+        })
+          
+        if (!allZero || iCube == 0) {
+            newRuleset.push(cube);
+        }
+    });
+
+    let colorset = Array.from(new Set([].concat.apply([], ruleset.map(r=>r.map(f=>{return Math.abs(f.c)}))))).filter(x => x != 0)
+    newRuleset.forEach(rule=>{
+        rule.forEach(face=>{
+            c = face.c;
+            if (c != 0) {
+                face.c = colorset.indexOf(Math.abs(c)) + 1;
+                if (c < 0) {
+                    face.c *= -1;
+                }
+            }
+        })
+    })
+    polycubeSystem.resetRule(newRuleset);
+    regenerate();
+    clearRules();
+}
+
+clearRules(); polycubeSystem.rules.forEach(addRule);
+
 function clearRules() {
     var ruleset = document.getElementById("ruleset");
     ruleset.innerText = "";
+    polycubeSystem.rules.forEach(addRule);
     if(document.getElementById("autoUpdate").checked) {
         regenerate();
     }
