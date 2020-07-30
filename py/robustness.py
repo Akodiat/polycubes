@@ -61,7 +61,7 @@ def __f(arg):
 
 def calcPhenotypeRobustness(path='../cpp/out/3d', maxColor=8, maxCubes=8, dim=3, sampleSize=0):
     phenos = loadGroupedPhenos(os.path.join(path,'phenos'))
-    total = len(phenos)
+    total = sum(len(pheno) for pheno in phenos)
     if sampleSize > 0:
         phenos = random.sample(phenos, sampleSize)
     else:
