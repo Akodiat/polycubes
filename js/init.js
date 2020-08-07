@@ -42,7 +42,7 @@ function createPolysphereSystem() {
         let phi = p[1] * tau;
         let theta = p[2] * Math.PI; 
         let rotation = p[3] * tau;
-        return new Patch(color, phi, theta, rotation);
+        return Patch.init(color, phi, theta, rotation);
     });});
 
     nMaxCubes = JSON.parse(getUrlParam("nMaxCubes",100));
@@ -50,7 +50,6 @@ function createPolysphereSystem() {
     system = new PolysphereSystem(rule, nMaxCubes);
     orbit.target = system.centerOfMass;
 
-    system.nMaxCubes = 20;
     system.addParticle(new THREE.Vector3(), system.rule[0], 0);
     system.processMoves();
     render();

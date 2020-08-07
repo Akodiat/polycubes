@@ -31,66 +31,62 @@ function getSignedAngle(v1, v2, axis) {
 }
 
 class Patch {
-    constructor(color, phi, theta, rotation) {
+    constructor(color, pos, alignDir) {
+        this.pos = pos;
+        this.alignDir = alignDir;
         this.color = color;
-        this.phi = phi;
-        this.theta = theta;
-        this.rotation = rotation;
+    }
+
+    static init(color, phi, theta, rotation) {
+        let pos = new THREE.Vector3().setFromSphericalCoords(1, phi, theta);
+        let alignDir = Patch.getDefaultAlignDir(pos).applyAxisAngle(pos, rotation);
+
+        return new Patch(color, pos, alignDir);
     }
 
     static getDefaultAlignDir(pos) {
         // Hairy ball theorem creates trouble...
-        //let north = new THREE.Vector3(0,1,0);
-        let north = new THREE.Vector3(3,5,7).normalize();
+        let north = new THREE.Vector3(0,1,0);
+        //let north = new THREE.Vector3(3,5,7).normalize();
         
         console.log(pos.distanceTo(north) < 1E-3);
         if(pos.equals(north)) {
             console.warn("Position is North")
-            //return new THREE.Vector3(1,0,0);
+            return new THREE.Vector3(1,0,0);
         } else if (pos.equals(north.clone().negate())) {
             console.warn("Position is South")
-            //return new THREE.Vector3(-1,0,0);
+            return new THREE.Vector3(-1,0,0);
         }
         
         return north.projectOnPlane(pos).normalize();
     }
 
-    getAlignDir() {
-        let pos = this.getLocalPos();
-        let defaultDir = Patch.getDefaultAlignDir(pos);
-        let a = defaultDir.applyAxisAngle(pos, this.rotation).normalize();
-        console.assert(Math.abs(a.angleTo(pos) - Math.PI/2) < 1e-3, `Incorrect align dir: ${a.angleTo(pos)}`);
-        return a;
-    }
-
-    getLocalPos() {
-        return new THREE.Vector3().setFromSphericalCoords(1, this.phi, this.theta);
-    }
-
-    static fromVectors(localPos, alignDir, color) {
+    getRotation() {
         let defAlignDir = Patch.getDefaultAlignDir(localPos);
         let rotation = getSignedAngle(defAlignDir, alignDir, localPos);
 
         let tmp = defAlignDir.clone().applyAxisAngle(localPos, rotation);
+        if (alignDir.distanceTo(tmp) < 1e-3) {
+            rotation *= -1;
+            tmp = defAlignDir.clone().applyAxisAngle(localPos, rotation);
+        }
         console.assert(
-            alignDir.distanceTo(tmp) < 1e-3, 
+            alignDir.distanceTo(tmp) < 1e-3,
             `Incorrect patch rotation ${vecToStr(alignDir)} != ${vecToStr(tmp)}`
         );
-        
-        let s = new THREE.Spherical().setFromVector3(localPos);
-        return new Patch(color, s.phi, s.theta, rotation);
+        return rotation;
     }
 
     rotated(q) {
-        let newPos = this.getLocalPos().applyQuaternion(q).normalize();
-        let newAlignDir = this.getAlignDir().applyQuaternion(q).normalize();
-        return Patch.fromVectors(newPos, newAlignDir, this.color);
+        let newPos = this.pos.clone().applyQuaternion(q).normalize();
+        let newAlignDir = this.alignDir.clone().applyQuaternion(q).normalize();
+        return new Patch(this.color, newPos, newAlignDir);
     }
 
     inverted() {
-        let newPos = this.getLocalPos().negate().normalize();
-        let newAlignDir = this.getAlignDir().normalize();
-        return Patch.fromVectors(newPos, newAlignDir, -this.color);
+        let newPos = this.pos.clone().negate().normalize();
+        let newAlignDir = this.alignDir.normalize();
+        return new Patch(-this.color, newPos, newAlignDir);
     }
 }
 
@@ -124,7 +120,7 @@ class PolysphereSystem {
         );
         nColors = Math.max(nColors, 2) //Avoid getting only red colors
 
-        let connectionColors = randomColor({luminosity: 'light', count: nColors, seed: 1});
+        let connectionColors = randomColor({luminosity: 'light', count: nColors, seed: 2});
             for (let i=0; i<nColors; i++) {
             let colorMaterial = new THREE.MeshLambertMaterial({color: connectionColors[i]});
                 this.interfaceMaterials.push(colorMaterial);
@@ -254,15 +250,15 @@ class PolysphereSystem {
                         // Rotate rule b so that the matching face has
                         // the same direction:
                         b = this.rotateRuleFromTo(b,
-                            b[j].getLocalPos(),
-                            a[i].getLocalPos());
-                        console.assert(a[i].getLocalPos().distanceTo(b[j].getLocalPos()) < 1e-4);
+                            b[j].pos,
+                            a[i].pos);
+                        console.assert(a[i].pos.distanceTo(b[j].pos) < 1e-4);
                         // ...and the same rotation:
                         b = this.rotateRuleFromTo(b,
-                            b[j].getAlignDir(),
-                            a[i].getAlignDir()
+                            b[j].alignDir,
+                            a[i].alignDir
                         );
-                        console.assert(a[i].getAlignDir().distanceTo(b[j].getAlignDir()) < 1e-4);
+                        console.assert(a[i].alignDir.distanceTo(b[j].alignDir) < 1e-4);
                         // Return the rotated rule b
                         return b;
                     }
@@ -325,7 +321,7 @@ class PolysphereSystem {
                     for (let i=0; i<patches.length; i++) {
                         let neigb = move.patches[i]
                         if (neigb != null) {
-                            if (neigb.color == patches[i].color && neigb.getAlignDir().equals(patches[i].getAlignDir())) {
+                            if (neigb.color == patches[i].color && neigb.alignDir.equals(patches[i].alignDir)) {
                                 this.matches++;
                             } else {
                                 this.mismatches++;
@@ -333,7 +329,9 @@ class PolysphereSystem {
                         }
                     }
                     */
-                    this.addParticle(move.pos, patches, ruleIdxs[r]);
+                    if(!this.particles.find(p=>{return p.pos.distanceTo(move.pos) < 0.9})){
+                        this.addParticle(move.pos, patches, ruleIdxs[r]);
+                    }
                     if (this.particles.length >= this.nMaxCubes) {
                         render();
                         window.dispatchEvent(new Event('oub'));
@@ -363,7 +361,7 @@ class PolysphereSystem {
             if (patch.color == 0) {
                 continue;
             }
-            let movePos = position.clone().add(patch.getLocalPos());
+            let movePos = position.clone().add(patch.pos);
             if (Math.abs(movePos.x)>this.maxCoord ||
                Math.abs(movePos.y)>this.maxCoord ||
                Math.abs(movePos.z)>this.maxCoord)
@@ -415,26 +413,26 @@ class PolysphereSystem {
                 let connector = new THREE.Mesh(
                     this.connectorGeo, material
                 );
-                connector.position.copy(patch.getLocalPos().multiplyScalar(.4));
-                //connector.lookAt(patch.getLocalPos());
-                //connector.rotateOnWorldAxis(patch.getLocalPos(), patch.rotation)
-                //connector.setRotationFromAxisAngle(patch.getLocalPos(), patch.rotation);
-                connector.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), patch.getLocalPos());
-                //connector.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), patch.getAlignDir());
+                connector.position.copy(patch.pos.clone().multiplyScalar(.4));
+                //connector.lookAt(patch.pos);
+                //connector.rotateOnWorldAxis(patch.pos, patch.rotation)
+                //connector.setRotationFromAxisAngle(patch.pos, patch.rotation);
+                connector.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), patch.pos);
+                //connector.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), patch.alignDir);
                 let connectorPointer = new THREE.Mesh(
                     this.connectorPointerGeo, material
                 );
                 connectorPointer.position.copy(connector.position);
-                connectorPointer.position.add(patch.getAlignDir().multiplyScalar(0.1));
-                connectorPointer.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), patch.getAlignDir());
+                connectorPointer.position.add(patch.alignDir.clone().multiplyScalar(0.1));
+                connectorPointer.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), patch.alignDir);
 
-                //connectorPointer.quaternion.setFromUnitVectors(patch.getLocalPos(), patch.getAlignDir());
-                //connector.quaternion.setFromUnitVectors(patch.getAlignDir(), patch.getLocalPos());
+                //connectorPointer.quaternion.setFromUnitVectors(patch.pos, patch.alignDir);
+                //connector.quaternion.setFromUnitVectors(patch.alignDir.clone(), patch.pos);
                 //connectorPointer.lookAt(connector.position);
                 //connectorPointer.lookAt(new THREE.Vector3());
                 //connector.lookAt(new THREE.Vector3());
-                //connector.rotateOnAxis(patch.getLocalPos(), patch.rotation);
-                //connector.lookAt(patch.getAlignDir());
+                //connector.rotateOnAxis(patch.pos, patch.rotation);
+                //connector.lookAt(patch.alignDir);
                 particle.add(connectorPointer);
                 particle.add(connector);
             }
