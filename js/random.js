@@ -3,7 +3,7 @@ rotateCamera();
 
 regenerate()
 
-polycubeSystem.nMaxCubes = 200;
+system.nMaxCubes = 200;
 
 // Regenerate when out of bounds (nMaxCubes reached)
 window.addEventListener('oub', function(e) {
@@ -20,7 +20,7 @@ function rotateCamera() {
     rotation += 0.005;
     camera.position.y = Math.sin(rotation) * 20;
     camera.position.x = Math.cos(rotation) * 20;
-    camera.lookAt(polycubeSystem.centerOfMass);
+    camera.lookAt(system.centerOfMass);
     requestAnimationFrame(rotateCamera.bind(this));
 }
 
@@ -40,5 +40,5 @@ function regenerate() {
     
     // Parse rule
     rules = parseHexRule(hexRule);
-    polycubeSystem.resetRule(rules);
+    system.resetRule(rules);
 }

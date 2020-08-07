@@ -2,7 +2,7 @@ var rotation = 0;
 var rig = new THREE.PerspectiveCamera();
 rig.add(camera);
 scene.add(rig);
-rig.lookAt(polycubeSystem.centerOfMass);
+rig.lookAt(system.centerOfMass);
 
 document.body.appendChild(VRButton.createButton(renderer));
 renderer.vr.enabled = true;
@@ -30,7 +30,7 @@ const selectListener = (event) => {
 
     // Parse rule
     rules = parseHexRule(hexRule);
-    polycubeSystem.resetRule(rules);
+    system.resetRule(rules);
 };
 
 controller.addEventListener('select', selectListener);

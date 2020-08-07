@@ -52,8 +52,8 @@ function onDocumentMouseDblclick(event) {
         var intersect = intersects[0];
         pos = intersect.point.clone().add(intersect.face.normal).add(new THREE.Vector3(0.5,0,0.5)).floor();
 
-        polycubeSystem.addCube(pos, rules[activeRuleIdx], activeRuleIdx);
-        polycubeSystem.processMoves();
+        system.addCube(pos, rules[activeRuleIdx], activeRuleIdx);
+        system.processMoves();
 
         render();
     }
@@ -94,7 +94,7 @@ function init() {
 
     nMaxCubes = JSON.parse(getUrlParam("nMaxCubes",100));
 
-    polycubeSystem = new PolycubeSystem(rules, ruleOrder, nMaxCubes);
+    system = new PolycubeSystem(rules, ruleOrder, nMaxCubes);
 
     // orbit controls
 
@@ -158,7 +158,7 @@ var camera, scene, renderer;
 var plane;
 var mouse, raycaster;
 var rollOverMesh, rollOverMaterial;
-var polycubeSystem;
+var system;
 var activeRuleIdx = 0;
 var objects = [];
 

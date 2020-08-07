@@ -31,12 +31,12 @@ function onWindowResize() {
 
 // From https://github.com/mrdoob/three.js/pull/14526#issuecomment-497254491
 function fitCamera(nSteps) {
-    nSteps = nSteps || 100;
+    nSteps = nSteps || 20;
     const fitOffset = 1.3;
     const box = new THREE.Box3();
-    box.expandByObject(polycubeSystem.cubeObjGroup);
+    box.expandByObject(system.objGroup);
     const size = box.getSize(new THREE.Vector3()).addScalar(1.5);
-    const center = polycubeSystem.centerOfMass; //box.getCenter(new THREE.Vector3());
+    const center = system.centerOfMass; //box.getCenter(new THREE.Vector3());
     const maxSize = Math.max(size.x, size.y, size.z);
     const fitHeightDistance = maxSize / (2 * Math.atan(Math.PI * camera.fov / 360));
     const fitWidthDistance = fitHeightDistance / camera.aspect;
@@ -49,14 +49,10 @@ function fitCamera(nSteps) {
 
     let i = 1;
     let zoomOut = function() {
-        // The tail is boring, so cut it off
-        if (i/nSteps >= 0.5) {
-            i = nSteps;
-        }
-        camera.position.lerp(targetPos, i/nSteps);
+        camera.position.lerp(targetPos, Math.pow(i/nSteps,2));
 
         let curr = camera.quaternion.clone();
-        camera.lookAt(polycubeSystem.centerOfMass);
+        camera.lookAt(system.centerOfMass);
         let target = camera.quaternion.clone();
         camera.quaternion.copy(curr);
         camera.quaternion.slerp(target, i/nSteps)
@@ -144,7 +140,7 @@ function render() {
     renderer.render(scene, camera);
 }
 
-function init() {
+function initScene() {
     camera = new THREE.PerspectiveCamera(
         45, window.innerWidth / window.innerHeight,
         1, 10000);
@@ -153,34 +149,7 @@ function init() {
 
     scene = new THREE.Scene();
 
-    let rules = {};
-
-    // Parse rule
-    var vars = getUrlVars();
-    if ("hexRule" in vars) {
-        rules = parseHexRule(vars["hexRule"]);
-    } else {
-        defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
-        rules = JSON.parse(getUrlParam("rules",defaultRule));
-        
-        // Replace rotation number with vector
-        rules = rules.map(function(rule) {return rule.map(function(face, i) {
-            var r = faceRotations[i].clone();
-            if(typeof face == "number") {
-                return {'c':face, 'd':r};
-            } else {
-                r.applyAxisAngle(ruleOrder[i], face[1]*Math.PI/2);
-                return {'c':face[0], 'd':r};
-            }
-        });});
-    }
-
-    nMaxCubes = JSON.parse(getUrlParam("nMaxCubes",100));
-
-    polycubeSystem = new PolycubeSystem(rules, ruleOrder, nMaxCubes);
-
     // lights
-
     var ambientLight = new THREE.AmbientLight(0x707070);
     camera.add(ambientLight);
 
@@ -209,20 +178,15 @@ function init() {
     orbit = new THREE.OrbitControls(camera, canvas);
     orbit.damping = 0.2;
     orbit.addEventListener('change', render);
-
-    orbit.target = polycubeSystem.centerOfMass;
 }
 
 var camera, orbit, scene, renderer, canvas;
 var plane;
 var mouse, raycaster;
 var rollOverMesh, rollOverMaterial;
-var polycubeSystem;
 
 var objects = [];
 
-init();
-polycubeSystem.addCube(new THREE.Vector3(), polycubeSystem.rules[0], 0);
-polycubeSystem.processMoves();
-render();
+initScene();
+
 

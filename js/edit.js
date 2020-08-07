@@ -5,15 +5,15 @@ function addRule(rule) {
         for(var i=0; i<faces.length; i++) {
            rule.push({'c': 0, 'd': faceRotations[i]})
         }
-        polycubeSystem.rules.push(rule);
+        system.rules.push(rule);
         var cubeMaterial = new THREE.MeshLambertMaterial({
             color: randomColor({luminosity: 'light',  hue: 'monochrome'})
         });
-        polycubeSystem.cubeMaterials.push(cubeMaterial);
+        system.cubeMaterials.push(cubeMaterial);
     }
     var ruleset = document.getElementById("ruleset");
     var ruleField = document.createElement("fieldset");
-    ruleField.style.borderColor = rgbToHex(polycubeSystem.cubeMaterials[polycubeSystem.rules.indexOf(rule)].color)
+    ruleField.style.borderColor = rgbToHex(system.cubeMaterials[system.rules.indexOf(rule)].color)
     for(var i=0; i<faces.length; i++) {
         var face = document.createElement("span");
         //face.faceIdx = i;
@@ -21,7 +21,7 @@ function addRule(rule) {
         color.type = "number";
         color.value = rule[i].c;
         if(color.value != 0) {
-            face.style.backgroundColor = rgbToHex(polycubeSystem.colorMaterials[Math.abs(color.value)-1].color)
+            face.style.backgroundColor = rgbToHex(system.colorMaterials[Math.abs(color.value)-1].color)
         }
 	face.title = faces[i];
         color.addEventListener("change", updateRuleColor.bind(
@@ -52,50 +52,50 @@ function addRule(rule) {
 }
 
 function updateRuleColor(e, rule, faceIdx) {
-    var ruleIdx = polycubeSystem.rules.indexOf(rule);
+    var ruleIdx = system.rules.indexOf(rule);
     var c;
     if(e.value != 0) {
-        while (Math.abs(e.value) > polycubeSystem.colorMaterials.length) {
+        while (Math.abs(e.value) > system.colorMaterials.length) {
             var colorMaterial = new THREE.MeshLambertMaterial({
                 color: randomColor({luminosity: 'light'})
             });
-            polycubeSystem.colorMaterials.push(colorMaterial);
+            system.colorMaterials.push(colorMaterial);
         }
-        c = rgbToHex(polycubeSystem.colorMaterials[Math.abs(e.value)-1].color)
+        c = rgbToHex(system.colorMaterials[Math.abs(e.value)-1].color)
     }
     else {
         c = "White";
     }
     e.parentElement.style.backgroundColor = c;
-    polycubeSystem.rules[ruleIdx][faceIdx].c = e.value;
+    system.rules[ruleIdx][faceIdx].c = e.value;
     if(document.getElementById("autoUpdate").checked) {
         regenerate();
     }
 }
 
 function updateRuleRot(e, rule, faceIdx) {
-    var ruleIdx = polycubeSystem.rules.indexOf(rule);
+    var ruleIdx = system.rules.indexOf(rule);
     e.value = (parseInt(e.value) + 1) % 4;
     e.className = "rot" + e.value;
     var r = faceRotations[faceIdx].clone();
     r.applyAxisAngle(ruleOrder[faceIdx], e.value*Math.PI/2);
-    polycubeSystem.rules[ruleIdx][faceIdx].d = r.round();
+    system.rules[ruleIdx][faceIdx].d = r.round();
     if(document.getElementById("autoUpdate").checked) {
         regenerate();
     };
 }
 
 function removeRule(rule, ruleField) {
-    var ruleIdx = polycubeSystem.rules.indexOf(rule);
+    var ruleIdx = system.rules.indexOf(rule);
     ruleField.parentNode.removeChild(ruleField);
-    polycubeSystem.rules.splice(ruleIdx, 1);
+    system.rules.splice(ruleIdx, 1);
     if(document.getElementById("autoUpdate").checked) {
         regenerate();
     }
 }
 
 function simplifyRule() {
-    let ruleset = polycubeSystem.rules;
+    let ruleset = system.rules;
     let colors = new Set([].concat.apply([], ruleset.map(r=>r.map(f=>{return f.c}))));
     let newRuleset = [];
     ruleset.forEach((cube, iCube)=>{
@@ -130,28 +130,26 @@ function simplifyRule() {
             }
         })
     })
-    polycubeSystem.resetRule(newRuleset);
+    system.resetRule(newRuleset);
     regenerate();
     clearRules();
 }
 
-clearRules(); polycubeSystem.rules.forEach(addRule);
-
 function clearRules() {
     var ruleset = document.getElementById("ruleset");
     ruleset.innerText = "";
-    polycubeSystem.rules.forEach(addRule);
+    system.rules.forEach(addRule);
     if(document.getElementById("autoUpdate").checked) {
         regenerate();
     }
 }
 
 function regenerate() {
-    polycubeSystem.reset();
-    polycubeSystem.addCube(new THREE.Vector3(), polycubeSystem.rules[0], 0);
-    polycubeSystem.processMoves();
+    system.reset();
+    system.addCube(new THREE.Vector3(), system.rules[0], 0);
+    system.processMoves();
     render();
-    var argstr = polycubeSystem.rules.length > 0 ? "?hexRule="+polycubeSystem.getHexRule() : ""
+    var argstr = system.rules.length > 0 ? "?hexRule="+system.getHexRule() : ""
     window.history.pushState(null, null, argstr);
 }
 
@@ -171,6 +169,6 @@ function toggleRuleSet() {
     }
 }
 
-polycubeSystem.nMaxCubes = 500;
-polycubeSystem.rules.forEach(addRule);
+system.nMaxCubes = 500;
+clearRules();
 

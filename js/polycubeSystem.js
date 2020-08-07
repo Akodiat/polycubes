@@ -69,8 +69,8 @@ class PolycubeSystem {
         this.matches = 0;
         this.mismatches = 0;
 
-        this.cubeObjGroup = new THREE.Group();
-        scene.add(this.cubeObjGroup);
+        this.objGroup = new THREE.Group();
+        scene.add(this.objGroup);
 
         this.ruleOrder = ruleOrder;
         this.rules = rules;
@@ -113,7 +113,7 @@ class PolycubeSystem {
 
     reset() {
         objects = objects.filter(function(e) { return e.name !== "Cube" })
-        this.cubeObjGroup.children = [];
+        this.objGroup.children = [];
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
@@ -358,7 +358,6 @@ class PolycubeSystem {
             if (rule[i].c == 0) {
                 continue;
             }
-            var direction = this.ruleOrder[i].clone().negate();
             var movePos = position.clone().add(this.ruleOrder[i])
             if (Math.abs(movePos.x)>this.maxCoord ||
                Math.abs(movePos.y)>this.maxCoord ||
@@ -440,7 +439,7 @@ class PolycubeSystem {
         }
         cube.position.copy(position);
         cube.name = "Cube";
-        this.cubeObjGroup.add(cube);
+        this.objGroup.add(cube);
         objects.push(cube);
     }
 
