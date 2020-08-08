@@ -4,8 +4,8 @@ if (WEBGL.isWebGLAvailable() === false) {
 
 // From: https://html-online.com/articles/get-url-parameters-javascript/
 function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(
+    let vars = {};
+    let parts = window.location.href.replace(
         /[?&]+([^=&]+)=([^&]*)/gi, 
         function(m,key,value) {vars[key] = value;}
     );
@@ -13,7 +13,7 @@ function getUrlVars() {
 }
 
 function getUrlParam(param, defaultVal) {
-    var vars = getUrlVars();
+    let vars = getUrlVars();
     return param in vars ? vars[param] : defaultVal;
 }
 
@@ -29,9 +29,9 @@ function onDocumentMouseMove(event) {
         window.innerHeight) * 2 + 1);
     raycaster.setFromCamera(mouse, camera);
 
-    var intersects = raycaster.intersectObjects(objects);
+    let intersects = raycaster.intersectObjects(objects);
     if (intersects.length > 0) {
-        var i = intersects[0];
+        let i = intersects[0];
         console.log(intersects.length);
         rollOverMesh.position.copy(i.point).add(i.face.normal).add(new THREE.Vector3(0.5,0,0.5)).floor();
     }
@@ -46,13 +46,13 @@ function onDocumentMouseDblclick(event) {
 
     raycaster.setFromCamera(mouse, camera);
 
-    var intersects = raycaster.intersectObjects(objects);
+    let intersects = raycaster.intersectObjects(objects);
 
     if (intersects.length > 0) {
-        var intersect = intersects[0];
+        let intersect = intersects[0];
         pos = intersect.point.clone().add(intersect.face.normal).add(new THREE.Vector3(0.5,0,0.5)).floor();
 
-        system.addCube(pos, rules[activeRuleIdx], activeRuleIdx);
+        system.addParticle(pos, rules[activeRuleIdx], activeRuleIdx);
         system.processMoves();
 
         render();
@@ -73,7 +73,7 @@ function init() {
     scene = new THREE.Scene();
 
     // Parse rule
-    var vars = getUrlVars();
+    let vars = getUrlVars();
     if ("hexRule" in vars) {
         rules = parseHexRule(vars["hexRule"]);
     } else {
@@ -82,7 +82,7 @@ function init() {
 
         // Replace rotation number with vector
         rules = rules.map(function(rule) {return rule.map(function(face, i) {
-            var r = faceRotations[i].clone();
+            let r = faceRotations[i].clone();
             if(typeof face == "number") {
                 return {'c':face, 'd':r};
             } else {
@@ -98,13 +98,13 @@ function init() {
 
     // orbit controls
 
-    var orbit = new THREE.OrbitControls(camera);
+    let orbit = new THREE.OrbitControls(camera);
     orbit.damping = 0.2;
     orbit.addEventListener('change', render);
 
     // roll-over helpers
 
-    var rollOverGeo = new THREE.BoxBufferGeometry(1, 1, 1);
+    let rollOverGeo = new THREE.BoxBufferGeometry(1, 1, 1);
     rollOverMaterial = new THREE.MeshBasicMaterial({
         color: 0xff2222,
         opacity: 0.5,
@@ -115,14 +115,14 @@ function init() {
 
     // grid
 
-    var gridHelper = new THREE.GridHelper(100, 100);
+    let gridHelper = new THREE.GridHelper(100, 100);
     gridHelper.position.set(-0.5, -0.5, 0.5);
     scene.add(gridHelper);
 
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
 
-    var geometry = new THREE.PlaneBufferGeometry(100, 100);
+    let geometry = new THREE.PlaneBufferGeometry(100, 100);
     geometry.rotateX(-Math.PI / 2);
 
     plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({
@@ -135,10 +135,10 @@ function init() {
 
     // lights
 
-    var ambientLight = new THREE.AmbientLight(0x606060);
+    let ambientLight = new THREE.AmbientLight(0x606060);
     scene.add(ambientLight);
 
-    var directionalLight = new THREE.DirectionalLight(0xffffff);
+    let directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(1, 0.75, 0.5).normalize();
     scene.add(directionalLight);
 
@@ -154,13 +154,13 @@ function init() {
     window.addEventListener('resize', onWindowResize, false);
 }
 
-var camera, scene, renderer;
-var plane;
-var mouse, raycaster;
-var rollOverMesh, rollOverMaterial;
-var system;
-var activeRuleIdx = 0;
-var objects = [];
+let camera, scene, renderer;
+let plane;
+let mouse, raycaster;
+let rollOverMesh, rollOverMaterial;
+let system;
+let activeRuleIdx = 0;
+let objects = [];
 
 init();
 render();

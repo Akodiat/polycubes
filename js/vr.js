@@ -1,5 +1,5 @@
-var rotation = 0;
-var rig = new THREE.PerspectiveCamera();
+let rotation = 0;
+let rig = new THREE.PerspectiveCamera();
 rig.add(camera);
 scene.add(rig);
 rig.lookAt(system.centerOfMass);
@@ -21,9 +21,9 @@ const selectListener = (event) => {
         firstRule = false;
         return;
     }
-    var maxRuleSize = 20;
-    var ruleSize = Math.round(Math.random()*maxRuleSize)+1;
-    var hexRule = "";
+    let maxRuleSize = 20;
+    let ruleSize = Math.round(Math.random()*maxRuleSize)+1;
+    let hexRule = "";
     while(ruleSize--) {
         hexRule += (Math.abs(Math.random()*0xFFFFFFFFFFFF<<0)).toString(16);
     }
@@ -34,7 +34,7 @@ const selectListener = (event) => {
 };
 
 controller.addEventListener('select', selectListener);
-var firstRule = true;
+let firstRule = true;
 
 
 

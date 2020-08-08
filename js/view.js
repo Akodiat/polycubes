@@ -9,8 +9,8 @@ function toggleModal(id) {
 
 // From: https://html-online.com/articles/get-url-parameters-javascript/
 function getUrlVars() {
-    var vars = {};
-    var parts = window.location.href.replace(
+    let vars = {};
+    let parts = window.location.href.replace(
         /[?&]+([^=&]+)=([^&]*)/gi, 
         function(m,key,value) {vars[key] = value;}
     );
@@ -18,7 +18,7 @@ function getUrlVars() {
 }
 
 function getUrlParam(param, defaultVal) {
-    var vars = getUrlVars();
+    let vars = getUrlVars();
     return param in vars ? vars[param] : defaultVal;
 }
 
@@ -150,10 +150,10 @@ function initScene() {
     scene = new THREE.Scene();
 
     // lights
-    var ambientLight = new THREE.AmbientLight(0x707070);
+    let ambientLight = new THREE.AmbientLight(0x707070);
     camera.add(ambientLight);
 
-    var directionalLight = new THREE.PointLight(0x909090);
+    let directionalLight = new THREE.PointLight(0x909090);
     directionalLight.position.set(10, 10, 5).normalize();
     camera.add(directionalLight);
 
@@ -180,12 +180,12 @@ function initScene() {
     orbit.addEventListener('change', render);
 }
 
-var camera, orbit, scene, renderer, canvas;
-var plane;
-var mouse, raycaster;
-var rollOverMesh, rollOverMaterial;
+let camera, orbit, scene, renderer, canvas;
+let plane;
+let mouse, raycaster;
+let rollOverMesh, rollOverMaterial;
 
-var objects = [];
+let objects = [];
 
 initScene();
 

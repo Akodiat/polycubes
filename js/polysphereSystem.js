@@ -6,6 +6,12 @@ function mod(n, m) {
     return ((n % m) + m) % m;
 }
 
+function round(val, nDecimals) {
+    let factor = Math.pow(10, nDecimals);
+    return Math.round((val + Number.EPSILON) * factor) / factor;
+}
+
+
 function saveString(text, filename) {
     let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -34,7 +40,7 @@ class Patch {
     constructor(color, pos, alignDir) {
         this.pos = pos;
         this.alignDir = alignDir;
-        this.color = color;
+        this.color = parseInt(color);
     }
 
     static init(color, phi, theta, rotation) {
@@ -44,16 +50,25 @@ class Patch {
         return new Patch(color, pos, alignDir);
     }
 
+    set(color, phi, theta, rotation) {
+        let pos = new THREE.Vector3().setFromSphericalCoords(1, phi, theta);
+        let alignDir = Patch.getDefaultAlignDir(pos).applyAxisAngle(pos, rotation);
+
+        this.color = color;
+        this.pos = pos;
+        this.alignDir = alignDir;
+    }
+
     static getDefaultAlignDir(pos) {
         // Hairy ball theorem creates trouble...
         let north = new THREE.Vector3(0,1,0);
         //let north = new THREE.Vector3(3,5,7).normalize();
         
-        console.log(pos.distanceTo(north) < 1E-3);
-        if(pos.equals(north)) {
+        console.log(pos.distanceTo(north) < 1E-10);
+        if(pos.distanceTo(north) < 1E-10) {
             console.warn("Position is North")
             return new THREE.Vector3(1,0,0);
-        } else if (pos.equals(north.clone().negate())) {
+        } else if (pos.distanceTo(north.clone().negate()) < 1E-10) {
             console.warn("Position is South")
             return new THREE.Vector3(-1,0,0);
         }
@@ -61,18 +76,28 @@ class Patch {
         return north.projectOnPlane(pos).normalize();
     }
 
-    getRotation() {
-        let defAlignDir = Patch.getDefaultAlignDir(localPos);
-        let rotation = getSignedAngle(defAlignDir, alignDir, localPos);
+    toJSON() {
+        let pos = new THREE.Spherical().setFromVector3(this.pos);
+        return [
+            this.color,
+            round(pos.phi / (2*Math.PI), 3),
+            round(pos.theta / Math.PI, 3),
+            round(this.getRotation() / (2*Math.PI), 3)
+        ];
+    }
 
-        let tmp = defAlignDir.clone().applyAxisAngle(localPos, rotation);
-        if (alignDir.distanceTo(tmp) < 1e-3) {
+    getRotation() {
+        let defAlignDir = Patch.getDefaultAlignDir(this.pos);
+        let rotation = getSignedAngle(defAlignDir, this.alignDir, this.pos);
+
+        let tmp = defAlignDir.clone().applyAxisAngle(this.pos, rotation);
+        if (this.alignDir.distanceTo(tmp) < 1e-3) {
             rotation *= -1;
-            tmp = defAlignDir.clone().applyAxisAngle(localPos, rotation);
+            tmp = defAlignDir.clone().applyAxisAngle(this.pos, rotation);
         }
         console.assert(
-            alignDir.distanceTo(tmp) < 1e-3,
-            `Incorrect patch rotation ${vecToStr(alignDir)} != ${vecToStr(tmp)}`
+            this.alignDir.distanceTo(tmp) < 1e-3,
+            `Incorrect patch rotation ${vecToStr(this.alignDir)} != ${vecToStr(tmp)}`
         );
         return rotation;
     }
@@ -99,14 +124,14 @@ class Move {
 
 class PolysphereSystem {
 
-    constructor(rule, nMaxCubes=1000, maxCoord=100) {
+    constructor(rule, maxParticles=1000, maxCoord=100) {
         this.moves = [];
         this.particles = [];
         this.centerOfMass = new THREE.Vector3();
-        this.nMaxCubes = nMaxCubes;
+        this.maxParticles = maxParticles;
         this.maxCoord = maxCoord;
 
-        this.interfaceMaterials = [];
+        this.colorMaterials = [];
         this.particleMaterials = [];
         this.matches = 0;
         this.mismatches = 0;
@@ -121,16 +146,16 @@ class PolysphereSystem {
         nColors = Math.max(nColors, 2) //Avoid getting only red colors
 
         let connectionColors = randomColor({luminosity: 'light', count: nColors, seed: 2});
-            for (let i=0; i<nColors; i++) {
-            let colorMaterial = new THREE.MeshLambertMaterial({color: connectionColors[i]});
-                this.interfaceMaterials.push(colorMaterial);
-            }
+        for (let i=0; i<nColors; i++) {
+        let colorMaterial = new THREE.MeshLambertMaterial({color: connectionColors[i]});
+            this.colorMaterials.push(colorMaterial);
+        }
 
-        let cubeColors = randomColor({luminosity: 'light',  hue: 'monochrome', count: rule.length, seed: 1});
-            for (let i=0; i<rule.length; i++) {
-            let cubeMaterial = new THREE.MeshStandardMaterial({color: cubeColors[i], roughness:0.8, metallness:0.8});
-                this.particleMaterials.push(cubeMaterial);
-            }
+        let particleColors = randomColor({luminosity: 'light',  hue: 'monochrome', count: rule.length, seed: 1});
+        for (let i=0; i<rule.length; i++) {
+        let cubeMaterial = new THREE.MeshStandardMaterial({color: particleColors[i], roughness:0.8, metallness:0.8});
+            this.particleMaterials.push(cubeMaterial);
+        }
 
         let sphereSize = 0.4;
         let connectorSize = 0.1;
@@ -152,6 +177,10 @@ class PolysphereSystem {
         });
     }
 
+    isPolycubeSystem() {
+        return false;
+    }
+
     reset() {
         objects = objects.filter(function(e) { return e.name !== "Cube" })
         this.objGroup.children = [];
@@ -165,13 +194,13 @@ class PolysphereSystem {
     resetRandom() {
         let maxRuleSize = 8;
         let ruleSize = Math.round(Math.random()*maxRuleSize)+1;
-        let hexRule = "";
+        let ruleStr = "";
         while(ruleSize--) {
-            hexRule += (Math.abs(Math.random()*0xFFFFFFFFFFFF<<0)).toString(16);
+            ruleStr += (Math.abs(Math.random()*0xFFFFFFFFFFFF<<0)).toString(16);
         }
-        let argstr = "?hexRule="+hexRule;
+        let argstr = "?rule="+ruleStr;
         window.history.pushState(null, null, argstr);
-        this.resetRule(parseHexRule(hexRule));
+        this.resetRule(parseruleStr(ruleStr));
     }
 
     resetRule(rule) {
@@ -187,7 +216,7 @@ class PolysphereSystem {
             let colorMaterial = new THREE.MeshLambertMaterial({
                 color: randomColor({luminosity: 'light'})
             });
-            this.interfaceMaterials.push(colorMaterial);
+            this.colorMaterials.push(colorMaterial);
         }
 
         for (let i=0; i<rule.length; i++) {
@@ -207,8 +236,12 @@ class PolysphereSystem {
         return this.mismatches / (this.matches + this.mismatches)
     }
 
+    getRuleStr() {
+        return JSON.stringify(this.rule)
+    }
+
     getCoordinateFile() {
-        let filename = `${this.getHexRule()}.${this.particles.length}-mer`;
+        let filename = `${this.getRuleStr()}.${this.particles.length}-mer`;
         let text = ""
         this.particles.forEach(p=>{text += vecToStr(p.pos) + '\n'});
         saveString(text, filename);
@@ -332,7 +365,7 @@ class PolysphereSystem {
                     if(!this.particles.find(p=>{return p.pos.distanceTo(move.pos) < 0.9})){
                         this.addParticle(move.pos, patches, ruleIdxs[r]);
                     }
-                    if (this.particles.length >= this.nMaxCubes) {
+                    if (this.particles.length >= this.maxParticles) {
                         render();
                         window.dispatchEvent(new Event('oub'));
                         console.log("Unbounded");
@@ -406,7 +439,7 @@ class PolysphereSystem {
         particle.add(centerCube);
         patches.forEach(patch=>{
             if (patch.color != 0) {
-                let material = this.interfaceMaterials[Math.abs(patch.color) - 1].clone();
+                let material = this.colorMaterials[Math.abs(patch.color) - 1].clone();
                 if (patch.color >= 0) {
                     material.emissive = material.color.clone().addScalar(-0.5);
                 }

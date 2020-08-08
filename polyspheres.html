@@ -29,7 +29,7 @@
             overflow-x: hidden;
             opacity: 0.8;
             max-height: 100%;
-            width: 180px;
+            width: 250px;
             font-family: Monospace;
             font-size: 12px;
             text-align: center;
@@ -86,20 +86,21 @@
         }
 
         span {
-           display: inline-block;
+           display: flex;
         }
 
         input[type=number] {
-            width: 30px;
+            width: 3em;
             height: 30px;
             text-align: center;
             border-width:0px;
             border:none;
-            background: transparent;
             vertical-align: middle;
         }
         button {
             background-color: #e1e3e1;
+            vertical-align: middle;
+            text-align: center;
             width: 100%;
             border: 0;
             padding: 2px;
@@ -148,12 +149,12 @@
         Polycubes, by Joakim Bohlin. A 3D version of <a href="http://chaoticsymmetry.co.uk/polyominoes/index-old.php">Polyominoes</a><br>
         <button class="primary" onclick="toggleModal('examples')">Help</button>
         <button onclick="system.resetRandom(); clearRules();">Random input</button>
-        <button onclick="system.resetRule(parseHexRule(mutateRule(system.getHexRule()))); clearRules()">Mutate input</button>
+        <button onclick="system.resetRule(parseHexRule(mutateRule(polycubeSystem.getHexRule()))); clearRules()">Mutate input</button>
         <button onclick="simplifyRule()">Simplify</button>
         <fieldset>
         <legend>Input:</legend>
         <div id="ruleset" style="overflow: hidden"></div>
-        <button class="primary" onclick="addRule()">Add cube type</button>
+        <button class="primary" onclick="addRule()">Add particle type</button>
         <span style="display: flex;">
             <button onclick="regenerate()">Update</button>
             <input type="checkbox" id="autoUpdate" checked="True", onchange="regenerate()">Auto update    
@@ -169,14 +170,13 @@
     <script src="js/libs/WebGL.js"></script>
     <script src="js/libs/GLTFExporter.js"></script>
     <script src="js/controls/OrbitControls.js"></script>
-    <script src="js/polycubeSystem.js"></script>
+    <script src="js/polysphereSystem.js"></script>
     <script src="js/view.js"></script>
     <script src="js/init.js"></script>
     <script>
-        createPolycubeSystem();
+        createPolysphereSystem();
     </script>
     <script src="js/edit.js"></script>
-    <script src="js/evolve.js"></script>
 
 </body>
 

@@ -3,7 +3,7 @@ function initFrame(frame) {
     window.document.body.style.background = "#fff";
     window.system.resetRule(window.parseHexRule(randomRule()));
     window.document.ondblclick = ()=>{
-        let hex = window.system.getHexRule();
+        let hex = window.system.getRuleStr();
         let frames = document.getElementById("grid").children;
         for (let i=0; i<frames.length; i++) {
             let w = frames[i].contentWindow;
@@ -25,9 +25,9 @@ function randomUrl() {
 }
 
 function randomRule() {
-    var maxRuleSize = 8;
-    var ruleSize = Math.round(Math.random()*maxRuleSize)+1;
-    var hexRule = "";
+    let maxRuleSize = 8;
+    let ruleSize = Math.round(Math.random()*maxRuleSize)+1;
+    let hexRule = "";
     while(ruleSize--) {
         hexRule += (Math.abs(Math.random()*0xFFFFFFFFFFFF<<0)).toString(16);
     }

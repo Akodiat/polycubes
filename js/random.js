@@ -1,4 +1,4 @@
-var rotation = 0;
+let rotation = 0;
 rotateCamera();
 
 regenerate()
@@ -29,13 +29,13 @@ function sleep(ms) {
 }
 
 function regenerate() {
-    var maxRuleSize = 8;
-    var ruleSize = Math.round(Math.random()*maxRuleSize)+1;
-    var hexRule = "";
+    let maxRuleSize = 8;
+    let ruleSize = Math.round(Math.random()*maxRuleSize)+1;
+    let hexRule = "";
     while(ruleSize--) {
         hexRule += (Math.abs(Math.random()*0xFFFFFFFFFFFF<<0)).toString(16);
     }
-    var argstr = "?hexRule="+hexRule;
+    let argstr = "?hexRule="+hexRule;
     window.history.pushState(null, null, argstr);
     
     // Parse rule

@@ -2,7 +2,7 @@ function createPolycubeSystem() {
     let rules = {};
 
     // Parse rule
-    var vars = getUrlVars();
+    let vars = getUrlVars();
     if ("hexRule" in vars) {
         rules = parseHexRule(vars["hexRule"]);
     } else {
@@ -11,12 +11,12 @@ function createPolycubeSystem() {
         
         // Replace rotation number with vector
         rules = rules.map(function(rule) {return rule.map(function(face, i) {
-            var r = faceRotations[i].clone();
+            let r = faceRotations[i].clone();
             if(typeof face == "number") {
-                return {'c':face, 'd':r};
+                return {'color':face, 'alignDir':r};
             } else {
                 r.applyAxisAngle(ruleOrder[i], face[1]*Math.PI/2);
-                return {'c':face[0], 'd':r};
+                return {'color':face[0], 'alignDir':r};
             }
         });});
     }
@@ -26,7 +26,7 @@ function createPolycubeSystem() {
     system = new PolycubeSystem(rules, ruleOrder, nMaxCubes);
     orbit.target = system.centerOfMass;
 
-    system.addCube(new THREE.Vector3(), system.rules[0], 0);
+    system.addParticle(new THREE.Vector3(), system.rule[0], 0);
     system.processMoves();
     render();
 }
