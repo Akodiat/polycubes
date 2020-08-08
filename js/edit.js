@@ -49,11 +49,11 @@ function addRule(patches) {
 
             let phi = document.createElement("input");
             phi.type = "number";
-            phi.value = patch[1]; phi.max = 1, phi.min = 0, phi.step = 0.01;
+            phi.value = patch[1]; phi.max = 1, phi.min = -1, phi.step = 0.01;
 
             let theta = document.createElement("input");
             theta.type = "number";
-            theta.value = patch[2]; theta.max = 1, theta.min = 0, theta.step = 0.01;
+            theta.value = patch[2]; theta.max = 1, theta.min = -1, theta.step = 0.01;
 
             let rotation = document.createElement("input");
             rotation.type = "number";
@@ -74,7 +74,7 @@ function addRule(patches) {
                 patches[i].set(
                     color.valueAsNumber,
                     phi.valueAsNumber * 2 * Math.PI,
-                    theta.valueAsNumber * Math.PI,
+                    theta.valueAsNumber * 2 * Math.PI,
                     rotation.valueAsNumber * 2 * Math.PI
                 );
                 if(document.getElementById("autoUpdate").checked) {

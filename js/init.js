@@ -3,7 +3,9 @@ function createPolycubeSystem() {
 
     // Parse rule
     let vars = getUrlVars();
-    if ("hexRule" in vars) {
+    if ("rule" in vars) {
+        rules = parseHexRule(vars["rule"]);
+    } else if ("hexRule" in vars) {
         rules = parseHexRule(vars["hexRule"]);
     } else {
         defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
@@ -40,7 +42,7 @@ function createPolysphereSystem() {
         let tau = 2*Math.PI;
         let color = p[0];
         let phi = p[1] * tau;
-        let theta = p[2] * Math.PI; 
+        let theta = p[2] * tau;
         let rotation = p[3] * tau;
         return Patch.init(color, phi, theta, rotation);
     });});
