@@ -7,8 +7,12 @@ import polycubes
 from analyse_output import calcComplexity, simplifyHexRule
 
 def groupByPhenotype(rules):
+    nRules = len(rules)
+    nGroups = 0
+    print("About to group {} rules".format(nRules), flush=True)
     groups = []
-    for rule in rules:
+    for i, rule in enumerate(rules):
+        print("{} groups, {} rules grouped ({:.2}%)".format(nGroups, i, 100*i/nRules), end='\r', flush=True)
         foundGroup = False
         for group in groups:
             if polycubes.checkEquality(rule, group[0]):
@@ -17,6 +21,11 @@ def groupByPhenotype(rules):
                 break
         if not foundGroup:
             groups.append([rule])
+            nGroups += 1
+        if i%10 == 0:
+            groups.sort(key=lambda x: len(x), reverse=True) # Make sure most common is first
+            #print([len(g) for g in groups[:10]])
+    groups.sort(key=lambda x: len(x), reverse=True)
     return groups
 
 def getPhenosForNMer(n, nmer, datadir):
@@ -47,7 +56,7 @@ def getPhenosForNMer(n, nmer, datadir):
 if __name__ == "__main__":
     nmerpath = sys.argv[1]
     nmerdir, nmername = os.path.split(nmerpath)
-    p = '(\d+)-mers_((.*)_rules_(.*)).p'
+    p = r'(\d+)-mers_((.*)_rules_(.*)).p'
     r = re.search(p, nmername)
     n = int(r.group(1))
     suffix = r.group(2)
