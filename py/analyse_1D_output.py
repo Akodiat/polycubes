@@ -7,7 +7,6 @@ from collections import Counter
 import re
 import multiprocessing
 import polycubes
-import pathlib
 
 # Force matplotlib to not use any Xwindows backend.
 mpl.use('Agg')
@@ -358,8 +357,8 @@ def calcComplexity(hexRule):
     ruleset = parseHexRule(hexRule)
     simplifyRuleset(ruleset)
     nColors = max(face['color'] for rule in ruleset for face in rule)
-    #nRules = len(ruleset)
-    return nColors #*nRules
+    nRules = len(ruleset)
+    return nColors*nRules
 
 
 def simplifyHexRule(hexRule):
@@ -409,15 +408,12 @@ def plotRuleSizeVsPolycubeSize(nMers):
 
 def getPhenosForNMer(n):
     phenosn = []
-    if(n==2):
-        groups = [nMers[n]] # Only one phenotype possible
-    else:
-        groups = groupByPhenotype(nMers[n])
-    pickle.dump(groups, open(
+    group = nMers[n] # Only one phenotype possible
+    pickle.dump([group], open(
         os.path.join(datadir, "{}-mer_phenos_{}.p".format(n, suffix)), "wb")
     )
-    for group in groups:
-        count = len(group)
+    count = len(group)
+    if count >= 10:
         minRule = min(group, key=calcComplexity)
         minCompl = calcComplexity(minRule)
         phenosn.append({
@@ -434,7 +430,7 @@ phenos = {}
 def calcPhenos():
     global phenos
     phenos = {}
-    with multiprocessing.Pool(8) as p:
+    with multiprocessing.Pool(100) as p:
         for n, phenosn in p.imap_unordered(
                 getPhenosForNMer,
                 reversed(sorted([k for k in nMers.keys() if k != 1]))):
@@ -526,28 +522,23 @@ if __name__ == "__main__":
     datadir, name = os.path.split(datapath)
     result = readResult(datapath)
     print("...Done reading data")
+    nMers = result['nMers']
 
     nRules, categories = calcNRulesTested(result)
     suffix = '{:.1E}_rules_{}'.format(nRules, name)
-
-    nMers = result['nMers']
-
-    pathlib.Path(os.path.join(datadir, 'nmers')).mkdir(parents=True, exist_ok=True)
-    for n, nMer in nMers.items():
-        pickle.dump(nMer, open(os.path.join(datadir, 'nmers', "{}-mers_{}.p".format(n, suffix)), "wb"))
-
     print("Loaded {} rules in total".format(nRules))
-"""
+
     calcPhenos()
     print("Calculated all phenos")
-    pathlib.Path(os.path.join(datadir, 'phenos')).mkdir(parents=True, exist_ok=True)
-    pickle.dump(phenos, open(os.path.join(datadir, "phenos_{}.p".format(suffix)), "wb"))
+    pickle.dump(phenos, open(
+        os.path.join(datadir, "phenos_{}.p".format(suffix)), "wb")
+    )
     try:
         plotProbVsPhenotypeCompl(phenos, nRules, datadir)
     except:
         print("Failed to plot")
     print("Done!")
-"""
+
 
 # topcompl = max((max(phenos[i], key=lambda p: p['compl']) for i in phenos), key=lambda p: p['compl'])
 
