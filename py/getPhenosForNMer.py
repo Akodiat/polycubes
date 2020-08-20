@@ -5,6 +5,7 @@ import pickle
 import pathlib
 import polycubes
 from analyse_output import calcComplexity, simplifyHexRule
+from multiprocessing import Pool
 
 def groupByPhenotype(rules):
     nRules = len(rules)
@@ -12,7 +13,7 @@ def groupByPhenotype(rules):
     print("About to group {} rules".format(nRules), flush=True)
     groups = []
     for i, rule in enumerate(rules):
-        print("{} groups, {} rules grouped ({:.2}%)".format(nGroups, i, 100*i/nRules), end='\r', flush=True)
+        print("{} groups, {} rules grouped ({:n}%)".format(nGroups, i, 100*i/nRules), end='\r', flush=True)
         foundGroup = False
         for group in groups:
             if polycubes.checkEquality(rule, group[0]):
@@ -28,10 +29,39 @@ def groupByPhenotype(rules):
     groups.sort(key=lambda x: len(x), reverse=True)
     return groups
 
-def getPhenosForNMer(n, nmer, datadir):
+def groupParallel(rules):
+    chunksize = 1000
+    ruleChunks = (rules[i:i + chunksize] for i in range(0, len(rules), chunksize))
+    print("Grouping {} rules in parallel batches of {}".format(len(rules), chunksize), flush=True)
+    with Pool() as p:
+        groupChunks = p.map(groupByPhenotype, ruleChunks)
+    groupChunks.sort(key=lambda p: len(p))
+    print("\nMerging {} chunks with a total of {} groups".format(
+        len(groupChunks),
+        sum(len(c) for c in groupChunks)
+    ), flush=True)
+    groups = groupChunks.pop()
+    while len(groupChunks) > 0:
+        newgroups = groupChunks.pop()
+        for b in newgroups:
+            foundGroup = False
+            for a in groups:
+                if polycubes.checkEquality(a[0], b[0]):
+                    a.extend(b)
+                    foundGroup = True
+                    break
+            if not foundGroup:
+                groups.append(b)
+                print("{} groups".format(len(groups)))
+    return groups
+
+
+def getPhenosForNMer(n, nmer, datadir, parallel=False):
     phenosn = []
-    if(n==2):
+    if(n<=2):
         groups = [nmer] # Only one phenotype possible
+    elif parallel:
+        groups = groupParallel(nmer)
     else:
         groups = groupByPhenotype(nmer)
 
@@ -63,4 +93,4 @@ if __name__ == "__main__":
     nRules = float(r.group(3))
     datadir, _ = os.path.split(nmerdir)
     nmer = pickle.load(open(nmerpath, "rb"))
-    getPhenosForNMer(n, nmer, datadir) 
+    getPhenosForNMer(n, nmer, datadir, parallel=True)
