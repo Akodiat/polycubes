@@ -1,4 +1,13 @@
 from collections import Counter
+import os
+import pickle
+
+def loadPhenos(path="../cpp/out/3d/phenos"):
+    phenos = []
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            phenos.extend(pickle.load(open(os.path.join(root, file), "rb")))
+    return phenos
 
 def calcComplexity(hexRule):
     ruleset = parseHexRule(hexRule)
@@ -6,6 +15,9 @@ def calcComplexity(hexRule):
     nColors = max(face['color'] for rule in ruleset for face in rule)
     #nRules = len(ruleset)
     return nColors #*nRules
+
+def countCubeTypes(hexRule):
+    return len(simplifyRuleset(parseHexRule(hexRule)))
 
 def getNColors(ruleset):
     colorset = set([abs(face['color']) for rule in ruleset for face in rule])
@@ -16,9 +28,7 @@ def getNColors(ruleset):
 
 
 def simplifyHexRule(hexRule):
-    ruleset = parseHexRule(hexRule)
-    simplifyRuleset(ruleset)
-    return ruleToHex(ruleset)
+    return ruleToHex(simplifyRuleset(parseHexRule(hexRule)))
 
 
 def calculateSearchSpaceSize(
@@ -41,27 +51,28 @@ def ruleToHex(ruleset):
     return hexRule
 
 
+
 def simplifyRuleset(ruleset):
-    colors = [face['color'] for rule in ruleset for face in rule]
-    tally = Counter(colors)
+    colors = Counter([face['color'] for cube in ruleset for face in cube])
     newRuleset = []
-    for rule in ruleset:
+    for iCube, cube in enumerate(ruleset):
         allZero = True
-        for face in rule:
-            c = face['color']
-            if tally[c*-1] == 0:
+        for face in cube:
+            if colors[face['color']*-1] == 0:
+                # Remove patch if there is no matching color
                 face['color'] = 0
             if face['color'] == 0:
+                # Reset orientation if there is no patch color
                 face['orientation'] = 0
             else:
                 allZero = False
-        if not allZero:
-            newRuleset.append(rule)
+        if not allZero or iCube==0:
+            newRuleset.append(cube)
     colorset = [x for x in {
-            abs(face['color']) for rule in newRuleset for face in rule
+            abs(face['color']) for cube in newRuleset for face in cube
     }.difference({0})]
-    for rule in newRuleset:
-        for face in rule:
+    for cube in newRuleset:
+        for face in cube:
             c = face['color']
             if c != 0:
                 face['color'] = colorset.index(abs(c)) + 1
@@ -69,9 +80,8 @@ def simplifyRuleset(ruleset):
                     face['color'] *= -1
     return newRuleset
 
-
 def toUrl(hexRule):
-    return 'https://akodiat.github.io/polycubes?rule={}'.format(hexRule)
+    return 'https://akodiat.github.io/polycubes?hexRule=' + alt.datum.rule
 
 def parseHexRule(hexRule):
     ruleset = []

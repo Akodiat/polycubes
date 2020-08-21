@@ -39,14 +39,6 @@ def calcGenotypeRobustness(hexRule, maxColor=8, maxCubes=8, dim=3):
     nEqual = sum(polycubes.checkEquality(hexRule, mutant) for mutant in mutations)
     return nEqual / len(mutations)
 
-# Load all genotypes found to assemble each phenotype
-def loadGroupedPhenos(path="../cpp/out/3d/phenos"):
-    groupedPhenos = []
-    for root, _, files in os.walk(path):
-        for file in files:
-            groupedPhenos.extend(pickle.load(open(os.path.join(root, file), "rb")))
-    return groupedPhenos
-
 def __f(arg):
     pheno, maxColor, maxCubes, dim, total = arg
     n = len(pheno)

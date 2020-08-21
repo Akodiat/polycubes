@@ -75,6 +75,7 @@ def getPhenosForNMer(n, nmer, datadir, parallel=False):
             'freq': count/nRules,
             'compl': minCompl,
             'rule': simplifyHexRule(minRule),
+            'size': n,
             'genotypes': group
         })
         print("{}-mer has {} genotypes equal to {} (compl {})".format(n, count, minRule, minCompl), flush=True)
