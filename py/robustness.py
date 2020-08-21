@@ -1,4 +1,4 @@
-import analyse_output as utils
+import utils
 import polycubes
 import numpy as np
 import pandas as pd

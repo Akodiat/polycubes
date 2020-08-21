@@ -4,7 +4,7 @@ import re
 import pickle
 import pathlib
 import polycubes
-from analyse_output import calcComplexity, simplifyHexRule
+from utils import calcComplexity, simplifyHexRule
 from multiprocessing import Pool
 
 def groupByPhenotype(rules):
