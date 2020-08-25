@@ -94,4 +94,4 @@ if __name__ == "__main__":
     nRules = float(r.group(3))
     datadir, _ = os.path.split(nmerdir)
     nmer = pickle.load(open(nmerpath, "rb"))
-    getPhenosForNMer(n, nmer, datadir, parallel=True)
+    getPhenosForNMer(n, nmer, datadir, parallel=False)
