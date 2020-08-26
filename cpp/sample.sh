@@ -1,1 +1,1 @@
-addqueue -c "2 days (2D)" -n 100 ../bin/polycubes -n 1e7 -d 2 -t 15
+addqueue -c "Polycubes 3D, 1 day" -n 100 /users/joakim/repo/polycubes/cpp/bin/polycubes -n 1e7 -d 3 -t 15

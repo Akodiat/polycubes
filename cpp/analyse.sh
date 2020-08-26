@@ -1,1 +1,1 @@
-addqueue -s -c "Analyse 3d 1day" -n 1x8 -m 16 /usr/bin/python3 ../../py/analyse_output.py out_3d
+addqueue -s -q "bigmem" -c "Analyse 3d 2 hours" -o "sortNMers_%j.out" -n 1 -m 128 /usr/bin/python3 ~/repo/polycubes/py/sortNMers.py out_3d
