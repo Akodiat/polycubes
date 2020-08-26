@@ -8,7 +8,7 @@ import pickle
 from multiprocessing import Pool
 
 # Enumerate all genotypes one point mutation away
-def enumerateMutations(hexRule, maxColor=32, maxCubes=5, dim=3):
+def enumerateMutations(hexRule, maxColor=31, maxCubes=5, dim=3):
     emptyCube = "000000000000"
     orientations = range(4)
     colors = range(-maxColor, maxColor+1)
@@ -24,7 +24,9 @@ def enumerateMutations(hexRule, maxColor=32, maxCubes=5, dim=3):
                 if color != face['color']:
                     newRule = utils.parseHexRule(hexRule)
                     newRule[i][j]['color'] = color
-                    mutations.append(utils.ruleToHex(newRule))
+                    newHexRule = utils.ruleToHex(newRule)
+                    assert(len(newHexRule) == maxCubes * len(emptyCube))
+                    mutations.append(newHexRule)
             if dim == 3:
                 for orientation in orientations:
                     if orientation != face['orientation']:
@@ -34,12 +36,12 @@ def enumerateMutations(hexRule, maxColor=32, maxCubes=5, dim=3):
     return mutations
 
 # Calculate the fraction of mutational neigbours that produce the same phenotype
-def calcGenotypeRobustness(hexRule, maxColor=32, maxCubes=5, dim=3):
+def calcGenotypeRobustness(hexRule, maxColor=31, maxCubes=5, dim=3):
     mutations = enumerateMutations(hexRule, maxColor, maxCubes, dim)
     nEqual = sum(polycubes.checkEquality(hexRule, mutant) for mutant in mutations)
     return nEqual / len(mutations)
 
-def calcPhenotypeRobustness(path='../cpp/out/3d', maxColor=32, maxCubes=5, dim=3):
+def calcPhenotypeRobustness(path='../cpp/out/3d', maxColor=31, maxCubes=5, dim=3):
     phenos = utils.loadPhenos(os.path.join(path,'phenos'))
     total = sum(p['count'] for p in phenos)
     print("Loaded {} phenotypes".format(total))
@@ -64,7 +66,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument("--path")
-    parser.add_argument("--maxColor", default=32)
+    parser.add_argument("--maxColor", default=31)
     parser.add_argument("--maxCubes", default=5)
     parser.add_argument("--dim", default=3)
     args = parser.parse_args()

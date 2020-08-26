@@ -38,11 +38,22 @@ def calculateSearchSpaceSize(
     return pow(nRotations*(1 + 2*nColors), nInteractionSites*nRules)
 
 
+# 0 sign
+#/ 0 value 16
+# 0 value 8
+# 0 value 4
+
+# 0 value 2
+# 0 value 1
+# 0 face orientation
+# 0 face orientation
+
 def ruleToHex(ruleset):
     hexRule = ''
     for rule in ruleset:
         for face in rule:
             sign = bin(face['color'] < 0)[2:]
+            assert abs(face['color']) < 32, "Color value too large for hexadecimal rule"
             color = bin(abs(face['color']))[2:].zfill(5)
             orientation = bin(abs(face['orientation']))[2:].zfill(2)
             binStr = sign + color + orientation
@@ -81,7 +92,7 @@ def simplifyRuleset(ruleset):
     return newRuleset
 
 def toUrl(hexRule):
-    return 'https://akodiat.github.io/polycubes?hexRule=' + alt.datum.rule
+    return 'https://akodiat.github.io/polycubes?hexRule=' + hexRule
 
 def parseHexRule(hexRule):
     ruleset = []
