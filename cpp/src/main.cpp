@@ -25,6 +25,10 @@
 // Need 2 hexadecimal digits.
 
 std::string randRule(int maxColor, int maxCubes, int dim) {
+    if (maxColor >= 32) {
+        std::cerr<<"Error: color value too large for hex rule"<<std::endl;
+        exit(EXIT_FAILURE);
+    }
     const int colBits = 5;
     const int rotBits = 2;
     int nRotations = pow(2, rotBits); // 4;
@@ -107,7 +111,7 @@ int main(int argc, char **argv) {
     // Set default argument values
     std::string rule = "";
     std::vector<std::string> equalityCheck;
-    int maxColors = 32;
+    int maxColors = 31;
     int maxRulesize = 5;
     int dimensions = 3;
     int nTimes = 1;
