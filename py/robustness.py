@@ -36,8 +36,10 @@ def enumerateMutations(hexRule, maxColor=31, maxCubes=5, dim=3):
     return mutations
 
 # Calculate the fraction of mutational neigbours that produce the same phenotype
-def calcGenotypeRobustness(hexRule, maxColor=31, maxCubes=5, dim=3):
-    mutations = enumerateMutations(hexRule, maxColor, maxCubes, dim)
+def calcGenotypeRobustness(hexRule, maxColor=31, maxCubes=5, dim=3, radius=1):
+    mutations = {hexRule}
+    for _ in range(radius):
+        mutations.update({y for x in (enumerateMutations(r, maxColor, maxCubes, dim) for r in mutations) for y in x})
     nEqual = sum(polycubes.checkEquality(hexRule, mutant) for mutant in mutations)
     return nEqual / len(mutations)
 
