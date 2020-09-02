@@ -38,7 +38,7 @@ std::string randRule(int maxColor, int maxCubes, int dim) {
     int hex = 16;
     std::mt19937 r(seed);
     std::uniform_int_distribution<size_t> signDist(0, 1);
-    std::uniform_int_distribution<size_t> colorDist(0, maxColor-1);
+    std::uniform_int_distribution<size_t> colorDist(0, maxColor);
     std::uniform_int_distribution<size_t> rotDist(0, nRotations-1);
     int nCubes = maxCubes;
     char ruleBuf[nCubes*12];
