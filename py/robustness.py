@@ -48,16 +48,18 @@ def calcPhenotypeRobustness(path='../cpp/out/3d', maxColor=31, maxCubes=5, dim=3
     total = sum(p['count'] for p in phenos)
     print("Loaded {} phenotypes".format(total))
     robustnesses = []
+    random.shuffle(phenos)
     for i, p in enumerate(phenos):
-        print("On phenotype with rule: {}".format(p['rule']))
-        robustnesses.append({
-            'rule': p['rule'],
-            'robustness': sum(calcGenotypeRobustness(
-                hexRule, maxColor, maxCubes, dim
-                ) for hexRule in p['genotypes'])/p['count'],
-            'freq': p['freq']
-        })
-        print("Progress: {:n}% ({} of {})".format(100*i/total, i, total), end="\r", flush=True)
+        r = dict(p)
+        r['genotypes'] = {hexRule: calcGenotypeRobustness(
+            hexRule, maxColor, maxCubes, dim
+        ) for hexRule in p['genotypes']}
+        r['robustness'] = sum(r['genotypes'].values())/p['count']
+        robustnesses.append(r)
+        print("Progress: {:n}% ({} of {})".format(
+            100*i/total, i, total),
+            end="\r", flush=True
+        )
         if i % 100 == 0 and i>0:
             pickle.dump(pd.DataFrame(data=robustnesses), open(os.path.join(path, 'robustness.p'), 'wb'))
     data = pd.DataFrame(data=robustnesses)

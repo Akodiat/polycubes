@@ -10,6 +10,13 @@ def loadPhenos(path="../cpp/out/3d/phenos"):
             phenos.extend(pickle.load(open(os.path.join(root, file), "rb")))
     return phenos
 
+def getMinColorsAndCubeTypes(hexRule):
+    ruleset = parseHexRule(hexRule)
+    simplifyRuleset(ruleset)
+    nColors = max(face['color'] for rule in ruleset for face in rule)
+    nRules = len(ruleset)
+    return (nColors, nRules)
+
 def calcComplexity(hexRule):
     ruleset = parseHexRule(hexRule)
     simplifyRuleset(ruleset)

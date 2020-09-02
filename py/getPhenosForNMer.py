@@ -4,7 +4,7 @@ import re
 import pickle
 import pathlib
 import polycubes
-from utils import calcComplexity, simplifyHexRule
+import utils
 from multiprocessing import Pool
 
 def groupByPhenotype(rules):
@@ -68,17 +68,18 @@ def getPhenosForNMer(n, nmer, datadir, parallel=False):
     print("Found {} {}-mer phenotypes".format(len(groups), n), flush=True)
     for group in groups:
         count = len(group)
-        minRule = min(group, key=calcComplexity)
-        minCompl = calcComplexity(minRule)
+        minRule = min(group, key=utils.getMinColorsAndCubeTypes)
+        minCol, minCubeTypes = utils.getMinColorsAndCubeTypes(minRule)
         phenosn.append({
             'count': count,
             'freq': count/nRules,
-            'compl': minCompl,
-            'rule': simplifyHexRule(minRule),
+            'nColors': minCol,
+            'nCubeTypes': minCubeTypes,
+            'rule': utils.simplifyHexRule(minRule),
             'size': n,
             'genotypes': group
         })
-        print("{}-mer has {} genotypes equal to {} (compl {})".format(n, count, minRule, minCompl), flush=True)
+        print("{}-mer has {} genotypes equal to {})".format(n, count, minRule), flush=True)
 
     pathlib.Path(os.path.join(datadir, 'phenos')).mkdir(parents=True, exist_ok=True)
     pickle.dump(phenosn, open(os.path.join(datadir, 'phenos', "{}-mer_phenos_{}.p".format(n, suffix)), "wb"))
