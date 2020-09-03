@@ -5,7 +5,7 @@ import numpy as np
 
 def loadPhenos(path="../cpp/out/3d/phenos"):
     phenos = []
-    for root, dirs, files in os.walk(path):
+    for root, _, files in os.walk(path):
         for file in files:
             phenos.extend(pickle.load(open(os.path.join(root, file), "rb")))
     return phenos
