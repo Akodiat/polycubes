@@ -43,7 +43,7 @@ def calcGenotypeRobustness(hexRule, maxColor=31, maxCubes=5, dim=3, radius=1):
     nEqual = sum(polycubes.checkEquality(hexRule, mutant) for mutant in mutations)
     return nEqual / len(mutations)
 
-def calcPhenotypeRobustness(path='../cpp/out/3d', maxColor=31, maxCubes=5, dim=3, samplesPerPheno=20):
+def calcPhenotypeRobustness(path='../cpp/out/3d', maxColor=31, maxCubes=5, dim=3, samplesPerPheno=100):
     phenos = utils.loadPhenos(os.path.join(path,'phenos'))
     total = sum(p['count'] for p in phenos)
     print("Loaded {} phenotypes".format(total))
@@ -75,7 +75,7 @@ if __name__ == "__main__":
     parser.add_argument("--maxColor", default=31)
     parser.add_argument("--maxCubes", default=5)
     parser.add_argument("--dim", default=3, help='Number of dimensions (1,2 or 3)')
-    parser.add_argument("--samples", default=20, help='Max number of samples per phenotype')
+    parser.add_argument("--samples", default=100, help='Max number of samples per phenotype')
     args = parser.parse_args()
     if args.path:
         data = calcPhenotypeRobustness(args.path, int(args.maxColor), int(args.maxCubes), int(args.dim), int(args.samples))
