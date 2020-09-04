@@ -11,11 +11,29 @@ def loadPhenos(path="../cpp/out/3d/phenos"):
     return phenos
 
 def getMinColorsAndCubeTypes(hexRule):
-    ruleset = parseHexRule(hexRule)
-    simplifyRuleset(ruleset)
+    ruleset = simplifyRuleset(parseHexRule(hexRule))
     nColors = max(face['color'] for rule in ruleset for face in rule)
-    nRules = len(ruleset)
-    return (nColors, nRules)
+    nCubeTypes = len(ruleset)
+    return (nColors, nCubeTypes)
+
+def getMinComplexity(genotypes):
+    minNc = minNt = minLz = float('Inf')
+    for hexRule in genotypes:
+        rSimpl = simplifyRuleset(parseHexRule(hexRule))
+        simplHex = ruleToHex(rSimpl)
+        lz = lzFromHexRule(simplHex)
+        nc = max(face['color'] for rule in rSimpl for face in rule)
+        nt = len(rSimpl)
+        if nc < minNc:
+            minNc_r = simplHex
+            minNc = nc
+        if nt < minNt:
+            minNt_r = simplHex
+            minNt = nt
+        if lz < minLz:
+            minLz_r = simplHex
+            minLz = lz
+    return minNc, minNc_r, minNt, minNt_r, minLz, minLz_r
 
 def calcComplexity(hexRule):
     ruleset = parseHexRule(hexRule)

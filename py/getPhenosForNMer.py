@@ -68,18 +68,17 @@ def getPhenosForNMer(n, nmer, datadir, parallel=False):
     print("Found {} {}-mer phenotypes".format(len(groups), n), flush=True)
     for group in groups:
         count = len(group)
-        minRule = min(group, key=utils.getMinColorsAndCubeTypes)
-        minCol, minCubeTypes = utils.getMinColorsAndCubeTypes(minRule)
+        minNc, minNc_r, minNt, minNt_r, minLz, minLz_r = utils.getMinComplexity(group)
         phenosn.append({
             'count': count,
             'freq': count/nRules,
-            'nColors': minCol,
-            'nCubeTypes': minCubeTypes,
-            'rule': utils.simplifyHexRule(minRule),
+            'minNc': minNc, 'minNc_r': minNc_r, # Min number of colors
+            'minNt': minNt, 'minNt_r': minNt_r, # Min number of cube types
+            'minLz': minLz, 'minLz_r': minLz_r, # Min Lempel-Ziv size
             'size': n,
             'genotypes': group
         })
-        print("{}-mer has {} genotypes equal to {})".format(n, count, minRule), flush=True)
+        print("{}-mer has {} genotypes equal to {})".format(n, count, minNt_r), flush=True)
 
     pathlib.Path(os.path.join(datadir, 'phenos')).mkdir(parents=True, exist_ok=True)
     pickle.dump(phenosn, open(os.path.join(datadir, 'phenos', "{}-mer_phenos_{}.p".format(n, suffix)), "wb"))
