@@ -79,10 +79,12 @@ class PolycubeSystem {
         );
         nColors = Math.max(nColors, 2) //Avoid getting only red colors
 
-        let connectionColors = randomColor({luminosity: 'light', count: nColors, seed: 1});
+        let connectionColors = randomColor({luminosity: 'light', count: nColors, seed: 1337});
         for (let i=0; i<nColors; i++) {
-            let colorMaterial = new THREE.MeshLambertMaterial({color: connectionColors[i]});
-                this.colorMaterials.push(colorMaterial);
+            let colorMaterial = new THREE.MeshLambertMaterial({
+                color: connectionColors[i]
+            });
+            this.colorMaterials.push(colorMaterial);
         }
 
         let particleColors = randomColor({luminosity: 'light',  hue: 'monochrome', count: rules.length, seed: 1});
