@@ -54,9 +54,31 @@ function parseHexRule(ruleStr) {
     return rules;
 }
 
+function isBoundedAndDeterministic(hexRule, nTries=15) {
+    let rule = parseHexRule(hexRule);
+    let oldStrCoords;
+    while (nTries--) {
+        system = new PolycubeSystem(rule, ruleOrder, undefined, 100);
+        system.addParticle(new THREE.Vector3(), system.rule[0], 0);
+        let processed = false;
+        while (!processed) {
+            processed = system.processMoves(false); //process move without animation
+            if (processed == 'oub') {
+                return false;
+            }
+        }
+        let strCoords = [...system.cubeMap.keys()].sort().join('\n');
+        if (oldStrCoords && (oldStrCoords != strCoords)) {
+            return false;
+        }
+        oldStrCoords = strCoords;
+    }
+    return true;
+}
+
 class PolycubeSystem {
 
-    constructor(rules, ruleOrder, nMaxCubes=1000, maxCoord=100) {
+    constructor(rules, ruleOrder, scene, nMaxCubes=1000, maxCoord=100) {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
@@ -70,7 +92,9 @@ class PolycubeSystem {
         this.mismatches = 0;
 
         this.objGroup = new THREE.Group();
-        scene.add(this.objGroup);
+        if (scene) {
+            scene.add(this.objGroup);
+        }
 
         this.ruleOrder = ruleOrder;
         this.rule = rules;
@@ -118,7 +142,6 @@ class PolycubeSystem {
     }
 
     reset() {
-        objects = objects.filter(function(e) { return e.name !== "Cube" })
         this.objGroup.children = [];
         this.moves = {};
         this.moveKeys = [];
@@ -205,7 +228,7 @@ class PolycubeSystem {
         let options = {'forceIndices': true};
 
         // Parse the input and generate the glTF output
-        exporter.parse(objects, function (result) {
+        exporter.parse(this.objGroup, function (result) {
             if (result instanceof ArrayBuffer) {
                 saveArrayBuffer(result, 'scene.glb');
             } else {
@@ -311,7 +334,7 @@ class PolycubeSystem {
         return l;
     }
 
-    processMoves() {
+    processMoves(animate = true) {
         let nMoves = this.moveKeys.length;
         if (nMoves > 0) { // While we have moves to process
             // Pick a random move
@@ -339,7 +362,7 @@ class PolycubeSystem {
                         render();
                         window.dispatchEvent(new Event('oub'));
                         console.log("Unbounded");
-                        return;
+                        return 'oub';
                     }
                     break;
                 }
@@ -350,10 +373,13 @@ class PolycubeSystem {
         } else {
             window.dispatchEvent(new Event('movesProcessed'));
             console.log("Moves processed");
-            return;
+            return true;
         }
         //render();
-        requestAnimationFrame(this.processMoves.bind(this));
+        if (animate) {
+            requestAnimationFrame(this.processMoves.bind(this));
+        }
+        return false;
     }
 
     //Need both rule and ruleIdx to determine color as the rule might be rotated
@@ -446,7 +472,6 @@ class PolycubeSystem {
         cube.position.copy(position);
         cube.name = "Cube";
         this.objGroup.add(cube);
-        objects.push(cube);
     }
 
 }

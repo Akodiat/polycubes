@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>three.js webgl - interactive - voxel painter</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				background-color: #f0f0f0;
+				color: #444;
+			}
+			a {
+				color: #08f;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="threeCanvas"></canvas>
+		<div id="info">
+			Voxel painter, adapted from <a href="https://threejs.org/examples/webgl_interactive_voxelpainter.html" target="_blank" rel="noopener">three.js</a><br>
+			<strong>click</strong>: add voxel, <strong>shift + click</strong>: remove voxel
+		</div>
+
+		<script src="js/libs/three.min.js"></script>
+		<script src="js/libs/randomColor.min.js"></script>
+		<script src="js/libs/minisat.js"></script>
+		<script src="js/controls/OrbitControls.js"></script>
+		<script src="js/paint.js"></script>
+		<script src="js/polycubeSolver.js"></script>
+		<script src="js/polycubeSystem.js"></script>
+	</body>
+</html>

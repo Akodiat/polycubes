@@ -124,7 +124,7 @@ class Move {
 
 class PolysphereSystem {
 
-    constructor(rule, maxParticles=1000, maxCoord=100) {
+    constructor(rule, scene, maxParticles=1000, maxCoord=100) {
         this.moves = [];
         this.particles = [];
         this.centerOfMass = new THREE.Vector3();
@@ -182,7 +182,6 @@ class PolysphereSystem {
     }
 
     reset() {
-        objects = objects.filter(function(e) { return e.name !== "Cube" })
         this.objGroup.children = [];
         this.moves = [];
         this.particles = [];
@@ -253,7 +252,7 @@ class PolysphereSystem {
         let options = {'forceIndices': true};
 
         // Parse the input and generate the glTF output
-        exporter.parse(objects, function (result) {
+        exporter.parse(this.objGroup, function (result) {
             if (result instanceof ArrayBuffer) {
                 saveArrayBuffer(result, 'scene.glb');
             } else {
@@ -473,7 +472,6 @@ class PolysphereSystem {
         particle.position.copy(position);
         particle.name = "Particle";
         this.objGroup.add(particle);
-        objects.push(particle);
     }
 
 }

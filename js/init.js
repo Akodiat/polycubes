@@ -25,7 +25,7 @@ function createPolycubeSystem() {
 
     nMaxCubes = JSON.parse(getUrlParam("nMaxCubes",100));
 
-    system = new PolycubeSystem(rules, ruleOrder, nMaxCubes);
+    system = new PolycubeSystem(rules, ruleOrder, scene, nMaxCubes);
     orbit.target = system.centerOfMass;
 
     system.addParticle(new THREE.Vector3(), system.rule[0], 0);
@@ -49,7 +49,7 @@ function createPolysphereSystem() {
 
     nMaxCubes = JSON.parse(getUrlParam("nMaxCubes",100));
 
-    system = new PolysphereSystem(rule, nMaxCubes);
+    system = new PolysphereSystem(rule, scene, nMaxCubes);
     orbit.target = system.centerOfMass;
 
     system.addParticle(new THREE.Vector3(), system.rule[0], 0);

@@ -2,6 +2,28 @@ if (WEBGL.isWebGLAvailable() === false) {
     document.body.appendChild(WEBGL.getWebGLErrorMessage());
 }
 
+function saveCanvasImage(){
+    canvas.toBlob(function(blob){
+        var a = document.createElement('a');
+        var url = URL.createObjectURL(blob);
+        a.href = url;
+        a.download = `${system.getRuleStr()}.png`;
+        a.click();
+    }, 'image/png', 1.0);
+}
+
+rulesToImage = [];
+function getImagesFromRules(rules) {
+    rulesToImage = rules;
+    f = ()=>{
+        saveCanvasImage();
+        nextrule = rulesToImage.pop();
+        system.resetRule(parseHexRule(nextrule));
+    };
+    window.addEventListener('movesProcessed', f, false);
+    f();
+}
+
 function toggleModal(id) {
     let modal = document.getElementById(id);
     modal.classList.toggle("show-modal");
@@ -185,7 +207,7 @@ let plane;
 let mouse, raycaster;
 let rollOverMesh, rollOverMaterial;
 
-let objects = [];
+//let objects = [];
 
 initScene();
 

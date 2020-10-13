@@ -32,7 +32,6 @@ function onDocumentMouseMove(event) {
     let intersects = raycaster.intersectObjects(objects);
     if (intersects.length > 0) {
         let i = intersects[0];
-        console.log(intersects.length);
         rollOverMesh.position.copy(i.point).add(i.face.normal).add(new THREE.Vector3(0.5,0,0.5)).floor();
     }
     render();
