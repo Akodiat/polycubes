@@ -31,25 +31,62 @@ encoding functions:
 
 //Polycube SAT Solver
 class polysat {
-    constructor(nS,nC,nL,nD=3, tortionalPatches=true) {
+    constructor(coords, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
+        [topology, empty] = topFromCoords(coords, nDim);
+
+        // Different color coding, color n binds not to -n but
+        // to another m, also ignore 0 and 1.
+        let nC = (nColors + 1) * 2;
+
+        // Read number of particles from the topology
+        let [nL, _] = countParticlesAndBindings(topology);
+
         //problem specification:
-        this.nS = nS  //: Number of distinct particle types for (const the solver
+        this.nS = nCubeTypes  //: Number of distinct particle types for (const the solver
         this.nC = nC  //: Number of colors in the whole system
         this.nL = nL  //: Numper of particle positions in the crystal lattice
-        this.nD = nD  //: Number of dimensions
+        this.nD = nDim  //: Number of dimensions
         this.nP = 6   //: Number of patches on a single particle
-        //this.nP = nD*2   //: Number of patches on a single particle
         this.tortionalPatches = tortionalPatches; //tortionalPatches and nD > 2 // only tortion for
         if (this.tortionalPatches) {
             this.nO = 4   //: Number of possible orientations for (const a patch, N,S,W,E
         }
-        this.rotations = enumerateRotations(nD);
+        this.rotations = enumerateRotations(this.nD);
         this.nR = this.rotations.size;
 
         this.variables = new Map();
         this.basic_sat_clauses = null;       //  string of s basic sat clause
         this.additional_sat_clauses = null;  //  some additional conditions
         this.BCO_varlen = null;              //  the number of clauses that determine B and C
+
+        this.set_crystal_topology(topology);
+        this.generate_constraints();
+
+        // Solution must use all particles
+        this.add_constraints_all_particles();
+
+        // Solution must use all patches, except color 0 which should not bind
+        this.add_constraints_all_patches_except(0);
+
+        // A color cannot bind to itself
+        this.add_constraints_no_self_complementarity();
+
+        // Make sure color 0 binds to 1 and nothing else
+        this.fix_color_interaction(0, 1);
+
+        // Fix interaction matrix, to avoid redundant solution
+        for (const c of range(2, nC-1, 2)) {
+            this.fix_color_interaction(c, c+1);
+        }
+
+        if (nDim == 3 && tortionalPatches) {
+            this.add_constraints_fixed_blank_orientation();
+        }
+
+        for (const [particle, patch] of empty) {
+            this.fix_slot_colors(particle, patch, 1);
+            //console.log("Particle {} patch {} should be empty".format(particle, patch))
+        }
     }
 
     set_crystal_topology(bindings) {
@@ -497,19 +534,8 @@ class polysat {
     }
 
     run_minisat () {
-        //console.log("Writing data")
-        //tempfilename = '/tmp/temp_for_minisat.%s.cls' % (time.time())
-        //tempout = tempfilename+'.sol'
-        //temp = open(tempfilename,'w')
         let cnf = this.output_cnf(this.basic_sat_clauses)
-        //temp.write(parameters)
-        //temp.close()
-        //here we execute
-        //print [this.minisat_executable,tempfilename]
-        //process = subprocess.Popen([this.minisat_executable,tempfilename,tempout], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        //out = process.communicate()[0]
         let out = minisat(cnf)
-        //console.log(out.decode())
         let result = out.split(' ')[0]
         if (result == 'UNSAT') {
             return false;
@@ -579,6 +605,16 @@ class polysat {
 
     fix_color_interaction(c1, c2) {
         this.basic_sat_clauses.push([this.B(c1,c2)])
+    }
+
+    forbidSolution(solution) {
+        let forbidden = [];
+        for (const vname of solution.split('\n')) {
+            if (vname.includes('C') || vname.includes('O')) {
+                forbidden.push(-this.variables.get(vname));
+            }
+        }
+        this.basic_sat_clauses.push(forbidden);
     }
 
     run_relsat(nSolutions) {
@@ -841,25 +877,25 @@ function translateToPolyominoNotation(ruleset) {
 }
 
 function readSolution(sol) {
-    colorCounter = 1;
-    colorMap = new Map();
-    ruleMap = new Map();
-    bMatches = sol.matchAll(/B\((\d+),(\d+)\)/g)
+    let colorCounter = 1;
+    let colorMap = new Map();
+    let ruleMap = new Map();
+    let bMatches = sol.matchAll(/B\((\d+),(\d+)\)/g)
     for (const m of bMatches) {  // color c1 binds with c2
-        let c1 = Number(m[1]);
-        let c2 = Number(m[2]);
+        let b1 = Number(m[1]);
+        let b2 = Number(m[2]);
         // console.log("Color {} binds with {}".format(c1, c2))
-        //assert(c1 not in colorMap or c2 not in colorMap)
-        if (c1 < 2 || c2 < 2) {
-            colorMap.set(c1, 0);
-            colorMap.set(c2, 0);
+        console.assert(!colorMap.has(b1) || !colorMap.has(b2));
+        if (b1 < 2 || b2 < 2) {
+            colorMap.set(b1, 0);
+            colorMap.set(b2, 0);
         } else {
-            colorMap.set(c1, colorCounter);
-            colorMap.set(c2, -colorCounter);
+            colorMap.set(b1, colorCounter);
+            colorMap.set(b2, -colorCounter);
             colorCounter += 1;
         }
     }
-    cMatches = sol.matchAll(/C\((\d+),(\d+),(\d+)\)/g);
+    let cMatches = sol.matchAll(/C\((\d+),(\d+),(\d+)\)/g);
     for (const m of cMatches) {  // Patch p on species s has color c
         let s = Number(m[1]);
         let p = Number(m[2]);
@@ -874,7 +910,7 @@ function readSolution(sol) {
         ruleMap.get(s).get(p).color = colorMap.get(c);
     }
     let hasOrientation = false;
-    oMatches = sol.matchAll(/O\((\d+),(\d+),(\d+)\)/g);
+    let oMatches = sol.matchAll(/O\((\d+),(\d+),(\d+)\)/g);
     for (const m of oMatches) {  // Patch on species l has orientation o
         let s = Number(m[1]);
         let p = Number(m[2]);
@@ -894,13 +930,6 @@ function readSolution(sol) {
     return [...ruleMap.values()].map(rule=>[...rule.values()]);
 }
 
-function readSolutionFromPath(path) {
-    console.error("Not implemented");
-    //with open(path) as f:
-    //    sol = f.read()
-    //return readSolution(sol)
-}
-
 function countParticlesAndBindings(topology) {
     pidsa = topology.map(x=>x[0]);
     pidsb = topology.map(x=>x[2]);
@@ -908,79 +937,27 @@ function countParticlesAndBindings(topology) {
     return [Math.max(...particles)+1, topology.length]
 }
 
-function find_solution(coords, nCubeTypes, nColors, nSolutions=1, nDim=3, tortionalPatches=true) {
-    /** Find a polycube rule that assembles the given topology
-
-    Args:
-        topPath (string) { Path to topology text file
-        nCubeTypes (Math.floor) { Number of different building block cubes (species)
-        nColors (Math.floor) { Number of colors (not counting negative)
-        uniquePatches (bool, optional) { Set to true if you want to ensure determinism, but also limit modularity. Defaults to false.
-
-    Returns:
-        [dict]: Returns a polycube rule dict.
-    */
-    [topology, empty] = topFromCoords(coords, nDim);
-
-    // console.log(topology)
-    
-    // Number of species
-    nS = nCubeTypes;
-    
-    // Different color coding, color n binds not to -n but
-    // to another m, also ignore 0 and 1.
-    nC = (nColors + 1) * 2;
-
-    // Read number of particles from the topology
-    [nL, _]= countParticlesAndBindings(topology);
-    
+function find_solution(coords, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
     // Initiate solver
-    mysat = new polysat(nS, nC, nL, nDim, tortionalPatches);
-    mysat.set_crystal_topology(topology);
-    mysat.generate_constraints();
-    
-    // Solution must use all particles
-    mysat.add_constraints_all_particles();
-    
-    // Solution must use all patches, except color 0 which should not bind
-    mysat.add_constraints_all_patches_except(0);
-    
-    // A color cannot bind to itself
-    mysat.add_constraints_no_self_complementarity();
-    
-    // Make sure color 0 binds to 1 and nothing else
-    mysat.fix_color_interaction(0, 1);
+    let mysat = new polysat(coords, nCubeTypes, nColors, nDim, tortionalPatches);
 
-    // Fix interaction matrix, to avoid redundant solution
-    for (const c of range(2, nC-1, 2)) {
-        mysat.fix_color_interaction(c, c+1);
-    }
-
-    if (nDim == 3 && tortionalPatches) {
-        mysat.add_constraints_fixed_blank_orientation();
-    }
-    
-    for (const [particle, patch] of empty) {
-        mysat.fix_slot_colors(particle, patch, 1);
-        //console.log("Particle {} patch {} should be empty".format(particle, patch))
-    }
-
-    if (nSolutions == 1) { // Use minisat for (const single solutions
+    let nMaxTries = 100;
+    while (nMaxTries--) {
         let result = mysat.run_minisat();
         if (result) {
-            return [readSolution(result)];
+            let rule = readSolution(result);
+            let hexRule = ruleToHex(rule);
+            if (isBoundedAndDeterministic(hexRule)) {
+                return hexRule;
+            } else {
+                updateStatus(`<a href="https://akodiat.github.io/polycubes/?rule=${hexRule}" target="_blank">UND</a> `, false);
+                mysat.forbidSolution(result);
+            }
         } else {
-            return [];
-        }
-    } else {
-        let [nResults, results] = mysat.run_relsat(nSolutions=nSolutions);
-        if (nResults > 0) {
-            //console.log("{} solutions found".format(nResults))
-            return results.map(sol=>readSolution(sol.join("/n")));
-        } else {
-            return []
+            return null;
         }
     }
+    updateStatus('Gave up');
 }
 
 function smartEnumerate(xMax, yMax) {
@@ -992,26 +969,7 @@ function smartEnumerate(xMax, yMax) {
     }
     return l.sort((a,b)=>{return (a[0]+a[1]) - (b[0]+b[1])})
 }
-/*
-function* smartEnumerate(xMax, yMax) {
-    let iterationCount = 0;
-    for (const layer of range(1, Math.max(xMax, yMax)+1)) {
-        xs = [...range(1, Math.min(layer, xMax)+1)].reverse()
-        ys = [...range(1, Math.min(layer, yMax)+1)]
-        for (const i of range(layer)) {
-            try {
-                x = xs[i]
-                y = ys[i]
-            } catch (e) {
-                continue;
-            }
-            iterationCount++
-            yield [x,y]
-        }
-    }
-    return iterationCount;
-}
-*/
+
 function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nSolutions=100, nDim=3, tortionalPatches=true) {
     // Never need to check for (const more than the topology can specify
     [topology, _] = topFromCoords(coords, nDim);
@@ -1024,147 +982,26 @@ function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nSolutio
     }
 
     for (const [nCubeTypes, nColors] of smartEnumerate(maxCubeTypes, maxColors)) {
-        console.log(`${nColors} colors and ${nCubeTypes} cube types:`);
-        rules = find_solution(coords, nCubeTypes, nColors)
-        if (rules.length > 0) {
-            hexRule = ruleToHex(rules[0])
-            if (isBoundedAndDeterministic(hexRule)) {
-                return hexRule;
+        setTimeout(()=>{
+            updateStatus(`<b>${nColors} colors and ${nCubeTypes} cube types:</b>`);
+            rule = find_solution(coords, nCubeTypes, nColors);
+            if (rule) {
+                updateStatus(`Found solution: <a href="https://akodiat.github.io/polycubes/?rule=${rule}" target="_blank">${rule}</a>`);
+                return rule;
             } else {
-                console.log(`${hexRule} is UND`)
-                altrules = Set(find_solution(
-                    coords, nCubeTypes, nColors, nSolutions=nSolutions, 
-                    nDim=nDim, tortionalPatches=tortionalPatches
-                ).map(r=>ruleToHex(r)))
-                console.log(`  Trying ${altrules.length} alternative solutions`);
-                for (const altrule of altrules) {
-                    if (isBoundedAndDeterministic(altrule)) {
-                        return altrule;
-                    }
-                    //else:
-                    //    console.log('  {} is UND'.format(altrule))
-                }
-                console.log('')
+                updateStatus('Sorry, no solution')
             }
-        }
-        else {
-            console.log('Sorry, no solution')
-        }
+        }, 100);
     }
 }
 
-function findRuleFor(i, topology, nCubeTypes, nColors, nSolutions, nDim=3, tortionalPatches=true) {
-    console.log(`${nColors} colors and ${nCubeTypes} cube types: `);
-    rules = find_solution(topology, nCubeTypes, nColors, nDim=nDim)
-    if (rules.length > 0) {
-        hexRule = ruleToHex(rules[0])
-        if (polycubes.isBoundedAndDeterministic(hexRule)) {
-            return [i, hexRule, log]
-        } else {
-            log += '{} is UND\n'.format(hexRule)
-            altrules = Set(find_solution(
-                topology, nCubeTypes, nColors, nSolutions=nSolutions, nDim=nDim,
-                tortionalPatches=tortionalPatches
-            ).map(r=>ruleToHex(r)))
-            log += `  Trying ${altrules.length} alternative solutions\n`
-            for (const altrule of altrules) {
-                if (polycubes.isBoundedAndDeterministic(altrule)) {
-                    return (i, altrule, log)
-                }
-                //else:
-                //    log += '  {} is UND\n'.format(altrule)
-            }
-            return [i, 'UND', log]
-        }
-    }
-    else {
-        log += 'Sorry, no solution'
-    }
-    return [i, null, log];
+function updateStatus(status, newline=true) {
+    console.log(status);
+    let e = document.getElementById('status');
+    e.innerHTML += newline ? `<p>${status}</p>` : status;
+    e.scrollTop = e.scrollHeight;
 }
 
-let results = new Map()
-let finalResult = null
-let ongoing = 0
-function log_result(result) {
-    ongoing -= 1;
-    i, rule, log = result;
-    results[i] = rule;
-    if(rule && rule != 'UND') {
-        polyurl = "https://akodiat.github.io/polycubes?hexRule={}";
-        log += 'Found solution: '+polyurl.format(rule);
-    }
-    console.log('got: {}'.format(log));
-    i = 0;
-    while (results.includes(i) && !finalResult) {
-        if (results[i] && results[i] != 'UND') {
-            console.log('Finished!', flush = true);
-            finalResult = results[i];
-            break;
-        }
-        i += 1;
-    }
-    console.log([...range(Math.max(...results.keys())+1)].map(i=>{return results.includes(i) ?  results[i] : ''}))
-}
-
-function log_error(result) {
-    console.log('got error: {}'.format(result))
-}
-
-function parallelFindMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nSolutions=100, nDim=3, tortionalPatches=true) {
-    // Never need to check for (const more than the topology can specify
-    [topology, _] = topFromCoords(coords, nDim)
-    maxNT, maxNC = countParticlesAndBindings(topology)
-    if (maxCubeTypes == 'auto') {
-        maxCubeTypes = maxNT;
-    }
-    if (maxColors == 'auto') {
-        maxColors = maxNC
-    }
-    asyncResults = [];
-    //with multiprocessing.Pool(maxtasksperchild=1) as p:
-    smartEnumerate(maxCubeTypes, maxColors).forEach(([nCubeTypes, nColors], i) => {
-        r = p.apply_async(
-            findRuleFor,
-            args = (i, coords, nCubeTypes, nColors, nSolutions, nDim, tortionalPatches),
-            callback = log_result,
-            error_callback = log_error
-        )
-        asyncResults.push(r)
-    });
-    while (!finalResult) {
-        pass;
-    }
-    return finalResult;
-}
-
-function findRules(topPath, nCubeTypes='auto', nColors='auto', nSolutions='auto', nDim=3, tortionalPatches=true) {
-    polyurl = "https://akodiat.github.io/polycubes?rule={}";
-    if (nCubeTypes == 'auto' || nColors == 'auto') {
-        if (nSolutions == 'auto') {
-            nSolutions = 100;
-        }
-        r = [parallelFindMinimalRule(topPath, nSolutions=nSolutions, nDim=nDim, tortionalPatches=tortionalPatches)]
-    }
-    else {
-        if (nSolutions == 'auto') {
-            nSolutions = 1;
-        }
-        r = find_solution(topPath, nCubeTypes, nColors, nSolutions, nDim, tortionalPatches).map(rule=>ruleToHex(rule));
-    }
-    if (r.length() >0) {
-        for (const rule of r) {
-            console.log(polyurl.format(rule))
-            if (nDim == 2) {
-                console.log(translateToPolyominoNotation(parseHexRule(rule)))
-            }
-        }
-        return r;
-    } else {
-        console.log('Sorry, no solution found');
-        return;
-    }
-}
 
 // Modified from https://stackoverflow.com/a/8273091
 function* range(start, stop, step) {
@@ -1201,6 +1038,7 @@ Map.prototype.setdefault = function (key, default_value=null) {
 
 // Adapted from demo: http://jgalenson.github.io/research.js/demos/minisat.html
 function minisat(input) {
+    //minisatModule.TOTAL_MEMORY = 1073741824;
     var solve_string = minisatModule.cwrap('solve_string', 'string', ['string', 'int']);
     var oldPrint = minisatModule.print;
     var oldPrintErr = minisatModule.printErr;
@@ -1226,5 +1064,3 @@ function minisat(input) {
     minisatModule.printErr = oldPrintErr;
     return result;
 }
-
-// findRules('/home/joakim/repo/sat_for_patchy_assembly/src/polyTop/polyominos/2.txt', nDim=2)
