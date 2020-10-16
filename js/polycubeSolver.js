@@ -104,7 +104,7 @@ class polysat {
     B (c1, c2) {
         // color c1 binds with c2
         if (c2 < c1) {
-            c1, c2 = c2, c1;
+            [c1, c2] = [c2, c1];
         }
         //console.assert(0 <= c1 <= c2 && c1 <= c2 < this.nC, `c1 <= c2 out of bounds 0 <= ${c1 <= c2} < ${this.nC}`);
         //print >> sys.stderr, 'B({c1},{c2})'.format(c1=c1, c2=c2)
@@ -114,8 +114,8 @@ class polysat {
     D (p1, o1, p2, o2) {
         // patch p1, orientation c1 binds with patch p2, orientation c2 //
         if (p2 < p1) {
-            o1, o2 = o2, o1
-            p1, p2 = p2, p1
+            [o1, o2] = [o2, o1];
+            [p1, p2] = [p2, p1];
         }
         //console.assert(0 <= p1 <= p2 && p1 <= p2 < this.nP, `p1 <= p2 out of bounds 0 <= ${p1 <= p2} < ${this.nP}`);
         console.assert(0 <= o1 && o1 < this.nO, `o1 out of bounds 0 <= ${o1} < ${this.nO}`);
@@ -216,8 +216,8 @@ class polysat {
 
     exactly_one(vs) {
         // returns a list of constraints implementing "exacly one of vs is true" //
-        //console.assert(all(v > 0 for (const v in vs))
-        console.assert(vs.length > 1)
+        console.assert(vs.every(v=>v>0));
+        console.assert(vs.length > 1);
         vs.sort((a,b)=>{return a-b}); // Sort numerically
         let constraints = [vs];
         for (const v1 of vs) {
@@ -616,48 +616,6 @@ class polysat {
         }
         this.basic_sat_clauses.push(forbidden);
     }
-
-    run_relsat(nSolutions) {
-        let tempfilename = '/tmp/temp_for_relsat.%s.cls' % (os.getpid())
-        let tempout = tempfilename+'.sol'
-        let temp = open(tempfilename,'w')
-        this.output_cnf(this.basic_sat_clauses,temp)
-        //temp.write(parameters)
-        temp.close()
-        //here we execute
-        //print [this.minisat_executable,tempfilename]
-        //process = subprocess.Popen([this.relsat_executable,' -//a ' ,tempfilename,tempout], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        //console.log('Calling', end=' '),
-        //console.log('%s -//%s  %s | grep -v c > %s' %  (this.relsat_executable, nSolutions, tempfilename, tempout ) )
-        os.system('%s -//%s  %s | grep -v c > %s' %  (this.relsat_executable, nSolutions, tempfilename, tempout ) )
-
-        //out = process.communicate()[0]
-        let out = open(tempout).readlines()
-        let result = out[-1].strip() //.split()[-1]
-        //print result
-        if (result == 'UNSAT') {
-            return 0,0
-        }
-        else if (result == 'SAT') {
-            let all_solutions = []
-            for (const line of out) {
-                if (line.includes('Solution')) {
-                    let myvars = line.strip().split(':')[1].strip();
-                    let varnames = this.load_solution_from_lines([myvars+ ' 0']);
-                    let clean_sol  = [];
-                    for (const x of varnames) {
-                        if (x.includes('B(') || x.includes('C(') || x.includes('O(')) {
-                            clean_sol.push(x)
-                        }
-                    }
-                    all_solutions.push(clean_sol)
-                }
-            }
-            return out.length-1, all_solutions
-        } else {
-            console.error("Found something else: "+result)
-        }
-    }
 }
 
 ////// Helper functions:
@@ -880,7 +838,7 @@ function readSolution(sol) {
     let colorCounter = 1;
     let colorMap = new Map();
     let ruleMap = new Map();
-    let bMatches = sol.matchAll(/B\((\d+),(\d+)\)/g)
+    let bMatches = sol.matchAll(/B\((\d+),(\d+)\)/g);
     for (const m of bMatches) {  // color c1 binds with c2
         let b1 = Number(m[1]);
         let b2 = Number(m[2]);
@@ -937,17 +895,27 @@ function countParticlesAndBindings(topology) {
     return [Math.max(...particles)+1, topology.length]
 }
 
+function patchCount(cube) {
+    return cube.filter(face=>face.color!=0).length;
+}
+
+let minSol = false;
 function find_solution(coords, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
     // Initiate solver
     let mysat = new polysat(coords, nCubeTypes, nColors, nDim, tortionalPatches);
 
     let nMaxTries = 100;
     while (nMaxTries--) {
+        if (minSol && minSol[0]+minSol[1] < nCubeTypes+nColors) {
+            return 'skipped';
+        }
         let result = mysat.run_minisat();
         if (result) {
             let rule = readSolution(result);
+            rule.sort((a,b)=>{return patchCount(b)-patchCount(a)});
             let hexRule = ruleToHex(rule);
             if (isBoundedAndDeterministic(hexRule)) {
+                minSol = [nCubeTypes, nColors];
                 return hexRule;
             } else {
                 updateStatus(`<a href="https://akodiat.github.io/polycubes/?rule=${hexRule}" target="_blank">UND</a> `, false);
@@ -985,7 +953,9 @@ function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nSolutio
         setTimeout(()=>{
             updateStatus(`<b>${nColors} colors and ${nCubeTypes} cube types:</b>`);
             rule = find_solution(coords, nCubeTypes, nColors);
-            if (rule) {
+            if (rule == 'skipped') {
+                updateStatus('Simpler solution already found');
+            } else if (rule) {
                 updateStatus(`Found solution: <a href="https://akodiat.github.io/polycubes/?rule=${rule}" target="_blank">${rule}</a>`);
                 return rule;
             } else {
