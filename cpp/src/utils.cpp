@@ -1,4 +1,38 @@
 #include "utils.hpp"
+#include "polycubeSystem.hpp"
+
+std::string runTries(std::string rule, int nTries, int seedRuleIdx)
+{
+    int nCubes = 0;
+    PolycubeSystem* ref = nullptr;
+    while (nTries--) {
+        PolycubeSystem* p = new PolycubeSystem(rule);
+        p->seed(seedRuleIdx);
+        nCubes = p->processMoves();
+
+        if (nCubes <= 0) {
+            delete p;
+            if (ref != nullptr) {
+                delete ref;
+            }
+            return "oub";
+        }
+        if (ref == nullptr) {
+            ref = p;
+        }
+        else {
+            if (!ref->equals(p)) {
+                delete p;
+                delete ref;
+                return "nondet";
+            }
+            delete p;
+        }
+    }
+    delete ref;
+    // If we had the same result every try:
+    return std::to_string(nCubes) + "-mer";
+}
 
 // Split string, from https://stackoverflow.com/a/10058725
 std::vector<std::string> splitString(std::string s, char delim) {

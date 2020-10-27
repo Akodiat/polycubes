@@ -8,6 +8,8 @@
 #include "../lib/Eigen/Dense"
 #include "../lib/Eigen/Geometry"
 
+std::string runTries(std::string rule, int nTries, int seedRuleIdx);
+
 // Split string, from https://stackoverflow.com/a/10058725
 std::vector<std::string> splitString(std::string s, char delim);
 

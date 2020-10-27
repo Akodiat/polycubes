@@ -9,52 +9,6 @@
 #include "../lib/Eigen/Dense"
 #include "../lib/Eigen/Geometry"
 
-
-class PolycubeResult
-{
-private:
-    std::string rule;
-    std::string suffix;
-public:
-    PolycubeResult(std::string rule, std::string suffix) {
-        this->rule = rule;
-        this->suffix = suffix;
-    }
-    std::string toString() {
-        return this->rule + '.' + this->suffix;
-    };
-
-    std::string getSuffix() {
-        return this->suffix;
-    }
-
-    virtual bool isInteresting() {
-        return false;
-    }
-};
-
-class InterestingPolycubeResult: public PolycubeResult
-{
-private:
-    std::string coords;
-public:
-    InterestingPolycubeResult(std::string rule, int polycubeSize, std::string coords): PolycubeResult(rule, std::to_string(polycubeSize) + "-mer")
-    {
-        this->coords = coords;
-    }
-    std::string getCoords() {
-        return this->coords;
-    }
-
-    Eigen::Matrix3Xf getCoordMatrix();
-
-    bool isInteresting() {
-        return true;
-    }
-
-    bool equals(PolycubeResult *other);
-};
-
 const size_t ruleSize = 6;
 
 class Face
@@ -144,12 +98,22 @@ public:
     ~PolycubeSystem();
 
     int processMoves();
+    void seed(int ruleIdx);
+    void seed();
     void addCube(Eigen::Vector3f position, Rule rule, int ruleIdx);
     void addCube(Eigen::Vector3f position, int ruleIdx);
     std::string toString();
     int getNMaxCubes() {
         return this->nMaxCubes;
     }
+
+    Eigen::Matrix3Xf getCoordMatrix();
+
+    bool isInteresting() {
+        return true;
+    }
+
+    bool equals(PolycubeSystem *other);
 
     static Eigen::Vector3f getRuleOrder(int index);
     static std::vector<Rule> parseRules(std::string ruleStr);

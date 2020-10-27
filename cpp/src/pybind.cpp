@@ -7,55 +7,29 @@ namespace py = pybind11;
 
 using namespace pybind11::literals;
 
-PolycubeResult* runTries(std::string rule, int nTries)
-{
-    int nCubes = 0;
-    std::string s = "";
-    while (nTries--) {
-        PolycubeSystem p = PolycubeSystem(rule);
-        p.addCube(Eigen::Vector3f(0, 0, 0), 0);
-        nCubes = p.processMoves();
-
-        if (nCubes <= 0) {
-            return new PolycubeResult(std::string(rule), "oub" + std::to_string(p.getNMaxCubes()));
-        }
-        std::string s_new = p.toString();
-        if (s == "") {
-            s = s_new;
-        }
-        else if (s != s_new) {
-            return new PolycubeResult(std::string(rule), "nondet");
-        }
-    }
-    // If we had the same result every try:
-    return new InterestingPolycubeResult(std::string(rule), nCubes, s);
-}
-
-
 // Compare if the two rules form the same polycube
 bool checkEquality(std::string rule1, std::string rule2) {
-    PolycubeResult *r1, *r2;
-    r1 = runTries(rule1, 1);
-    r2 = runTries(rule2, 1);
-    if(r1->isInteresting() && r2->isInteresting()) {
-        InterestingPolycubeResult *ir1, *ir2;
-        ir1 = dynamic_cast<InterestingPolycubeResult*>(r1);
-        ir2 = dynamic_cast<InterestingPolycubeResult*>(r2);
-        bool equal = ir1->equals(ir2);
-        delete ir1;
-        delete ir2;
-        return equal;
+    PolycubeSystem* p1 = new PolycubeSystem(rule1);
+    p1->seed();
+    int nCubes1 = p1->processMoves();
+
+    PolycubeSystem* p2 = new PolycubeSystem(rule2);
+    p2->seed();
+    int nCubes2 = p2->processMoves();
+
+    bool equal = false;
+
+    if(nCubes1 >= 0 || nCubes2 >= 0 || nCubes1 == nCubes2) {
+        equal = p1->equals(p2);
     }
-    delete r1;
-    delete r2;
-    return false;
+    delete p1;
+    delete p2;
+    return equal;
 }
 
-bool isBoundedAndDeterministic(std::string rule, int nTries) {
-    PolycubeResult *r = runTries(rule, nTries);
-    bool isDet = r->isInteresting();
-    delete r;
-    return isDet;
+bool isBoundedAndDeterministic(std::string rule, int nTries, int seedRuleIdx) {
+    std::string result = runTries(rule, nTries, seedRuleIdx);
+    return result != "oub" && result != "nondet";
 }
 
 PYBIND11_MODULE(polycubes, m) {
@@ -63,6 +37,6 @@ PYBIND11_MODULE(polycubes, m) {
     m.def("checkEquality", &checkEquality, "Compare if the two rules form the same polycube");
     m.def("isBoundedAndDeterministic", &isBoundedAndDeterministic,
         "Check if the rule is bounded and form the same polycube every time (set nTries to 0 to only check if bounded)",
-        "rule"_a, "nTries"_a = 15
+        "rule"_a, "nTries"_a = 15, "seedRuleIdx"_a = -1
     );
 }

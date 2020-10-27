@@ -11,8 +11,8 @@ Move::Move(Eigen::Vector3f movePos) {
     }
 }
 
-Eigen::Matrix3Xf InterestingPolycubeResult::getCoordMatrix() {
-    std::vector<std::string> lines = splitString(coords, '\n');
+Eigen::Matrix3Xf PolycubeSystem::getCoordMatrix() {
+    std::vector<std::string> lines = splitString(this->toString(), '\n');
     Eigen::Matrix3Xf m(3, lines.size());
     for (size_t i=0; i<lines.size(); i++) {
         std::string line = lines[i];
@@ -28,16 +28,10 @@ Eigen::Matrix3Xf InterestingPolycubeResult::getCoordMatrix() {
     return m;
 }
 
-bool InterestingPolycubeResult::equals(PolycubeResult* other) {
-    if(!other->isInteresting()){
-        return false;
-    }
-    InterestingPolycubeResult *intrOther; 
-    intrOther = dynamic_cast<InterestingPolycubeResult*>(other);
-
+bool PolycubeSystem::equals(PolycubeSystem* other) {
     Eigen::Matrix3Xf m1, m2;
     m1 = this->getCoordMatrix();
-    m2 = intrOther->getCoordMatrix();
+    m2 = other->getCoordMatrix();
 
     if (m1.size() != m2.size()) {
         return false;
@@ -103,6 +97,21 @@ void PolycubeSystem::init(std::vector<Rule> rules, size_t nMaxCubes) {
         Eigen::Vector3f v = PolycubeSystem::getRuleOrder(i);
         this->ruleToOrderIdx[vecToStr(v)] = i;
     }
+}
+
+void PolycubeSystem::seed(int ruleIdx) {
+    if (ruleIdx < 0) {
+        // Use random rule index
+        std::uniform_int_distribution<uint32_t> ruledist(
+            0, this->rules.size()-1
+        );
+        ruleIdx = ruledist(this->randomNumGen);
+    }
+    this->addCube(Eigen::Vector3f(0, 0, 0), ruleIdx);
+}
+
+void PolycubeSystem::seed() {
+    this->seed(-1);
 }
 
 int PolycubeSystem::processMoves() {
@@ -236,7 +245,7 @@ Eigen::Vector3f getOrientation(int index, int orientation) {
         case 4: v = Eigen::Vector3f(-1, 0, 0); break;
         case 5: v = Eigen::Vector3f( 1, 0, 0); break;
     default:
-        break;
+        throw std::out_of_range("Index should be in interval 0-5");
     }
     const Eigen::Vector3f dir = PolycubeSystem::getRuleOrder(index);
     const float angle = ((float) orientation) * M_PI_2;
