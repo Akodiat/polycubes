@@ -32,7 +32,7 @@ encoding functions:
 //Polycube SAT Solver
 class polysat {
     constructor(coords, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
-        [topology, empty] = topFromCoords(coords, nDim);
+        let [topology, empty] = topFromCoords(coords, nDim);
 
         // Different color coding, color n binds not to -n but
         // to another m, also ignore 0 and 1.
@@ -262,14 +262,13 @@ class polysat {
         //this.basic_sat_clauses.push('c settings: nS=%d nC=%d nP=%d ' % (this.nS, this.nC, this.nP) )
         //this.basic_sat_clauses.push('c Last B and C var number: %s' % this.variables.size)
         this.BCO_varlen = this.variables.size;
-        let constraints = [];
 
         // BASIC THINGS:
         // - Legal color bindings:
         // "Each color has exactly one color that it binds to"
         // 	forall c1 exactly one c2 s.t. B(c1, c2)
         for (const c1 of range(this.nC)) {
-            constraints.push(...this.exactly_one([...range(this.nC)].map(c2=>this.B(c1, c2))))
+            this.basic_sat_clauses.push(...this.exactly_one([...range(this.nC)].map(c2=>this.B(c1, c2))))
             //print >> sys.stderr, [B(c1, c2) for (const c2 of range(nC) if c2 != c1]
         }
 
@@ -279,7 +278,7 @@ class polysat {
         //   forall s, forall p, exactly one c p.t. C(s, p, c)
         for (const s of range(this.nS)) {
             for (const p of range(this.nP)) {
-                constraints.push(...this.exactly_one([...range(this.nC)].map(c=>this.C(s, p, c))));
+                this.basic_sat_clauses.push(...this.exactly_one([...range(this.nC)].map(c=>this.C(s, p, c))));
             }
         }
 
@@ -289,7 +288,7 @@ class polysat {
         if (this.tortionalPatches) {
             for (const s of range(this.nS)) {
                 for (const p of range(this.nP)) {
-                    constraints.push(...this.exactly_one([...range(this.nO)].map(o=>this.O(s, p, o))));
+                    this.basic_sat_clauses.push(...this.exactly_one([...range(this.nO)].map(o=>this.O(s, p, o))));
                 }
             }
         }
@@ -301,7 +300,7 @@ class polysat {
         // 	for (const all l, p exactly one c st. F(l, p, c)
         for (const l of range(this.nL)) {
             for (const p of range(this.nP)) {
-                constraints.push(...this.exactly_one([...range(this.nC)].map(c=>this.F(l, p, c))))
+                this.basic_sat_clauses.push(...this.exactly_one([...range(this.nC)].map(c=>this.F(l, p, c))))
             }
         }
 
@@ -311,7 +310,7 @@ class polysat {
         if (this.tortionalPatches) {
             for (const l of range(this.nL)) {
                 for (const p of range(this.nP)) {
-                    constraints.push(...this.exactly_one([...range(this.nO)].map(o=>this.A(l, p, o))))
+                    this.basic_sat_clauses.push(...this.exactly_one([...range(this.nO)].map(o=>this.A(l, p, o))))
                 }
             }
         }
@@ -323,7 +322,7 @@ class polysat {
         for (const [[l1, p1], [l2, p2]] of this.bindings) {
             for (const c1 of range(this.nC)) {
                 for (const c2 of range(this.nC)) {
-                    constraints.push([-this.F(l1, p1, c1), -this.F(l2, p2, c2), this.B(c1, c2)])
+                    this.basic_sat_clauses.push([-this.F(l1, p1, c1), -this.F(l2, p2, c2), this.B(c1, c2)])
                 }
             }
         }
@@ -336,7 +335,7 @@ class polysat {
             for (const [[l1, p1], [l2, p2]] of this.bindings) {
                 for (const o1 of range(this.nO)) {
                     for (const o2 of range(this.nO)) {
-                        constraints.push([-this.A(l1, p1, o1), -this.A(l2, p2, o2), this.D(p1, o1, p2, o2)])
+                        this.basic_sat_clauses.push([-this.A(l1, p1, o1), -this.A(l2, p2, o2), this.D(p1, o1, p2, o2)])
                     }
                 }
             }
@@ -356,10 +355,10 @@ class polysat {
                             // Do they point in the same global direction?
                             // And do the patches face each other?
                             if (v1.equals(v2) && p2+1 == p1) {
-                                constraints.push([this.D(p1, o1, p2, o2)])
+                                this.basic_sat_clauses.push([this.D(p1, o1, p2, o2)])
                             }
                             else {
-                                constraints.push([-this.D(p1, o1, p2, o2)])
+                                this.basic_sat_clauses.push([-this.D(p1, o1, p2, o2)])
                             }
                         }
                     }
@@ -377,7 +376,7 @@ class polysat {
                     ps.push(this.P(l, s, r))
                 }
             }
-            constraints.push(...this.exactly_one(ps))
+            this.basic_sat_clauses.push(...this.exactly_one(ps))
         }
 
         // - Legal species coloring in positions:
@@ -392,12 +391,12 @@ class polysat {
                         for (const c of range(this.nC)) {
                             const p_rot = this.rotation(p, r) // Patch after rotation
                             // Species 's' rotated by 'r' gets color 'c' moved from patch 'p' to 'p_rot':
-                            constraints.push([
+                            this.basic_sat_clauses.push([
                                 -this.P(l, s, r), // EITHER no species 's' at position 'l' with rot 'r'
                                 -this.F(l, p, c), // OR no patch 'p' at position 'l' with color 'c'
                                 this.C(s, p_rot, c) // OR patch 'p_rot' on species 's' DOES have the color 'c'
                             ]);
-                            constraints.push([
+                            this.basic_sat_clauses.push([
                                 -this.P(l, s, r), // EITHER no species 's' at position 'l' with rot 'r'
                                 this.F(l, p, c), // OR there is a patch 'p' at position 'l' with color 'c'
                                 -this.C(s, p_rot, c) // OR there is no patch 'p_rot' on species 's' with the color 'c'
@@ -423,12 +422,12 @@ class polysat {
                                 const o_rot = this.orientation(p, r, o) // Patch orientation after rotation
                                 // Species 's' rotated by 'r' gets orientation 'o' of patch 'p' changed to 'o_rot' at the new path 'p_rot':
                                 //console.log("Species {} rotated by {}: patch {}-->{}, orientation {}-->{}".format(s, r, p, p_rot, o, o_rot))
-                                constraints.push([ 
+                                this.basic_sat_clauses.push([ 
                                     -this.P(l, s, r), // EITHER no species 's' at position 'l' with rot 'r'
                                     -this.A(l, p, o), // OR no patch 'p' at position 'l' with orientation 'o'
                                     this.O(s, p_rot, o_rot) // OR patch 'p_rot' on species 's' has the orientation 'o_rot'
                                 ])
-                                constraints.push([
+                                this.basic_sat_clauses.push([
                                     -this.P(l, s, r), // EITHER no species 's' at position 'l' with rot 'r'
                                     this.A(l, p, o), // OR there is a patch 'p' at position 'l' with orientation 'o'
                                     -this.O(s, p_rot, o_rot) // OR there is no patch 'p_rot' on species 's' with the orientation 'o_rot'
@@ -446,17 +445,14 @@ class polysat {
                 for (const p of range(this.nP)) {
                     if (p>3) {
                         // Patch p on species s is empty
-                        constraints.push([this.C(s, p, 1)])
+                        this.basic_sat_clauses.push([this.C(s, p, 1)])
                     }
                     o = getFlatFaceRot()[p]
                     // Patch p has orientation 'o'
-                    constraints.push([this.O(s, p, o)])
+                    this.basic_sat_clauses.push([this.O(s, p, o)])
                 }
             }
         }
-
-        this.basic_sat_clauses.push(...constraints);
-        return constraints;
     }
 
 
@@ -938,10 +934,10 @@ function smartEnumerate(xMax, yMax) {
     return l.sort((a,b)=>{return (a[0]+a[1]) - (b[0]+b[1])})
 }
 
-function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nSolutions=100, nDim=3, tortionalPatches=true) {
+function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nDim=3, tortionalPatches=true) {
     // Never need to check for (const more than the topology can specify
-    [topology, _] = topFromCoords(coords, nDim);
-    [maxNT, maxNC] = countParticlesAndBindings(topology);
+    let [topology, _] = topFromCoords(coords, nDim);
+    let [maxNT, maxNC] = countParticlesAndBindings(topology);
     if (maxCubeTypes == 'auto') {
         maxCubeTypes = maxNT;
     }
@@ -952,7 +948,7 @@ function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nSolutio
     for (const [nCubeTypes, nColors] of smartEnumerate(maxCubeTypes, maxColors)) {
         setTimeout(()=>{
             updateStatus(`<b>${nColors} colors and ${nCubeTypes} cube types:</b>`);
-            rule = find_solution(coords, nCubeTypes, nColors);
+            rule = find_solution(coords, nCubeTypes, nColors, nDim, tortionalPatches);
             if (rule == 'skipped') {
                 updateStatus('Simpler solution already found');
             } else if (rule) {
