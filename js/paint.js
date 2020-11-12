@@ -101,10 +101,10 @@ function init() {
 
     document.body.appendChild(renderer.domElement);
 
-    document.addEventListener('mousemove', onDocumentMouseMove, false);
-    document.addEventListener('mousedown', onDocumentMouseDown, false);
-    document.addEventListener('keydown', onDocumentKeyDown, false);
-    document.addEventListener('keyup', onDocumentKeyUp, false);
+    canvas.addEventListener('mousemove', onDocumentMouseMove, false);
+    canvas.addEventListener('mousedown', onDocumentMouseDown, false);
+    canvas.addEventListener('keydown', onDocumentKeyDown, false);
+    canvas.addEventListener('keyup', onDocumentKeyUp, false);
 
     //
 
