@@ -18,10 +18,13 @@ function getImagesFromRules(rules) {
     f = ()=>{
         saveCanvasImage();
         nextrule = rulesToImage.pop();
-        system.resetRule(parseHexRule(nextrule));
+        if(nextrule){
+            system.resetRule(parseHexRule(nextrule));
+        }
     };
     window.addEventListener('movesProcessed', f, false);
-    f();
+    nextrule = rulesToImage.pop();
+    system.resetRule(parseHexRule(nextrule));
 }
 
 function toggleModal(id) {

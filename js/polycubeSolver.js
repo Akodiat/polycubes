@@ -935,6 +935,8 @@ function smartEnumerate(xMax, yMax) {
 }
 
 function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nDim=3, tortionalPatches=true) {
+    // Clear status
+    document.getElementById('status').innerHTML = '';
     // Never need to check for (const more than the topology can specify
     let [topology, _] = topFromCoords(coords, nDim);
     let [maxNT, maxNC] = countParticlesAndBindings(topology);

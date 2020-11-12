@@ -18,32 +18,63 @@
 				height: 100%;
 			}
 
-			.overlay {
+			.modal {
 				position: fixed;
-				margin: 10px;
-				z-index: 1;
-				max-height: 100%;
-				height: min-content;
+				z-index: 2;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.5);
+				opacity: 0;
+				visibility: hidden;
+				transform: scale(1.1);
+				transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+			}
+
+			.modal-content {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				background-color: white;
+				padding: 1rem 1rem;
+				max-width: 90%;
+				max-height: 90%;
+				border-radius: 0.5rem;
 				overflow-y: auto;
+			}
+
+			.show-modal {
+				opacity: 1;
+				visibility: visible;
+				transform: scale(1.0);
+				transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
 			}
 
 			#status {
 				height: min-content;
 				background: #edeeeed6;
 			}
+
+			#info {
+				position: fixed;
+				z-index: 1;
+			}
 		</style>
 	</head>
 	<!-- Adapted from https://threejs.org/examples/webgl_interactive_voxelpainter.html-->
 	<body>
-		<div class="overlay">
-			<div id="info">
-				<h2>Polycube SAT solver</h2>
-				<small>By Joakim Bohlin</small><br>
-				Click to add cubes (shift-click to remove), then click <button onclick="findMinimalRule(getCurrentCoords())">here</button> to solve.
-			</div>
-			<div id="status"></div>
+		<div id="modal" class="modal" onclick="this.classList.toggle('show-modal');">
+			<div id="status" class="modal-content"></div>
 		</div>
 		<canvas id="threeCanvas"></canvas>
+		<div id="info">
+			<h2>Polycube SAT solver</h2>
+			<small>By Joakim Bohlin</small><br>
+			Click to add cubes (shift-click to remove), then click <button onclick="findMinimalRule(getCurrentCoords()); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.
+		</div>
+
 
 		<script src="js/libs/three.min.js"></script>
 		<script src="js/libs/randomColor.min.js"></script>
