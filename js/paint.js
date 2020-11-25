@@ -103,8 +103,6 @@ function init() {
 
     canvas.addEventListener('mousemove', onDocumentMouseMove, false);
     canvas.addEventListener('mousedown', onDocumentMouseDown, false);
-    canvas.addEventListener('keydown', onDocumentKeyDown, false);
-    canvas.addEventListener('keyup', onDocumentKeyUp, false);
 
     //
 
