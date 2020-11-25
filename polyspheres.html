@@ -149,7 +149,7 @@
         Polycubes, by Joakim Bohlin. A 3D version of <a href="http://chaoticsymmetry.co.uk/polyominoes/index-old.php">Polyominoes</a><br>
         <button class="primary" onclick="toggleModal('examples')">Help</button>
         <button onclick="system.resetRandom(); clearRules();">Random input</button>
-        <button onclick="system.resetRule(parseHexRule(mutateRule(polycubeSystem.getHexRule()))); clearRules()">Mutate input</button>
+        <button onclick="system.resetRule(parseHexRule(mutateRule(polycubeSystem.getRuleStr()))); clearRules()">Mutate input</button>
         <button onclick="simplifyRule()">Simplify</button>
         <fieldset>
         <legend>Input:</legend>
