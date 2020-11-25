@@ -1,6 +1,6 @@
 var camera, scene, renderer;
 var plane;
-var mouse, raycaster, isShiftDown = false;
+var mouse, raycaster;
 
 var rollOverMesh, rollOverMaterial;
 var cubeGeo, cubeMaterial;
@@ -153,7 +153,7 @@ function onDocumentMouseDown(event) {
         var intersect = intersects[0];
 
         // delete cube
-        if (isShiftDown) {
+        if (event.shiftKey) {
             if (intersect.object !== plane) {
                 scene.remove(intersect.object);
                 objects.splice(objects.indexOf(intersect.object), 1);
@@ -171,22 +171,6 @@ function onDocumentMouseDown(event) {
             objects.push(voxel);
         }
         render();
-    }
-}
-
-function onDocumentKeyDown(event) {
-    switch (event.keyCode) {
-        case 16:
-            isShiftDown = true;
-            break;
-    }
-}
-
-function onDocumentKeyUp(event) {
-    switch (event.keyCode) {
-        case 16:
-            isShiftDown = false;
-            break;
     }
 }
 
