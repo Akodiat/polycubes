@@ -12,6 +12,10 @@ bool isBoundedAndDeterministic(std::string rule, int nTries, int seedRuleIdx) {
     return result != "oub" && result != "nondet";
 }
 
+bool checkEqualityWrapper(std::string rule1, std::string rule2, int seedRuleIdx) {
+    return checkEquality(rule1, rule2, seedRuleIdx);
+}
+
 std::string getCoordStr(std::string rule, int seedRuleIdx)
 {
     PolycubeSystem* p = new PolycubeSystem(rule);
@@ -36,8 +40,9 @@ Eigen::Matrix3Xf getCoords(std::string rule, int seedRuleIdx)
 
 PYBIND11_MODULE(polycubes, m) {
     m.doc() = "Polycube python binding";
-    m.def("checkEquality", &checkEquality, "Compare if the two rules form the same polycube",
-        "rule1"_a, "rule2"_a, "seedRuleIdx"_a = -1);
+    m.def("checkEquality", &checkEqualityWrapper, "Compare if the two rules form the same polycube",
+        "rule1"_a, "rule2"_a, "seedRuleIdx"_a = -1
+    );
     m.def("isBoundedAndDeterministic", &isBoundedAndDeterministic,
         "Check if the rule is bounded and form the same polycube every time (set nTries to 0 to only check if bounded)",
         "rule"_a, "nTries"_a = 15, "seedRuleIdx"_a = -1
