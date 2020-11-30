@@ -13,6 +13,12 @@
 #include <csignal>
 #include <cstdlib>
 
+// Declared globally to be accessable on signal exit
+std::string pid = std::to_string(getpid());
+int nOub = 0;
+int nNondet = 0;
+int nPhenos = 0;
+
 // 0 sign
 // 0 value 16
 // 0 value 8
@@ -74,7 +80,6 @@ std::string randRule(int maxColor, int maxCubes, int dim) {
 }
 
 void writeToPheno(std::string result, int index, std::string rule) {
-    std::string pid = std::to_string(getpid());
     std::string n = result.substr (0, result.find("_"));
     std::string dir = "out/"+n+"-mers/";
     std::ofstream fs;
@@ -94,11 +99,6 @@ static struct option long_options[] = {
     {"seedRuleIdx", optional_argument, NULL, 'i'},
     {NULL, 0, NULL, 0}
 };
-
-// Declared globally to be accessable on signal exit
-int nOub = 0;
-int nNondet = 0;
-int nPhenos = 0;
 
 int main(int argc, char **argv) {
     // Set default argument values
@@ -133,10 +133,10 @@ int main(int argc, char **argv) {
         }
     }
 
-    std::string pid = std::to_string(getpid());
     std::string dir = "out";
+    std::system(("mkdir -p "+dir).c_str());
     std::ofstream fs;
-    fs.open(dir+"/"+pid+".conf",std::ios_base::app);
+    fs.open(dir+"/"+pid+".conf");
     fs << "pid = "<< pid << std::endl;
     fs << "nColors = "<< nColors << std::endl;
     fs << "nCubeTypes = "<< nCubeTypes << std::endl;
@@ -151,9 +151,19 @@ int main(int argc, char **argv) {
 
     std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> phenomap;
 
+    // Make sure to output result on exit
     auto onExit = [] (int i) {
-          std::cout<<"Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
-          exit(EXIT_SUCCESS);
+        std::cout<<"Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
+        std::string dir = "out";
+        std::ofstream fs;
+        fs.open(dir+"/"+pid+".conf",std::ios_base::app);
+        fs << std::endl;
+        fs << "nPhenos = "<< nPhenos << std::endl;
+        fs << "nOub = "<< nOub << std::endl;
+        fs << "nNondet = "<< nNondet << std::endl;
+        fs << "nTot = "<< nPhenos + nOub + nNondet << std::endl;
+        fs.close();
+        exit(EXIT_SUCCESS);
     };
 
     signal(SIGINT, onExit);   // ^C
@@ -202,5 +212,5 @@ int main(int argc, char **argv) {
             }
         }
     }
-    onExit(0);
+    onExit(2);
 }
