@@ -10,6 +10,8 @@
 #include <bitset>
 #include <math.h>
 #include <unistd.h>
+#include <csignal>
+#include <cstdlib>
 
 // 0 sign
 // 0 value 16
@@ -74,7 +76,7 @@ std::string randRule(int maxColor, int maxCubes, int dim) {
 void writeToPheno(std::string result, int index, std::string rule) {
     std::string pid = std::to_string(getpid());
     std::string n = result.substr (0, result.find("_"));
-    std::string dir = "out_"+pid+"/"+n+"-mers/";
+    std::string dir = "out/"+n+"-mers/";
     std::ofstream fs;
     std::system(("mkdir -p "+dir).c_str());
     fs.open(dir+"pheno_"+result+"_"+std::to_string(index)+"_"+pid,std::ios_base::app);
@@ -92,6 +94,11 @@ static struct option long_options[] = {
     {"seedRuleIdx", optional_argument, NULL, 'i'},
     {NULL, 0, NULL, 0}
 };
+
+// Declared globally to be accessable on signal exit
+int nOub = 0;
+int nNondet = 0;
+int nPhenos = 0;
 
 int main(int argc, char **argv) {
     // Set default argument values
@@ -126,13 +133,33 @@ int main(int argc, char **argv) {
         }
     }
 
+    std::string pid = std::to_string(getpid());
+    std::string dir = "out";
+    std::ofstream fs;
+    fs.open(dir+"/"+pid+".conf",std::ios_base::app);
+    fs << "pid = "<< pid << std::endl;
+    fs << "nColors = "<< nColors << std::endl;
+    fs << "nCubeTypes = "<< nCubeTypes << std::endl;
+    fs << "nDimensions = "<< nDimensions << std::endl;
+    fs << "nRules = "<< nRules << std::endl;
+    fs << "nTries = "<< nTries << std::endl;
+    fs << "seedRuleIdx = "<< seedRuleIdx << std::endl;
+    fs.close();
+
     std::cout<<"Running "<<nRules<<" rules:"<<std::endl;
     std::string rule, result;
-    int nOub = 0;
-    int nNondet = 0;
-    int nPhenos = 0;
 
     std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> phenomap;
+
+    auto onExit = [] (int i) {
+          std::cout<<"Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
+          exit(EXIT_SUCCESS);
+    };
+
+    signal(SIGINT, onExit);   // ^C
+    signal(SIGABRT, onExit);  // abort()
+    signal(SIGTERM, onExit);  // sent by "kill" command
+    signal(SIGTSTP, onExit);  // ^Z
 
     while (nRules--) {
         rule = randRule(nColors, nCubeTypes, nDimensions);
@@ -175,5 +202,5 @@ int main(int argc, char **argv) {
             }
         }
     }
-    std::cout<<"Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
+    onExit(0);
 }
