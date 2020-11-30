@@ -71,67 +71,109 @@ std::string randRule(int maxColor, int maxCubes, int dim) {
     return std::string(ruleBuf);
 }
 
+void writeToPheno(std::string result, int index, std::string rule) {
+    std::string pid = std::to_string(getpid());
+    std::string n = result.substr (0, result.find("_"));
+    std::string dir = "out_"+pid+"/"+n+"-mers/";
+    std::ofstream fs;
+    std::system(("mkdir -p "+dir).c_str());
+    fs.open(dir+"pheno_"+result+"_"+std::to_string(index)+"_"+pid,std::ios_base::app);
+    fs << rule << std::endl;
+    fs.close();
+}
+
 static struct option long_options[] = {
     {"help", optional_argument, NULL, 'h'},
-    {"rule", optional_argument, NULL, 'r'},
-    {"isEqual", optional_argument, NULL, 'e'},
-    {"maxColors", optional_argument, NULL, 'c'},
-    {"maxRulesize", optional_argument, NULL, 's'},
-    {"dimensions", optional_argument, NULL, 'd'},
-    {"nTimes", optional_argument, NULL, 'n'},
-    {"nTries", optional_argument, NULL, 't'},
+    {"nColors", optional_argument, NULL, 'c'},
+    {"nCubeTypes", optional_argument, NULL, 't'},
+    {"nDimensions", optional_argument, NULL, 'd'},
+    {"nRules", optional_argument, NULL, 'n'},
+    {"nTries", optional_argument, NULL, 'r'},
+    {"seedRuleIdx", optional_argument, NULL, 'i'},
     {NULL, 0, NULL, 0}
 };
 
 int main(int argc, char **argv) {
     // Set default argument values
-    std::string rule = "";
-    int maxColors = 31;
-    int maxRulesize = 5;
-    int dimensions = 3;
-    int nTimes = 1;
-    int nTries = 5;
+    int nColors = 31;
+    int nCubeTypes = 5;
+    int nDimensions = 3;
+    int nRules = 1;
+    int nTries = 15;
     int seedRuleIdx = -1;
     // Loop over all of the provided arguments
     int ch;
-    while ((ch = getopt_long(argc, argv, "h r:c:s:d:n:t:i:", long_options, NULL)) != -1) {
+    while ((ch = getopt_long(argc, argv, "h c:t:d:n:r:i:", long_options, NULL)) != -1) {
         switch (ch) {
         case 'h':
             std::cout <<
                 "Usage: "<<argv[0]<<" [OPTIONS]"<<std::endl<<
                 "Options:"<<std::endl<<
                 "\t-h, --help\t\t Print this help text and exit"<<std::endl<<
-                "\t-r, --rule\t\t [rule] Specify a specific rule (don't generate randomly)"<<std::endl<<
-                "\t-c, --maxColors\t\t [number] Maximum number of colors to use in random rule (default "<<maxColors<<")"<<std::endl<<
-                "\t-s, --maxRulesize\t [number] Maximum size of random rule, (# of cubetypes) (default "<<maxRulesize<<")"<<std::endl<<
-                "\t-d, --dimensions\t [number] Number of dimensions [1,2,3] of random rule (default "<<dimensions<<")"<<std::endl<<
-                "\t-n, --nTimes\t\t [number] Number of random rules to generate (default "<<nTimes<<")"<<std::endl<<
-                "\t-t, --nTries\t\t [number] Number of tries to determine if a rule is deterministic (default "<<nTries<<")"<<std::endl<<
-                "\t-i, --seedRuleIdx\t [number] Index of cube type to initialize with, random if < 0 (default "<<nTries<<")"<<std::endl;
+                "\t-c, --nColors\t\t [number] Maximum number of colors to use in random rule (default "<<nColors<<")"<<std::endl<<
+                "\t-t, --nCubeTypes\t [number] Maximum size of random rule, (# of cubetypes) (default "<<nCubeTypes<<")"<<std::endl<<
+                "\t-d, --nDimensions\t [number] Number of dimensions [1,2,3] of random rule (default "<<nDimensions<<")"<<std::endl<<
+                "\t-n, --nRules\t\t [number] Number of random rules to generate (default "<<nRules<<")"<<std::endl<<
+                "\t-r, --nTries\t\t [number] Number of tries to determine if a rule is deterministic (default "<<nTries<<")"<<std::endl<<
+                "\t-i, --seedRuleIdx\t [number] Index of cube type to initialize with, random if < 0 (default "<<seedRuleIdx<<")"<<std::endl;
             return 0;
-        case 'r': rule = std::string(optarg); break;
-        case 'c': maxColors = std::stoi(optarg); break;
-        case 's': maxRulesize = std::stoi(optarg); break;
-        case 'd': dimensions = std::stoi(optarg); break;
-        case 'n': nTimes = (int)std::stod(optarg); break;
-        case 't': nTries = std::stoi(optarg); break;
+        case 'c': nColors = std::stoi(optarg); break;
+        case 't': nCubeTypes = std::stoi(optarg); break;
+        case 'd': nDimensions = std::stoi(optarg); break;
+        case 'n': nRules = (int)std::stod(optarg); break;
+        case 'r': nTries = std::stoi(optarg); break;
         case 'i': seedRuleIdx = std::stoi(optarg); break;
         }
     }
 
-    if (rule.length() > 0) {
-        // Run with the rule provided
-        std::string result = runTries(rule, nTries, seedRuleIdx);
-        std::cout << rule << "." << result << std::endl;
-    } else {
-        std::ofstream fs;
-        int tmp = getpid(); char pid[100]; sprintf(pid, "%d", tmp);
-        fs.open("out_"+std::string(pid));
-        while (nTimes--) {
-            rule = randRule(maxColors, maxRulesize, dimensions);
-            std::string result = runTries(rule, nTries, seedRuleIdx);
-            fs << rule << "." << result << std::endl;
+    std::cout<<"Running "<<nRules<<" rules:"<<std::endl;
+    std::string rule, result;
+    int nOub = 0;
+    int nNondet = 0;
+    int nPhenos = 0;
+
+    std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> phenomap;
+
+    while (nRules--) {
+        rule = randRule(nColors, nCubeTypes, nDimensions);
+        result = runTries(rule, nTries, seedRuleIdx);
+        if (result == "oub") nOub++;
+        else if (result == "nondet") nNondet++;
+        else {
+            // If there is no phenotype with the result dimensions,
+            // create a new empty list entry.
+            if(!phenomap.count(result)) {
+                std::vector<Eigen::Matrix3Xf> ps;
+                phenomap.emplace(result, ps);
+            }
+            // Get phenotypes
+            std::vector<Eigen::Matrix3Xf> phenos = phenomap.at(result);
+            // Check to see if result matches any previous phenotype
+            // with the same dimensions.
+            bool matched = false;
+            size_t pSize = phenos.size();
+            for (size_t i=0; i<pSize; i++) {
+                if (checkEquality(rule, phenos[i], seedRuleIdx)) {
+                    // If we found a match, add genotype to the corresponding file
+                    matched = true;
+                    writeToPheno(result,i,rule);
+                    break;
+                }
+            }
+            if (!matched) {
+                // Get phenotype coordinates (should perhaps save from earlier?)
+                PolycubeSystem* p = new PolycubeSystem(rule);
+                p->seed(seedRuleIdx);
+                p->processMoves();
+                // Add coordinates of this new phenotype
+                phenomap.at(result).push_back(p->getCoordMatrix());
+                delete p;
+                nPhenos++;
+
+                // Write to file
+                writeToPheno(result,0,rule);
+            }
         }
-        fs.close();
     }
+    std::cout<<"Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
 }

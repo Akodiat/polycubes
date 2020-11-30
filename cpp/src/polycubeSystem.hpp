@@ -3,6 +3,7 @@
 #include <map>
 #include <unordered_map>
 #include <string>
+#include <algorithm>
 #include <random>
 #include <iostream>
 #include <chrono>
@@ -108,12 +109,14 @@ public:
     }
 
     Eigen::Matrix3Xf getCoordMatrix();
+    std::vector<int> getBoundingBox();
 
     bool isInteresting() {
         return true;
     }
 
     bool equals(PolycubeSystem *other);
+    bool equals(Eigen::Matrix3Xf m2);
 
     static Eigen::Vector3f getRuleOrder(int index);
     static std::vector<Rule> parseRules(std::string ruleStr);

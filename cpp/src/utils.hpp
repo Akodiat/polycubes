@@ -10,6 +10,9 @@
 
 std::string runTries(std::string rule, int nTries, int seedRuleIdx);
 
+bool checkEquality(std::string rule1, std::string rule2, int seedRuleIdx);
+bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, int seedRuleIdx);
+
 // Split string, from https://stackoverflow.com/a/10058725
 std::vector<std::string> splitString(std::string s, char delim);
 

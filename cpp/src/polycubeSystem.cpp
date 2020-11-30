@@ -28,10 +28,38 @@ Eigen::Matrix3Xf PolycubeSystem::getCoordMatrix() {
     return m;
 }
 
+std::vector<int> PolycubeSystem::getBoundingBox() {
+    std::vector<std::string> lines = splitString(this->toString(), '\n');
+    Eigen::Matrix3Xf m(3, lines.size());
+    int maxX, minX, maxY, minY, maxZ, minZ;
+    maxX = maxY = maxZ = 0;
+    minX = minY = minZ = std::numeric_limits<int>::max();
+    for (size_t i=0; i<lines.size(); i++) {
+        std::string line = lines[i];
+        size_t l, r;
+        l = line.find('(');
+        r = line.rfind(')');
+        line = line.substr(l+1, r-l-1);
+        std::vector<std::string> vals = splitString(line, ',');
+        int x = stoi(vals[0]);
+        int y = stoi(vals[1]);
+        int z = stoi(vals[2]);
+        maxX = std::max(maxX, x); minX = std::min(minX, x);
+        maxY = std::max(maxY, y); minY = std::min(minY, y);
+        maxZ = std::max(maxZ, z); minZ = std::min(minZ, z);
+    }
+    std::vector<int> v{maxX-minX+1, maxY-minY+1, maxZ-minZ+1};
+    std::sort(v.begin(), v.end());
+    return v;
+}
+
 bool PolycubeSystem::equals(PolycubeSystem* other) {
-    Eigen::Matrix3Xf m1, m2;
-    m1 = this->getCoordMatrix();
-    m2 = other->getCoordMatrix();
+    Eigen::Matrix3Xf m = other->getCoordMatrix();
+    return this->equals(m);
+}
+
+bool PolycubeSystem::equals(Eigen::Matrix3Xf m2) {
+    Eigen::Matrix3Xf m1 = this->getCoordMatrix();
 
     if (m1.size() != m2.size()) {
         return false;
