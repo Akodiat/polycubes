@@ -20,16 +20,6 @@ function vecToStr(v) {
     return `(${v.x},${v.y},${v.z})`;
 }
 
-function saveString(text, filename) {
-    let element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-}
-
 // https://stackoverflow.com/a/45054052
 function parseHexRule(ruleStr) {
     let ruleSize = 6;
@@ -62,7 +52,7 @@ function isBoundedAndDeterministic(hexRule, nTries=15) {
         system.addParticle(new THREE.Vector3(), system.rule[0], 0);
         let processed = false;
         while (!processed) {
-            processed = system.processMoves(false); //process move without animation
+            processed = system.processMoves(true); //process move in background, without animation
             if (processed == 'oub') {
                 return false;
             }
@@ -128,13 +118,6 @@ class PolycubeSystem {
         this.centerCubeGeo = new THREE.BoxBufferGeometry(
             centerCubeSize, centerCubeSize, centerCubeSize
         );
-
-        document.addEventListener("keydown", event => {
-            if (event.key == 's' && event.ctrlKey) {
-                event.preventDefault();
-                this.getCoordinateFile();
-            }
-        });
     }
 
     isPolycubeSystem() {
@@ -213,30 +196,6 @@ class PolycubeSystem {
             }
         }
         return ruleStr;
-    }
-
-    getCoordinateFile() {
-        let filename = `${this.getRuleStr()}.${this.cubeMap.size}-mer`;
-        let text = ""
-        this.cubeMap.forEach(function(value, key){text += key + '\n'});
-        saveString(text, filename);
-    }
-
-    exportGLTF() {
-        // Instantiate an exporter
-        let exporter = new THREE.GLTFExporter();
-        let options = {'forceIndices': true};
-
-        // Parse the input and generate the glTF output
-        exporter.parse(this.objGroup, function (result) {
-            if (result instanceof ArrayBuffer) {
-                saveArrayBuffer(result, 'scene.glb');
-            } else {
-                let output = JSON.stringify(result, null, 2);
-                console.log(output);
-                saveString(output, 'scene.gltf');
-            }
-        }, options);
     }
 
     ruleFits(a,b) {
@@ -334,7 +293,7 @@ class PolycubeSystem {
         return l;
     }
 
-    processMoves(animate = true) {
+    processMoves(background = false) {
         let nMoves = this.moveKeys.length;
         if (nMoves > 0) { // While we have moves to process
             // Pick a random move
@@ -360,7 +319,9 @@ class PolycubeSystem {
                     this.addParticle(this.moves[key].pos, rule, ruleIdxs[r]);
                     if (this.cubeMap.size >= this.nMaxCubes) {
                         render();
-                        window.dispatchEvent(new Event('oub'));
+                        if (!background) {
+                            window.dispatchEvent(new Event('oub'));
+                        }
                         console.log("Unbounded");
                         return 'oub';
                     }
@@ -371,12 +332,14 @@ class PolycubeSystem {
             delete this.moves[key];
             this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
         } else {
-            window.dispatchEvent(new Event('movesProcessed'));
+            if (!background) {
+                window.dispatchEvent(new Event('movesProcessed'));
+            }
             console.log("Moves processed");
             return true;
         }
         //render();
-        if (animate) {
+        if (!background) {
             requestAnimationFrame(this.processMoves.bind(this));
         }
         return false;

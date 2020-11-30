@@ -39,7 +39,7 @@ class polysat {
         let nC = (nColors + 1) * 2;
 
         // Read number of particles from the topology
-        let [nL, _] = countParticlesAndBindings(topology);
+        let nL = coords.length;
 
         //problem specification:
         this.nS = nCubeTypes  //: Number of distinct particle types for (const the solver
@@ -186,7 +186,7 @@ class polysat {
 
         // Calculate patch that p rotates to:
         let p_rot = this.rotations.get(r).get(p)
-         // Calculate vector corresponding to o
+        // Calculate vector corresponding to o
         let v = patchRotToVec(p, o)
         // Which p has the same vector as o?
         let p_temp = getRuleOrder().findIndex(e=>e.equals(v))
@@ -594,7 +594,6 @@ class polysat {
         }
     }
 
-   
     fix_slot_colors(ptype, sid, cid) {
         this.basic_sat_clauses.push([this.F(ptype, sid, cid)]);
     }
@@ -775,7 +774,7 @@ function topFromCoords(coords, nDim=3) {
     });
     return [bindings, empty]
 }
-
+/*
 // https://stackoverflow.com/a/45054052
 function parseHexRule(ruleStr) {
     let ruleSize = 6;
@@ -793,6 +792,11 @@ function parseHexRule(ruleStr) {
         rule.push(cube);
     }
     return rule;
+}
+*/
+
+function render() {
+    return; // Do nothing, since we should be in a web worker
 }
 
 function ruleToHex(rule) {
@@ -884,13 +888,6 @@ function readSolution(sol) {
     return [...ruleMap.values()].map(rule=>[...rule.values()]);
 }
 
-function countParticlesAndBindings(topology) {
-    pidsa = topology.map(x=>x[0]);
-    pidsb = topology.map(x=>x[2]);
-    particles = pidsa.concat(pidsb);
-    return [Math.max(...particles)+1, topology.length]
-}
-
 function patchCount(cube) {
     return cube.filter(face=>face.color!=0).length;
 }
@@ -914,7 +911,7 @@ function find_solution(coords, nCubeTypes, nColors, nDim=3, tortionalPatches=tru
                 minSol = [nCubeTypes, nColors];
                 return hexRule;
             } else {
-                updateStatus(`<a href="https://akodiat.github.io/polycubes/?rule=${hexRule}" target="_blank">UND</a> `, false);
+                //updateStatus(`<a href="https://akodiat.github.io/polycubes/?rule=${hexRule}" target="_blank">UND</a> `, false);
                 mysat.forbidSolution(result);
             }
         } else {
@@ -922,54 +919,8 @@ function find_solution(coords, nCubeTypes, nColors, nDim=3, tortionalPatches=tru
         }
     }
     updateStatus('Gave up');
+    return 'UND'
 }
-
-function smartEnumerate(xMax, yMax) {
-    l = []
-    for (const x of range(1, xMax+1)) {
-        for (const y of range(1, yMax+1)) {
-            l.push([x,y])
-        }
-    }
-    return l.sort((a,b)=>{return (a[0]+a[1]) - (b[0]+b[1])})
-}
-
-function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nDim=3, tortionalPatches=true) {
-    // Clear status
-    document.getElementById('status').innerHTML = '';
-    // Never need to check for (const more than the topology can specify
-    let [topology, _] = topFromCoords(coords, nDim);
-    let [maxNT, maxNC] = countParticlesAndBindings(topology);
-    if (maxCubeTypes == 'auto') {
-        maxCubeTypes = maxNT;
-    }
-    if (maxColors == 'auto') {
-        maxColors = maxNC;
-    }
-
-    for (const [nCubeTypes, nColors] of smartEnumerate(maxCubeTypes, maxColors)) {
-        setTimeout(()=>{
-            updateStatus(`<b>${nColors} colors and ${nCubeTypes} cube types:</b>`);
-            rule = find_solution(coords, nCubeTypes, nColors, nDim, tortionalPatches);
-            if (rule == 'skipped') {
-                updateStatus('Simpler solution already found');
-            } else if (rule) {
-                updateStatus(`Found solution: <a href="https://akodiat.github.io/polycubes/?rule=${rule}" target="_blank">${rule}</a>`);
-                return rule;
-            } else {
-                updateStatus('Sorry, no solution')
-            }
-        }, 100);
-    }
-}
-
-function updateStatus(status, newline=true) {
-    console.log(status);
-    let e = document.getElementById('status');
-    e.innerHTML += newline ? `<p>${status}</p>` : status;
-    e.scrollTop = e.scrollHeight;
-}
-
 
 // Modified from https://stackoverflow.com/a/8273091
 function* range(start, stop, step) {
@@ -1007,9 +958,10 @@ Map.prototype.setdefault = function (key, default_value=null) {
 // Adapted from demo: http://jgalenson.github.io/research.js/demos/minisat.html
 function minisat(input) {
     //minisatModule.TOTAL_MEMORY = 1073741824;
-    var solve_string = minisatModule.cwrap('solve_string', 'string', ['string', 'int']);
-    var oldPrint = minisatModule.print;
-    var oldPrintErr = minisatModule.printErr;
+    let minisatModule = t; // Ugly hack
+    let solve_string = minisatModule.cwrap('solve_string', 'string', ['string', 'int']);
+    let oldPrint = minisatModule.print;
+    let oldPrintErr = minisatModule.printErr;
     let output = '';
     let result = '';
     minisatModule['print'] = function(x) {
@@ -1021,12 +973,12 @@ function minisat(input) {
         output += x + "\n";
     }
     try {
-      var startTime = (new Date()).getTime();
-      result = solve_string(input, input.length);
-      var endTime = (new Date()).getTime();
-      console.log('CPU time: ' + ((endTime - startTime) / 1000) + 's\n');
+    var startTime = (new Date()).getTime();
+    result = solve_string(input, input.length);
+    var endTime = (new Date()).getTime();
+    console.log('CPU time: ' + ((endTime - startTime) / 1000) + 's\n');
     } catch(e) {
-      minisatModule.printErr('Error: ' + e);
+    minisatModule.printErr('Error: ' + e);
     }
     minisatModule.print = oldPrint;
     minisatModule.printErr = oldPrintErr;

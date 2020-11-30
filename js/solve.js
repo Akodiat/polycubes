@@ -175,3 +175,156 @@ function onDocumentMouseDown(event) {
 function render() {
     renderer.render(scene, camera);
 }
+
+
+function smartEnumerate(xMax, yMax) {
+    l = []
+    for (const x of range(1, xMax+1)) {
+        for (const y of range(1, yMax+1)) {
+            l.push([x,y])
+        }
+    }
+    return l.sort((a,b)=>{return (a[0]+a[1]) - (b[0]+b[1])})
+}
+
+// Modified from https://stackoverflow.com/a/8273091
+function* range(start, stop, step) {
+    if (typeof stop == 'undefined') {
+        stop = start;
+        start = 0;
+    }
+    if (typeof step == 'undefined') {
+        step = 1;
+    }
+    let iterationCount = 0;
+    if (!((step > 0 && start >= stop) || (step < 0 && start <= stop))) {
+        for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
+            iterationCount++;
+            yield i;
+        }
+    }
+    return iterationCount;
+};
+
+function topFromCoords(coords, nDim=3) {
+    neigbourDirs = getRuleOrder(nDim)
+
+    bindings = []
+    empty = []
+    donePairs = []  // Keep track so that only one bond per pair is saved
+
+    // For each position
+    coords.forEach((current, i)=> {
+        // Enumerate von Neumann neighborhood
+        neigbourDirs.forEach((dP,dPi)=>{
+            neigbourPos = current.clone().add(dP);
+            found = false;
+            // Check if curerent neighbor is among the positions
+            coords.forEach((other,j)=>{
+                if (neigbourPos.equals(other)) {
+                    if (!donePairs.includes((j, i))) {
+                        bindings.push([
+                            // Particle {} patch {} 
+                            i, dPi,
+                            // with Particle {} patch {}
+                            j, dPi + (dPi % 2 == 0 ? 1 : -1)
+                        ])
+                        donePairs.push([i, j])
+                    }
+                    found = true;
+                }
+            });
+            // If the current neigbour is empty, save
+            if (!found) {
+                empty.push([i, dPi])
+            }
+        });
+    });
+    return [bindings, empty]
+}
+
+function getRuleOrder(nDim=3) {
+    if (nDim == 2) {
+        return [
+            new THREE.Vector2(0, -1),
+            new THREE.Vector2(1, 0),
+            new THREE.Vector2(0, 1),
+            new THREE.Vector2(-1, 0)
+        ]
+    }
+    else {    
+        return [
+            new THREE.Vector3(-1, 0, 0),
+            new THREE.Vector3( 1, 0, 0),
+            new THREE.Vector3( 0,-1, 0),
+            new THREE.Vector3( 0, 1, 0),
+            new THREE.Vector3( 0, 0,-1),
+            new THREE.Vector3( 0, 0, 1),
+        ]
+    }
+}
+
+function countParticlesAndBindings(topology) {
+    pidsa = topology.map(x=>x[0]);
+    pidsb = topology.map(x=>x[2]);
+    particles = pidsa.concat(pidsb);
+    return [Math.max(...particles)+1, topology.length]
+}
+
+function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nDim=3, tortionalPatches=true) {
+    // Clear status
+    document.getElementById('status').innerHTML = '';
+    // Never need to check for (const more than the topology can specify
+    let [topology, _] = topFromCoords(coords, nDim);
+    let [maxNT, maxNC] = countParticlesAndBindings(topology);
+    if (maxCubeTypes == 'auto') {
+        maxCubeTypes = maxNT;
+    }
+    if (maxColors == 'auto') {
+        maxColors = maxNC;
+    }
+
+    let workers = []
+    for (const [nCubeTypes, nColors] of smartEnumerate(maxCubeTypes, maxColors)) {
+        if (window.Worker) {
+            var myWorker = new Worker('js/solveWorker.js');
+            workers.push(myWorker)
+            myWorker.onmessage = function(e) {
+                console.log('Message received from worker');
+                let rule = e.data;
+                updateStatus(`<b>${nColors} colors and ${nCubeTypes} cube types:</b>`);
+                if (rule != 'skipped') {
+                    if (rule) {
+                        updateStatus(`Found solution: <a href="https://akodiat.github.io/polycubes/?rule=${rule}" target="_blank">${rule}</a>`);
+                        workers.forEach(w=>w.terminate());
+                        return rule;
+                    } else {
+                        updateStatus('Sorry, no solution')
+                    }
+                }
+            }
+            myWorker.postMessage([coords, nCubeTypes, nColors, nDim, tortionalPatches]);
+        }
+/*
+        setTimeout(()=>{
+            updateStatus(`<b>${nColors} colors and ${nCubeTypes} cube types:</b>`);
+            rule = find_solution(coords, nCubeTypes, nColors, nDim, tortionalPatches);
+            if (rule == 'skipped') {
+                updateStatus('Simpler solution already found');
+            } else if (rule) {
+                updateStatus(`Found solution: <a href="https://akodiat.github.io/polycubes/?rule=${rule}" target="_blank">${rule}</a>`);
+                return rule;
+            } else {
+                updateStatus('Sorry, no solution')
+            }
+        }, 100);
+*/
+    }
+}
+
+function updateStatus(status, newline=true) {
+    console.log(status);
+    let e = document.getElementById('status');
+    e.innerHTML += newline ? `<p>${status}</p>` : status;
+    e.scrollTop = e.scrollHeight;
+}

@@ -2,6 +2,47 @@ if (WEBGL.isWebGLAvailable() === false) {
     document.body.appendChild(WEBGL.getWebGLErrorMessage());
 }
 
+document.addEventListener("keydown", event => {
+    if (event.key == 's' && event.ctrlKey) {
+        event.preventDefault();
+        system.getCoordinateFile();
+    }
+});
+
+function getCoordinateFile() {
+    let filename = `${system.getRuleStr()}.${system.cubeMap.size}-mer`;
+    let text = ""
+    system.cubeMap.forEach(function(value, key){text += key + '\n'});
+    saveString(text, filename);
+}
+
+function saveString(text, filename) {
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+}
+
+function exportGLTF() {
+    // Instantiate an exporter
+    let exporter = new THREE.GLTFExporter();
+    let options = {'forceIndices': true};
+
+    // Parse the input and generate the glTF output
+    exporter.parse(system.objGroup, function (result) {
+        if (result instanceof ArrayBuffer) {
+            saveArrayBuffer(result, 'scene.glb');
+        } else {
+            let output = JSON.stringify(result, null, 2);
+            console.log(output);
+            saveString(output, 'scene.gltf');
+        }
+    }, options);
+}
+
 function saveCanvasImage(){
     canvas.toBlob(function(blob){
         var a = document.createElement('a');
