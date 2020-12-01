@@ -340,7 +340,7 @@ class PolycubeSystem {
         }
         //render();
         if (!background) {
-            requestAnimationFrame(this.processMoves.bind(this));
+            requestAnimationFrame(this.processMoves.bind(this, false));
         }
         return false;
     }
