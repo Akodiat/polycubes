@@ -208,7 +208,7 @@ int main(int argc, char **argv) {
                 nPhenos++;
 
                 // Write to file
-                writeToPheno(result,0,rule);
+                writeToPheno(result, phenomap.at(result).size()-1, rule);
             }
         }
     }

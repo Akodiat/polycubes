@@ -4,7 +4,7 @@
 std::string runTries(std::string rule, int nTries, int seedRuleIdx)
 {
     int refnCubes = 0;
-    PolycubeSystem* ref = nullptr;
+    Eigen::Matrix3Xf coords;
     std::string refStr = "";
     while (nTries--) {
         PolycubeSystem* p = new PolycubeSystem(rule);
@@ -13,28 +13,23 @@ std::string runTries(std::string rule, int nTries, int seedRuleIdx)
 
         if (nCubes <= 0) {
             delete p;
-            if (ref != nullptr) {
-                delete ref;
-            }
             return "oub";
         }
-        if (ref == nullptr) {
-            ref = p;
+        if (refStr == "") {
+            coords = p->getCoordMatrix();
             std::vector<int> b = p->getBoundingBox();
             refStr = std::to_string(nCubes)+"_"+
-            std::to_string(b[0])+","+std::to_string(b[1])+","+std::to_string(b[2]);
+            std::to_string(b[2])+","+std::to_string(b[1])+","+std::to_string(b[0]);
             refnCubes = nCubes;
         }
         else {
-            if (nCubes != refnCubes || !ref->equals(p)) {
+            if (nCubes != refnCubes || !p->equals(coords)) {
                 delete p;
-                delete ref;
                 return "nondet";
             }
-            delete p;
         }
+        delete p;
     }
-    delete ref;
     // If we had the same result every try:
     return refStr;
 }
@@ -46,7 +41,7 @@ bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, int seedRuleIdx) {
     int nCubes = p->processMoves();
     bool equal = false;
 
-    if(nCubes >= 0 && nCubes == coords.rows()) {
+    if(nCubes >= 0 && nCubes == coords.cols()) {
         equal = p->equals(coords);
     }
     delete p;
