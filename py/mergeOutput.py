@@ -39,7 +39,7 @@ def loadPhenos(nmerdir):
     # Extract total number of sampled rules from configs in parent directory
     parentdir = os.path.dirname(os.path.abspath(nmerdir))
     for root, _, conffiles in os.walk(parentdir):
-        confs = [readConf(os.path.join(root, c)) for c in conffiles]
+        confs = [readConf(os.path.join(root, c)) for c in conffiles if ".conf" in c]
         nRules = sum(conf['nTot'] for conf in confs)
         break
 
