@@ -40,7 +40,11 @@ def loadPhenos(nmerdir):
     parentdir = os.path.dirname(os.path.abspath(nmerdir))
     for root, _, conffiles in os.walk(parentdir):
         confs = [readConf(os.path.join(root, c)) for c in conffiles if ".conf" in c]
-        nRules = sum(conf['nTot'] for conf in confs)
+        try:
+            nRules = sum(conf['nTot'] for conf in confs)
+        except:
+            print("Warning, no nTot found in config (did the sampling exit correctly?). Frequency data will be invalid")
+            nRules = -1
         break
 
     n = int(os.path.split(nmerdir)[-1].replace('-mers',''))
