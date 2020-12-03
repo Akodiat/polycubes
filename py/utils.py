@@ -139,6 +139,20 @@ def parseHexRule(hexRule):
     ruleset.append(faces)
     return ruleset
 
+def translateToPolyominoNotation(ruleset):
+    faceOrder = [1,3,0,2]
+    cubes = []
+    for cube in ruleset:
+        faces = []
+        for i in faceOrder:
+            face = cube[i]
+            color = 2*abs(face['color'])
+            if face['color'] < 0:
+                color -= 1
+            faces.append(str(color))
+        cubes.append(" ".join(faces))
+    return " | ".join(cubes)
+
 # From Chico adapted for Python 3.X
 # Code previously from Ben Frot
 # Originally from XXX paper
