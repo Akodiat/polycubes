@@ -7,7 +7,8 @@ def loadPhenos(path="../cpp/out/3d/phenos"):
     phenos = []
     for root, _, files in os.walk(path):
         for file in files:
-            phenos.extend(pickle.load(open(os.path.join(root, file), "rb")))
+            if "phenos.p" in file:
+                phenos.extend(pickle.load(open(os.path.join(root, file), "rb")))
     return phenos
 
 def getMinColorsAndCubeTypes(hexRule):
