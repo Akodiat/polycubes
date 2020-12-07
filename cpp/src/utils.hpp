@@ -5,13 +5,16 @@
 #include <vector>
 #include <string>
 #include <set>
+#include "polycubeSystem.hpp"
 #include "../lib/Eigen/Dense"
 #include "../lib/Eigen/Geometry"
 
-std::string runTries(std::string rule, int nTries, int seedRuleIdx);
+AssemblyMode parseAssemblyMode(std::string s);
 
-bool checkEquality(std::string rule1, std::string rule2, int seedRuleIdx);
-bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, int seedRuleIdx);
+std::string runTries(std::string rule, int nTries, AssemblyMode assemblyMode);
+
+bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMode);
+bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode);
 
 // Split string, from https://stackoverflow.com/a/10058725
 std::vector<std::string> splitString(std::string s, char delim);

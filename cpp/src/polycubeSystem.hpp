@@ -12,6 +12,9 @@
 
 const size_t ruleSize = 6;
 
+enum AssemblyMode {stochastic, seeded, ordered};
+static const char* assemblyModeNames[] = { "stochastic", "seeded", "ordered" };
+
 class Face
 {
 private:
@@ -96,10 +99,10 @@ public:
     PolycubeSystem(std::vector<Rule> rules);
     PolycubeSystem(std::string rules);
     PolycubeSystem(std::string rules, size_t nMaxCubes);
+    PolycubeSystem(std::string rules, AssemblyMode assemblyMode);
     ~PolycubeSystem();
 
     int processMoves();
-    void seed(int ruleIdx);
     void seed();
     void addCube(Eigen::Vector3f position, Rule rule, int ruleIdx);
     void addCube(Eigen::Vector3f position, int ruleIdx);
@@ -134,7 +137,11 @@ private:
     std::map<std::string, size_t> ruleToOrderIdx;
     std::vector<Rule> rules;
 
-    void init(std::vector<Rule> rules, size_t nMaxCubes);
+    AssemblyMode assemblyMode;
+    size_t orderIndex;
+
+    int tryProcessMove(std::string movekey, int ruleIdx);
+    void init(std::vector<Rule> rules, size_t nMaxCubes, AssemblyMode assemblyMode);
 
     Rule *ruleFits(Rule a, Rule b);
 

@@ -92,14 +92,17 @@ bool PolycubeSystem::equals(Eigen::Matrix3Xf m2) {
 }
 
 PolycubeSystem::PolycubeSystem(std::vector<Rule> rules) {
-    init(rules, 100);
+    init(rules, 100, AssemblyMode::stochastic);
 }
 
 PolycubeSystem::PolycubeSystem(std::string rules) {
-    init(parseRules(rules), 100);
+    init(parseRules(rules), 100, AssemblyMode::stochastic);
 }
 PolycubeSystem::PolycubeSystem(std::string rules, size_t nMaxCubes) {
-    init(parseRules(rules), nMaxCubes);
+    init(parseRules(rules), nMaxCubes, AssemblyMode::stochastic);
+}
+PolycubeSystem::PolycubeSystem(std::string rules, AssemblyMode assemblyMode) {
+    init(parseRules(rules), 100, assemblyMode);
 }
 
 PolycubeSystem::~PolycubeSystem() {
@@ -110,12 +113,15 @@ PolycubeSystem::~PolycubeSystem() {
     }
 }
 
-void PolycubeSystem::init(std::vector<Rule> rules, size_t nMaxCubes) {
+void PolycubeSystem::init(std::vector<Rule> rules, size_t nMaxCubes, AssemblyMode assemblyMode) {
     this->moves = std::unordered_map<std::string, Move>();
     this->moveKeys = std::vector<std::string>();
     this->cubeMap = std::map<std::string,bool>();
     this->nMaxCubes = nMaxCubes;
     this->rules = rules;
+
+    this->assemblyMode = assemblyMode;
+    this->orderIndex = 0;
 
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     this->randomNumGen = std::mt19937(seed);
@@ -127,8 +133,9 @@ void PolycubeSystem::init(std::vector<Rule> rules, size_t nMaxCubes) {
     }
 }
 
-void PolycubeSystem::seed(int ruleIdx) {
-    if (ruleIdx < 0) {
+void PolycubeSystem::seed() {
+    int ruleIdx = 0;
+    if (this->assemblyMode == AssemblyMode::stochastic) {
         // Use random rule index
         std::uniform_int_distribution<uint32_t> ruledist(
             0, this->rules.size()-1
@@ -138,50 +145,91 @@ void PolycubeSystem::seed(int ruleIdx) {
     this->addCube(Eigen::Vector3f(0, 0, 0), ruleIdx);
 }
 
-void PolycubeSystem::seed() {
-    this->seed(-1);
+int PolycubeSystem::tryProcessMove(std::string movekey, int ruleIdx) {
+    Rule rule = rules[ruleIdx];
+    Rule* fittedRule = ruleFits(moves.at(movekey).getRule(), rule);
+    if(fittedRule != nullptr) {
+        addCube(moves.at(movekey).getMovePos(), *fittedRule, ruleIdx);
+
+        // Cleanup fitted rule (orientated instance)
+        for(size_t i=0; i<ruleSize;i++){
+            delete (*fittedRule)[i];
+        }
+        delete fittedRule;
+
+        // If out of bounds, OUB
+        if (cubeMap.size() >= nMaxCubes) {
+            // Make sure to clean up rules from remaining unprocessed moves
+            for(auto move : moves) {
+                move.second.deleteRules();
+            }
+            return -1;
+        }
+        return 1;
+    }
+    return 0;
 }
 
 int PolycubeSystem::processMoves() {
     // While we have moves to process
-    while (this->moveKeys.size() > 0) {
-        // Pick a random move
-        std::uniform_int_distribution<uint32_t> key_distribution(
-            0, this->moveKeys.size()-1
-        );
-        size_t keyIdx = key_distribution(this->randomNumGen);
-        std::string key = this->moveKeys[keyIdx];
-
-        // Pick a random rule order
-        std::vector<unsigned short> ruleIdxs = this->randOrdering(this->rules.size());
-        // Check if we have a rule that fits this move
-        for (size_t r=0; r<this->rules.size(); r++) {
-            Rule rule = this->rules[ruleIdxs[r]];
-            Rule* fittedRule = ruleFits(moves.at(key).getRule(), rule);
-            if(fittedRule != nullptr) {
-                this->addCube(moves.at(key).getMovePos(), *fittedRule, ruleIdxs[r]);
-                for(size_t i=0; i<ruleSize;i++){
-                    delete (*fittedRule)[i];
+    while (moveKeys.size() > 0) {
+        if (assemblyMode == AssemblyMode::ordered) {
+            std::vector<unsigned short> randomMoveIdxs = randOrdering(moveKeys.size());
+            std::vector<std::string> randomMoveKeys;
+            for (size_t i=0; i<randomMoveIdxs.size(); i++) {
+                randomMoveKeys.push_back(moveKeys[randomMoveIdxs[i]]);
+            }
+            for (size_t i=0; i<randomMoveKeys.size(); i++) {
+                std::string key = randomMoveKeys[i];
+                int result = tryProcessMove(key, orderIndex);
+                if (result != 0) {
+                    // Remove processed move
+                    moves.at(key).deleteRules();
+                    moves.erase(key);
+                    moveKeys.erase(std::find(moveKeys.begin(), moveKeys.end(), key));
                 }
-                delete fittedRule;
-                if (this->cubeMap.size() >= this->nMaxCubes) {
-                    // Make sure to clean up rules from unprocessed moves
-                    for(auto move : moves) {
-                        move.second.deleteRules();
-                    }
-                    return -1;
+                if (result<0) {
+                    return result; // Out of bounds
+                }
+            }
+            // When we have tried the current cube type for all moves
+            // in queue, increase index to try the next one next time
+            orderIndex++;
+            // Abort if we have tried all cube types
+            if (orderIndex >= rules.size()) {
+                // Make sure to clean up rules from remaining unprocessed moves
+                for(auto move : moves) {
+                    move.second.deleteRules();
                 }
                 break;
             }
+        } else {
+            // Pick a random move
+            std::uniform_int_distribution<uint32_t> key_distribution(
+                0, moveKeys.size()-1
+            );
+            size_t keyIdx = key_distribution(randomNumGen);
+            std::string key = moveKeys[keyIdx];
+
+            // Pick a random rule order
+            std::vector<unsigned short> ruleIdxs = randOrdering(rules.size());
+            // Check if we have a cubetype that fits this move
+            for (size_t r=0; r<rules.size(); r++) {
+                int result = tryProcessMove(key, ruleIdxs[r]);
+                if (result<0) {
+                    return result; // Out of bounds
+                } else if (result == 1) {
+                    break; // Successfully added cube of this type
+                }
+            }
+            // Remove processed move
+            moves.at(key).deleteRules();
+            moves.erase(key);
+            moveKeys.erase(std::find(moveKeys.begin(), moveKeys.end(), key));
         }
-        // Remove processed move
-        moves.at(key).deleteRules();
-        this->moves.erase(key);
-        this->moveKeys.erase(std::find(this->moveKeys.begin(), this->moveKeys.end(), key));
-        
         //std::cout<<"Moves to process: "<<this->moveKeys.size()<<std::endl<<std::endl;
     }
-    return this->cubeMap.size();
+    return cubeMap.size();
 }
 
 // Add cube with default orientation

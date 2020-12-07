@@ -1,14 +1,25 @@
 #include "utils.hpp"
 #include "polycubeSystem.hpp"
 
-std::string runTries(std::string rule, int nTries, int seedRuleIdx)
+AssemblyMode parseAssemblyMode(std::string s) {
+    AssemblyMode m;
+    if (s == "stochastic") m = AssemblyMode::stochastic;
+    else if (s == "seeded") m = AssemblyMode::seeded;
+    else if (s == "ordered") m = AssemblyMode::ordered;
+    else {
+        throw std::invalid_argument("Unknown assembly mode: "+s);
+    }
+    return m;
+}
+
+std::string runTries(std::string rule, int nTries, AssemblyMode assemblyMode)
 {
     int refnCubes = 0;
     Eigen::Matrix3Xf coords;
     std::string refStr = "";
     while (nTries--) {
-        PolycubeSystem* p = new PolycubeSystem(rule);
-        p->seed(seedRuleIdx);
+        PolycubeSystem* p = new PolycubeSystem(rule, assemblyMode);
+        p->seed();
         int nCubes = p->processMoves();
 
         if (nCubes <= 0) {
@@ -35,9 +46,9 @@ std::string runTries(std::string rule, int nTries, int seedRuleIdx)
 }
 
 // Compare if the two rules form the same polycube
-bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, int seedRuleIdx) {
-    PolycubeSystem* p = new PolycubeSystem(rule);
-    p->seed(seedRuleIdx);
+bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode) {
+    PolycubeSystem* p = new PolycubeSystem(rule, assemblyMode);
+    p->seed();
     int nCubes = p->processMoves();
     bool equal = false;
 
@@ -49,13 +60,13 @@ bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, int seedRuleIdx) {
 }
 
 // Compare if the two rules form the same polycube
-bool checkEquality(std::string rule1, std::string rule2, int seedRuleIdx) {
-    PolycubeSystem* p1 = new PolycubeSystem(rule1);
-    p1->seed(seedRuleIdx);
+bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMode) {
+    PolycubeSystem* p1 = new PolycubeSystem(rule1, assemblyMode);
+    p1->seed();
     int nCubes1 = p1->processMoves();
 
-    PolycubeSystem* p2 = new PolycubeSystem(rule2);
-    p2->seed(seedRuleIdx);
+    PolycubeSystem* p2 = new PolycubeSystem(rule2, assemblyMode);
+    p2->seed();
     int nCubes2 = p2->processMoves();
 
     bool equal = false;

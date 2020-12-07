@@ -7,19 +7,28 @@ namespace py = pybind11;
 
 using namespace pybind11::literals;
 
-bool isBoundedAndDeterministic(std::string rule, int nTries, int seedRuleIdx) {
-    std::string result = runTries(rule, nTries, seedRuleIdx);
+bool isBoundedAndDeterministic(std::string rule, int nTries, std::string assemblyMode) {
+    std::string result = runTries(
+        rule, nTries,
+        parseAssemblyMode(assemblyMode)
+    );
     return result != "oub" && result != "nondet";
 }
 
-bool checkEqualityWrapper(std::string rule1, std::string rule2, int seedRuleIdx) {
-    return checkEquality(rule1, rule2, seedRuleIdx);
+bool checkEqualityWrapper(std::string rule1, std::string rule2, std::string assemblyMode) {
+    return checkEquality(
+        rule1, rule2,
+        parseAssemblyMode(assemblyMode)
+    );
 }
 
-std::string getCoordStr(std::string rule, int seedRuleIdx)
+std::string getCoordStr(std::string rule, std::string assemblyMode)
 {
-    PolycubeSystem* p = new PolycubeSystem(rule);
-    p->seed(seedRuleIdx);
+    PolycubeSystem* p = new PolycubeSystem(
+        rule,
+        parseAssemblyMode(assemblyMode)
+    );
+    p->seed();
     p->processMoves();
     std::string s = p->toString();
     delete p;
@@ -41,11 +50,11 @@ Eigen::Matrix3Xf getCoords(std::string rule, int seedRuleIdx)
 PYBIND11_MODULE(polycubes, m) {
     m.doc() = "Polycube python binding";
     m.def("checkEquality", &checkEqualityWrapper, "Compare if the two rules form the same polycube",
-        "rule1"_a, "rule2"_a, "seedRuleIdx"_a = -1
+        "rule1"_a, "rule2"_a, "assemblyMode"_a = "random"
     );
     m.def("isBoundedAndDeterministic", &isBoundedAndDeterministic,
         "Check if the rule is bounded and form the same polycube every time (set nTries to 0 to only check if bounded)",
-        "rule"_a, "nTries"_a = 15, "seedRuleIdx"_a = -1
+        "rule"_a, "nTries"_a = 15, "assemblyMode"_a = "random"
     );
-    m.def("getCoordStr", &getCoordStr, "Get coordinate string of assembled polycube", "rule"_a, "seedRuleIdx"_a = -1);
+    m.def("getCoordStr", &getCoordStr, "Get coordinate string of assembled polycube", "rule"_a, "assemblyMode"_a = "random");
 }

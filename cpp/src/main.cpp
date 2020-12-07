@@ -89,6 +89,17 @@ void writeToPheno(std::string result, int index, std::string rule) {
     fs.close();
 }
 
+void writeResult() {
+    std::string dir = "out";
+    std::ofstream fs;
+    fs.open(dir+"/"+pid+".result");
+    fs << "nPhenos = "<< nPhenos << std::endl;
+    fs << "nOub = "<< nOub << std::endl;
+    fs << "nNondet = "<< nNondet << std::endl;
+    fs << "nTot = "<< nPhenos + nOub + nNondet << std::endl;
+    fs.close();
+}
+
 static struct option long_options[] = {
     {"help", optional_argument, NULL, 'h'},
     {"nColors", optional_argument, NULL, 'c'},
@@ -96,7 +107,7 @@ static struct option long_options[] = {
     {"nDimensions", optional_argument, NULL, 'd'},
     {"nRules", optional_argument, NULL, 'n'},
     {"nTries", optional_argument, NULL, 'r'},
-    {"seedRuleIdx", optional_argument, NULL, 'i'},
+    {"assemblyMode", optional_argument, NULL, 'i'},
     {NULL, 0, NULL, 0}
 };
 
@@ -107,10 +118,11 @@ int main(int argc, char **argv) {
     int nDimensions = 3;
     int nRules = 1;
     int nTries = 15;
-    int seedRuleIdx = -1;
+    int writeResultEvery = 1000;
+    AssemblyMode assemblyMode = AssemblyMode::stochastic;
     // Loop over all of the provided arguments
     int ch;
-    while ((ch = getopt_long(argc, argv, "h c:t:d:n:r:i:", long_options, NULL)) != -1) {
+    while ((ch = getopt_long(argc, argv, "h c:t:d:n:r:m:", long_options, NULL)) != -1) {
         switch (ch) {
         case 'h':
             std::cout <<
@@ -122,14 +134,14 @@ int main(int argc, char **argv) {
                 "\t-d, --nDimensions\t [number] Number of dimensions [1,2,3] of random rule (default "<<nDimensions<<")"<<std::endl<<
                 "\t-n, --nRules\t\t [number] Number of random rules to generate (default "<<nRules<<")"<<std::endl<<
                 "\t-r, --nTries\t\t [number] Number of tries to determine if a rule is deterministic (default "<<nTries<<")"<<std::endl<<
-                "\t-i, --seedRuleIdx\t [number] Index of cube type to initialize with, random if < 0 (default "<<seedRuleIdx<<")"<<std::endl;
+                "\t-m, --assemblyMode\t [random|seeded|ordered] Assemble either in strict rule order, initially seeded, or completely random (default)"<<std::endl;
             return 0;
         case 'c': nColors = std::stoi(optarg); break;
         case 't': nCubeTypes = std::stoi(optarg); break;
         case 'd': nDimensions = std::stoi(optarg); break;
         case 'n': nRules = (int)std::stod(optarg); break;
         case 'r': nTries = std::stoi(optarg); break;
-        case 'i': seedRuleIdx = std::stoi(optarg); break;
+        case 'm': assemblyMode = parseAssemblyMode(optarg); break;
         }
     }
 
@@ -143,7 +155,7 @@ int main(int argc, char **argv) {
     fs << "nDimensions = "<< nDimensions << std::endl;
     fs << "nRules = "<< nRules << std::endl;
     fs << "nTries = "<< nTries << std::endl;
-    fs << "seedRuleIdx = "<< seedRuleIdx << std::endl;
+    fs << "assemblyMode = "<< assemblyModeNames[assemblyMode] << std::endl;
     fs.close();
 
     std::cout<<"Running "<<nRules<<" rules:"<<std::endl;
@@ -153,16 +165,7 @@ int main(int argc, char **argv) {
 
     // Make sure to output result on exit
     auto onExit = [] (int i) {
-        std::cout<<"Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
-        std::string dir = "out";
-        std::ofstream fs;
-        fs.open(dir+"/"+pid+".conf",std::ios_base::app);
-        fs << std::endl;
-        fs << "nPhenos = "<< nPhenos << std::endl;
-        fs << "nOub = "<< nOub << std::endl;
-        fs << "nNondet = "<< nNondet << std::endl;
-        fs << "nTot = "<< nPhenos + nOub + nNondet << std::endl;
-        fs.close();
+        writeResult();
         exit(EXIT_SUCCESS);
     };
 
@@ -173,7 +176,7 @@ int main(int argc, char **argv) {
 
     while (nRules--) {
         rule = randRule(nColors, nCubeTypes, nDimensions);
-        result = runTries(rule, nTries, seedRuleIdx);
+        result = runTries(rule, nTries, assemblyMode);
         if (result == "oub") nOub++;
         else if (result == "nondet") nNondet++;
         else {
@@ -190,7 +193,7 @@ int main(int argc, char **argv) {
             bool matched = false;
             size_t pSize = phenos.size();
             for (size_t i=0; i<pSize; i++) {
-                if (checkEquality(rule, phenos[i], seedRuleIdx)) {
+                if (checkEquality(rule, phenos[i], assemblyMode)) {
                     // If we found a match, add genotype to the corresponding file
                     matched = true;
                     writeToPheno(result,i,rule);
@@ -199,8 +202,8 @@ int main(int argc, char **argv) {
             }
             if (!matched) {
                 // Get phenotype coordinates (should perhaps save from earlier?)
-                PolycubeSystem* p = new PolycubeSystem(rule);
-                p->seed(seedRuleIdx);
+                PolycubeSystem* p = new PolycubeSystem(rule, assemblyMode);
+                p->seed();
                 p->processMoves();
                 // Add coordinates of this new phenotype
                 phenomap.at(result).push_back(p->getCoordMatrix());
@@ -211,6 +214,10 @@ int main(int argc, char **argv) {
                 writeToPheno(result, phenomap.at(result).size()-1, rule);
             }
         }
+        if (nRules % writeResultEvery) {
+            writeResult();
+        }
     }
-    onExit(2);
+    writeResult();
+    std::cout<<"Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
 }
