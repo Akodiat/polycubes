@@ -22,13 +22,20 @@ function createPolycubeSystem() {
             }
         });});
     }
+    let seedRuleIndex = 0;
+    if ("seedRuleIndex" in vars) {
+        seedRuleIndex = vars["seedRuleIndex"];
+    }
 
-    nMaxCubes = JSON.parse(getUrlParam("nMaxCubes",100));
+    nMaxCubes = parseInt(getUrlParam("nMaxCubes", 100));
+    maxCoord = parseInt(getUrlParam("maxCoord", 100));
+    seedRuleIndex = parseInt(getUrlParam("seedRuleIndex",0));
+    ordered = getUrlParam("ordered","false")=="true";
 
-    system = new PolycubeSystem(rules, ruleOrder, scene, nMaxCubes);
+    system = new PolycubeSystem(rules, ruleOrder, scene, nMaxCubes, maxCoord, seedRuleIndex, ordered);
     orbit.target = system.centerOfMass;
 
-    system.addParticle(new THREE.Vector3(), system.rule[0], 0);
+    system.addParticle(new THREE.Vector3(), system.rule[0], seedRuleIndex);
     system.processMoves();
     render();
 }

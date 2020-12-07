@@ -156,9 +156,15 @@
         <div id="ruleset" style="overflow: hidden"></div>
         <button class="primary" onclick="addRule()">Add cube type</button>
         <span style="display: flex;">
-            <button onclick="regenerate()">Update</button>
-            <input type="checkbox" id="autoUpdate" checked="True", onchange="regenerate()">Auto update    
+            <button onclick="system.regenerate()">Update</button>
+            <input type="checkbox" id="autoUpdate" checked="True", onchange="system.regenerate()">Auto update
         </span>
+        <label for="assemblyMode">Assembly mode:</label>
+        <select name="pets" id="assemblyMode" onchange="system.resetAssemblyMode(this.value)">
+            <option value="stochastic">Stochastic</option>
+            <option value="seeded" selected>Seeded</option>
+            <option value="ordered">Ordered</option>
+        </select>
         <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>
         <!--https://stackoverflow.com/a/19965480 location.search-->
         </fieldset>

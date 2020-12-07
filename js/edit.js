@@ -78,7 +78,7 @@ function addRule(patches) {
                     rotation.valueAsNumber * 2 * Math.PI
                 );
                 if(document.getElementById("autoUpdate").checked) {
-                    regenerate();
+                    system.regenerate();
                 };
             }
             phi.onchange = updatedPatch;
@@ -134,7 +134,7 @@ function updateRuleColor(e, patches, faceIdx) {
     e.parentElement.style.backgroundColor = c;
     system.rule[ruleIdx][faceIdx].color = value;
     if(document.getElementById("autoUpdate").checked) {
-        regenerate();
+        system.regenerate();
     }
 }
 
@@ -146,7 +146,7 @@ function updateRuleRot(e, patches, faceIdx) {
     r.applyAxisAngle(ruleOrder[faceIdx], e.value*Math.PI/2);
     system.rule[ruleIdx][faceIdx].alignDir = r.round();
     if(document.getElementById("autoUpdate").checked) {
-        regenerate();
+        system.regenerate();
     };
 }
 
@@ -155,7 +155,7 @@ function removeRule(patches, ruleField) {
     ruleField.parentNode.removeChild(ruleField);
     system.rule.splice(ruleIdx, 1);
     if(document.getElementById("autoUpdate").checked) {
-        regenerate();
+        system.regenerate();
     }
 }
 
@@ -196,7 +196,7 @@ function simplifyRule() {
         })
     })
     system.resetRule(newRuleset);
-    regenerate();
+    system.regenerate();
     clearRules();
 }
 
@@ -205,17 +205,8 @@ function clearRules() {
     ruleset.innerText = "";
     system.rule.forEach(addRule);
     if(document.getElementById("autoUpdate").checked) {
-        regenerate();
+        system.regenerate();
     }
-}
-
-function regenerate() {
-    system.reset();
-    system.addParticle(new THREE.Vector3(), system.rule[0], 0);
-    system.processMoves();
-    render();
-    let argstr = system.rule.length > 0 ? "?rule="+system.getRuleStr() : ""
-    window.history.pushState(null, null, argstr);
 }
 
 function rgbToHex(rgb) {

@@ -44,12 +44,12 @@ function parseHexRule(ruleStr) {
     return rules;
 }
 
-function isBoundedAndDeterministic(hexRule, nTries=15) {
+function isBoundedAndDeterministic(hexRule, nTries=15, assemblyMode='seeded') {
     let rule = parseHexRule(hexRule);
     let oldStrCoords;
     while (nTries--) {
-        system = new PolycubeSystem(rule, ruleOrder, undefined, 100);
-        system.addParticle(new THREE.Vector3(), system.rule[0], 0);
+        system = new PolycubeSystem(rule, ruleOrder, undefined, 100, 100, assemblyMode);
+        system.seed();
         let processed = false;
         while (!processed) {
             processed = system.processMoves(true); //process move in background, without animation
@@ -68,13 +68,16 @@ function isBoundedAndDeterministic(hexRule, nTries=15) {
 
 class PolycubeSystem {
 
-    constructor(rules, ruleOrder, scene, nMaxCubes=1000, maxCoord=100) {
+    constructor(rules, ruleOrder, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded') {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
         this.centerOfMass = new THREE.Vector3();
         this.nMaxCubes = nMaxCubes;
         this.maxCoord = maxCoord;
+
+        this.assemblyMode = assemblyMode;
+        this.orderIndex = 0;
 
         this.colorMaterials = [];
         this.particleMaterials = [];
@@ -124,6 +127,14 @@ class PolycubeSystem {
         return true;
     }
 
+    seed() {
+        let i = 0;
+        if(this.assemblyMode == 'stochastic') {
+            i = Math.floor(Math.random() * this.rule.length);
+        }
+        this.addParticle(new THREE.Vector3(), system.rule[i], i);
+    }
+
     reset() {
         this.objGroup.children = [];
         this.moves = {};
@@ -131,7 +142,19 @@ class PolycubeSystem {
         this.cubeMap = new Map();
         this.matches = 0;
         this.mismatches = 0;
+        this.orderIndex = 0;
         render();
+    }
+
+    regenerate() {
+        this.reset();
+        this.seed();
+        this.processMoves();
+        render();
+        if (typeof window !== 'undefined') {
+            let argstr = this.rule.length > 0 ? "?rule="+this.getRuleStr() : ""
+            window.history.pushState(null, null, argstr);
+        }
     }
 
     resetRandom() {
@@ -146,11 +169,19 @@ class PolycubeSystem {
         this.resetRule(parseHexRule(hexRule));
     }
 
-    resetRule(rules) {
+    resetAssemblyMode(assemblyMode) {
+        this.assemblyMode = assemblyMode;
         this.reset();
-        this.rule = rules;
+        this.seed();
+        this.processMoves();
+        render();
+    }
 
-        let nColors = Math.max.apply(Math, rules.map(x => Math.max.apply(
+    resetRule(rule) {
+        this.reset();
+        this.rule = rule;
+
+        let nColors = Math.max.apply(Math, rule.map(x => Math.max.apply(
             Math, x.map(r => Math.abs(r.color))))
         );
         nColors = Math.max(nColors, 2) //Avoid getting only red colors
@@ -162,15 +193,14 @@ class PolycubeSystem {
             this.colorMaterials.push(colorMaterial);
         }
 
-        for (let i=0; i<rules.length; i++) {
+        for (let i=0; i<rule.length; i++) {
             let cubeMaterial = new THREE.MeshLambertMaterial({
                 color: randomColor({luminosity: 'light',  hue: 'monochrome'})
             });
             this.particleMaterials.push(cubeMaterial);
         }
 
-        this.addParticle(new THREE.Vector3(), rules[0], 0);
-
+        this.seed();
         this.processMoves();
         render();
     }
@@ -293,44 +323,78 @@ class PolycubeSystem {
         return l;
     }
 
+    tryProcessMove(movekey, ruleIdx) {
+        let rule = this.rule[ruleIdx];
+        rule = this.ruleFits(this.moves[movekey].rule, rule);
+        if(rule) {
+            for (let i=0; i<rule.length; i++) {
+                let neigb = this.moves[movekey].rule[i]
+                if (neigb != null) {
+                    if (neigb.color == rule[i].color && neigb.alignDir.equals(rule[i].alignDir)) {
+                        this.matches++;
+                    } else {
+                        this.mismatches++;
+                    }
+                }
+            }
+            this.addParticle(this.moves[movekey].pos, rule, ruleIdx);
+            return true;
+        }
+        return false;
+    }
+
     processMoves(background = false) {
         let nMoves = this.moveKeys.length;
         if (nMoves > 0) { // While we have moves to process
-            // Pick a random move
-            let key = this.moveKeys[Math.floor(Math.random()*nMoves)];
-
-            // Pick a random rule order
-            let ruleIdxs = this.randOrdering(this.rule.length);
-            // Check if we have a rule that fits this move
-            for (let r=0; r<this.rule.length; r++) {
-                let rule = this.rule[ruleIdxs[r]];
-                rule = this.ruleFits(this.moves[key].rule, rule);
-                if(rule) {
-                    for (let i=0; i<rule.length; i++) {
-                        let neigb = this.moves[key].rule[i]
-                        if (neigb != null) {
-                            if (neigb.color == rule[i].color && neigb.alignDir.equals(rule[i].alignDir)) {
-                                this.matches++;
-                            } else {
-                                this.mismatches++;
-                            }
-                        }
+            // If we should assemble everything in order
+            if (this.assemblyMode == 'ordered') {
+                // Go through moves in random order
+                let randomMoveKeys = this.randOrdering(this.moveKeys.length).map(i=>this.moveKeys[i]);
+                randomMoveKeys.forEach(key=>{
+                    // Try to add the current cube type
+                    let result = this.tryProcessMove(key, this.orderIndex);
+                    if (result) {
+                        // Remove processed move
+                        delete this.moves[key];
+                        this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
                     }
-                    this.addParticle(this.moves[key].pos, rule, ruleIdxs[r]);
-                    if (this.cubeMap.size >= this.nMaxCubes) {
-                        render();
-                        if (!background) {
-                            window.dispatchEvent(new Event('oub'));
-                        }
-                        console.log("Unbounded");
-                        return 'oub';
+                })
+                // When we have tried the current cube type for all moves
+                // in queue, increase index to try the next one next time
+                this.orderIndex++;
+                if (this.orderIndex >= this.rule.length) {
+                    if (!background) {
+                        window.dispatchEvent(new Event('movesProcessed'));
                     }
-                    break;
+                    console.log("Moves processed");
+                    return true;
                 }
+            } else {
+                // Pick a random move
+                let key = this.moveKeys[Math.floor(Math.random()*nMoves)];
+                // Pick a random rule order
+                let ruleIdxs = this.randOrdering(this.rule.length);
+                // Check if we have a rule that fits this move
+                for (let r=0; r<this.rule.length; r++) {
+                    let result = this.tryProcessMove(key, ruleIdxs[r]);
+                    if (result) {
+                        break;
+                    }
+                }
+                // Remove processed move
+                delete this.moves[key];
+                this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
             }
-            // Remove processed move
-            delete this.moves[key];
-            this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
+
+            // Check if polycube is getting too large
+            if (this.cubeMap.size >= this.nMaxCubes) {
+                render();
+                if (!background) {
+                    window.dispatchEvent(new Event('oub'));
+                }
+                console.log("Unbounded");
+                return 'oub';
+            }
         } else {
             if (!background) {
                 window.dispatchEvent(new Event('movesProcessed'));
