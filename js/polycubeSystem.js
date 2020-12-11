@@ -349,8 +349,12 @@ class PolycubeSystem {
             // If we should assemble everything in order
             if (this.assemblyMode == 'ordered') {
                 // Go through moves in random order
-                let randomMoveKeys = this.randOrdering(this.moveKeys.length).map(i=>this.moveKeys[i]);
-                randomMoveKeys.forEach(key=>{
+                let tried = new Set();
+                let untried = this.moveKeys.slice(); //Make shallow copy
+                while(untried.length > 0){
+                    // Get a random untried move key
+                    let i = Math.floor(untried.length * Math.random());
+                    let key = untried[i];
                     // Try to add the current cube type
                     let result = this.tryProcessMove(key, this.orderIndex);
                     if (result) {
@@ -358,7 +362,10 @@ class PolycubeSystem {
                         delete this.moves[key];
                         this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
                     }
-                })
+                    tried.add(key);
+                    // Movekeys might have updated, if we added cubes
+                    untried = this.moveKeys.filter(i=>!tried.has(i));
+                }
                 // When we have tried the current cube type for all moves
                 // in queue, increase index to try the next one next time
                 this.orderIndex++;
