@@ -174,23 +174,42 @@ int PolycubeSystem::processMoves() {
     // While we have moves to process
     while (moveKeys.size() > 0) {
         if (assemblyMode == AssemblyMode::ordered) {
-            std::vector<unsigned short> randomMoveIdxs = randOrdering(moveKeys.size());
-            std::vector<std::string> randomMoveKeys;
-            for (size_t i=0; i<randomMoveIdxs.size(); i++) {
-                randomMoveKeys.push_back(moveKeys[randomMoveIdxs[i]]);
-            }
-            for (size_t i=0; i<randomMoveKeys.size(); i++) {
-                std::string key = randomMoveKeys[i];
+            std::unordered_set<std::string> tried;
+            std::vector<std::string> untried(moveKeys);
+            while(untried.size() > 0) {
+                // Get a random untried move key
+                std::uniform_int_distribution<uint32_t> key_dist(
+                    0, untried.size()-1
+                );
+                size_t keyIdx = key_dist(randomNumGen);
+                std::string key = untried[keyIdx];
                 int result = tryProcessMove(key, orderIndex);
                 if (result != 0) {
                     // Remove processed move
-                    moves.at(key).deleteRules();
+                    if (result == 1) {
+                        moves.at(key).deleteRules();
+                    }
                     moves.erase(key);
                     moveKeys.erase(std::find(moveKeys.begin(), moveKeys.end(), key));
                 }
                 if (result<0) {
                     return result; // Out of bounds
                 }
+                if (result == 1) {
+                    // Since we added a cube, there might be more
+                    // moves added
+                    untried.clear();
+                    for (size_t i=0; i<moveKeys.size(); i++) {
+                        if (tried.count(moveKeys[i]) == 0) {
+                            untried.push_back(moveKeys[i]);
+                        }
+                    }
+                } else {
+                    // If nothing was added we can just
+                    // remove the key from untried
+                    untried.erase(std::find(untried.begin(), untried.end(),key));
+                }
+                tried.insert(key);
             }
             // When we have tried the current cube type for all moves
             // in queue, increase index to try the next one next time

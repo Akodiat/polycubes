@@ -118,7 +118,7 @@ int main(int argc, char **argv) {
     int nDimensions = 3;
     int nRules = 1;
     int nTries = 15;
-    int writeResultEvery = 1000;
+    int writeResultEvery = 5000;
     AssemblyMode assemblyMode = AssemblyMode::stochastic;
     // Loop over all of the provided arguments
     int ch;
@@ -158,7 +158,7 @@ int main(int argc, char **argv) {
     fs << "assemblyMode = "<< assemblyModeNames[assemblyMode] << std::endl;
     fs.close();
 
-    std::cout<<"Running "<<nRules<<" rules:"<<std::endl;
+    std::cout<<"Running "<<nRules<<" rules, pid="<<pid<<std::endl;
     std::string rule, result;
 
     std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> phenomap;
@@ -174,7 +174,7 @@ int main(int argc, char **argv) {
     signal(SIGTERM, onExit);  // sent by "kill" command
     signal(SIGTSTP, onExit);  // ^Z
 
-    while (nRules--) {
+    for (size_t n=0; n<nRules; n++) {
         rule = randRule(nColors, nCubeTypes, nDimensions);
         result = runTries(rule, nTries, assemblyMode);
         if (result == "oub") nOub++;
@@ -214,10 +214,11 @@ int main(int argc, char **argv) {
                 writeToPheno(result, phenomap.at(result).size()-1, rule);
             }
         }
-        if (nRules % writeResultEvery) {
+        if (n % writeResultEvery == 0) {
+            std::cout<<(100*n/nRules)<<"% done ("<<n<<" rules sampled)"<<std::endl;
             writeResult();
         }
     }
     writeResult();
-    std::cout<<"Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
+    std::cout<<"Done! Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
 }
