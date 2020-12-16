@@ -152,7 +152,7 @@ class PolycubeSystem {
         this.processMoves();
         render();
         if (typeof window !== 'undefined') {
-            let argstr = this.rule.length > 0 ? "?rule="+this.getRuleStr() : ""
+            let argstr = "?assemblyMode="+this.assemblyMode + (this.rule.length > 0 ? "&rule="+this.getRuleStr() : "");
             window.history.pushState(null, null, argstr);
         }
     }
@@ -171,10 +171,7 @@ class PolycubeSystem {
 
     resetAssemblyMode(assemblyMode) {
         this.assemblyMode = assemblyMode;
-        this.reset();
-        this.seed();
-        this.processMoves();
-        render();
+        this.regenerate();
     }
 
     resetRule(rule) {
@@ -365,6 +362,16 @@ class PolycubeSystem {
                     tried.add(key);
                     // Movekeys might have updated, if we added cubes
                     untried = this.moveKeys.filter(i=>!tried.has(i));
+
+                    // Check if polycube is getting too large
+                    if (this.cubeMap.size >= this.nMaxCubes) {
+                        render();
+                        if (!background) {
+                            window.dispatchEvent(new Event('oub'));
+                        }
+                        console.log("Unbounded");
+                        return 'oub';
+                    }
                 }
                 // When we have tried the current cube type for all moves
                 // in queue, increase index to try the next one next time

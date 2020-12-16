@@ -201,8 +201,7 @@ function simplifyRule() {
 }
 
 function clearRules() {
-    let ruleset = document.getElementById("ruleset");
-    ruleset.innerText = "";
+    document.getElementById("ruleset").innerText = "";
     system.rule.forEach(addRule);
     if(document.getElementById("autoUpdate").checked) {
         system.regenerate();
@@ -225,6 +224,4 @@ function toggleRuleSet() {
     }
 }
 
-//system.nMaxCubes = 500;
-clearRules();
-
+system.rule.forEach(addRule);
