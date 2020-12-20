@@ -11,7 +11,7 @@ def readConf(filename):
         for line in f:
             if len(line.strip()) > 0:
                 key, val = [s.strip() for s in line.split('=')]
-            conf[key] = int(val)
+            conf[key] = val
     return conf
 
 def readPheno(path):
@@ -36,12 +36,14 @@ print("{}-mer has {} genotypes equal to {})".format(n, count, minNt_r), flush=Tr
 """
 
 def loadPhenos(nmerdir):
+    print("Loading phenotypes from "+nmerdir)
     # Extract total number of sampled rules from configs in parent directory
     parentdir = os.path.dirname(os.path.abspath(nmerdir))
     for root, _, conffiles in os.walk(parentdir):
         confs = [readConf(os.path.join(root, c)) for c in conffiles if ".conf" in c]
+        results = [readConf(os.path.join(root, c)) for c in conffiles if ".result" in c]
         try:
-            nRules = sum(conf['nTot'] for conf in confs)
+            nRules = sum(int(r['nTot']) for r in results)
         except:
             print("Warning, no nTot found in config (did the sampling exit correctly?). Frequency data will be invalid")
             nRules = -1
@@ -73,7 +75,7 @@ def loadPhenos(nmerdir):
             foundGroup = False
             for group in groups:
                 if (p['pID'] not in group['pIDs'] and 
-                    polycubes.checkEquality(p['phenos'][0], group['phenos'][0], confs[0]['seedRuleIdx'])
+                    polycubes.checkEquality(p['phenos'][0], group['phenos'][0], confs[0]['assemblyMode'])
                 ):
                     foundGroup = True
                     group['phenos'].extend(p['phenos'])
