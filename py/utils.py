@@ -3,11 +3,26 @@ import os
 import pickle
 import numpy as np
 
+def getRulesFromPheno(path):
+    rules = []
+    with open(path) as f:
+        rules = [line.strip() for line in f]
+    return rules
+
+def readConf(filename):
+    conf = {}
+    with open(filename) as f:
+        for line in f:
+            if len(line.strip()) > 0:
+                key, val = [s.strip() for s in line.split('=')]
+            conf[key] = val
+    return conf
+
 def loadPhenos(path="../cpp/out/3d/phenos"):
     phenos = []
     for root, _, files in os.walk(path):
         for file in files:
-            if "phenos.p" in file:
+            if '.p' in file and 'pheno' in file:
                 phenos.extend(pickle.load(open(os.path.join(root, file), "rb")))
     return phenos
 
@@ -198,7 +213,7 @@ def KC_LZ(string):
     # a la Lempel and Ziv (IEEE trans inf theory it-22, 75 (1976),
     # h(n)=c(n)/b(n) where c(n) is the kolmogorov complexity
     # and h(n) is a normalised measure of complexity.
-    complexity=c;
+    complexity=c
 
     #b=n*1.0/np.log2(n)
     #complexity=c/b;

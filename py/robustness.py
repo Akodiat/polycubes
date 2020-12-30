@@ -12,22 +12,27 @@ def enumerateMutations(hexRule, maxColor=31, maxCubes=5, dim=3):
     emptyCube = "000000000000"
     orientations = range(4)
     colors = range(-maxColor, maxColor+1)
-    # Pad with empty cubes
+
+    # Pad with empty cubes until max length
     while len(hexRule) < maxCubes * len(emptyCube):
         hexRule += emptyCube
-        
+
     mutations = []
     rule = utils.parseHexRule(hexRule)
+    # For all cube types
     for i, cube in enumerate(rule):
+        # For all patches
         for j, face in enumerate(cube):
+            # For all other colors
             for color in colors:
                 if color != face['color']:
                     newRule = utils.parseHexRule(hexRule)
                     newRule[i][j]['color'] = color
                     newHexRule = utils.ruleToHex(newRule)
                     assert(len(newHexRule) == maxCubes * len(emptyCube))
-                    mutations.append(newHexRule)
-            if dim == 3:
+                    mutations.append(newHexRule
+            if dim == 3 and face['color'] != 0:
+                # For all other orientations:
                 for orientation in orientations:
                     if orientation != face['orientation']:
                         newRule = utils.parseHexRule(hexRule)
