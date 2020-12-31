@@ -5,7 +5,7 @@ import pickle
 import sys
 
 def analysePhenotype(path):
-    print("Analysing phenotype:"+path)
+    print("Analysing phenotype: "+path)
     filename = os.path.split(path)[-1]
     r = re.search(r'pheno_((\d+)_\d+,\d+,\d+)_\d+_(\d+)', filename)
     if r: # If filename matches
