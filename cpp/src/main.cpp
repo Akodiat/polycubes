@@ -100,6 +100,47 @@ void writeResult() {
     fs.close();
 }
 
+void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode, std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> *phenomap) {
+    std::string result = runTries(rule, nTries, assemblyMode);
+    if (result == "oub") nOub++;
+    else if (result == "nondet") nNondet++;
+    else {
+        nPhenos++;
+        // If there is no phenotype with the result dimensions,
+        // create a new empty list entry.
+        if(!phenomap->count(result)) {
+            std::vector<Eigen::Matrix3Xf> ps;
+            phenomap->emplace(result, ps);
+        }
+        // Get phenotypes
+        std::vector<Eigen::Matrix3Xf> phenos = phenomap->at(result);
+        // Check to see if result matches any previous phenotype
+        // with the same dimensions.
+        bool matched = false;
+        size_t pSize = phenos.size();
+        for (size_t i=0; i<pSize; i++) {
+            if (checkEquality(rule, phenos[i], assemblyMode)) {
+                // If we found a match, add genotype to the corresponding file
+                matched = true;
+                writeToPheno(result,i,rule);
+                break;
+            }
+        }
+        if (!matched) {
+            // Get phenotype coordinates (should perhaps save from earlier?)
+            PolycubeSystem* p = new PolycubeSystem(rule, assemblyMode);
+            p->seed();
+            p->processMoves();
+            // Add coordinates of this new phenotype
+            phenomap->at(result).push_back(p->getCoordMatrix());
+            delete p;
+
+            // Write to file
+            writeToPheno(result, phenomap->at(result).size()-1, rule);
+        }
+    }
+}
+
 static struct option long_options[] = {
     {"help", optional_argument, NULL, 'h'},
     {"nColors", optional_argument, NULL, 'c'},
@@ -107,7 +148,8 @@ static struct option long_options[] = {
     {"nDimensions", optional_argument, NULL, 'd'},
     {"nRules", optional_argument, NULL, 'n'},
     {"nTries", optional_argument, NULL, 'r'},
-    {"assemblyMode", optional_argument, NULL, 'i'},
+    {"assemblyMode", optional_argument, NULL, 'm'},
+    {"input", optional_argument, NULL, 'i'},
     {NULL, 0, NULL, 0}
 };
 
@@ -120,15 +162,17 @@ int main(int argc, char **argv) {
     int nTries = 15;
     int writeResultEvery = 5000;
     AssemblyMode assemblyMode = AssemblyMode::stochastic;
+    std::string input = "";
     // Loop over all of the provided arguments
     int ch;
-    while ((ch = getopt_long(argc, argv, "h c:t:d:n:r:m:", long_options, NULL)) != -1) {
+    while ((ch = getopt_long(argc, argv, "h i:c:t:d:n:r:m:", long_options, NULL)) != -1) {
         switch (ch) {
         case 'h':
             std::cout <<
                 "Usage: "<<argv[0]<<" [OPTIONS]"<<std::endl<<
                 "Options:"<<std::endl<<
                 "\t-h, --help\t\t Print this help text and exit"<<std::endl<<
+                "\t-i, --input\t\t [string] Path to a file containing rules to assemble instead of generating default random input"<<std::endl<<
                 "\t-c, --nColors\t\t [number] Maximum number of colors to use in random rule (default "<<nColors<<")"<<std::endl<<
                 "\t-t, --nCubeTypes\t [number] Maximum size of random rule, (# of cubetypes) (default "<<nCubeTypes<<")"<<std::endl<<
                 "\t-d, --nDimensions\t [number] Number of dimensions [1,2,3] of random rule (default "<<nDimensions<<")"<<std::endl<<
@@ -136,6 +180,7 @@ int main(int argc, char **argv) {
                 "\t-r, --nTries\t\t [number] Number of tries to determine if a rule is deterministic (default "<<nTries<<")"<<std::endl<<
                 "\t-m, --assemblyMode\t [random|seeded|ordered] Assemble either in strict rule order, initially seeded, or completely random (default)"<<std::endl;
             return 0;
+        case 'i': input = optarg; break;
         case 'c': nColors = std::stoi(optarg); break;
         case 't': nCubeTypes = std::stoi(optarg); break;
         case 'd': nDimensions = std::stoi(optarg); break;
@@ -150,16 +195,24 @@ int main(int argc, char **argv) {
     std::ofstream fs;
     fs.open(dir+"/"+pid+".conf");
     fs << "pid = "<< pid << std::endl;
-    fs << "nColors = "<< nColors << std::endl;
-    fs << "nCubeTypes = "<< nCubeTypes << std::endl;
-    fs << "nDimensions = "<< nDimensions << std::endl;
-    fs << "nRules = "<< nRules << std::endl;
+    if (input == "") {
+        fs << "nColors = "<< nColors << std::endl;
+        fs << "nCubeTypes = "<< nCubeTypes << std::endl;
+        fs << "nDimensions = "<< nDimensions << std::endl;
+        fs << "nRules = "<< nRules << std::endl;
+    } else {
+        fs << "input = "<< input << std::endl;
+    }
     fs << "nTries = "<< nTries << std::endl;
     fs << "assemblyMode = "<< assemblyModeNames[assemblyMode] << std::endl;
     fs.close();
 
-    std::cout<<"Running "<<nRules<<" rules, pid="<<pid<<std::endl;
-    std::string rule, result;
+    if (input == "") {
+        std::cout<<"Assembling "<<nRules<<" random rules, ";
+    } else {
+        std::cout<<"Assembling rules from "<<input<<", ";
+    }
+    std::cout<<"pid="<<pid<<std::endl;
 
     std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> phenomap;
 
@@ -174,49 +227,30 @@ int main(int argc, char **argv) {
     signal(SIGTERM, onExit);  // sent by "kill" command
     signal(SIGTSTP, onExit);  // ^Z
 
-    for (size_t n=0; n<nRules; n++) {
-        rule = randRule(nColors, nCubeTypes, nDimensions);
-        result = runTries(rule, nTries, assemblyMode);
-        if (result == "oub") nOub++;
-        else if (result == "nondet") nNondet++;
-        else {
-            // If there is no phenotype with the result dimensions,
-            // create a new empty list entry.
-            if(!phenomap.count(result)) {
-                std::vector<Eigen::Matrix3Xf> ps;
-                phenomap.emplace(result, ps);
-            }
-            // Get phenotypes
-            std::vector<Eigen::Matrix3Xf> phenos = phenomap.at(result);
-            // Check to see if result matches any previous phenotype
-            // with the same dimensions.
-            bool matched = false;
-            size_t pSize = phenos.size();
-            for (size_t i=0; i<pSize; i++) {
-                if (checkEquality(rule, phenos[i], assemblyMode)) {
-                    // If we found a match, add genotype to the corresponding file
-                    matched = true;
-                    writeToPheno(result,i,rule);
-                    break;
-                }
-            }
-            if (!matched) {
-                // Get phenotype coordinates (should perhaps save from earlier?)
-                PolycubeSystem* p = new PolycubeSystem(rule, assemblyMode);
-                p->seed();
-                p->processMoves();
-                // Add coordinates of this new phenotype
-                phenomap.at(result).push_back(p->getCoordMatrix());
-                delete p;
-                nPhenos++;
 
-                // Write to file
-                writeToPheno(result, phenomap.at(result).size()-1, rule);
+    std::string rule;
+    if (input == "") {
+        for (size_t n=0; n<nRules; n++) {
+            rule = randRule(nColors, nCubeTypes, nDimensions);
+            assembleRule(rule, nTries, assemblyMode, &phenomap);
+            if (n % writeResultEvery == 0) {
+                std::cout<<(100*n/nRules)<<"% done ("<<n<<" rules sampled)"<<std::endl;
+                writeResult();
             }
         }
-        if (n % writeResultEvery == 0) {
-            std::cout<<(100*n/nRules)<<"% done ("<<n<<" rules sampled)"<<std::endl;
-            writeResult();
+    } else {
+        size_t n=0;
+        std::ifstream inputfile(input);
+        if (inputfile.is_open()) {
+            while (std::getline(inputfile, rule)) {
+                assembleRule(rule, nTries, assemblyMode, &phenomap);
+                if (n % writeResultEvery == 0) {
+                    std::cout<<n<<" rules sampled"<<std::endl;
+                    writeResult();
+                }
+                n++;
+            }
+            inputfile.close();
         }
     }
     writeResult();
