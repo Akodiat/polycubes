@@ -1,6 +1,7 @@
 from collections import Counter
 import os
 import pickle
+import itertools as it
 import numpy as np
 
 def getRulesFromPheno(path):
@@ -23,7 +24,8 @@ def loadPhenos(path="../cpp/out/3d/phenos"):
     for root, _, files in os.walk(path):
         for file in files:
             if '.p' in file and 'pheno' in file:
-                phenos.extend(pickle.load(open(os.path.join(root, file), "rb")))
+                #print("Loading "+file)
+                phenos.append(pickle.load(open(os.path.join(root, file), "rb")))
     return phenos
 
 def getMinColorsAndCubeTypes(hexRule):
@@ -72,12 +74,39 @@ def getNColors(ruleset):
 def simplifyHexRule(hexRule):
     return ruleToHex(simplifyRuleset(parseHexRule(hexRule)))
 
+def chunks(l, n):
+    #Yield successive n-sized chunks from list.
+    #https://stackoverflow.com/a/312464
+    for i in range(0, len(l), n):
+        yield l[i:i + n]
 
 def calculateSearchSpaceSize(
-        nRules, nColors,
-        nRotations=4,  # Each polycube face has one of 4 possible rotations
-        nInteractionSites=6):  # Each polycube has 6 faces
-    return pow(nRotations*(1 + 2*nColors), nInteractionSites*nRules)
+        nColors, nCubeTypes, nDim=3):
+    nRotations = 4  # Each polycube face has one of 4 possible rotations
+    nInteractionSites = 2*nDim # Each polycube has 6 faces
+    if nDim < 3:
+        nRotations = 1
+    return pow(nRotations*(1 + 2*nColors), nInteractionSites*nCubeTypes)
+
+def fixDir(rule, nDim=2):
+    if nDim < 3:
+        sameDir = [1,1,2,0,0,0]
+        return (({
+            'color': c[j]['color'] if j<4 else 0, # Add 2 remaining empty patches
+            'orientation': d # Fix orientation
+        } for j, d in enumerate(sameDir)) for c in rule)
+    else:
+        return rule
+
+def getAllRules(nColors, nCubeTypes, nDim=3):
+    nOrientations = 1 if nDim<3 else 4
+    nInteractionSites = 2*nDim # Each polycube has 6 faces
+    return (ruleToHex(fixDir(chunks(i,nInteractionSites), nDim)) for i in it.product(
+        ({'color': c, 'orientation': o} for c,o in it.product(
+                range(-nColors, nColors+1),
+                range(nOrientations))
+        ), repeat=nInteractionSites*nCubeTypes)
+    )
 
 
 # 0 sign
