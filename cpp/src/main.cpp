@@ -79,17 +79,23 @@ std::string randRule(int maxColor, int maxCubes, int dim) {
     return std::string(ruleBuf);
 }
 
-void writeToPheno(std::string result, int index, std::string rule) {
+void writeToPheno(std::string result, int index,
+    std::string rule, std::unordered_map<std::string, std::string> *outputMap)
+{
     std::string n = result.substr (0, result.find("_"));
     std::string dir = "out/"+n+"-mers/";
-    std::ofstream fs;
-    std::system(("mkdir -p "+dir).c_str());
-    fs.open(dir+"pheno_"+result+"_"+std::to_string(index)+"_"+pid,std::ios_base::app);
-    fs << rule << std::endl;
-    fs.close();
+    std::string f = dir+"pheno_"+result+"_"+std::to_string(index)+"_"+pid;
+    // Create and open filestream if it isn't open already
+    if (!outputMap->count(f)) {
+        std::system(("mkdir -p "+dir).c_str());
+        outputMap->emplace(f, "");
+    }
+    outputMap->at(f) += rule + "\n";
 }
 
+
 void writeResult() {
+    // Write .result file
     std::string dir = "out";
     std::ofstream fs;
     fs.open(dir+"/"+pid+".result");
@@ -100,7 +106,10 @@ void writeResult() {
     fs.close();
 }
 
-void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode, std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> *phenomap) {
+void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode,
+    std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> *phenomap,
+    std::unordered_map<std::string, std::string> *outputMap)
+{
     std::string result = runTries(rule, nTries, assemblyMode);
     if (result == "oub") nOub++;
     else if (result == "nondet") nNondet++;
@@ -122,7 +131,7 @@ void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode, std::
             if (checkEquality(rule, phenos[i], assemblyMode)) {
                 // If we found a match, add genotype to the corresponding file
                 matched = true;
-                writeToPheno(result,i,rule);
+                writeToPheno(result, i, rule, outputMap);
                 break;
             }
         }
@@ -136,7 +145,7 @@ void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode, std::
             delete p;
 
             // Write to file
-            writeToPheno(result, phenomap->at(result).size()-1, rule);
+            writeToPheno(result, phenomap->at(result).size()-1, rule, outputMap);
         }
     }
 }
@@ -160,7 +169,7 @@ int main(int argc, char **argv) {
     int nDimensions = 3;
     int nRules = 1;
     int nTries = 15;
-    int writeResultEvery = 5000;
+    int writeResultEvery = 10000;
     AssemblyMode assemblyMode = AssemblyMode::stochastic;
     std::string input = "";
     // Loop over all of the provided arguments
@@ -215,6 +224,7 @@ int main(int argc, char **argv) {
     std::cout<<"pid="<<pid<<std::endl;
 
     std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> phenomap;
+    std::unordered_map<std::string, std::string> outputMap;
 
     // Make sure to output result on exit
     auto onExit = [] (int i) {
@@ -232,10 +242,18 @@ int main(int argc, char **argv) {
     if (input == "") {
         for (size_t n=0; n<nRules; n++) {
             rule = randRule(nColors, nCubeTypes, nDimensions);
-            assembleRule(rule, nTries, assemblyMode, &phenomap);
+            assembleRule(rule, nTries, assemblyMode, &phenomap, &outputMap);
             if (n % writeResultEvery == 0) {
                 std::cout<<(100*n/nRules)<<"% done ("<<n<<" rules sampled)"<<std::endl;
                 writeResult();
+                // Write to phenotype output files:
+                std::ofstream fs;
+                for (auto& it: outputMap) {
+                    fs.open(it.first, std::ios_base::app);
+                    fs << it.second;
+                    fs.close();
+                }
+                outputMap.clear();
             }
         }
     } else {
@@ -243,10 +261,18 @@ int main(int argc, char **argv) {
         std::ifstream inputfile(input);
         if (inputfile.is_open()) {
             while (std::getline(inputfile, rule)) {
-                assembleRule(rule, nTries, assemblyMode, &phenomap);
+                assembleRule(rule, nTries, assemblyMode, &phenomap, &outputMap);
                 if (n % writeResultEvery == 0) {
                     std::cout<<n<<" rules sampled"<<std::endl;
                     writeResult();
+                    // Write to phenotype output files:
+                    std::ofstream fs;
+                    for (auto& it: outputMap) {
+                        fs.open(it.first, std::ios_base::app);
+                        fs << it.second;
+                        fs.close();
+                    }
+                    outputMap.clear();
                 }
                 n++;
             }
