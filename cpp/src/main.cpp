@@ -79,15 +79,29 @@ std::string randRule(int maxColor, int maxCubes, int dim) {
     return std::string(ruleBuf);
 }
 
+void flushPhenos(std::unordered_map<std::string, std::string> *outputMap) {
+    // Write to phenotype output files:
+    std::ofstream fs;
+    for (auto& it: *outputMap) {
+        fs.open(it.first, std::ios_base::app);
+        if (fs.fail()) {
+            std::string dir = it.first.substr(0, it.first.rfind("/"));
+            std::system(("mkdir -p "+dir).c_str());
+            fs.open(it.first, std::ios_base::app);
+        }
+        fs << it.second;
+        fs.close();
+    }
+    outputMap->clear();
+}
+
 void writeToPheno(std::string result, int index,
     std::string rule, std::unordered_map<std::string, std::string> *outputMap)
 {
     std::string n = result.substr (0, result.find("_"));
     std::string dir = "out/"+n+"-mers/";
     std::string f = dir+"pheno_"+result+"_"+std::to_string(index)+"_"+pid;
-    // Create and open filestream if it isn't open already
     if (!outputMap->count(f)) {
-        std::system(("mkdir -p "+dir).c_str());
         outputMap->emplace(f, "");
     }
     outputMap->at(f) += rule + "\n";
@@ -250,14 +264,7 @@ int main(int argc, char **argv) {
             if (n % writeResultEvery == 0) {
                 std::cout<<(100*n/nRules)<<"% done ("<<n<<" rules sampled)"<<std::endl;
                 writeResult();
-                // Write to phenotype output files:
-                std::ofstream fs;
-                for (auto& it: outputMap) {
-                    fs.open(it.first, std::ios_base::app);
-                    fs << it.second;
-                    fs.close();
-                }
-                outputMap.clear();
+                flushPhenos(&outputMap);
             }
         }
     } else {
@@ -271,12 +278,7 @@ int main(int argc, char **argv) {
                     writeResult();
                     // Write to phenotype output files:
                     std::ofstream fs;
-                    for (auto& it: outputMap) {
-                        fs.open(it.first, std::ios_base::app);
-                        fs << it.second;
-                        fs.close();
-                    }
-                    outputMap.clear();
+                    flushPhenos(&outputMap);
                 }
                 n++;
             }
@@ -284,5 +286,6 @@ int main(int argc, char **argv) {
         }
     }
     writeResult();
+    flushPhenos(&outputMap);
     std::cout<<"Done! Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
 }
