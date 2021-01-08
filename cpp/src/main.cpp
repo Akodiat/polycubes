@@ -158,6 +158,7 @@ static struct option long_options[] = {
     {"nRules", optional_argument, NULL, 'n'},
     {"nTries", optional_argument, NULL, 'r'},
     {"assemblyMode", optional_argument, NULL, 'm'},
+    {"writeResultEvery", optional_argument, NULL, 'w'},
     {"input", optional_argument, NULL, 'i'},
     {NULL, 0, NULL, 0}
 };
@@ -169,12 +170,12 @@ int main(int argc, char **argv) {
     int nDimensions = 3;
     int nRules = 1;
     int nTries = 15;
-    int writeResultEvery = 10000;
+    int writeResultEvery = 100000;
     AssemblyMode assemblyMode = AssemblyMode::stochastic;
     std::string input = "";
     // Loop over all of the provided arguments
     int ch;
-    while ((ch = getopt_long(argc, argv, "h i:c:t:d:n:r:m:", long_options, NULL)) != -1) {
+    while ((ch = getopt_long(argc, argv, "h i:c:t:d:n:r:m:w:", long_options, NULL)) != -1) {
         switch (ch) {
         case 'h':
             std::cout <<
@@ -187,6 +188,7 @@ int main(int argc, char **argv) {
                 "\t-d, --nDimensions\t [number] Number of dimensions [1,2,3] of random rule (default "<<nDimensions<<")"<<std::endl<<
                 "\t-n, --nRules\t\t [number] Number of random rules to generate (default "<<nRules<<")"<<std::endl<<
                 "\t-r, --nTries\t\t [number] Number of tries to determine if a rule is deterministic (default "<<nTries<<")"<<std::endl<<
+                "\t-w, --writeResultEvery\t [number] Frequency at which to write result to file (default "<<writeResultEvery<<")"<<std::endl<<
                 "\t-m, --assemblyMode\t [random|seeded|ordered] Assemble either in strict rule order, initially seeded, or completely random (default)"<<std::endl;
             return 0;
         case 'i': input = optarg; break;
@@ -195,6 +197,7 @@ int main(int argc, char **argv) {
         case 'd': nDimensions = std::stoi(optarg); break;
         case 'n': nRules = (int)std::stod(optarg); break;
         case 'r': nTries = std::stoi(optarg); break;
+        case 'w': writeResultEvery = std::stoi(optarg); break;
         case 'm': assemblyMode = parseAssemblyMode(optarg); break;
         }
     }
@@ -222,6 +225,7 @@ int main(int argc, char **argv) {
         std::cout<<"Assembling rules from "<<input<<", ";
     }
     std::cout<<"pid="<<pid<<std::endl;
+    std::cout<<"Writing result every "<<writeResultEvery<<" rule"<<std::endl;
 
     std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> phenomap;
     std::unordered_map<std::string, std::string> outputMap;
