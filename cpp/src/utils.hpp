@@ -9,9 +9,41 @@
 #include "../lib/Eigen/Dense"
 #include "../lib/Eigen/Geometry"
 
+class Result {
+private:
+    std::vector<int> dim;
+    size_t size;
+    bool bounded;
+    bool deterministic;
+
+public:
+    Result(size_t size, std::vector<int> dim) {
+        this->size = size;
+        this->dim = dim;
+        this->bounded = this->deterministic = true;
+    }
+
+    Result(bool bounded, bool deterministic) {
+        this->bounded = bounded;
+        this->deterministic = deterministic;
+    }
+
+    std::string toString() {
+        return std::to_string(size)+"_" +
+            std::to_string(dim[2])+","+
+            std::to_string(dim[1])+","+
+            std::to_string(dim[0]);
+    }
+    bool isBounded() {return bounded;}
+    bool isDeterministic() {return deterministic;}
+    size_t getSize() {return size;}
+    std::vector<int> getDimensions() {return dim;}
+};
+
+std::string assemblyModeToString(AssemblyMode m);
 AssemblyMode parseAssemblyMode(std::string s);
 
-std::string runTries(std::string rule, int nTries, AssemblyMode assemblyMode);
+Result runTries(std::string rule, int nTries, AssemblyMode assemblyMode);
 
 bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMode);
 bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode);

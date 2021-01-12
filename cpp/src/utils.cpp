@@ -1,6 +1,11 @@
 #include "utils.hpp"
 #include "polycubeSystem.hpp"
 
+std::string assemblyModeToString(AssemblyMode m) {
+    const char* assemblyModeNames[] = {"stochastic", "seeded", "ordered" };
+    return assemblyModeNames[m];
+}
+
 AssemblyMode parseAssemblyMode(std::string s) {
     AssemblyMode m;
     if (s == "stochastic") m = AssemblyMode::stochastic;
@@ -12,11 +17,13 @@ AssemblyMode parseAssemblyMode(std::string s) {
     return m;
 }
 
-std::string runTries(std::string rule, int nTries, AssemblyMode assemblyMode)
+Result runTries(std::string rule, int nTries, AssemblyMode assemblyMode)
 {
     int refnCubes = 0;
     Eigen::Matrix3Xf coords;
     std::string refStr = "";
+    std::vector<int> refDims;
+
     while (nTries--) {
         PolycubeSystem* p = new PolycubeSystem(rule, assemblyMode);
         p->seed();
@@ -24,25 +31,26 @@ std::string runTries(std::string rule, int nTries, AssemblyMode assemblyMode)
 
         if (nCubes <= 0) {
             delete p;
-            return "oub";
+            // Not bounded
+            return Result(false, true);
         }
         if (refStr == "") {
             coords = p->getCoordMatrix();
-            std::vector<int> b = p->getBoundingBox();
-            refStr = std::to_string(nCubes)+"_"+
-            std::to_string(b[2])+","+std::to_string(b[1])+","+std::to_string(b[0]);
+            refDims = p->getBoundingBox();
+            refStr = p->toString();
             refnCubes = nCubes;
         }
         else {
             if (nCubes != refnCubes || !p->equals(coords)) {
                 delete p;
-                return "nondet";
+                // Not deterministic
+                return Result(true, false);
             }
         }
         delete p;
     }
     // If we had the same result every try:
-    return refStr;
+    return Result(refnCubes, refDims);
 }
 
 // Compare if the two rules form the same polycube

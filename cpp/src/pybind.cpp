@@ -8,11 +8,11 @@ namespace py = pybind11;
 using namespace pybind11::literals;
 
 bool isBoundedAndDeterministic(std::string rule, int nTries, std::string assemblyMode) {
-    std::string result = runTries(
+    Result result = runTries(
         rule, nTries,
         parseAssemblyMode(assemblyMode)
     );
-    return result != "oub" && result != "nondet";
+    return result.isBounded() && result.isDeterministic();
 }
 
 bool checkEqualityWrapper(std::string rule1, std::string rule2, std::string assemblyMode) {

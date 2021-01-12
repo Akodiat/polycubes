@@ -14,7 +14,6 @@
 const size_t ruleSize = 6;
 
 enum AssemblyMode {stochastic, seeded, ordered};
-static const char* assemblyModeNames[] = { "stochastic", "seeded", "ordered" };
 
 class Face
 {

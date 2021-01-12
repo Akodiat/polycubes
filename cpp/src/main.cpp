@@ -12,8 +12,12 @@
 #include <unistd.h>
 #include <csignal>
 #include <cstdlib>
+//#include <highfive/H5File.hpp>
+#include "phenotypes.pb.h"
 
 // Declared globally to be accessable on signal exit
+phenotypes::Dataset dataset;
+// I know this is bad practise
 std::string pid = std::to_string(getpid());
 int nOub = 0;
 int nNondet = 0;
@@ -79,64 +83,53 @@ std::string randRule(int maxColor, int maxCubes, int dim) {
     return std::string(ruleBuf);
 }
 
-void flushPhenos(std::unordered_map<std::string, std::string> *outputMap) {
-    // Write to phenotype output files:
-    std::ofstream fs;
-    for (auto& it: *outputMap) {
-        fs.open(it.first, std::ios_base::app);
-        if (fs.fail()) {
-            std::string dir = it.first.substr(0, it.first.rfind("/"));
-            std::system(("mkdir -p "+dir).c_str());
-            fs.open(it.first, std::ios_base::app);
-        }
-        fs << it.second;
-        fs.close();
-    }
-    outputMap->clear();
-}
-
-void writeToPheno(std::string result, int index,
-    std::string rule, std::unordered_map<std::string, std::string> *outputMap)
+void writeToPheno(Result result, int index, std::string rule,
+    phenotypes::Dataset *dataset)
 {
-    std::string n = result.substr (0, result.find("_"));
-    std::string dir = "out/"+n+"-mers/";
-    std::string f = dir+"pheno_"+result+"_"+std::to_string(index)+"_"+pid;
-    if (!outputMap->count(f)) {
-        outputMap->emplace(f, "");
+    std::string key = result.toString()+"_"+std::to_string(index)+"_"+pid;
+    auto map = dataset->mutable_phenotypes();
+    if (!map->contains(key)) {
+        std::vector<int> dim = result.getDimensions();
+        (*map)[key].set_dim1(dim[2]);
+        (*map)[key].set_dim1(dim[2]);
+        (*map)[key].set_dim2(dim[1]);
+        (*map)[key].set_dim3(dim[0]);
+        (*map)[key].set_size(result.getSize());
+        (*map)[key].set_id(index);
     }
-    outputMap->at(f) += rule + "\n";
+    map->at(key).mutable_rules()->Add(rule.c_str());
 }
 
 
-void writeResult() {
-    // Write .result file
-    std::string dir = "out";
-    std::ofstream fs;
-    fs.open(dir+"/"+pid+".result");
-    fs << "nPhenos = "<< nPhenos << std::endl;
-    fs << "nOub = "<< nOub << std::endl;
-    fs << "nNondet = "<< nNondet << std::endl;
-    fs << "nTot = "<< nPhenos + nOub + nNondet << std::endl;
-    fs.close();
+int writeResult() {
+    std::fstream output("out/phenos_"+pid+".bin",
+        std::ios::out | std::ios::trunc | std::ios::binary
+    );
+    if (!dataset.SerializeToOstream(&output)) {
+        std::cerr << "Failed to write output." << std::endl;
+        return -1;
+    }
+    return EXIT_SUCCESS;
 }
 
 void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode,
     std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> *phenomap,
-    std::unordered_map<std::string, std::string> *outputMap)
+    phenotypes::Dataset *dataset)
 {
-    std::string result = runTries(rule, nTries, assemblyMode);
-    if (result == "oub") nOub++;
-    else if (result == "nondet") nNondet++;
+    Result result = runTries(rule, nTries, assemblyMode);
+    if (!result.isBounded()) nOub++;
+    else if (!result.isDeterministic()) nNondet++;
     else {
+        std::string r = result.toString();
         nPhenos++;
         // If there is no phenotype with the result dimensions,
         // create a new empty list entry.
-        if(!phenomap->count(result)) {
+        if(!phenomap->count(r)) {
             std::vector<Eigen::Matrix3Xf> ps;
-            phenomap->emplace(result, ps);
+            phenomap->emplace(r, ps);
         }
         // Get phenotypes
-        std::vector<Eigen::Matrix3Xf> phenos = phenomap->at(result);
+        std::vector<Eigen::Matrix3Xf> phenos = phenomap->at(r);
         // Check to see if result matches any previous phenotype
         // with the same dimensions.
         bool matched = false;
@@ -145,7 +138,7 @@ void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode,
             if (checkEquality(rule, phenos[i], assemblyMode)) {
                 // If we found a match, add genotype to the corresponding file
                 matched = true;
-                writeToPheno(result, i, rule, outputMap);
+                writeToPheno(result, i, rule, dataset);
                 break;
             }
         }
@@ -155,11 +148,11 @@ void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode,
             p->seed();
             p->processMoves();
             // Add coordinates of this new phenotype
-            phenomap->at(result).push_back(p->getCoordMatrix());
+            phenomap->at(r).push_back(p->getCoordMatrix());
             delete p;
 
             // Write to file
-            writeToPheno(result, phenomap->at(result).size()-1, rule, outputMap);
+            writeToPheno(result, phenomap->at(r).size()-1, rule, dataset);
         }
     }
 }
@@ -178,6 +171,10 @@ static struct option long_options[] = {
 };
 
 int main(int argc, char **argv) {
+    // Verify that the version of the library that we linked against is
+    // compatible with the version of the headers we compiled against.
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
     // Set default argument values
     int nColors = 31;
     int nCubeTypes = 5;
@@ -218,20 +215,17 @@ int main(int argc, char **argv) {
 
     std::string dir = "out";
     std::system(("mkdir -p "+dir).c_str());
-    std::ofstream fs;
-    fs.open(dir+"/"+pid+".conf");
-    fs << "pid = "<< pid << std::endl;
     if (input == "") {
-        fs << "nColors = "<< nColors << std::endl;
-        fs << "nCubeTypes = "<< nCubeTypes << std::endl;
-        fs << "nDimensions = "<< nDimensions << std::endl;
-        fs << "nRules = "<< nRules << std::endl;
+        dataset.set_ncolors(nColors);
+        dataset.set_ncubetypes(nCubeTypes);
+        dataset.set_ndimensions(nDimensions);
+        dataset.set_nrules(nRules);
     } else {
-        fs << "input = "<< input << std::endl;
+        dataset.set_inputpath(input);
     }
-    fs << "nTries = "<< nTries << std::endl;
-    fs << "assemblyMode = "<< assemblyModeNames[assemblyMode] << std::endl;
-    fs.close();
+    dataset.set_pid(pid);
+    dataset.set_ntries(nTries);
+    dataset.set_assemblymode(assemblyModeToString(assemblyMode));
 
     if (input == "") {
         std::cout<<"Assembling "<<nRules<<" random rules, ";
@@ -242,12 +236,10 @@ int main(int argc, char **argv) {
     std::cout<<"Writing result every "<<writeResultEvery<<" rule"<<std::endl;
 
     std::unordered_map<std::string, std::vector<Eigen::Matrix3Xf>> phenomap;
-    std::unordered_map<std::string, std::string> outputMap;
 
     // Make sure to output result on exit
     auto onExit = [] (int i) {
-        writeResult();
-        exit(EXIT_SUCCESS);
+        exit(writeResult());
     };
 
     signal(SIGINT, onExit);   // ^C
@@ -255,16 +247,14 @@ int main(int argc, char **argv) {
     signal(SIGTERM, onExit);  // sent by "kill" command
     signal(SIGTSTP, onExit);  // ^Z
 
-
     std::string rule;
     if (input == "") {
         for (size_t n=0; n<nRules; n++) {
             rule = randRule(nColors, nCubeTypes, nDimensions);
-            assembleRule(rule, nTries, assemblyMode, &phenomap, &outputMap);
+            assembleRule(rule, nTries, assemblyMode, &phenomap, &dataset);
             if (n % writeResultEvery == 0) {
                 std::cout<<(100*n/nRules)<<"% done ("<<n<<" rules sampled)"<<std::endl;
                 writeResult();
-                flushPhenos(&outputMap);
             }
         }
     } else {
@@ -272,13 +262,10 @@ int main(int argc, char **argv) {
         std::ifstream inputfile(input);
         if (inputfile.is_open()) {
             while (std::getline(inputfile, rule)) {
-                assembleRule(rule, nTries, assemblyMode, &phenomap, &outputMap);
+                assembleRule(rule, nTries, assemblyMode, &phenomap, &dataset);
                 if (n % writeResultEvery == 0) {
                     std::cout<<n<<" rules sampled"<<std::endl;
                     writeResult();
-                    // Write to phenotype output files:
-                    std::ofstream fs;
-                    flushPhenos(&outputMap);
                 }
                 n++;
             }
@@ -286,6 +273,8 @@ int main(int argc, char **argv) {
         }
     }
     writeResult();
-    flushPhenos(&outputMap);
     std::cout<<"Done! Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
+
+    // Optional:  Delete all global objects allocated by libprotobuf.
+    google::protobuf::ShutdownProtobufLibrary();
 }
