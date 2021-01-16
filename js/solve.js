@@ -31,21 +31,21 @@ function getCoordinateFile() {
 function getCurrentCoords() {
     return scene.children.flatMap(
         c => c.name == 'voxel' ? 
-        c.position.clone().subScalar(25).divideScalar(50) : []
+        c.position.clone() : []
     );
 }
 
 function init() {
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set(500, 800, 1300);
+    camera.position.set(10, 16, 26);
     camera.lookAt(0, 0, 0);
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xf0f0f0);
 
     // roll-over helpers
-    var rollOverGeo = new THREE.BoxBufferGeometry(50, 50, 50);
+    var rollOverGeo = new THREE.BoxBufferGeometry(1, 1, 1);
     rollOverMaterial = new THREE.MeshBasicMaterial({
         color: 0xff0000,
         opacity: 0.5,
@@ -55,20 +55,20 @@ function init() {
     scene.add(rollOverMesh);
 
     // cubes
-    cubeGeo = new THREE.BoxBufferGeometry(50, 50, 50);
+    cubeGeo = new THREE.BoxBufferGeometry(.75, .75, .75);
     cubeMaterial = new THREE.MeshLambertMaterial({
         color: 0xfeb74c
     });
 
     // grid
-    var gridHelper = new THREE.GridHelper(1000, 20);
+    var gridHelper = new THREE.GridHelper(20, 20);
     //gridHelper.rotateX(Math.PI/2);
     scene.add(gridHelper);
 
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
 
-    var geometry = new THREE.PlaneBufferGeometry(1000, 1000);
+    var geometry = new THREE.PlaneBufferGeometry(20, 20);
     geometry.rotateX(-Math.PI / 2);
 
     plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({visible: false}));
@@ -136,39 +136,47 @@ function onDocumentMouseMove(event) {
     var intersects = raycaster.intersectObjects(objects);
     if (intersects.length > 0) {
         var intersect = intersects[0];
-        rollOverMesh.position.copy(intersect.point).add(intersect.face.normal);
-        rollOverMesh.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
+        rollOverMesh.position.copy(intersect.point);
+        if (intersect.object.name == 'voxel' && ! event.shiftKey) {
+            rollOverMesh.position.add(intersect.face.normal);
+        }
+        rollOverMesh.position.divideScalar(1).floor().multiplyScalar(1).addScalar(.5);
     }
     render();
 }
 
 function onDocumentMouseDown(event) {
-    event.preventDefault();
-    mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
-    raycaster.setFromCamera(mouse, camera);
-    var intersects = raycaster.intersectObjects(objects);
-    if (intersects.length > 0) {
-        var intersect = intersects[0];
+    if (event.button == 0) {
+        event.preventDefault();
+        mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
+        raycaster.setFromCamera(mouse, camera);
+        var intersects = raycaster.intersectObjects(objects);
+        if (intersects.length > 0) {
+            var intersect = intersects[0];
 
-        // delete cube
-        if (event.shiftKey) {
-            if (intersect.object !== plane) {
-                scene.remove(intersect.object);
-                objects.splice(objects.indexOf(intersect.object), 1);
+            // delete cube
+            if (event.shiftKey) {
+                if (intersect.object !== plane) {
+                    scene.remove(intersect.object);
+                    objects.splice(objects.indexOf(intersect.object), 1);
+                }
+
+            // create cube
+            } else {
+                var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+                voxel.position.copy(intersect.point);
+                if (intersect.object.name == 'voxel') {
+                    voxel.position.add(intersect.face.normal);
+                }
+                voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(.5);
+                voxel.name = "voxel";
+                scene.add(voxel);
+                console.log(voxel.position.clone().subScalar(.5).divideScalar(1).toArray());
+
+                objects.push(voxel);
             }
-
-        // create cube
-        } else {
-            var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
-            voxel.position.copy(intersect.point).add(intersect.face.normal);
-            voxel.position.divideScalar(50).floor().multiplyScalar(50).addScalar(25);
-            voxel.name = "voxel";
-            scene.add(voxel);
-            console.log(voxel.position.clone().subScalar(25).divideScalar(50).toArray());
-
-            objects.push(voxel);
+            render();
         }
-        render();
     }
 }
 
@@ -305,20 +313,6 @@ function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nDim=3, 
             }
             myWorker.postMessage([coords, nCubeTypes, nColors, nDim, tortionalPatches]);
         }
-/*
-        setTimeout(()=>{
-            updateStatus(`<b>${nColors} colors and ${nCubeTypes} cube types:</b>`);
-            rule = find_solution(coords, nCubeTypes, nColors, nDim, tortionalPatches);
-            if (rule == 'skipped') {
-                updateStatus('Simpler solution already found');
-            } else if (rule) {
-                updateStatus(`Found solution: <a href="https://akodiat.github.io/polycubes/?rule=${rule}" target="_blank">${rule}</a>`);
-                return rule;
-            } else {
-                updateStatus('Sorry, no solution')
-            }
-        }, 100);
-*/
     }
 }
 
