@@ -1,11 +1,12 @@
-var camera, scene, renderer;
-var plane;
-var mouse, raycaster;
+let camera, scene, renderer;
+let mouse, raycaster;
 
-var rollOverMesh, rollOverMaterial;
-var cubeGeo, cubeMaterial;
+let rollOverMesh, rollOverMaterial;
+let cubeGeo, cubeMaterial;
+let connectorGeo, connectoryMaterial;
 
-var objects = [];
+let voxels = new Set();
+let connectors = new Map();
 
 init();
 render();
@@ -21,6 +22,15 @@ function saveString(text, filename) {
     document.body.removeChild(element);
 }
 
+function posToString(p) {
+    return `[${p.toArray().toString()}]`;
+}
+
+function connectionToString(p1, p2) {
+    [s1, s2] = [p1, p2].map(p=>posToString(p)).sort();
+    return `[${s1}, ${s2}]`
+}
+
 function getCoordinateFile() {
     saveString(
         getCurrentCoords().map(p=>{return `(${p.x},${p.y},${p.z})`}).join('\n'), 
@@ -29,10 +39,7 @@ function getCoordinateFile() {
 }
 
 function getCurrentCoords() {
-    return scene.children.flatMap(
-        c => c.name == 'voxel' ? 
-        c.position.clone() : []
-    );
+    return [...voxels].map(v=>v.position);
 }
 
 function init() {
@@ -42,10 +49,9 @@ function init() {
     camera.lookAt(0, 0, 0);
 
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf0f0f0);
 
     // roll-over helpers
-    var rollOverGeo = new THREE.BoxBufferGeometry(1, 1, 1);
+    let rollOverGeo = new THREE.BoxBufferGeometry(.5, .5, .5);
     rollOverMaterial = new THREE.MeshBasicMaterial({
         color: 0xff0000,
         opacity: 0.5,
@@ -57,31 +63,24 @@ function init() {
     // cubes
     cubeGeo = new THREE.BoxBufferGeometry(.75, .75, .75);
     cubeMaterial = new THREE.MeshLambertMaterial({
-        color: 0xfeb74c
+        color: 0x444444
     });
 
-    // grid
-    var gridHelper = new THREE.GridHelper(20, 20);
-    //gridHelper.rotateX(Math.PI/2);
-    scene.add(gridHelper);
+    // cubes
+    connectorGeo = new THREE.BoxBufferGeometry(.45, .45, 1);
+    connectoryMaterial = new THREE.MeshLambertMaterial({
+        color: 0xfe004c
+    });
 
     raycaster = new THREE.Raycaster();
     mouse = new THREE.Vector2();
 
-    var geometry = new THREE.PlaneBufferGeometry(20, 20);
-    geometry.rotateX(-Math.PI / 2);
-
-    plane = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({visible: false}));
-    scene.add(plane);
-
-    objects.push(plane);
-
     // lights
 
-    var ambientLight = new THREE.AmbientLight(0x606060);
+    let ambientLight = new THREE.AmbientLight(0x606060);
     scene.add(ambientLight);
 
-    var directionalLight = new THREE.DirectionalLight(0xffffff);
+    let directionalLight = new THREE.DirectionalLight(0xffffff);
     directionalLight.position.set(1, 0.75, 0.5).normalize();
     scene.add(directionalLight);
 
@@ -119,6 +118,10 @@ function init() {
     orbit = new THREE.OrbitControls(camera, canvas);
     orbit.damping = 0.2;
     orbit.addEventListener('change', render);
+
+    let voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+    scene.add(voxel);
+    voxels.add(voxel);
 }
 
 function onWindowResize() {
@@ -133,14 +136,19 @@ function onDocumentMouseMove(event) {
     mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
     raycaster.setFromCamera(mouse, camera);
 
-    var intersects = raycaster.intersectObjects(objects);
+    let intersects = raycaster.intersectObjects([...voxels]);
     if (intersects.length > 0) {
-        var intersect = intersects[0];
-        rollOverMesh.position.copy(intersect.point);
-        if (intersect.object.name == 'voxel' && ! event.shiftKey) {
-            rollOverMesh.position.add(intersect.face.normal);
+        rollOverMesh.visible = true;
+        let intersect = intersects[0];
+        rollOverMesh.position.copy(intersect.object.position);
+        if (event.shiftKey) {
+            rollOverMesh.scale.setScalar(2);
+        } else {
+            rollOverMesh.scale.setScalar(1);
+            rollOverMesh.position.add(intersect.face.normal.clone().divideScalar(2));
         }
-        rollOverMesh.position.divideScalar(1).floor().multiplyScalar(1).addScalar(.5);
+    } else {
+        rollOverMesh.visible = false;
     }
     render();
 }
@@ -150,30 +158,60 @@ function onDocumentMouseDown(event) {
         event.preventDefault();
         mouse.set((event.clientX / window.innerWidth) * 2 - 1, -(event.clientY / window.innerHeight) * 2 + 1);
         raycaster.setFromCamera(mouse, camera);
-        var intersects = raycaster.intersectObjects(objects);
+        let intersects = raycaster.intersectObjects([...voxels]);
         if (intersects.length > 0) {
-            var intersect = intersects[0];
+            let i = intersects[0];
 
             // delete cube
             if (event.shiftKey) {
-                if (intersect.object !== plane) {
-                    scene.remove(intersect.object);
-                    objects.splice(objects.indexOf(intersect.object), 1);
+                if (voxels.size > 1) {
+                    // Remove cube
+                    scene.remove(i.object);
+                    voxels.delete(i.object);
+                    // Remove connectors
+                    let connectorsToRemove = [];
+                    connectors.forEach((c,s)=>{
+                        if(s.includes(posToString(i.object.position))) {
+                            connectorsToRemove.push([c,s]);
+                        }
+                    })
+                    console.log(`Removing ${connectorsToRemove.length} connectors: ${connectorsToRemove.map(c=>c[1])}`)
+                    connectorsToRemove.forEach(i=>{
+                        [c,s] = i;
+                        scene.remove(c);
+                        connectors.delete(s);
+                    });
                 }
-
             // create cube
             } else {
-                var voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
-                voxel.position.copy(intersect.point);
-                if (intersect.object.name == 'voxel') {
-                    voxel.position.add(intersect.face.normal);
-                }
-                voxel.position.divideScalar(1).floor().multiplyScalar(1).addScalar(.5);
+                let voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+                voxel.position.copy(i.object.position)
+                voxel.position.add(i.face.normal);
                 voxel.name = "voxel";
-                scene.add(voxel);
-                console.log(voxel.position.clone().subScalar(.5).divideScalar(1).toArray());
-
-                objects.push(voxel);
+                let existing = false;
+                for (let v of voxels) {
+                    if (v.position.equals(voxel.position)) {
+                        console.log("Position already set");
+                        voxel = v;
+                        existing = true;
+                        break;
+                    }
+                }
+                if (!existing) {
+                    scene.add(voxel);
+                    console.log(voxel.position.toArray());
+                    voxels.add(voxel);
+                }
+                let c1 = voxel.position.clone();
+                let c2 = i.object.position.clone();
+                let cs = connectionToString(c1, c2);
+                if (!connectors.has(cs)) {
+                    let connector = new THREE.Mesh(connectorGeo, connectoryMaterial);
+                    connector.position.copy(c1.clone().add(c2).divideScalar(2));
+                    connector.lookAt(c2);
+                    scene.add(connector);
+                    connectors.set(cs, connector);
+                }
             }
             render();
         }
@@ -206,7 +244,7 @@ function* range(start, stop, step) {
     }
     let iterationCount = 0;
     if (!((step > 0 && start >= stop) || (step < 0 && start <= stop))) {
-        for (var i = start; step > 0 ? i < stop : i > stop; i += step) {
+        for (let i = start; step > 0 ? i < stop : i > stop; i += step) {
             iterationCount++;
             yield i;
         }
@@ -214,12 +252,46 @@ function* range(start, stop, step) {
     return iterationCount;
 };
 
-function topFromCoords(coords, nDim=3) {
-    neigbourDirs = getRuleOrder(nDim)
+function getCurrentTop(nDim=3) {
+    let neigbourDirs = getRuleOrder(nDim);
+    let bindings = [];
+    let empty = [];
+    let donePairs = [];  // Keep track so that only one bond per pair is saved
+    let connectionStrs = [...connectors.keys()];
+    let coords = getCurrentCoords();
+    coords.forEach((current, i)=>{
+        // Enumerate von Neumann neighborhood
+        neigbourDirs.forEach((dP,dPi)=>{
+            neigbourPos = current.clone().add(dP);
+            if (connectionStrs.includes(connectionToString(current, neigbourPos))) {
+                let j = coords.findIndex(c=>c.equals(neigbourPos));
+                if (j<0) {
+                    throw `${neigbourPos} not in coordinates (${coords})`;
+                }
+                if (!donePairs.includes([i,j].sort().toString())) {
+                    bindings.push([
+                        // Particle {} patch {} 
+                        i, dPi,
+                        // with Particle {} patch {}
+                        j, dPi + (dPi % 2 == 0 ? 1 : -1)
+                    ]);
+                    console.log(`Particle ${i} patch ${dPi} with particle ${j} patch ${dPi + (dPi % 2 == 0 ? 1 : -1)}`);
+                    donePairs.push([i,j].sort().toString())
+                }
+            } else {
+                empty.push([i, dPi]);
+            }
+        });
+    });
+    return [bindings, empty]
+}
 
-    bindings = []
-    empty = []
-    donePairs = []  // Keep track so that only one bond per pair is saved
+function topFromCoords(coords, nDim=3) {
+    let neigbourDirs = getRuleOrder(nDim);
+
+    let bindings = [];
+    let empty = [];
+    let donePairs = [];  // Keep track so that only one bond per pair is saved
 
     // For each position
     coords.forEach((current, i)=> {
@@ -230,14 +302,15 @@ function topFromCoords(coords, nDim=3) {
             // Check if curerent neighbor is among the positions
             coords.forEach((other,j)=>{
                 if (neigbourPos.equals(other)) {
-                    if (!donePairs.includes((j, i))) {
+                    if (!donePairs.includes([i,j].sort().toString())) {
                         bindings.push([
                             // Particle {} patch {} 
                             i, dPi,
                             // with Particle {} patch {}
                             j, dPi + (dPi % 2 == 0 ? 1 : -1)
                         ])
-                        donePairs.push([i, j])
+                        console.log(`Particle ${i} patch ${dPi} with particle ${j} patch ${dPi + (dPi % 2 == 0 ? 1 : -1)}`)
+                        donePairs.push([i,j].sort().toString())
                     }
                     found = true;
                 }
@@ -279,11 +352,11 @@ function countParticlesAndBindings(topology) {
     return [Math.max(...particles)+1, topology.length]
 }
 
-function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nDim=3, tortionalPatches=true) {
+function findMinimalRule(maxCubeTypes='auto', maxColors='auto', nDim=3, tortionalPatches=true) {
     // Clear status
     document.getElementById('status').innerHTML = '';
     // Never need to check for (const more than the topology can specify
-    let [topology, _] = topFromCoords(coords, nDim);
+    let [topology, _] = getCurrentTop(nDim);
     let [maxNT, maxNC] = countParticlesAndBindings(topology);
     if (maxCubeTypes == 'auto') {
         maxCubeTypes = maxNT;
@@ -292,33 +365,73 @@ function findMinimalRule(coords, maxCubeTypes='auto', maxColors='auto', nDim=3, 
         maxColors = maxNC;
     }
 
-    let workers = []
-    for (const [nCubeTypes, nColors] of smartEnumerate(maxCubeTypes, maxColors)) {
-        if (window.Worker) {
-            var myWorker = new Worker('js/solveWorker.js');
-            workers.push(myWorker)
-            myWorker.onmessage = function(e) {
-                console.log('Message received from worker');
-                let rule = e.data;
-                updateStatus(`<b>${nColors} colors and ${nCubeTypes} cube types:</b>`);
-                if (rule != 'skipped') {
-                    if (rule) {
-                        updateStatus(`Found solution: <a href="https://akodiat.github.io/polycubes/?rule=${rule}" target="_blank">${rule}</a>`);
-                        workers.forEach(w=>w.terminate());
-                        return rule;
-                    } else {
-                        updateStatus('Sorry, no solution')
-                    }
-                }
+    let workers = [];
+    document.getElementById("cancelButton").onclick = ()=>workers.forEach(w=>w.terminate());
+    let queue = smartEnumerate(maxCubeTypes, maxColors);
+    const nConcurrent = 4;
+    if (window.Worker) {
+        while (workers.length < nConcurrent) {
+            if (queue.length > 0) {
+                startNewWorker(queue, workers, nDim, tortionalPatches);
+            } else {
+                break;
             }
-            myWorker.postMessage([coords, nCubeTypes, nColors, nDim, tortionalPatches]);
         }
     }
 }
 
-function updateStatus(status, newline=true) {
+function startNewWorker(queue, workers, nDim=3, tortionalPatches=true) {
+    const [nCubeTypes, nColors] = queue.shift(); // Get next params
+    let [topology, empty] = getCurrentTop(nDim);
+    console.log("Starting worker for "+nCubeTypes+" and "+nColors);
+    let myWorker = new Worker('js/solveWorker.js');
+    workers.push(myWorker);
+    myWorker.onmessage = function(e) {
+        console.log(`${nColors} colors and ${nCubeTypes} cube types completed. ${queue.length} in queue`);
+        let rule = e.data;
+        if (rule != 'skipped') {
+            if (rule == 'UND') {
+                updateStatus('UND', nCubeTypes, nColors);
+            } else if (rule) {
+                updateStatus(
+                    `<a href="https://akodiat.github.io/polycubes/?rule=${rule}" target="_blank">Solution</a>`,
+                    nCubeTypes, nColors
+                );
+                workers.forEach(w=>w.terminate());
+                return rule;
+            } else {
+                updateStatus('None', nCubeTypes, nColors);
+            }
+        }
+        if (queue.length > 0) {
+            startNewWorker(queue, workers, nDim, tortionalPatches);
+        }
+    }
+    myWorker.postMessage([topology, empty, nCubeTypes, nColors, nDim, tortionalPatches]);
+}
+
+function updateStatus(status, nCubeTypes, nColors) {
     console.log(status);
-    let e = document.getElementById('status');
-    e.innerHTML += newline ? `<p>${status}</p>` : status;
-    e.scrollTop = e.scrollHeight;
+    let table = document.getElementById('status');
+    while (table.rows.length < nCubeTypes+1) {
+        table.insertRow();
+    }
+    while (table.rows[0].cells.length < nColors+1) {
+        let c = document.createElement("th");
+        table.rows[0].appendChild(c);
+        if (table.rows[0].cells.length != 1) {
+            c.innerHTML = 'nC='+(table.rows[0].cells.length-1);
+        }
+    }
+    let row = table.rows[nCubeTypes];
+    if (row.cells.length == 0) {
+        let c = document.createElement("th");
+        row.appendChild(c);
+        c.innerHTML = 'nT='+nCubeTypes;
+    }
+    while (row.cells.length < nColors+1) {
+        row.insertCell();
+    }
+    let cell = row.cells[nColors];
+    cell.innerHTML = status;
 }

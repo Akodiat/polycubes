@@ -31,15 +31,13 @@ encoding functions:
 
 //Polycube SAT Solver
 class polysat {
-    constructor(coords, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
-        let [topology, empty] = topFromCoords(coords, nDim);
-
+    constructor(topology, empty, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
         // Different color coding, color n binds not to -n but
         // to another m, also ignore 0 and 1.
         let nC = (nColors + 1) * 2;
 
         // Read number of particles from the topology
-        let nL = coords.length;
+        let nL = countParticles(topology);
 
         //problem specification:
         this.nS = nCubeTypes  //: Number of distinct particle types for (const the solver
@@ -737,42 +735,9 @@ function enumerateRotations(dim=3) {
     }   
 }
 
-
-function topFromCoords(coords, nDim=3) {
-    neigbourDirs = getRuleOrder(nDim)
-
-    bindings = []
-    empty = []
-    donePairs = []  // Keep track so that only one bond per pair is saved
-
-    // For each position
-    coords.forEach((current, i)=> {
-        // Enumerate von Neumann neighborhood
-        neigbourDirs.forEach((dP,dPi)=>{
-            neigbourPos = current.clone().add(dP);
-            found = false;
-            // Check if curerent neighbor is among the positions
-            coords.forEach((other,j)=>{
-                if (neigbourPos.equals(other)) {
-                    if (!donePairs.includes((j, i))) {
-                        bindings.push([
-                            // Particle {} patch {} 
-                            i, dPi,
-                            // with Particle {} patch {}
-                            j, dPi + (dPi % 2 == 0 ? 1 : -1)
-                        ])
-                        donePairs.push([i, j])
-                    }
-                    found = true;
-                }
-            });
-            // If the current neigbour is empty, save
-            if (!found) {
-                empty.push([i, dPi])
-            }
-        });
-    });
-    return [bindings, empty]
+function countParticles(topology) {
+    particles = topology.map(x=>x[0]).concat(topology.map(x=>x[2]));
+    return Math.max(...particles)+1
 }
 /*
 // https://stackoverflow.com/a/45054052
@@ -893,11 +858,11 @@ function patchCount(cube) {
 }
 
 let minSol = false;
-function find_solution(coords, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
+function find_solution(topology, empty, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
     // Initiate solver
-    let mysat = new polysat(coords, nCubeTypes, nColors, nDim, tortionalPatches);
+    let mysat = new polysat(topology, empty, nCubeTypes, nColors, nDim, tortionalPatches);
 
-    let nMaxTries = 100;
+    let nMaxTries = 15;
     while (nMaxTries--) {
         if (minSol && minSol[0]+minSol[1] < nCubeTypes+nColors) {
             return 'skipped';
@@ -911,14 +876,14 @@ function find_solution(coords, nCubeTypes, nColors, nDim=3, tortionalPatches=tru
                 minSol = [nCubeTypes, nColors];
                 return hexRule;
             } else {
-                //updateStatus(`<a href="https://akodiat.github.io/polycubes/?rule=${hexRule}" target="_blank">UND</a> `, false);
+                console.log(`https://akodiat.github.io/polycubes/?rule=${hexRule}"`);
                 mysat.forbidSolution(result);
             }
         } else {
             return null;
         }
     }
-    updateStatus('Gave up');
+    //updateStatus('Gave up');
     return 'UND'
 }
 
