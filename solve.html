@@ -54,25 +54,44 @@
 
 			#status {
 				height: min-content;
-				background: #edeeeed6;
+				background: none;
 			}
 
 			#info {
 				position: fixed;
 				z-index: 1;
+				background: #f0f0f0a9;
+			}
+			table, th, td {
+				empty-cells: hide;
+			}
+			th, td {
+				text-align: center;
+				border-collapse: collapse;
+				border: 2px solid rgb(46, 46, 46);
+				padding: 15px;
+				background: #edeeeed6;
+			}
+			th {
+				background: #a8a8a8d6;
 			}
 		</style>
 	</head>
 	<!-- Adapted from https://threejs.org/examples/webgl_interactive_voxelpainter.html-->
 	<body>
 		<div id="modal" class="modal">
-			<div id="status" class="modal-content"></div>
+			<div class="modal-content" style="background: none;">
+				<table id="status"></table>
+				<div style="display: flex; justify-content: center;">
+					<button id="cancelButton" style="margin-top: 15px;">Cancel</button>
+				</div>
+			</div>
 		</div>
 		<canvas id="threeCanvas"></canvas>
 		<div id="info">
 			<h2>Polycube SAT solver</h2>
 			<small>By Joakim Bohlin</small><br>
-			Click to add cubes (shift-click to remove), then click <button onclick="findMinimalRule(getCurrentCoords()); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.
+			Click faces to add cubes (shift-click to remove), then click <button onclick="findMinimalRule(); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.
 		</div>
 
 		<script src="js/libs/three.min.js"></script>
