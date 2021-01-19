@@ -91,7 +91,7 @@
 			<div class="modal-content" style="background: none;">
 				<table id="status"></table>
 				<div style="display: flex; justify-content: center;">
-					<button id="cancelButton" style="margin-top: 15px;">Stop</button>
+					<button id="stopButton" style="margin-top: 15px;">Stop</button>
 				</div>
 			</div>
 		</div>
@@ -99,7 +99,7 @@
 		<div id="info">
 			<h2>Polycube SAT solver</h2>
 			<small>By Joakim Bohlin</small><br>
-			<p>Click faces to add cubes (shift-click to remove), then click <button onclick="findMinimalRule(); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.</p>
+			<p>Click the cube faces to add cubes (shift-click to remove), then click <button onclick="findMinimalRule(); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.</p>
 			<details>
 				<summary>Options</summary>
 				<input type="checkbox" id="stopAtFirstSol" checked>

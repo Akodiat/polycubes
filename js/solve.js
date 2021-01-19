@@ -367,7 +367,11 @@ function findMinimalRule(nDim=3, tortionalPatches=true) {
     maxColors = maxColors < 0 ? maxNC: Math.min(maxNC, maxColors);
 
     let workers = [];
-    document.getElementById("cancelButton").onclick = ()=>workers.forEach(w=>w.terminate());
+    let stopButton = document.getElementById("stopButton");
+    stopButton.onclick = ()=>{
+        workers.forEach(w=>w.terminate());
+        stopButton.style.visibility = 'hidden'
+    };
     let queue = smartEnumerate(maxCubeTypes, maxColors, minCubeTypes, minColors);
     const nConcurrent = 4;
     if (window.Worker) {
@@ -436,7 +440,7 @@ function updateStatus(result, nCubeTypes, nColors) {
     }
     let cell = row.cells[nColors];
     if (result.rule) {
-        cell.innerHTML = `<a href="https://akodiat.github.io/polycubes/?rule=${result.rule}" target="_blank">${result.status}</a>`;
+        cell.innerHTML = `<a href="https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=${result.rule}" target="_blank">${result.status}</a>`;
     } else {
         cell.innerHTML = result.status;
     }
