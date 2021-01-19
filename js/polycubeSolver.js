@@ -861,8 +861,9 @@ let minSol = false;
 function find_solution(topology, empty, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
     // Initiate solver
     let mysat = new polysat(topology, empty, nCubeTypes, nColors, nDim, tortionalPatches);
-
     let nMaxTries = 15;
+    let status;
+    let hexRule;
     while (nMaxTries--) {
         if (minSol && minSol[0]+minSol[1] < nCubeTypes+nColors) {
             return 'skipped';
@@ -871,20 +872,21 @@ function find_solution(topology, empty, nCubeTypes, nColors, nDim=3, tortionalPa
         if (result) {
             let rule = readSolution(result);
             rule.sort((a,b)=>{return patchCount(b)-patchCount(a)});
-            let hexRule = ruleToHex(rule);
-            if (isBoundedAndDeterministic(hexRule)) {
-                minSol = [nCubeTypes, nColors];
-                return hexRule;
-            } else {
+            hexRule = ruleToHex(rule);
+            status = isBoundedAndDeterministic(hexRule);
+            if (status == '∞' || status == '?') {
                 console.log(`https://akodiat.github.io/polycubes/?rule=${hexRule}"`);
                 mysat.forbidSolution(result);
             }
+            else {
+                minSol = [nCubeTypes, nColors];
+                return {'status': '✓', 'rule': hexRule};
+            }
         } else {
-            return null;
+            return {'status': '×'};
         }
     }
-    //updateStatus('Gave up');
-    return 'UND'
+    return {'status': status, 'rule': hexRule};
 }
 
 // Modified from https://stackoverflow.com/a/8273091

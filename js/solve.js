@@ -45,7 +45,7 @@ function getCurrentCoords() {
 function init() {
 
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.set(10, 16, 26);
+    camera.position.set(2, 3, 5);
     camera.lookAt(0, 0, 0);
 
     scene = new THREE.Scene();
@@ -223,10 +223,10 @@ function render() {
 }
 
 
-function smartEnumerate(xMax, yMax) {
+function smartEnumerate(xMax, yMax, xMin=1, yMin=1) {
     l = []
-    for (const x of range(1, xMax+1)) {
-        for (const y of range(1, yMax+1)) {
+    for (const x of range(xMin, xMax+1)) {
+        for (const y of range(yMin, yMax+1)) {
             l.push([x,y])
         }
     }
@@ -352,22 +352,23 @@ function countParticlesAndBindings(topology) {
     return [Math.max(...particles)+1, topology.length]
 }
 
-function findMinimalRule(maxCubeTypes='auto', maxColors='auto', nDim=3, tortionalPatches=true) {
+function findMinimalRule(nDim=3, tortionalPatches=true) {
     // Clear status
     document.getElementById('status').innerHTML = '';
-    // Never need to check for (const more than the topology can specify
+    let maxCubeTypes = document.getElementById('maxNt').valueAsNumber;
+    let maxColors = document.getElementById('maxNc').valueAsNumber;
+    let minCubeTypes = document.getElementById('minNt').valueAsNumber;
+    let minColors = document.getElementById('minNc').valueAsNumber;
+
+    // Never need to check for more than the topology can specify
     let [topology, _] = getCurrentTop(nDim);
     let [maxNT, maxNC] = countParticlesAndBindings(topology);
-    if (maxCubeTypes == 'auto') {
-        maxCubeTypes = maxNT;
-    }
-    if (maxColors == 'auto') {
-        maxColors = maxNC;
-    }
+    maxCubeTypes = maxCubeTypes < 0 ? maxNT: Math.min(maxNT, maxCubeTypes);
+    maxColors = maxColors < 0 ? maxNC: Math.min(maxNC, maxColors);
 
     let workers = [];
     document.getElementById("cancelButton").onclick = ()=>workers.forEach(w=>w.terminate());
-    let queue = smartEnumerate(maxCubeTypes, maxColors);
+    let queue = smartEnumerate(maxCubeTypes, maxColors, minCubeTypes, minColors);
     const nConcurrent = 4;
     if (window.Worker) {
         while (workers.length < nConcurrent) {
@@ -382,36 +383,37 @@ function findMinimalRule(maxCubeTypes='auto', maxColors='auto', nDim=3, tortiona
 
 function startNewWorker(queue, workers, nDim=3, tortionalPatches=true) {
     const [nCubeTypes, nColors] = queue.shift(); // Get next params
+    //updateStatus('...', nCubeTypes, nColors);
     let [topology, empty] = getCurrentTop(nDim);
     console.log("Starting worker for "+nCubeTypes+" and "+nColors);
     let myWorker = new Worker('js/solveWorker.js');
     workers.push(myWorker);
     myWorker.onmessage = function(e) {
         console.log(`${nColors} colors and ${nCubeTypes} cube types completed. ${queue.length} in queue`);
-        let rule = e.data;
-        if (rule != 'skipped') {
-            if (rule == 'UND') {
-                updateStatus('UND', nCubeTypes, nColors);
-            } else if (rule) {
-                updateStatus(
-                    `<a href="https://akodiat.github.io/polycubes/?rule=${rule}" target="_blank">Solution</a>`,
-                    nCubeTypes, nColors
-                );
-                workers.forEach(w=>w.terminate());
-                return rule;
-            } else {
-                updateStatus('None', nCubeTypes, nColors);
-            }
-        }
-        if (queue.length > 0) {
+        let result = e.data;
+        updateStatus(result, nCubeTypes, nColors);
+        if (result.status == '✓' && document.getElementById('stopAtFirstSol').checked) {
+            workers.forEach(w=>w.terminate());
+        } else if (queue.length > 0) {
             startNewWorker(queue, workers, nDim, tortionalPatches);
         }
     }
     myWorker.postMessage([topology, empty, nCubeTypes, nColors, nDim, tortionalPatches]);
 }
 
-function updateStatus(status, nCubeTypes, nColors) {
-    console.log(status);
+function updateStatus(result, nCubeTypes, nColors) {
+    let captions = {
+        '✓': `Satisfiable for nT=${nCubeTypes} cube types and nC=${nColors} colors`,
+        '∞': `Satisfiable for nT=${nCubeTypes} cube types and nC=${nColors} colors, but will also assemble into unbounded shapes`,
+        '?': `Satisfiable for nT=${nCubeTypes} cube types and nC=${nColors} colors, but will also assemble into other shapes`,
+        '×': `Not satisfiable for nT=${nCubeTypes} cube types and nC=${nColors} colors`,
+    }
+    let colors = {
+        '✓': 'rgba(126, 217, 118, 0.6)',
+        '∞': 'rgba(39, 61, 128, 0.6)',
+        '?': 'rgba(39, 61, 128, 0.6)',
+        '×': 'rgba(208, 47, 47, 0.6)'
+    }
     let table = document.getElementById('status');
     while (table.rows.length < nCubeTypes+1) {
         table.insertRow();
@@ -433,5 +435,11 @@ function updateStatus(status, nCubeTypes, nColors) {
         row.insertCell();
     }
     let cell = row.cells[nColors];
-    cell.innerHTML = status;
+    if (result.rule) {
+        cell.innerHTML = `<a href="https://akodiat.github.io/polycubes/?rule=${result.rule}" target="_blank">${result.status}</a>`;
+    } else {
+        cell.innerHTML = result.status;
+    }
+    cell.title = captions[result.status];
+    cell.style.background = colors[result.status];
 }

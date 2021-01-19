@@ -54,12 +54,12 @@ function isBoundedAndDeterministic(hexRule, nTries=15, assemblyMode='seeded') {
         while (!processed) {
             processed = system.processMoves(true); //process move in background, without animation
             if (processed == 'oub') {
-                return false;
+                return '∞';
             }
         }
         let strCoords = [...system.cubeMap.keys()].sort().join('\n');
         if (oldStrCoords && (oldStrCoords != strCoords)) {
-            return false;
+            return '?';
         }
         oldStrCoords = strCoords;
     }

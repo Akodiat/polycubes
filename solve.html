@@ -10,7 +10,8 @@
 				color: #444;
 			}
 			a {
-				color: #08f;
+				color: rgb(236, 236, 236);
+				text-decoration: none;
 			}
 
 			canvas {
@@ -65,15 +66,22 @@
 			table, th, td {
 				empty-cells: hide;
 			}
+			td {
+				font-size: x-large;
+				color: white;
+			}
 			th, td {
 				text-align: center;
 				border-collapse: collapse;
 				border: 2px solid rgb(46, 46, 46);
-				padding: 15px;
 				background: #edeeeed6;
 			}
 			th {
 				background: #a8a8a8d6;
+				padding: 15px;
+			}
+			input[type=number] {
+				width: 2em;
 			}
 		</style>
 	</head>
@@ -83,7 +91,7 @@
 			<div class="modal-content" style="background: none;">
 				<table id="status"></table>
 				<div style="display: flex; justify-content: center;">
-					<button id="cancelButton" style="margin-top: 15px;">Cancel</button>
+					<button id="cancelButton" style="margin-top: 15px;">Stop</button>
 				</div>
 			</div>
 		</div>
@@ -91,7 +99,14 @@
 		<div id="info">
 			<h2>Polycube SAT solver</h2>
 			<small>By Joakim Bohlin</small><br>
-			Click faces to add cubes (shift-click to remove), then click <button onclick="findMinimalRule(); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.
+			<p>Click faces to add cubes (shift-click to remove), then click <button onclick="findMinimalRule(); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.</p>
+			<details>
+				<summary>Options</summary>
+				<input type="checkbox" id="stopAtFirstSol" checked>
+				<label for="stopAtFirstSol">Stop at first solution</label><br>
+				<input id="minNc" type="number" min="1" value="1"> ≤ nC ≤ <input id="maxNc" type="number" value="-1"><br>
+				<input id="minNt" type="number" min="1" value="1"> ≤ nT ≤ <input id="maxNt" type="number" value="-1">
+			  </details>
 		</div>
 
 		<script src="js/libs/three.min.js"></script>
