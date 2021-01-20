@@ -9,6 +9,67 @@ document.addEventListener("keydown", event => {
     }
 });
 
+function getPatchySimFiles(hexRule, count=1) {
+    let getPatchStr = (id, color, i, a2, strength=1)=>{
+        let a1 = ruleOrder[i].clone();
+        return [
+            `patch_${id} = {`,
+            `  id = ${id}`,
+            `  color = ${color}`,
+            `  strength = ${strength}`,
+            `  position = ${a1.clone().divideScalar(2).toArray()}`,
+            `  a1 = ${a1.toArray()}`,
+            `  a2 = ${a2.toArray()}`,
+            '}',''
+        ].join('\n')
+    }
+    let getParticleStr = (typeID, patches)=>[
+        `particle_${typeID} = {`,
+        `  type = ${typeID}`,
+        `  patches = ${patches}`,
+        '}',''
+    ].join('\n');
+
+    let particlesStr = "";
+    let patchesStr = "";
+
+    let patchCounter = 0;
+    let rule = parseHexRule(hexRule);
+    rule.forEach((cubeType, typeID)=>{
+        let patches = [];
+        cubeType.forEach((patch, i)=>{
+            patchesStr += getPatchStr(patchCounter, patch.color, i, patch.alignDir);
+            patches.push(patchCounter);
+            patchCounter++;
+        });
+        particlesStr += getParticleStr(typeID, patches);
+    });
+
+    saveString(particlesStr, hexRule+'.particles.txt');
+    saveString(patchesStr, hexRule+'.patches.txt');
+
+    // If counts is a single integer, use that for all cube types
+    if (typeof count[Symbol.iterator] !== 'function') {
+        count = rule.map(c=>count);
+    }
+    if (count.length != rule.length) {
+        console.warn(`If count is a list it needs to be the same length as the rule (${rule.length}), not ${count.length}`);
+        return;
+    }
+
+    let total = 0;
+    let top = [];
+    count.forEach((c, typeID)=>{
+        total+=c;
+        for(let i=0; i<c; i++) {
+            top.push(typeID);
+        }
+    });
+    let topStr = `${total} ${rule.length}\n${top.join(' ')}`;
+
+    saveString(topStr, hexRule+'.top');
+}
+
 function getCoordinateFile() {
     let filename = `${system.getRuleStr()}.${system.cubeMap.size}-mer`;
     let text = ""
