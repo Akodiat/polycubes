@@ -38,9 +38,13 @@ function getPatchySimFiles(hexRule, count=1) {
     rule.forEach((cubeType, typeID)=>{
         let patches = [];
         cubeType.forEach((patch, i)=>{
-            patchesStr += getPatchStr(patchCounter, patch.color, i, patch.alignDir);
-            patches.push(patchCounter);
-            patchCounter++;
+            if(patch.color != 0) {
+                // Needs to be > 20 to not be self complementary
+                let color = patch.color + 20 * Math.sign(patch.color);
+                patchesStr += getPatchStr(patchCounter, color, i, patch.alignDir);
+                patches.push(patchCounter);
+                patchCounter++;
+            }
         });
         particlesStr += getParticleStr(typeID, patches);
     });
