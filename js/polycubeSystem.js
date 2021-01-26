@@ -83,11 +83,15 @@ class PolycubeSystem {
         this.particleMaterials = [];
         this.matches = 0;
         this.mismatches = 0;
+        this.connections = [];
 
         this.objGroup = new THREE.Group();
+        this.lineGroup = new THREE.Group();
         if (scene) {
             scene.add(this.objGroup);
+            scene.add(this.lineGroup);
         }
+        this.lineGroup.visible = false;
 
         this.ruleOrder = ruleOrder;
         this.rule = rules;
@@ -121,6 +125,8 @@ class PolycubeSystem {
         this.centerCubeGeo = new THREE.BoxBufferGeometry(
             centerCubeSize, centerCubeSize, centerCubeSize
         );
+
+        this.connectorLineMaterial = new THREE.LineBasicMaterial({color: 0x555555, linewidth: 10});
     }
 
     isPolycubeSystem() {
@@ -142,6 +148,11 @@ class PolycubeSystem {
         this.cubeMap = new Map();
         this.matches = 0;
         this.mismatches = 0;
+        this.connections = [];
+        this.lineGroup.visible = false;
+        while(this.lineGroup.children.length > 0) {
+            this.lineGroup.children.pop();
+        }
         this.orderIndex = 0;
         render();
     }
@@ -329,6 +340,10 @@ class PolycubeSystem {
                 if (neigb != null) {
                     if (neigb.color == rule[i].color && neigb.alignDir.equals(rule[i].alignDir)) {
                         this.matches++;
+                        this.connections.push([
+                            this.moves[movekey].pos.clone(),
+                            this.moves[movekey].pos.clone().add(ruleOrder[i])
+                        ])
                     } else {
                         this.mismatches++;
                     }
@@ -481,6 +496,47 @@ class PolycubeSystem {
         this.cubeMap.set(vecToStr(position), true);
         this.centerOfMass.divideScalar(this.cubeMap.size);
 
+        render();
+    }
+
+    makeLine(a, b) {
+        //create a blue LineBasicMaterial
+        const points = [];
+        points.push(a);
+        points.push(b);
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        return new THREE.Line(geometry, this.connectorLineMaterial);
+    }
+
+    toggleLineView() {
+        if (!this.lineGroup.visible) {
+            //this.objGroup.visible = false;
+            this.lineGroup.visible = true;
+            if (this.lineGroup.children.length == 0) {
+                this.connections.forEach(c=>{
+                    const [cA, cB] = c;
+                    this.lineGroup.add(this.makeLine(cA,cB));
+                });
+            }
+            this.objGroup.children.forEach(cube=>{
+                cube.scale.multiplyScalar(0.25);
+            })
+        } else {
+            this.objGroup.visible = true;
+            this.lineGroup.visible = false;
+            this.objGroup.children.forEach(cube=>{
+                cube.scale.multiplyScalar(4);
+            })
+        }
+        render();
+    }
+
+    toggleFog(density=0.08) {
+        if (!scene.fog || scene.fog.density != density) {
+            scene.fog = new THREE.FogExp2(0xffffff, density);
+        } else {
+            scene.fog = undefined;
+        }
         render();
     }
 
