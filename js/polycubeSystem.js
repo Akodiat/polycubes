@@ -100,17 +100,17 @@ class PolycubeSystem {
         );
         nColors = Math.max(nColors, 2) //Avoid getting only red colors
 
-        let connectionColors = randomColor({luminosity: 'light', count: nColors, seed: 1337});
+        // connectionColors = randomColor({luminosity: 'light', count: nColors, seed: 1337});
         for (let i=0; i<nColors; i++) {
             let colorMaterial = new THREE.MeshLambertMaterial({
-                color: connectionColors[i]
+                color: selectColor(i)
             });
             this.colorMaterials.push(colorMaterial);
         }
 
-        let particleColors = randomColor({luminosity: 'light',  hue: 'monochrome', count: rules.length, seed: 1});
+        //let particleColors = randomColor({luminosity: 'light', count: rules.length, seed: 19});
         for (let i=0; i<rules.length; i++) {
-            let cubeMaterial = new THREE.MeshStandardMaterial({color: particleColors[i]});
+            let cubeMaterial = new THREE.MeshLambertMaterial({color: selectColor(i)});
                 this.particleMaterials.push(cubeMaterial);
         }
 
@@ -196,14 +196,14 @@ class PolycubeSystem {
 
         for (let i=0; i<nColors; i++) {
             let colorMaterial = new THREE.MeshLambertMaterial({
-                color: randomColor({luminosity: 'light'})
+                color: selectColor(i)
             });
             this.colorMaterials.push(colorMaterial);
         }
 
         for (let i=0; i<rule.length; i++) {
             let cubeMaterial = new THREE.MeshLambertMaterial({
-                color: randomColor({luminosity: 'light',  hue: 'monochrome'})
+                color: selectColor(i),
             });
             this.particleMaterials.push(cubeMaterial);
         }
@@ -528,7 +528,8 @@ class PolycubeSystem {
                 cube.scale.multiplyScalar(4);
             })
         }
-        render();
+        //render();
+        fitCamera();
     }
 
     toggleFog(density=0.08) {
@@ -550,6 +551,8 @@ class PolycubeSystem {
                 let material = this.colorMaterials[Math.abs(rule[j].color) - 1].clone();
                 if (rule[j].color >= 0) {
                     material.emissive = material.color.clone().addScalar(-0.5);
+                } else {
+                    material.color.addScalar(-0.1);
                 }
                 let connectorCube = new THREE.Mesh(
                     this.connectorCubeGeo, material

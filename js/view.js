@@ -74,6 +74,11 @@ function getPatchySimFiles(hexRule, count=1) {
     saveString(topStr, hexRule+'.top');
 }
 
+function selectColor(number) {
+    const hue = number * 137.508; // use golden angle approximation
+    return `hsl(${hue},50%,65%)`;
+  }
+
 function getCoordinateFile() {
     let filename = `${system.getRuleStr()}.${system.cubeMap.size}-mer`;
     let text = ""
@@ -97,7 +102,7 @@ function exportGLTF() {
     let options = {'forceIndices': true};
 
     // Parse the input and generate the glTF output
-    exporter.parse(system.objGroup, function (result) {
+    exporter.parse(scene, function (result) {
         if (result instanceof ArrayBuffer) {
             saveArrayBuffer(result, 'scene.glb');
         } else {
@@ -107,6 +112,15 @@ function exportGLTF() {
         }
     }, options);
 }
+
+document.addEventListener("keydown", event => {
+    if (event.key == 's' && event.ctrlKey) {
+        event.preventDefault();
+        system.getCoordinateFile();
+    } else if (event.key == 'p') {
+        saveCanvasImage();
+    }
+});
 
 function saveCanvasImage(){
     canvas.toBlob(function(blob){
@@ -284,7 +298,7 @@ function initScene() {
     let ambientLight = new THREE.AmbientLight(0x707070);
     camera.add(ambientLight);
 
-    let directionalLight = new THREE.PointLight(0x909090);
+    let directionalLight = new THREE.PointLight(0x707070);
     directionalLight.position.set(10, 10, 5).normalize();
     camera.add(directionalLight);
 

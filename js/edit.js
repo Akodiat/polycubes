@@ -9,13 +9,13 @@ function addRule(patches) {
         }
         system.rule.push(patches);
         let cubeMaterial = new THREE.MeshLambertMaterial({
-            color: randomColor({luminosity: 'light',  hue: 'monochrome'})
+            color: selectColor(system.rule.length-1)
         });
         system.particleMaterials.push(cubeMaterial);
     }
     let ruleset = document.getElementById("ruleset");
     let ruleField = document.createElement("fieldset");
-    ruleField.style.borderColor = rgbToHex(system.particleMaterials[system.rule.indexOf(patches)].color)
+    ruleField.style.borderColor = selectColor(system.rule.indexOf(patches))
     for(let i=0; i<patches.length; i++) {
         let face = document.createElement("span");
         //face.faceIdx = i;
@@ -23,7 +23,7 @@ function addRule(patches) {
         color.type = "number";
         color.value = patches[i].color;
         if(color.value != 0) {
-            face.style.backgroundColor = rgbToHex(system.colorMaterials[Math.abs(color.value)-1].color)
+            face.style.backgroundColor = selectColor(Math.abs(color.value)-1)
         }
         color.addEventListener("change", updateRuleColor.bind(
             event, color, patches, i)
@@ -122,11 +122,11 @@ function updateRuleColor(e, patches, faceIdx) {
     if(value != 0) {
         while (Math.abs(value) > system.colorMaterials.length) {
             let colorMaterial = new THREE.MeshLambertMaterial({
-                color: randomColor({luminosity: 'light'})
+                color: selectColor(system.colorMaterials.length-1)
             });
             system.colorMaterials.push(colorMaterial);
         }
-        c = rgbToHex(system.colorMaterials[Math.abs(value)-1].color)
+        c = selectColor(Math.abs(value)-1);
     }
     else {
         c = "White";

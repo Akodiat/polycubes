@@ -168,13 +168,6 @@ class PolysphereSystem {
         this.sphereGeo = new THREE.SphereBufferGeometry(
             sphereSize, 16, 16
         );
-
-        document.addEventListener("keydown", event => {
-            if (event.key == 's' && event.ctrlKey) {
-                event.preventDefault();
-                this.getCoordinateFile();
-            }
-        });
     }
 
     isPolycubeSystem() {
