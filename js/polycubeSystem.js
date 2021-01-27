@@ -84,6 +84,7 @@ class PolycubeSystem {
         this.matches = 0;
         this.mismatches = 0;
         this.connections = [];
+        this.lineViewFactor = 2;
 
         this.objGroup = new THREE.Group();
         this.lineGroup = new THREE.Group();
@@ -111,11 +112,11 @@ class PolycubeSystem {
         //let particleColors = randomColor({luminosity: 'light', count: rules.length, seed: 19});
         for (let i=0; i<rules.length; i++) {
             let cubeMaterial = new THREE.MeshLambertMaterial({color: selectColor(i)});
-                this.particleMaterials.push(cubeMaterial);
+            this.particleMaterials.push(cubeMaterial);
         }
 
-        let centerCubeSize = 0.7;
-        let connectorCubeSize = (1-centerCubeSize);
+        this.cubeSize = 0.7;
+        let connectorCubeSize = (1-this.cubeSize);
         this.connectorCubeGeo = new THREE.BoxBufferGeometry(
             connectorCubeSize, connectorCubeSize, connectorCubeSize
         );
@@ -123,10 +124,10 @@ class PolycubeSystem {
             connectorCubeSize/2, connectorCubeSize/2, connectorCubeSize/2
         );
         this.centerCubeGeo = new THREE.BoxBufferGeometry(
-            centerCubeSize, centerCubeSize, centerCubeSize
+            this.cubeSize, this.cubeSize, this.cubeSize
         );
 
-        this.connectorLineMaterial = new THREE.LineBasicMaterial({color: 0x555555, linewidth: 10});
+        this.connectorLineMaterial = new THREE.LineBasicMaterial({color: 0x555555, linewidth: 20});
     }
 
     isPolycubeSystem() {
@@ -153,6 +154,10 @@ class PolycubeSystem {
         while(this.lineGroup.children.length > 0) {
             this.lineGroup.children.pop();
         }
+        this.particleMaterials.forEach(m=>{
+            m.transparent = false;
+            m.opacity = 1;
+        });
         this.orderIndex = 0;
         render();
     }
@@ -342,7 +347,8 @@ class PolycubeSystem {
                         this.matches++;
                         this.connections.push([
                             this.moves[movekey].pos.clone(),
-                            this.moves[movekey].pos.clone().add(ruleOrder[i])
+                            this.moves[movekey].pos.clone().add(ruleOrder[i]),
+                            Math.abs(neigb.color)
                         ])
                     } else {
                         this.mismatches++;
@@ -499,13 +505,16 @@ class PolycubeSystem {
         render();
     }
 
-    makeLine(a, b) {
-        //create a blue LineBasicMaterial
+    makeLine(a, b, color) {
+        a.sub(a.clone().sub(b).setLength(this.cubeSize/3));
+        b.sub(b.clone().sub(a).setLength(this.cubeSize/3));
         const points = [];
         points.push(a);
         points.push(b);
         const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        return new THREE.Line(geometry, this.connectorLineMaterial);
+        const material = this.connectorLineMaterial.clone();
+        material.color.set(selectColor(color-1));
+        return new THREE.Line(geometry, material);
     }
 
     toggleLineView() {
@@ -514,19 +523,27 @@ class PolycubeSystem {
             this.lineGroup.visible = true;
             if (this.lineGroup.children.length == 0) {
                 this.connections.forEach(c=>{
-                    const [cA, cB] = c;
-                    this.lineGroup.add(this.makeLine(cA,cB));
+                    const [cA, cB, color] = c;
+                    this.lineGroup.add(this.makeLine(cA,cB, color));
                 });
             }
             this.objGroup.children.forEach(cube=>{
-                cube.scale.multiplyScalar(0.25);
-            })
+                cube.scale.multiplyScalar(1/this.lineViewFactor);
+            });
+            this.particleMaterials.forEach(m=>{
+                m.transparent = true;
+                m.opacity = 0.5;
+            });
         } else {
             this.objGroup.visible = true;
             this.lineGroup.visible = false;
             this.objGroup.children.forEach(cube=>{
-                cube.scale.multiplyScalar(4);
-            })
+                cube.scale.multiplyScalar(this.lineViewFactor);
+            });
+            this.particleMaterials.forEach(m=>{
+                m.transparent = false;
+                m.opacity = 1;
+            });
         }
         //render();
         fitCamera();
@@ -558,11 +575,17 @@ class PolycubeSystem {
                     this.connectorCubeGeo, material
                 );
                 connectorCube.position.add(
-                    this.ruleOrder[j].clone().multiplyScalar(0.3)
+                    this.ruleOrder[j].clone().multiplyScalar(0.4)
+                );
+                let dim = this.ruleOrder[j].clone();
+                dim.setX(Math.abs(dim.x)).setY(Math.abs(dim.y)).setZ(Math.abs(dim.z));
+                connectorCube.scale.copy(
+                    new THREE.Vector3(1,1,1).sub(dim.multiplyScalar(0.65))
                 );
                 let connectorPointer = new THREE.Mesh(
                     this.connectorPointerGeo, material
                 );
+                connectorPointer.scale.copy(connectorCube.scale);
                 connectorPointer.position.copy(connectorCube.position);
                 connectorPointer.position.add(rule[j].alignDir.clone().multiplyScalar(0.2));
                 cube.add(connectorCube);
