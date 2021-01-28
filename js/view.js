@@ -74,26 +74,11 @@ function getPatchySimFiles(hexRule, count=1) {
     saveString(topStr, hexRule+'.top');
 }
 
-function selectColor(number) {
-    const hue = number * 137.508; // use golden angle approximation
-    return `hsl(${hue},50%,65%)`;
-  }
-
 function getCoordinateFile() {
     let filename = `${system.getRuleStr()}.${system.cubeMap.size}-mer`;
     let text = ""
     system.cubeMap.forEach(function(value, key){text += key + '\n'});
     saveString(text, filename);
-}
-
-function saveString(text, filename) {
-    let element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
 }
 
 function exportGLTF() {
