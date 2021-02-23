@@ -6,8 +6,8 @@
 #include <string>
 #include <set>
 #include "polycubeSystem.hpp"
-#include "../lib/Eigen/Dense"
-#include "../lib/Eigen/Geometry"
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
 
 struct Phenotype {
   Eigen::Matrix3Xf coords;

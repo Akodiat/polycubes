@@ -8,8 +8,8 @@
 #include <random>
 #include <iostream>
 #include <chrono>
-#include "../lib/Eigen/Dense"
-#include "../lib/Eigen/Geometry"
+#include <Eigen/Dense>
+#include <Eigen/Geometry>
 
 const size_t ruleSize = 6;
 
