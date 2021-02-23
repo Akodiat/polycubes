@@ -9,6 +9,14 @@
 #include "../lib/Eigen/Dense"
 #include "../lib/Eigen/Geometry"
 
+struct Phenotype {
+  Eigen::Matrix3Xf coords;
+  std::vector<std::string> rules;
+  std::vector<int> dim;
+  size_t size;
+  size_t id;
+};
+
 class Result {
 private:
     std::vector<int> dim;
