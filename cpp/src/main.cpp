@@ -149,7 +149,7 @@ int main(int argc, char **argv) {
     int nDimensions = 3;
     int nRules = 1000;
     int nTries = 10;
-    int writeResultEvery = 100000;
+    int writeResultEvery = 10000;
     AssemblyMode assemblyMode = AssemblyMode::stochastic;
     std::string input = "";
     // Loop over all of the provided arguments
@@ -181,9 +181,6 @@ int main(int argc, char **argv) {
         }
     }
 
-    std::string dir = "out";
-    std::system(("mkdir -p "+dir).c_str());
-
     if (input == "") {
         std::cout<<"Assembling "<<nRules<<" random rules, ";
     } else {
@@ -211,7 +208,7 @@ int main(int argc, char **argv) {
             assembleRule(rule, nTries, assemblyMode, &phenomap);
             if (n % writeResultEvery == 0) {
                 std::cout<<(100*n/nRules)<<"% done ("<<n<<" rules sampled)"<<std::endl;
-                //writeResult(phenomap);
+                writeResult(phenomap, "out_"+pid+".h5");
             }
         }
     } else {
@@ -222,13 +219,16 @@ int main(int argc, char **argv) {
                 assembleRule(rule, nTries, assemblyMode, &phenomap);
                 if (n % writeResultEvery == 0) {
                     std::cout<<n<<" rules sampled"<<std::endl;
-                    //writeResult(phenomap);
+                    writeResult(phenomap, "out_"+pid+".h5");
                 }
                 n++;
             }
             inputfile.close();
         }
     }
-    writeResult(phenomap, "out/out_"+pid+".h5");
+    writeResult(phenomap, "out_"+pid+".h5");
     std::cout<<"Done! Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
+
+    // Remove backup old file if existing
+    std::system(("rm -f out_"+pid+".h5.bak 2>/dev/null").c_str());
 }

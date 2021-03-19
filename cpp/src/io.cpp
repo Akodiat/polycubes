@@ -61,6 +61,9 @@ int writeResult(std::unordered_map<std::string, std::vector<Phenotype>> phenomap
     hid_t file, group, gcpl, space, dset;          /* Handles */
     herr_t status;
 
+    // Backup old file if existing
+    std::system(("mv -f "+filename+" "+filename+".bak 2>/dev/null").c_str());
+
     // Create a new file using the default properties.
     file = H5Fcreate(filename.c_str(), H5F_ACC_TRUNC, H5P_DEFAULT, H5P_DEFAULT);
 
