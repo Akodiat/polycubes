@@ -25,7 +25,7 @@ target_link_libraries (polycubes Eigen3::Eigen)
 
 # HDFQL
 
-set(HDFQL_ROOT "~/hdfql-2.1.0")
+set(HDFQL_ROOT "~/hdfql-2.3.0")
 include_directories(${HDFQL_ROOT}/include)
 find_library(HDFQL_LIB HDFql)
 
