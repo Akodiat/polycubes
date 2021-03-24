@@ -222,6 +222,28 @@ int PolycubeSystem::processMoves() {
                 }
                 break;
             }
+        } else if (assemblyMode == AssemblyMode::stochastic2) {
+            // Pick a random move
+            std::uniform_int_distribution<uint32_t> key_distribution(
+                0, moveKeys.size()-1
+            );
+            size_t keyIdx = key_distribution(randomNumGen);
+            std::string key = moveKeys[keyIdx];
+
+            // Pick a random rule
+            std::uniform_int_distribution<uint32_t> rule_distribution(
+                0, rules.size()-1
+            );
+            size_t ruleIdx = rule_distribution(randomNumGen);
+            int result = tryProcessMove(key, ruleIdx);
+            if (result<0) {
+                return result; // Out of bounds
+            } else if (result == 1) {
+                // Remove processed move
+                moves.at(key).deleteRules();
+                moves.erase(key);
+                moveKeys.erase(std::find(moveKeys.begin(), moveKeys.end(), key));
+            }
         } else {
             // Pick a random move
             std::uniform_int_distribution<uint32_t> key_distribution(

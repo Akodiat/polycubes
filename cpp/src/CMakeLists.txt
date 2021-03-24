@@ -22,16 +22,19 @@ target_include_directories(polycubes INTERFACE ${CMAKE_CURRENT_SOURCE_DIR})
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 target_link_libraries (polycubes Eigen3::Eigen)
 
-# Link HDF5
-#find_package (HDF5 REQUIRED)
-#include_directories (${HDF5_INCLUDE_DIRS})
-#set (HDF5_LIBS ${HDF5_LIBS} ${HDF5_LIBRARIES})
 
-# Explicitely list required HDF5 components
-find_package(HDF5 COMPONENTS CXX HL)
+# HDFQL
 
-include_directories(${HDF5_INCLUDE_DIRS})
+set(HDFQL_ROOT "~/hdfql-2.1.0")
+include_directories(${HDFQL_ROOT}/include)
+find_library(HDFQL_LIB HDFql)
+
+target_include_directories(polycubes
+    PUBLIC "${HDFQL_ROOT}/include"
+)
+
+# Link HDFql
 target_link_libraries(
     polycubes
-    ${HDF5_LIBRARIES} # This should list all libraries.
+   "${HDFQL_ROOT}/wrapper/cpp/libHDFql.so"
 )

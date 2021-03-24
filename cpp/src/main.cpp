@@ -13,11 +13,8 @@
 #include <unistd.h>
 #include <csignal>
 #include <cstdlib>
-#include "hdf5.h"
 
-// Declared globally to be accessable on signal exit
-// I know this is bad practise
-std::string pid = std::to_string(getpid());
+// Global counters
 int nOub = 0;
 int nNondet = 0;
 int nPhenos = 0;
@@ -83,7 +80,7 @@ std::string randRule(int maxColor, int maxCubes, int dim) {
 }
 
 void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode,
-    std::unordered_map<std::string, std::vector<Phenotype>> *phenomap)
+    std::unordered_map<std::string, std::vector<Phenotype>> *phenomap, OutputWriter outputWriter)
 {
     Result result = runTries(rule, nTries, assemblyMode);
     if (!result.isBounded()) nOub++;
@@ -107,7 +104,8 @@ void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode,
             if (checkEquality(rule, phenos[i].coords, assemblyMode)) {
                 // If we found a match, add rule to the corresponding phenotype
                 matched = true;
-                phenomap->at(r)[i].rules.push_back(rule);
+                //phenomap->at(r)[i].rules.push_back(rule);
+                outputWriter.appendToPheno(phenomap->at(r)[i], rule);
                 break;
             }
         }
@@ -118,12 +116,13 @@ void assembleRule(std::string rule, int nTries, AssemblyMode assemblyMode,
             p->processMoves();
             // Create new phenotype, containing this one rule
             Phenotype pheno;
-            pheno.rules = {rule};
+            //pheno.rules = {rule};
             pheno.coords = p->getCoordMatrix();
             pheno.dim = result.getDimensions();
             pheno.size = result.getSize();
             pheno.id = phenomap->at(r).size();
             phenomap->at(r).push_back(pheno);
+            outputWriter.appendToPheno(pheno, rule);
             delete p;
         }
     }
@@ -168,7 +167,7 @@ int main(int argc, char **argv) {
                 "\t-n, --nRules\t\t [number] Number of random rules to generate (default "<<nRules<<")"<<std::endl<<
                 "\t-r, --nTries\t\t [number] Number of tries to determine if a rule is deterministic (default "<<nTries<<")"<<std::endl<<
                 "\t-w, --writeResultEvery\t [number] Frequency at which to write result to file (default "<<writeResultEvery<<")"<<std::endl<<
-                "\t-m, --assemblyMode\t [random|seeded|ordered] Assemble either in strict rule order, initially seeded, or completely random (default)"<<std::endl;
+                "\t-m, --assemblyMode\t [stochastic|seeded|ordered] Assemble either in strict rule order, initially seeded, or completely stochastic (default)"<<std::endl;
             return 0;
         case 'i': input = optarg; break;
         case 'c': nColors = std::stoi(optarg); break;
@@ -181,34 +180,35 @@ int main(int argc, char **argv) {
         }
     }
 
+    std::string pid = std::to_string(getpid());
+
+    OutputWriter outputWriter("out_"+pid+".h5");
+    outputWriter.setAttribute("nColors", nColors);
+    outputWriter.setAttribute("nCubeTypes", nCubeTypes);
+    outputWriter.setAttribute("nDimensions", nDimensions);
+    outputWriter.setAttribute("nTries", nTries);
+    outputWriter.setAttribute("assemblyMode", assemblyModeToString((assemblyMode)));
+
     if (input == "") {
         std::cout<<"Assembling "<<nRules<<" random rules, ";
+        outputWriter.setAttribute("nRules", nRules);
     } else {
         std::cout<<"Assembling rules from "<<input<<", ";
+        outputWriter.setAttribute("input", input);
     }
     std::cout<<"pid="<<pid<<std::endl;
     std::cout<<"Writing result every "<<writeResultEvery<<" rule"<<std::endl;
 
     std::unordered_map<std::string, std::vector<Phenotype>> phenomap;
 
-    // Make sure to output result on exit
-    auto onExit = [] (int i) {
-        //exit(writeResult());
-    };
-
-    signal(SIGINT, onExit);   // ^C
-    signal(SIGABRT, onExit);  // abort()
-    signal(SIGTERM, onExit);  // sent by "kill" command
-    signal(SIGTSTP, onExit);  // ^Z
-
     std::string rule;
     if (input == "") {
         for (size_t n=0; n<nRules; n++) {
             rule = randRule(nColors, nCubeTypes, nDimensions);
-            assembleRule(rule, nTries, assemblyMode, &phenomap);
+            assembleRule(rule, nTries, assemblyMode, &phenomap, outputWriter);
             if (n % writeResultEvery == 0) {
-                std::cout<<(100*n/nRules)<<"% done ("<<n<<" rules sampled)"<<std::endl;
-                writeResult(phenomap, "out_"+pid+".h5");
+                std::cout<<(100*n/nRules)<<"% done ("<<n<<" rules sampled). "<<nPhenos<<" phenotypes found so far"<<std::endl;
+                outputWriter.flush();
             }
         }
     } else {
@@ -216,19 +216,15 @@ int main(int argc, char **argv) {
         std::ifstream inputfile(input);
         if (inputfile.is_open()) {
             while (std::getline(inputfile, rule)) {
-                assembleRule(rule, nTries, assemblyMode, &phenomap);
+                assembleRule(rule, nTries, assemblyMode, &phenomap, outputWriter);
                 if (n % writeResultEvery == 0) {
-                    std::cout<<n<<" rules sampled"<<std::endl;
-                    writeResult(phenomap, "out_"+pid+".h5");
+                    std::cout<<n<<" rules sampled. "<<nPhenos<<" phenotypes found so far"<<std::endl;
+                    outputWriter.flush();
                 }
                 n++;
             }
             inputfile.close();
         }
     }
-    writeResult(phenomap, "out_"+pid+".h5");
     std::cout<<"Done! Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
-
-    // Remove backup old file if existing
-    std::system(("rm -f out_"+pid+".h5.bak 2>/dev/null").c_str());
 }
