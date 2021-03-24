@@ -19,3 +19,5 @@ public:
     void setAttribute(std::string attr, int val);
     void setAttribute(std::string attr, std::string val);
 };
+
+void writePhenos(std::unordered_map<std::string, std::vector<Phenotype>> phenomap, OutputWriter outputWriter);

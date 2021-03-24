@@ -44,3 +44,16 @@ void OutputWriter::appendToPheno(Phenotype pheno, std::string rule) {
     // insert (i.e. write) data from variable 'rule' into the last row of dataset 'dset' (thanks to a point selection)
     execute("INSERT INTO "+path+"(-1) VALUES(\"" + rule + "\")");
 }
+
+void writePhenos(std::unordered_map<std::string, std::vector<Phenotype>> phenomap, OutputWriter outputWriter) {
+    for (auto &x: phenomap) {
+        for (Phenotype &p : x.second) {
+            while (!p.rules.empty()) {
+                std::string rule = p.rules.back();
+                p.rules.pop_back();
+                outputWriter.appendToPheno(p, rule);
+            }
+        }
+    }
+    outputWriter.flush();
+}
