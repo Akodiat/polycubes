@@ -431,7 +431,7 @@ class PolycubeSystem {
 
         this.centerOfMass.multiplyScalar(this.cubeMap.size);
         this.centerOfMass.add(position);
-        this.cubeMap.set(vecToStr(position), true);
+        this.cubeMap.set(vecToStr(position), position);
         this.centerOfMass.divideScalar(this.cubeMap.size);
 
         render();

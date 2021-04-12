@@ -273,7 +273,7 @@ function getCurrentTop(nDim=3) {
                         // with Particle {} patch {}
                         j, dPi + (dPi % 2 == 0 ? 1 : -1)
                     ]);
-                    console.log(`Particle ${i} patch ${dPi} with particle ${j} patch ${dPi + (dPi % 2 == 0 ? 1 : -1)}`);
+                    //console.log(`Particle ${i} patch ${dPi} with particle ${j} patch ${dPi + (dPi % 2 == 0 ? 1 : -1)}`);
                     donePairs.push([i,j].sort().toString())
                 }
             } else {
@@ -364,18 +364,22 @@ function findMinimalRule(nDim=3, tortionalPatches=true) {
     maxCubeTypes = maxCubeTypes < 0 ? maxNT: Math.min(maxNT, maxCubeTypes);
     maxColors = maxColors < 0 ? maxNC: Math.min(maxNC, maxColors);
 
-    let workers = [];
+    workers = [];
     let stopButton = document.getElementById("stopButton");
     stopButton.onclick = ()=>{
-        workers.forEach(w=>w.terminate());
+        workers.forEach(w=>{
+            w.terminate();
+            updateStatus({status:'↛'}, w.nCubeTypes, w.nColors);
+        });
         stopButton.style.visibility = 'hidden'
     };
-    let queue = smartEnumerate(maxCubeTypes, maxColors, minCubeTypes, minColors);
+    queue = smartEnumerate(maxCubeTypes, maxColors, minCubeTypes, minColors);
     const nConcurrent = 4;
+    globalBest = Infinity;
     if (window.Worker) {
         while (workers.length < nConcurrent) {
             if (queue.length > 0) {
-                startNewWorker(queue, workers, nDim, tortionalPatches);
+                startNewWorker(nDim, tortionalPatches);
             } else {
                 break;
             }
@@ -383,38 +387,75 @@ function findMinimalRule(nDim=3, tortionalPatches=true) {
     }
 }
 
-function startNewWorker(queue, workers, nDim=3, tortionalPatches=true) {
+let globalBest;
+let queue, workers;
+function startNewWorker(nDim=3, tortionalPatches=true) {
     const [nCubeTypes, nColors] = queue.shift(); // Get next params
+
+    updateStatus({status:'...'}, nCubeTypes, nColors);
+
     //updateStatus('...', nCubeTypes, nColors);
     let [topology, empty] = getCurrentTop(nDim);
     console.log("Starting worker for "+nCubeTypes+" and "+nColors);
     let myWorker = new Worker('js/solveWorker.js');
+    myWorker.nCubeTypes = nCubeTypes;
+    myWorker.nColors = nColors;
     workers.push(myWorker);
     myWorker.onmessage = function(e) {
-        console.log(`${nColors} colors and ${nCubeTypes} cube types completed. ${queue.length} in queue`);
         let result = e.data;
         updateStatus(result, nCubeTypes, nColors);
         if (result.status == '✓' && document.getElementById('stopAtFirstSol').checked) {
-            workers.forEach(w=>w.terminate());
-        } else if (queue.length > 0) {
-            startNewWorker(queue, workers, nDim, tortionalPatches);
+            globalBest = Math.min(globalBest, nCubeTypes+nColors);
+            workers.forEach(w=>{
+                if (w.nCubeTypes + w.nColors > globalBest) {
+                    updateStatus({status:'↛'}, w.nCubeTypes, w.nColors);
+                    w.terminate();
+                    console.log(`Skipping ${nColors} colors and ${nCubeTypes} cube types`)
+                }
+            });
+            filterInPlace(workers, w=>(w.nCubeTypes + w.nColors <= globalBest));
+            filterInPlace(queue, p=>(p[0] + p[1] <= globalBest));
         }
+        if (queue.length > 0) {
+            startNewWorker(nDim, tortionalPatches);
+        }
+        myWorker.terminate();
+        filterInPlace(workers, w=>w!=myWorker); // Remove from workers
+        console.log(`${nColors} colors and ${nCubeTypes} cube types completed. ${queue.length} in queue`);
     }
     myWorker.postMessage([topology, empty, nCubeTypes, nColors, nDim, tortionalPatches]);
 }
 
+// https://stackoverflow.com/a/37319954
+function filterInPlace(a, condition) {
+    let i = 0, j = 0;
+  
+    while (i < a.length) {
+      const val = a[i];
+      if (condition(val, i, a)) a[j++] = val;
+      i++;
+    }
+  
+    a.length = j;
+    return a;
+  }
+
 function updateStatus(result, nCubeTypes, nColors) {
     let captions = {
-        '✓': `Satisfiable for nT=${nCubeTypes} cube types and nC=${nColors} colors`,
-        '∞': `Satisfiable for nT=${nCubeTypes} cube types and nC=${nColors} colors, but will also assemble into unbounded shapes`,
-        '?': `Satisfiable for nT=${nCubeTypes} cube types and nC=${nColors} colors, but will also assemble into other shapes`,
-        '×': `Not satisfiable for nT=${nCubeTypes} cube types and nC=${nColors} colors`,
+        '✓': `Satisfiable for ${nCubeTypes} cube types and ${nColors} colors`,
+        '∞': `Satisfiable for ${nCubeTypes} cube types and ${nColors} colors, but will also assemble into unbounded shapes`,
+        '?': `Satisfiable for ${nCubeTypes} cube types and ${nColors} colors, but will also assemble into other shapes`,
+        '×': `Not satisfiable for ${nCubeTypes} cube types and ${nColors} colors`,
+        '...': `Working on it...`,
+        '↛': 'Skipped'
     }
     let colors = {
         '✓': 'rgba(126, 217, 118, 0.6)',
         '∞': 'rgba(39, 61, 128, 0.6)',
         '?': 'rgba(39, 61, 128, 0.6)',
-        '×': 'rgba(208, 47, 47, 0.6)'
+        '×': 'rgba(208, 47, 47, 0.6)',
+        '...': 'rgba(50, 50, 50, 0.4)',
+        '↛': 'rgba(50, 50, 50, 0.4)'
     }
     let table = document.getElementById('status');
     while (table.rows.length < nCubeTypes+1) {
@@ -424,14 +465,14 @@ function updateStatus(result, nCubeTypes, nColors) {
         let c = document.createElement("th");
         table.rows[0].appendChild(c);
         if (table.rows[0].cells.length != 1) {
-            c.innerHTML = 'nC='+(table.rows[0].cells.length-1);
+            c.innerHTML = 'N<sub>c</sub>='+(table.rows[0].cells.length-1);
         }
     }
     let row = table.rows[nCubeTypes];
     if (row.cells.length == 0) {
         let c = document.createElement("th");
         row.appendChild(c);
-        c.innerHTML = 'nT='+nCubeTypes;
+        c.innerHTML = 'N<sub>t</sub>='+nCubeTypes;
     }
     while (row.cells.length < nColors+1) {
         row.insertCell();
@@ -439,6 +480,8 @@ function updateStatus(result, nCubeTypes, nColors) {
     let cell = row.cells[nColors];
     if (result.rule) {
         cell.innerHTML = `<a href="https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=${result.rule}" target="_blank">${result.status}</a>`;
+    } else if (result.status == '...') {
+        cell.innerHTML = '<div class="busy">...</div>';
     } else {
         cell.innerHTML = result.status;
     }

@@ -585,11 +585,15 @@ class polysat {
         }
     }
 
-
     add_constraints_no_self_complementarity(above_color=0) {
         for (const c of range(above_color,this.nC)) {
             this.basic_sat_clauses.push([-this.B(c,c)]);
         }
+    }
+
+    fix_position_species(l, s) {
+        // fix position l to be occupied by species s
+        this.basic_sat_clauses.push(range(this.nR).map(r=>this.P(l,s,r)))
     }
 
     fix_slot_colors(ptype, sid, cid) {
@@ -861,7 +865,7 @@ let minSol = false;
 function find_solution(topology, empty, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
     // Initiate solver
     let mysat = new polysat(topology, empty, nCubeTypes, nColors, nDim, tortionalPatches);
-    let nMaxTries = 15;
+    let nMaxTries = 10;
     let status;
     let hexRule;
     while (nMaxTries--) {

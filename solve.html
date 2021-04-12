@@ -14,6 +14,33 @@
 				text-decoration: none;
 			}
 
+            .busy{
+                animation-name: jumpy;
+                animation-duration: 1.5s;
+                animation-iteration-count: infinite;
+                animation-timing-function: linear;
+            }
+
+            .busy:nth-child(2) {
+                animation-delay: 0.2ms;
+            }
+
+            .busy:nth-child(3) {
+                animation-delay: 0.4ms;
+            }
+
+            @keyframes jumpy {
+                0%{
+                    transform: translateX(-10px);
+                }
+                50%{
+                    transform: translateX(10px);
+                }
+                100%{
+                    transform: translateX(-10px);
+                }
+            }
+
 			canvas {
 				position: fixed;
 				height: 100%;
@@ -104,8 +131,8 @@
 				<summary>Options</summary>
 				<input type="checkbox" id="stopAtFirstSol" checked>
 				<label for="stopAtFirstSol">Stop at first solution</label><br>
-				<input id="minNc" type="number" min="1" value="1"> ≤ nC ≤ <input id="maxNc" type="number" value="-1"><br>
-				<input id="minNt" type="number" min="1" value="1"> ≤ nT ≤ <input id="maxNt" type="number" value="-1">
+				<input id="minNc" type="number" min="1" value="1"> ≤ N<sub>c</sub> ≤ <input id="maxNc" type="number" value="-1"><br>
+				<input id="minNt" type="number" min="1" value="1"> ≤ N<sub>t</sub> ≤ <input id="maxNt" type="number" value="-1">
 			  </details>
 		</div>
 
