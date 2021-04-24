@@ -126,11 +126,15 @@
 		<div id="info">
 			<h2>Polycube SAT solver</h2>
 			<small>By Joakim Bohlin</small><br>
-			<p>Click the cube faces to add cubes (shift-click to remove), then click <button onclick="findMinimalRule(); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.</p>
+			<p>Click the cube faces to add cubes (shift-click to remove), then click <button onclick="findMinimalRuleFromSettings(); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.</p>
 			<details>
 				<summary>Options</summary>
 				<input type="checkbox" id="stopAtFirstSol" checked>
-				<label for="stopAtFirstSol">Stop at first solution</label><br>
+                <label for="stopAtFirstSol">Stop at first solution</label><br>
+                <input type="checkbox" id="torsionalPatches" checked>
+                <label for="torsionalPatches">Patch torsion</label><br>
+                <input type="checkbox" id="2d" onchange="toggle2DCamera()">
+				<label for="2d">2D</label><br>
 				<input id="minNc" type="number" min="1" value="1"> ≤ N<sub>c</sub> ≤ <input id="maxNc" type="number" value="-1"><br>
 				<input id="minNt" type="number" min="1" value="1"> ≤ N<sub>t</sub> ≤ <input id="maxNt" type="number" value="-1">
 			  </details>

@@ -5,6 +5,9 @@ let rollOverMesh, rollOverMaterial;
 let cubeGeo, cubeMaterial;
 let connectorGeo, connectoryMaterial;
 
+let CamPos3D;
+let CamFov3D;
+
 let voxels = new Set();
 let connectors = new Map();
 
@@ -120,6 +123,10 @@ function init() {
     let voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
     scene.add(voxel);
     voxels.add(voxel);
+
+    CamPos3D = new THREE.Vector3(5, 8, 13);
+    CamFov3D = 45;
+    toggle2DCamera();
 }
 
 function onWindowResize() {
@@ -127,6 +134,36 @@ function onWindowResize() {
     camera.updateProjectionMatrix();
 
     renderer.setSize(window.innerWidth, window.innerHeight);
+}
+
+function largestComponent(v) {
+    if (Math.abs(v.x) >= Math.abs(v.y) && Math.abs(v.x) >= Math.abs(v.z)) {
+        return new THREE.Vector3(1,0,0).multiplyScalar(Math.sign(v.x));
+    }
+    if (Math.abs(v.y) >= Math.abs(v.x) && Math.abs(v.y) >= Math.abs(v.z)) {
+        return new THREE.Vector3(0,1,0).multiplyScalar(Math.sign(v.y));
+    }
+    if (Math.abs(v.z) >= Math.abs(v.y) && Math.abs(v.z) >= Math.abs(v.x)) {
+        return new THREE.Vector3(0,0,1).multiplyScalar(Math.sign(v.z));
+    }
+}
+
+function toggle2DCamera() {
+    const is2d = document.getElementById("2d").checked;
+    if (is2d) {
+        camera.fov = 1/100;
+        camera.zoom = 1/1000;
+        CamPos3D.copy(camera.position);
+        camera.position.x = 0;
+        camera.position.y = 0;
+    } else {
+        camera.fov = CamFov3D;
+        camera.zoom = 1;
+        camera.position.copy(CamPos3D);
+    }
+    camera.lookAt(new THREE.Vector3());
+    camera.updateProjectionMatrix();
+    render();
 }
 
 function onDocumentMouseMove(event) {
@@ -143,7 +180,13 @@ function onDocumentMouseMove(event) {
             rollOverMesh.scale.setScalar(2);
         } else {
             rollOverMesh.scale.setScalar(1);
-            rollOverMesh.position.add(intersect.face.normal.clone().divideScalar(2));
+            if (document.getElementById("2d").checked) {
+                const dir = intersect.point.clone().sub(intersect.object.position);
+                dir.z = 0;
+                rollOverMesh.position.add(largestComponent(dir).divideScalar(2));
+            } else {
+                rollOverMesh.position.add(intersect.face.normal.clone().divideScalar(2));
+            }
         }
     } else {
         rollOverMesh.visible = false;
@@ -183,8 +226,15 @@ function onDocumentMouseDown(event) {
             // create cube
             } else {
                 let voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
-                voxel.position.copy(i.object.position)
-                voxel.position.add(i.face.normal);
+                voxel.position.copy(i.object.position);
+                const is2d = document.getElementById("2d").checked;
+                if (is2d) {
+                    const dir = i.point.clone().sub(i.object.position);
+                    dir.z = 0;
+                    voxel.position.add(largestComponent(dir));
+                } else {
+                    voxel.position.add(i.face.normal);
+                }
                 voxel.name = "voxel";
                 let existing = false;
                 for (let v of voxels) {
@@ -200,15 +250,20 @@ function onDocumentMouseDown(event) {
                     console.log(voxel.position.toArray());
                     voxels.add(voxel);
                 }
+
+                // Add connector, unless we are drawing in third dimension
+                // when we shouldn't
                 let c1 = voxel.position.clone();
                 let c2 = i.object.position.clone();
-                let cs = connectionToString(c1, c2);
-                if (!connectors.has(cs)) {
-                    let connector = new THREE.Mesh(connectorGeo, connectoryMaterial);
-                    connector.position.copy(c1.clone().add(c2).divideScalar(2));
-                    connector.lookAt(c2);
-                    scene.add(connector);
-                    connectors.set(cs, connector);
+                if(!is2d || !c1.equals(c2)) {
+                    let cs = connectionToString(c1, c2);
+                    if (!connectors.has(cs)) {
+                        let connector = new THREE.Mesh(connectorGeo, connectoryMaterial);
+                        connector.position.copy(c1.clone().add(c2).divideScalar(2));
+                        connector.lookAt(c2);
+                        scene.add(connector);
+                        connectors.set(cs, connector);
+                    }
                 }
             }
             render();
@@ -322,25 +377,15 @@ function topFromCoords(coords, nDim=3) {
     return [bindings, empty]
 }
 
-function getRuleOrder(nDim=3) {
-    if (nDim == 2) {
-        return [
-            new THREE.Vector2(0, -1),
-            new THREE.Vector2(1, 0),
-            new THREE.Vector2(0, 1),
-            new THREE.Vector2(-1, 0)
-        ]
-    }
-    else {    
-        return [
-            new THREE.Vector3(-1, 0, 0),
-            new THREE.Vector3( 1, 0, 0),
-            new THREE.Vector3( 0,-1, 0),
-            new THREE.Vector3( 0, 1, 0),
-            new THREE.Vector3( 0, 0,-1),
-            new THREE.Vector3( 0, 0, 1),
-        ]
-    }
+function getRuleOrder() {
+    return [
+        new THREE.Vector3(-1, 0, 0),
+        new THREE.Vector3( 1, 0, 0),
+        new THREE.Vector3( 0,-1, 0),
+        new THREE.Vector3( 0, 1, 0),
+        new THREE.Vector3( 0, 0,-1),
+        new THREE.Vector3( 0, 0, 1),
+    ]
 }
 
 function countParticlesAndBindings(topology) {
@@ -350,7 +395,13 @@ function countParticlesAndBindings(topology) {
     return [Math.max(...particles)+1, topology.length]
 }
 
-function findMinimalRule(nDim=3, tortionalPatches=true) {
+function findMinimalRuleFromSettings() {
+    const nDim = document.getElementById("2d").checked ? 2:3;
+    const torsionalPatches = document.getElementById("torsionalPatches").checked;
+    findMinimalRule(nDim, torsionalPatches);
+}
+
+function findMinimalRule(nDim=3, torsionalPatches=true) {
     // Clear status
     document.getElementById('status').innerHTML = '';
     let maxCubeTypes = document.getElementById('maxNt').valueAsNumber;
@@ -379,7 +430,7 @@ function findMinimalRule(nDim=3, tortionalPatches=true) {
     if (window.Worker) {
         while (workers.length < nConcurrent) {
             if (queue.length > 0) {
-                startNewWorker(nDim, tortionalPatches);
+                startNewWorker(nDim, torsionalPatches);
             } else {
                 break;
             }
@@ -389,7 +440,7 @@ function findMinimalRule(nDim=3, tortionalPatches=true) {
 
 let globalBest;
 let queue, workers;
-function startNewWorker(nDim=3, tortionalPatches=true) {
+function startNewWorker(nDim=3, torsionalPatches=true) {
     const [nCubeTypes, nColors] = queue.shift(); // Get next params
 
     updateStatus({status:'...'}, nCubeTypes, nColors);
@@ -417,13 +468,13 @@ function startNewWorker(nDim=3, tortionalPatches=true) {
             filterInPlace(queue, p=>(p[0] + p[1] <= globalBest));
         }
         if (queue.length > 0) {
-            startNewWorker(nDim, tortionalPatches);
+            startNewWorker(nDim, torsionalPatches);
         }
         myWorker.terminate();
         filterInPlace(workers, w=>w!=myWorker); // Remove from workers
         console.log(`${nColors} colors and ${nCubeTypes} cube types completed. ${queue.length} in queue`);
     }
-    myWorker.postMessage([topology, empty, nCubeTypes, nColors, nDim, tortionalPatches]);
+    myWorker.postMessage([topology, empty, nCubeTypes, nColors, nDim, torsionalPatches]);
 }
 
 // https://stackoverflow.com/a/37319954

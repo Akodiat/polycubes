@@ -445,7 +445,7 @@ class polysat {
                         // Patch p on species s is empty
                         this.basic_sat_clauses.push([this.C(s, p, 1)])
                     }
-                    o = getFlatFaceRot()[p]
+                    const o = getFlatFaceRot()[p]
                     // Patch p has orientation 'o'
                     this.basic_sat_clauses.push([this.O(s, p, o)])
                 }
@@ -617,25 +617,15 @@ class polysat {
 
 ////// Helper functions:
 
-function getRuleOrder(nDim=3) {
-    if (nDim == 2) {
-        return [
-            new THREE.Vector2(0, -1),
-            new THREE.Vector2(1, 0),
-            new THREE.Vector2(0, 1),
-            new THREE.Vector2(-1, 0)
-        ]
-    }
-    else {    
-        return [
-            new THREE.Vector3(-1, 0, 0),
-            new THREE.Vector3( 1, 0, 0),
-            new THREE.Vector3( 0,-1, 0),
-            new THREE.Vector3( 0, 1, 0),
-            new THREE.Vector3( 0, 0,-1),
-            new THREE.Vector3( 0, 0, 1),
-        ]
-    }
+function getRuleOrder() {
+    return [
+        new THREE.Vector3(-1, 0, 0),
+        new THREE.Vector3( 1, 0, 0),
+        new THREE.Vector3( 0,-1, 0),
+        new THREE.Vector3( 0, 1, 0),
+        new THREE.Vector3( 0, 0,-1),
+        new THREE.Vector3( 0, 0, 1),
+    ]
 }
 
 function getFaceRotations() {
