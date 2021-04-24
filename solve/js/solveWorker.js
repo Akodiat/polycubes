@@ -8,7 +8,5 @@ importScripts(
 );
 
 onmessage = function(e) {
-    const [topology, empty, nCubeTypes, nColors, nDim, tortionalPatches] = e.data;
-    result = find_solution(topology, empty, nCubeTypes, nColors, nDim, tortionalPatches);
-    postMessage(result);
+    postMessage(find_solution(...e.data));
 }
