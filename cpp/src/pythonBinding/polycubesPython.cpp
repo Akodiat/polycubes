@@ -1,7 +1,8 @@
 //#include <python3.6/Python.h>
 #include <pybind11/pybind11.h>
-#include "polycubeSystem.hpp"
-#include "utils.hpp"
+#include <pybind11/eigen.h>
+#include "../polycubeSystem.hpp"
+#include "../utils.hpp"
 
 namespace py = pybind11;
 
@@ -35,26 +36,30 @@ std::string getCoordStr(std::string rule, std::string assemblyMode)
     return s;
 }
 
-/*
-Eigen::Matrix3Xf getCoords(std::string rule, int seedRuleIdx)
+
+Eigen::Matrix3Xf getCoords(std::string rule, std::string assemblyMode)
 {
-    PolycubeSystem* p = new PolycubeSystem(rule);
-    p->seed(seedRuleIdx);
+    PolycubeSystem* p = new PolycubeSystem(
+        rule,
+        parseAssemblyMode(assemblyMode)
+    );
+    p->seed();
     p->processMoves();
     Eigen::Matrix3Xf m = p->getCoordMatrix();
     delete p;
     return m;
 }
-*/
 
-PYBIND11_MODULE(polycubes, m) {
+
+PYBIND11_MODULE(libpolycubes, m) {
     m.doc() = "Polycube python binding";
     m.def("checkEquality", &checkEqualityWrapper, "Compare if the two rules form the same polycube",
-        "rule1"_a, "rule2"_a, "assemblyMode"_a = "random"
+        "rule1"_a, "rule2"_a, "assemblyMode"_a = "stochastic"
     );
     m.def("isBoundedAndDeterministic", &isBoundedAndDeterministic,
         "Check if the rule is bounded and form the same polycube every time (set nTries to 0 to only check if bounded)",
-        "rule"_a, "nTries"_a = 15, "assemblyMode"_a = "random"
+        "rule"_a, "nTries"_a = 15, "assemblyMode"_a = "stochastic"
     );
-    m.def("getCoordStr", &getCoordStr, "Get coordinate string of assembled polycube", "rule"_a, "assemblyMode"_a = "random");
+    m.def("getCoordStr", &getCoordStr, "Get coordinate string of assembled polycube", "rule"_a, "assemblyMode"_a = "stochastic");
+    m.def("getCoords", &getCoords, "Get coordinates of assembled polycube", "rule"_a, "assemblyMode"_a = "stochastic");
 }
