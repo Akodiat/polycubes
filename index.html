@@ -152,6 +152,7 @@
         <button onclick="system.resetRandom(); clearRules();">Random input</button>
         <button onclick="system.resetRule(parseHexRule(mutateRule(system.getRuleStr()))); clearRules()">Mutate input</button>
         <button onclick="simplifyRule()">Simplify</button>
+        <button onclick="simplifyRule2()">Simplify2</button>
         <fieldset>
         <legend>Input:</legend>
         <div id="ruleset" style="overflow: hidden"></div>
@@ -166,7 +167,7 @@
             <option value="seeded" selected>Seeded</option>
             <option value="ordered">Ordered</option>
         </select>
-        <button onclick="system.toggleFog()">Toggle fog</button>
+        <button onclick="toggleFog()">Toggle fog</button>
         <button onclick="system.toggleLineView()">Toggle line view</button>
         <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>
         <!--https://stackoverflow.com/a/19965480 location.search-->

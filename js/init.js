@@ -28,7 +28,7 @@ function createPolycubeSystem() {
     nMaxCubes = parseInt(getUrlParam("nMaxCubes", 100));
     maxCoord = parseInt(getUrlParam("maxCoord", 100));
 
-    system = new PolycubeSystem(rules, ruleOrder, scene, nMaxCubes, maxCoord, assemblyMode);
+    system = new PolycubeSystem(rules, scene, nMaxCubes, maxCoord, assemblyMode);
 
     orbit.target = system.centerOfMass;
 

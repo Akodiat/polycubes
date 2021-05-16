@@ -160,41 +160,14 @@ function removeRule(patches, ruleField) {
 }
 
 function simplifyRule() {
-    let ruleset = system.rule;
-    let colors = new Set([].concat.apply([], ruleset.map(r=>r.map(f=>{return f.color}))));
-    let newRuleset = [];
-    ruleset.forEach((cube, iCube)=>{
-        let allZero = true;
-        cube.forEach((face, iFace)=>{
-            let c = face.color
-            if (!colors.has(c*-1)) {
-                face.color = 0;
-            }
-            if (face.color == 0) {
-                face.alignDir = faceRotations[iFace];
-            }
-            else {
-                allZero = false;
-            }
-        })
-          
-        if (!allZero || iCube == 0) {
-            newRuleset.push(cube);
-        }
-    });
+    let newRuleset = simplify(system.rule);
+    system.resetRule(newRuleset);
+    system.regenerate();
+    clearRules();
+}
 
-    let colorset = Array.from(new Set([].concat.apply([], ruleset.map(r=>r.map(f=>{return Math.abs(f.color)}))))).filter(x => x != 0)
-    newRuleset.forEach(patches=>{
-        patches.forEach(face=>{
-            c = face.color;
-            if (c != 0) {
-                face.color = colorset.indexOf(Math.abs(c)) + 1;
-                if (c < 0) {
-                    face.color *= -1;
-                }
-            }
-        })
-    })
+function simplifyRule2() {
+    let newRuleset = simplify2(system.rule);
     system.resetRule(newRuleset);
     system.regenerate();
     clearRules();

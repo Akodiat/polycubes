@@ -122,11 +122,16 @@
 				</div>
 			</div>
 		</div>
-		<canvas id="threeCanvas"></canvas>
+		<canvas id="threeCanvas" ondrop="handleDrop(event)" ondragover="handleDragOver(event)"></canvas>
 		<div id="info">
 			<h2>Polycube SAT solver</h2>
 			<small>By Joakim Bohlin</small><br>
 			<p>Click the cube faces to add cubes (shift-click to remove), then click <button onclick="findMinimalRuleFromSettings(); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.</p>
+            <a onmouseover="this.href='../?rule='+ruleToHex(getFullyAdressableRule());" style="color: black" target="_blank">Fully adressable rule</a>
+            <div>
+                <button onclick="saveSolveSpec()">Save</button>
+                <input type="file" id="load" accept="json" onchange="handleFile()">
+            </div>
 			<details>
 				<summary>Options</summary>
 				<input type="checkbox" id="stopAtFirstSol" checked>
@@ -143,6 +148,7 @@
 		<script src="../js/libs/three.min.js"></script>
 		<script src="../js/libs/randomColor.min.js"></script>
 		<script src="../js/controls/OrbitControls.js"></script>
+		<script src="../js/polycubeSystem.js"></script>
 		<script src="../js/utils.js"></script>
 		<script src="js/solve.js"></script>
 	</body>

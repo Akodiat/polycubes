@@ -40,8 +40,8 @@ class polysat:
     relsat_executable  = 'relsat'
     minisat_executable = 'minisat'
 
-    def __init__(self, topPath, nCubeTypes, nColors, nSolutions=1, nDim=3, tortionalPatches=True):
-        topology, empty = utils.topFromFile(topPath, nDim)
+    def __init__(self, topology, nCubeTypes, nColors, nSolutions=1, nDim=3, tortionalPatches=True):
+        #topology, empty = utils.topFromFile(topPath, nDim)
 
         # Number of distinct cube types for the solver
         self.nS = nCubeTypes
@@ -87,6 +87,8 @@ class polysat:
 
         if nDim == 3 and tortionalPatches:
             self.add_constraints_fixed_blank_orientation()
+
+        empty = utils.calcEmptyFromTop(topology)
 
         for particle, patch in empty:
             self.fix_slot_colors(particle, patch, 1)

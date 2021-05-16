@@ -902,20 +902,6 @@ function* range(start, stop, step) {
     return iterationCount;
 };
 
-/**
- * Emulating https://docs.python.org/3.8/library/stdtypes.html#dict.setdefault
- * If key is in the dictionary, return its value.
- * If not, insert key with a value of default and return default. default defaults to None.
- * @param {*} key 
- * @param {*} default_value 
- */
-Map.prototype.setdefault = function (key, default_value=null) {
-    if (!this.has(key)) {
-        this.set(key, default_value);
-    }
-    return this.get(key);
-}
-
 // Adapted from demo: http://jgalenson.github.io/research.js/demos/minisat.html
 function minisat(input) {
     //minisatModule.TOTAL_MEMORY = 1073741824;

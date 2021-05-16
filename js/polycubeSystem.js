@@ -1,6 +1,6 @@
 class PolycubeSystem {
 
-    constructor(rules, ruleOrder, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded') {
+    constructor(rules, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded') {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
@@ -23,10 +23,12 @@ class PolycubeSystem {
         if (scene) {
             scene.add(this.objGroup);
             scene.add(this.lineGroup);
+            this.background = false;
+        } else {
+            this.background = true;
         }
         this.lineGroup.visible = false;
 
-        this.ruleOrder = ruleOrder;
         this.rule = rules;
         let nColors = Math.max.apply(Math, rules.map(x => Math.max.apply(
             Math, x.map(r => Math.abs(r.color))))
@@ -71,7 +73,7 @@ class PolycubeSystem {
         if(this.assemblyMode == 'stochastic') {
             i = Math.floor(Math.random() * this.rule.length);
         }
-        this.addParticle(new THREE.Vector3(), system.rule[i], i);
+        this.addParticle(new THREE.Vector3(), this.rule[i], i);
     }
 
     reset() {
@@ -91,15 +93,18 @@ class PolycubeSystem {
             m.opacity = 1;
         });
         this.orderIndex = 0;
-        render();
+        if (!this.background) {
+            render();
+        }
     }
 
     regenerate() {
         this.reset();
         this.seed();
         this.processMoves();
-        render();
+
         if (typeof window !== 'undefined') {
+            render();
             let argstr = "?assemblyMode="+this.assemblyMode + (this.rule.length > 0 ? "&rule="+this.getRuleStr() : "");
             window.history.pushState(null, null, argstr);
         }
@@ -147,7 +152,10 @@ class PolycubeSystem {
 
         this.seed();
         this.processMoves();
-        render();
+
+        if (!this.background) {
+            render();
+        }
     }
 
     getMismatchRatio() {
@@ -155,29 +163,14 @@ class PolycubeSystem {
     }
 
     getRuleStr() {
-        let ruleSize = 6;
-        let ruleStr = "";
-        for (let i=0; i< this.rule.length; i++) {
-            for (let j = 0; j<ruleSize; j++) {
-                let face = this.rule[i][j];
-                let sign = face.color < 0 ? "1" : "0";
-                let color = Math.abs(face.color).toString(2).padStart(5,'0');
-                let orientation = (this.getSignedAngle(faceRotations[j], face.alignDir, ruleOrder[j])*(2/Math.PI)+4)%4
-                //let orientation = face.alignDir.angleTo(faceRotations[j])*(2/Math.PI);
-                orientation = orientation.toString(2).padStart(2,'0');
-                let binStr = sign + color + orientation;
-                let hexStr = parseInt(binStr,2).toString(16).padStart(2,'0');
-                ruleStr += hexStr;
-            }
-        }
-        return ruleStr;
+        return ruleToHex(this.rule);
     }
 
     ruleFits(a,b) {
         let l = a.length;
         // Traverse rule faces in random order
-        let ra = this.randOrdering(l);
-        let rb = this.randOrdering(l);
+        let ra = randOrdering(l);
+        let rb = randOrdering(l);
         // For each face in rule a...
         for (let ria=0; ria<l; ria++) {
             let i = ra[ria];
@@ -190,15 +183,15 @@ class PolycubeSystem {
                     if (a[i].color == b[j].color) {
                         // Rotate rule b so that the matching face has
                         // the same direction:
-                        b = this.rotateRuleFromTo(b, 
-                            this.ruleOrder[j],
-                            this.ruleOrder[i]);
+                        b = rotateRuleFromTo(b,
+                            ruleOrder[j],
+                            ruleOrder[i]);
                         console.assert(a[i].color == b[i].color);
                         // ...and the same rotation:
-                        b = this.rotateRuleAroundAxis(b, 
-                            this.ruleOrder[i],
-                           -this.getSignedAngle(a[i].alignDir, b[i].alignDir,
-                            this.ruleOrder[i]));
+                        b = rotateRuleAroundAxis(b,
+                            ruleOrder[i],
+                           -getSignedAngle(a[i].alignDir, b[i].alignDir,
+                            ruleOrder[i]));
                         console.assert(a[i].color == b[i].color);
                         // Return the rotated rule b
                         return b;
@@ -208,64 +201,6 @@ class PolycubeSystem {
         }
         // Return false if we didn't find any matching faces
         return false;
-    }
-
-    getSignedAngle(v1, v2, axis) {
-        let s = v1.clone().cross(v2);
-        let c = v1.clone().dot(v2);
-        let a = Math.atan2(s.length(), c);
-        if (!s.equals(axis)) {
-            a *= -1;
-        }
-        return a;
-    }
-
-
-    //https://stackoverflow.com/a/25199671
-    rotateRule(rule, q) {
-        let l=6;
-        let newRule = Array(l);
-        for (let i=0; i<l; i++) {
-            let face = this.ruleOrder[i];
-            let newFace = face.clone().applyQuaternion(q).round();
-            let newFaceDir = rule[i].alignDir.clone().applyQuaternion(q).round();
-            let iNewFace = this.ruleOrder.findIndex(
-                function(element){return newFace.equals(element)
-            });
-            newRule[iNewFace] = {'color': rule[i].color, 'alignDir': newFaceDir};
-        }
-        return newRule;
-    }
-    //https://stackoverflow.com/a/25199671
-    rotateRuleFromTo(rule, vFrom, vTo) {
-        let quaternion = new THREE.Quaternion(); // create one and reuse it
-        quaternion.setFromUnitVectors(vFrom, vTo);
-        return this.rotateRule(rule, quaternion);
-    }
-    rotateRuleAroundAxis(rule, axis, angle) {
-        let quaternion = new THREE.Quaternion(); // create one and reuse it
-        quaternion.setFromAxisAngle(axis, angle);
-        return this.rotateRule(rule, quaternion);
-    }
-
-    // From stackoverflow/a/12646864
-    shuffleArray(a) {
-        for (let i = a.length -1; i>0; i--) {
-         // let j = Math.floor(Math.random() * (i + 1));
-            let j = Math.floor(Math.random() * (i+1));
-            let temp = a[i];
-            a[i] = a[j];
-            a[j] = temp;
-        }
-    }
-
-    randOrdering(length) {
-        let l = new Array(length);
-        for (let i=0; i<length; i++) {
-            l[i]=i;
-        }
-        this.shuffleArray(l);
-        return l;
     }
 
     tryProcessMove(movekey, ruleIdx) {
@@ -293,7 +228,7 @@ class PolycubeSystem {
         return false;
     }
 
-    processMoves(background = false) {
+    processMoves() {
         let nMoves = this.moveKeys.length;
         if (nMoves > 0) { // While we have moves to process
             // If we should assemble everything in order
@@ -318,8 +253,8 @@ class PolycubeSystem {
 
                     // Check if polycube is getting too large
                     if (this.cubeMap.size >= this.nMaxCubes) {
-                        render();
-                        if (!background) {
+                        if (!this.background) {
+                            render();
                             window.dispatchEvent(new Event('oub'));
                         }
                         console.log("Unbounded");
@@ -330,17 +265,16 @@ class PolycubeSystem {
                 // in queue, increase index to try the next one next time
                 this.orderIndex++;
                 if (this.orderIndex >= this.rule.length) {
-                    if (!background) {
+                    if (!this.background) {
                         window.dispatchEvent(new Event('movesProcessed'));
                     }
-                    console.log("Moves processed");
                     return true;
                 }
             } else {
                 // Pick a random move
                 let key = this.moveKeys[Math.floor(Math.random()*nMoves)];
                 // Pick a random rule order
-                let ruleIdxs = this.randOrdering(this.rule.length);
+                let ruleIdxs = randOrdering(this.rule.length);
                 // Check if we have a rule that fits this move
                 for (let r=0; r<this.rule.length; r++) {
                     let result = this.tryProcessMove(key, ruleIdxs[r]);
@@ -355,22 +289,21 @@ class PolycubeSystem {
 
             // Check if polycube is getting too large
             if (this.cubeMap.size >= this.nMaxCubes) {
-                render();
-                if (!background) {
+                if (!this.background) {
+                    render();
                     window.dispatchEvent(new Event('oub'));
                 }
                 console.log("Unbounded");
                 return 'oub';
             }
         } else {
-            if (!background) {
+            if (!this.background) {
                 window.dispatchEvent(new Event('movesProcessed'));
             }
-            console.log("Moves processed");
             return true;
         }
         //render();
-        if (!background) {
+        if (!this.background) {
             requestAnimationFrame(this.processMoves.bind(this, false));
         }
         return false;
@@ -384,7 +317,7 @@ class PolycubeSystem {
             if (rule[i].color == 0) {
                 continue;
             }
-            let movePos = position.clone().add(this.ruleOrder[i])
+            let movePos = position.clone().add(ruleOrder[i])
             if (Math.abs(movePos.x)>this.maxCoord ||
                Math.abs(movePos.y)>this.maxCoord ||
                Math.abs(movePos.z)>this.maxCoord)
@@ -406,7 +339,7 @@ class PolycubeSystem {
                 this.moveKeys.push(key);
             }
             let r = position.clone().sub(movePos);
-            let dirIdx = this.ruleOrder.findIndex(
+            let dirIdx = ruleOrder.findIndex(
                 function(element){return r.equals(element)}
             );
 
@@ -434,7 +367,9 @@ class PolycubeSystem {
         this.cubeMap.set(vecToStr(position), position);
         this.centerOfMass.divideScalar(this.cubeMap.size);
 
-        render();
+        if (!this.background) {
+            render();
+        }
     }
 
     makeLine(a, b, color) {
@@ -477,17 +412,7 @@ class PolycubeSystem {
                 m.opacity = 1;
             });
         }
-        //render();
         fitCamera();
-    }
-
-    toggleFog(density=0.08) {
-        if (!scene.fog || scene.fog.density != density) {
-            scene.fog = new THREE.FogExp2(0xffffff, density);
-        } else {
-            scene.fog = undefined;
-        }
-        render();
     }
 
     drawCube(position, rule, ruleIdx) {
@@ -507,9 +432,9 @@ class PolycubeSystem {
                     this.connectorCubeGeo, material
                 );
                 connectorCube.position.add(
-                    this.ruleOrder[j].clone().multiplyScalar(0.4)
+                    ruleOrder[j].clone().multiplyScalar(0.4)
                 );
-                let dim = this.ruleOrder[j].clone();
+                let dim = ruleOrder[j].clone();
                 dim.setX(Math.abs(dim.x)).setY(Math.abs(dim.y)).setZ(Math.abs(dim.z));
                 connectorCube.scale.copy(
                     new THREE.Vector3(1,1,1).sub(dim.multiplyScalar(0.65))

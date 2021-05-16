@@ -41,12 +41,192 @@ function getCoordinateFile() {
     );
 }
 
+function saveSolveSpec() {
+    const nDim = document.getElementById("2d").checked ? 2:3;
+    let [topology, _] = getCurrentTop(nDim);
+    let out = {
+        nDim: nDim,
+        bindings: topology,
+        torsion: document.getElementById("torsionalPatches").checked,
+        stopAtFirst: document.getElementById("stopAtFirstSol").checked
+    };
+    saveString(
+        JSON.stringify(out),
+        'polysat.json'
+    );
+}
+
+function loadSolveSpec(solveSpec) {
+    // If we just have a default cube, remove it
+    if (voxels.size = 1 && [...voxels][0].position.equals(new THREE.Vector3())) {
+        let d = [...voxels][0];
+        scene.remove(d);
+        voxels.delete(d);
+    }
+    // Load settings
+    switch (solveSpec.nDim) {
+        case 2: document.getElementById("2d").checked = true; break;
+        case 3: document.getElementById("2d").checked = false; break;
+        default:
+            console.warn(`Invalid nDim: ${solveSpec.nDim}, should be 2 or 3`);
+            break;
+    }
+    document.getElementById("torsionalPatches").checked = solveSpec.torsion;
+    document.getElementById("stopAtFirstSol").checked = solveSpec.stopAtFirst;
+
+    let coordMap = new Map();
+    for (const [i, dPi, j, dPj] of solveSpec.bindings) {
+        console.assert(ruleOrder[dPi].clone().negate().equals(ruleOrder[dPj]), "Odd binding");
+        let iPos = coordMap.setdefault(i, new THREE.Vector3());
+        let jPos = iPos.clone().add(ruleOrder[dPi]);
+        if (coordMap.has(j)) {
+            console.assert(jPos.equals(coordMap.get(j)), "Non-eucledian bindings!");
+        } else {
+            coordMap.set(j, jPos);
+        }
+    }
+    let center = new THREE.Vector3();
+    let ncoords = 0;
+    for (const x of coordMap.values()) {
+        center.add(x);
+        ncoords++;
+    }
+    center.divideScalar(ncoords).round();
+    for (const x of coordMap.values()) {
+        x.sub(center);
+    }
+    for (const x of coordMap.values()) {
+        let voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+        voxel.position.copy(x);
+        voxel.name = "voxel";
+        let existing = false;
+        for (const v of voxels) {
+            if (v.position.equals(voxel.position)) {
+                console.log("Position already set");
+                voxel = v;
+                existing = true;
+                break;
+            }
+        }
+        if (!existing) {
+            scene.add(voxel);
+            console.log(voxel.position.toArray());
+            voxels.add(voxel);
+        }
+    }
+
+    for (const [i, dPi, j, dPj] of solveSpec.bindings) {
+        let c1 = coordMap.get(i);
+        let c2 = coordMap.get(j);
+        let cs = connectionToString(c1, c2);
+        if (!connectors.has(cs)) {
+            let connector = new THREE.Mesh(connectorGeo, connectoryMaterial);
+            connector.position.copy(c1.clone().add(c2).divideScalar(2));
+            connector.lookAt(c2);
+            scene.add(connector);
+            connectors.set(cs, connector);
+        }
+    }
+}
+
+function handleFile(file=document.getElementById('load').files[0]) {
+    new Response(file).json().then(json => {
+        loadSolveSpec(json);
+      }, err => {
+        console.error("Could not read file: "+error);
+    });
+}
+
+function handleDrop(ev) {
+    ev.preventDefault();
+
+    if (ev.dataTransfer.items) {
+        for (const item of ev.dataTransfer.items) {
+            if (item.kind === 'file') {
+                handleFile(item.getAsFile());
+            }
+        }
+    } else {
+        for (const file of ev.dataTransfer.files) {
+            handleFile(file);
+        }
+    }
+}
+
+function handleDragOver(ev) {
+    console.log('File(s) in drop zone');
+
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+}
+
+
+function getFullyAdressableRule() {
+    let rule = [];
+    let cubePosMap = new Map();
+    let coords = getCurrentCoords();
+
+    // Find which dimension has the fewest connectors
+    let dimCount = [0,0,0];
+    let dims = [
+        new THREE.Vector3(1,0,0),
+        new THREE.Vector3(0,1,0),
+        new THREE.Vector3(0,0,1)
+    ];
+    coords.forEach(p => {
+        ruleOrder.forEach(dir => {
+            let neigbourPos = p.clone().add(dir);
+            if (connectors.has(`[${posToString(p)}, ${posToString(neigbourPos)}]`)) {
+                for (let i=0; i<3; i++) {
+                    if (vectorAbs(dir).equals(dims[i])) {
+                        dimCount[i]++;
+                        break;
+                    }
+                }
+            }
+        });
+    });
+    let minCount = Math.min(...dimCount);
+    let minDim = dims.find((d,i)=>dimCount[i]===minCount);
+
+    // Initialise empty cube typess
+    coords.forEach((p,iCube) => {
+        let cubeType = [];
+        faceRotations.forEach((d,i)=>{
+            let alignDir = d;
+            if (!vectorAbs(ruleOrder[i]).equals(minDim)) {
+                alignDir=minDim;
+            }
+            cubeType.push({color: 0, alignDir: alignDir});
+        });
+        rule.push(cubeType);
+        cubePosMap.set(posToString(p), iCube);
+    });
+    let colorCounter = 1;
+    coords.forEach((p, iCube) => {
+        ruleOrder.forEach((dir, iFace)=>{
+            let neigbourPos = p.clone().add(dir);
+            if (connectors.has(`[${posToString(p)}, ${posToString(neigbourPos)}]`)) {
+                const invDir = dir.clone().negate();
+                const iFaceNeigh = ruleOrder.findIndex(f=>invDir.equals(f));
+                const iCubeNeigh = cubePosMap.get(posToString(neigbourPos));
+
+                rule[iCube][iFace].color = colorCounter;
+                rule[iCubeNeigh][iFaceNeigh].color = -colorCounter;
+                rule[iCubeNeigh][iFaceNeigh].alignDir = rule[iCube][iFace].alignDir;
+
+                colorCounter++;
+            }
+        })
+    });
+    return rule;
+}
+
 function getCurrentCoords() {
     return [...voxels].map(v=>v.position);
 }
 
 function init() {
-
     camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 10000);
     camera.position.set(2, 3, 5);
     camera.lookAt(0, 0, 0);
@@ -410,8 +590,24 @@ function findMinimalRule(nDim=3, torsionalPatches=true) {
     let minColors = document.getElementById('minNc').valueAsNumber;
 
     // Never need to check for more than the topology can specify
+    // Calc fully adressable rule:
+    const fullyAdressable = getFullyAdressableRule();
     let [topology, _] = getCurrentTop(nDim);
     let [maxNT, maxNC] = countParticlesAndBindings(topology);
+    updateStatus({status:'✓', rule: ruleToHex(fullyAdressable)}, maxNT, maxNC);
+
+    // Try to simplify:
+    let simplifyWorker = new Worker('js/simplifyWorker.js');
+    simplifyWorker.onmessage = function(e) {
+        const simplified = e.data;
+        const simplifiedRule = parseHexRule(simplified);
+        const nCubeTypes = getNt(simplifiedRule);
+        const nColors = getNc(simplifiedRule);
+        updateStatus({status:'✓', rule: simplified}, nCubeTypes, nColors);
+        globalBest = Math.min(globalBest, nCubeTypes+nColors);
+    }
+    simplifyWorker.postMessage(ruleToHex(fullyAdressable));
+
     maxCubeTypes = maxCubeTypes < 0 ? maxNT: Math.min(maxNT, maxCubeTypes);
     maxColors = maxColors < 0 ? maxNC: Math.min(maxNC, maxColors);
 
@@ -530,7 +726,7 @@ function updateStatus(result, nCubeTypes, nColors) {
     }
     let cell = row.cells[nColors];
     if (result.rule) {
-        cell.innerHTML = `<a href="https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=${result.rule}" target="_blank">${result.status}</a>`;
+        cell.innerHTML = `<a href="../?assemblyMode=stochastic&rule=${result.rule}" target="_blank">${result.status}</a>`;
     } else if (result.status == '...') {
         cell.innerHTML = '<div class="busy">...</div>';
     } else {

@@ -12,6 +12,7 @@ import utils
 from polycubeSolver import polysat
 import sys
 import multiprocessing
+import json
 
 def parseHexRule(hexRule):
     ruleset = []
@@ -98,7 +99,7 @@ def readSolutionFromPath(path):
     #os.remove(path)
     return readSolution(sol)
 
-def find_solution(topPath, nCubeTypes, nColors, nSolutions=1, nDim=3, tortionalPatches=True):
+def find_solution(top, nCubeTypes, nColors, nSolutions=1, nDim=3, torsionalPatches=True):
     """Find a polycube rule that assembles the given topology
 
     Args:
@@ -111,7 +112,7 @@ def find_solution(topPath, nCubeTypes, nColors, nSolutions=1, nDim=3, tortionalP
         [dict]: Returns a polycube rule dict.
     """
 
-    mysat = polysat(topPath, nCubeTypes, nColors, nSolutions, nDim, tortionalPatches)
+    mysat = polysat(top, nCubeTypes, nColors, nSolutions, nDim, torsionalPatches)
 
     if nSolutions == 1: # Use minisat for single solutions
         result, path = mysat.run_minisat()
@@ -141,11 +142,11 @@ def smartEnumerate(xMax, yMax):
 def patchCount(cube):
     return len([face for face in cube if face['color'] != 0])
 
-def findRuleFor(topPath, nCubeTypes, nColors, nSolutions, nDim=3, tortionalPatches=True):
+def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=True):
     i = "{},{}".format(nCubeTypes,nColors)
     log = '\n{} colors and {} cube types: '.format(nColors, nCubeTypes)
     try:
-        rules = find_solution(topPath, nCubeTypes, nColors, nDim=nDim)
+        rules = find_solution(top, nCubeTypes, nColors, nDim=nDim)
     except Exception as error:
         log +="Error in find_solution: {}".format(error)
         return (i, 'ERROR', log)
@@ -161,8 +162,8 @@ def findRuleFor(topPath, nCubeTypes, nColors, nSolutions, nDim=3, tortionalPatch
             log += '{} is UND\n'.format(hexRule)
             try:
                 sols = find_solution(
-                    topPath, nCubeTypes, nColors, nSolutions=nSolutions, nDim=nDim,
-                    tortionalPatches=tortionalPatches
+                    top, nCubeTypes, nColors, nSolutions=nSolutions, nDim=nDim,
+                    torsionalPatches=torsionalPatches
                 )
             except:
                 log +="Error in find_solution\n"
@@ -250,9 +251,8 @@ def log_error(error):
     print('got error: {}'.format(error), flush=True)
     raise error
 
-def parallelFindMinimalRule(topPath, maxCubeTypes='auto', maxColors='auto', nSolutions=100, nDim=3, tortionalPatches=True):
+def parallelFindMinimalRule(top, maxCubeTypes='auto', maxColors='auto', nSolutions=100, nDim=3, torsionalPatches=True):
     # Never need to check for more than the topology can specify
-    top, _ = utils.topFromFile(topPath, nDim)
     maxNT, maxNC = utils.countParticlesAndBindings(top)
     if maxCubeTypes == 'auto':
         maxCubeTypes = maxNT
@@ -264,7 +264,7 @@ def parallelFindMinimalRule(topPath, maxCubeTypes='auto', maxColors='auto', nSol
         for nCubeTypes, nColors in smartEnumerate(maxCubeTypes, maxColors):
             r = p.apply_async(
                 findRuleFor,
-                args = (topPath, nCubeTypes, nColors, nSolutions, nDim, tortionalPatches),
+                args = (top, nCubeTypes, nColors, nSolutions, nDim, torsionalPatches),
                 callback = log_result,
                 error_callback = log_error
             )
@@ -273,16 +273,16 @@ def parallelFindMinimalRule(topPath, maxCubeTypes='auto', maxColors='auto', nSol
             pass
         return finalResult
 
-def findRules(topPath, nCubeTypes='auto', nColors='auto', nSolutions='auto', nDim=3, tortionalPatches=True):
+def findRules(topPath, nCubeTypes='auto', nColors='auto', nSolutions='auto', nDim=3, torsionalPatches=True):
     polyurl = "https://akodiat.github.io/polycubes?rule={}"
     if nCubeTypes is 'auto' or nColors is 'auto':
         if nSolutions is 'auto':
             nSolutions = 100
-        r = [parallelFindMinimalRule(topPath, nSolutions=nSolutions, nDim=nDim, tortionalPatches=tortionalPatches)]
+        r = [parallelFindMinimalRule(topPath, nSolutions=nSolutions, nDim=nDim, torsionalPatches=torsionalPatches)]
     else:
         if nSolutions is 'auto':
             nSolutions = 1
-        sols = find_solution(topPath, nCubeTypes, nColors, nSolutions, nDim, tortionalPatches)
+        sols = find_solution(topPath, nCubeTypes, nColors, nSolutions, nDim, torsionalPatches)
         if sols == 'TIMEOUT':
             print('Timed out')
             return
@@ -297,10 +297,21 @@ def findRules(topPath, nCubeTypes='auto', nColors='auto', nSolutions='auto', nDi
         print('Sorry, no solution found', flush=True)
         return
 
+def solve(solveSpecPath):
+    with open(solveSpecPath, 'r') as f:
+        data = f.read()
+    solveSpec = json.loads(data)
+
+    return parallelFindMinimalRule(
+        solveSpec['bindings'],
+        nDim=solveSpec['nDim'],
+        torsionalPatches=solveSpec['torsion']
+    )
+
 if __name__ == '__main__':
     if len(sys.argv) > 2:
-        findRules(sys.argv[1], nDim=int(sys.argv[2]));
+        solve(sys.argv[1], nDim=int(sys.argv[2]));
     elif len(sys.argv) > 1:
-        findRules(sys.argv[1]);
+        solve(sys.argv[1]);
     else:
-        print("Need to provide a path to topology")
+        print("Need to provide path to a shape json file")

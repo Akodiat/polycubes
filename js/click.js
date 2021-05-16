@@ -93,7 +93,7 @@ function init() {
 
     nMaxCubes = JSON.parse(getUrlParam("nMaxCubes",100));
 
-    system = new PolycubeSystem(rules, ruleOrder, nMaxCubes);
+    system = new PolycubeSystem(rules, scene, nMaxCubes);
 
     // orbit controls
 

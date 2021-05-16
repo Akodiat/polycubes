@@ -180,6 +180,17 @@ def topFromFile(path, nDim=3):
                 empty.append((i, dPi))
     return top, empty
 
+def calcEmptyFromTop(top):
+    ids = set(i for i,_,_,_ in top).union(set(j for _,_,j,_ in top))
+    patches = set(((i,dPi) for i,dPi,_,_ in top)).union(((j,dPj) for _,_,j,dPj in top))
+
+    empty = []
+    for i in ids:
+        for dPi in range(4):
+            if not (i, dPi) in patches:
+                empty.append((i,dPi))
+    return empty
+
 def countParticlesAndBindings(topology):
     pidsa = [x[0] for x in topology]
     pidsb = [x[2] for x in topology]

@@ -3,6 +3,36 @@ function selectColor(number) {
     return `hsl(${hue},50%,65%)`;
 }
 
+/**
+ * Emulating https://docs.python.org/3.8/library/stdtypes.html#dict.setdefault
+ * If key is in the dictionary, return its value.
+ * If not, insert key with a value of default and return default. default defaults to None.
+ * @param {*} key 
+ * @param {*} default_value 
+ */
+ Map.prototype.setdefault = function (key, default_value=null) {
+    if (!this.has(key)) {
+        this.set(key, default_value);
+    }
+    return this.get(key);
+}
+
+function getNc(rule) {
+    return (new Set([].concat.apply([], rule.map(r=>r.map(f=>{return Math.abs(f.color)}))))).size - 1;
+}
+
+function getNt(rule) {
+    return rule.length;
+}
+
+function vectorAbs(v) {
+    return new THREE.Vector3(
+        Math.abs(v.x),
+        Math.abs(v.y),
+        Math.abs(v.z),
+    );
+}
+
 function saveString(text, filename) {
     let element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
@@ -58,12 +88,96 @@ function parseHexRule(ruleStr) {
     }
     return rules;
 }
+function getSignedAngle(v1, v2, axis) {
+    let s = v1.clone().cross(v2);
+    let c = v1.clone().dot(v2);
+    let a = Math.atan2(s.length(), c);
+    if (!s.equals(axis)) {
+        a *= -1;
+    }
+    return a;
+}
+
+
+//https://stackoverflow.com/a/25199671
+function rotateRule(rule, q) {
+    const l=6;
+    let newRule = Array(l);
+    for (let i=0; i<l; i++) {
+        let face = ruleOrder[i];
+        let newFace = face.clone().applyQuaternion(q).round();
+        let newFaceDir = rule[i].alignDir.clone().applyQuaternion(q).round();
+        let iNewFace = ruleOrder.findIndex(
+            function(element){return newFace.equals(element)
+        });
+        newRule[iNewFace] = {'color': rule[i].color, 'alignDir': newFaceDir};
+    }
+    return newRule;
+}
+
+//https://stackoverflow.com/a/25199671
+function rotateRuleFromTo(rule, vFrom, vTo) {
+    let quaternion = new THREE.Quaternion(); // create one and reuse it
+    quaternion.setFromUnitVectors(vFrom, vTo);
+    return rotateRule(rule, quaternion);
+}
+
+function rotateRuleAroundAxis(rule, axis, angle) {
+    let quaternion = new THREE.Quaternion(); // create one and reuse it
+    quaternion.setFromAxisAngle(axis, angle);
+    return rotateRule(rule, quaternion);
+}
+
+// From stackoverflow/a/12646864
+function shuffleArray(a) {
+    for (let i = a.length -1; i>0; i--) {
+     // let j = Math.floor(Math.random() * (i + 1));
+        let j = Math.floor(Math.random() * (i+1));
+        let temp = a[i];
+        a[i] = a[j];
+        a[j] = temp;
+    }
+}
+
+function randOrdering(length) {
+    let l = new Array(length);
+    for (let i=0; i<length; i++) {
+        l[i]=i;
+    }
+    shuffleArray(l);
+    return l;
+}
+
+function ruleToHex(rule) {
+    const ruleSize = 6;
+    let ruleStr = "";
+    for (let i=0; i< rule.length; i++) {
+        for (let j = 0; j<ruleSize; j++) {
+            const face = rule[i][j];
+            const sign = face.color < 0 ? "1" : "0";
+            const color = Math.abs(face.color).toString(2).padStart(5,'0');
+            let orientation = (getSignedAngle(faceRotations[j], face.alignDir, ruleOrder[j])*(2/Math.PI)+4)%4
+            orientation = orientation.toString(2).padStart(2,'0');
+            const binStr = sign + color + orientation;
+            const hexStr = parseInt(binStr,2).toString(16).padStart(2,'0');
+            ruleStr += hexStr;
+        }
+    }
+    return ruleStr;
+}
+
+function getCoords(rule, assemblyMode='seeded') {
+    let system = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode);
+    system.seed();
+    while (!system.processMoves(true));
+    return [...system.cubeMap.values()];
+}
 
 function isBoundedAndDeterministic(hexRule, nTries=15, assemblyMode='seeded') {
     let rule = parseHexRule(hexRule);
     let oldCoords;
     while (nTries--) {
-        system = new PolycubeSystem(rule, ruleOrder, undefined, 100, 100, assemblyMode);
+        let system = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode);
         system.seed();
         let processed = false;
         while (!processed) {
@@ -72,10 +186,8 @@ function isBoundedAndDeterministic(hexRule, nTries=15, assemblyMode='seeded') {
                 return '∞';
             }
         }
-        //let strCoords = [...system.cubeMap.values()]
-        //if (oldCoords && !coordEqual(oldCoords, strCoords)) {
-        let strCoords = [...system.cubeMap.keys()].sort().join('\n');
-        if (oldCoords && (oldCoords != strCoords)) {
+        let strCoords = [...system.cubeMap.values()];
+        if (oldCoords && !coordEqual(oldCoords, strCoords)) {
             return '?';
         }
         oldCoords = strCoords;
@@ -83,34 +195,184 @@ function isBoundedAndDeterministic(hexRule, nTries=15, assemblyMode='seeded') {
     return true;
 }
 
+function simplify(rule) {
+    let colors = new Set([].concat.apply([], rule.map(r=>r.map(f=>{return f.color}))));
+    let newRule = [];
+    rule.forEach((cubeType, iCube)=>{
+        let allZero = true;
+        cubeType.forEach((face, iFace)=>{
+            let c = face.color
+            if (!colors.has(c*-1)) {
+                face.color = 0;
+            }
+            if (face.color == 0) {
+                face.alignDir = faceRotations[iFace];
+            }
+            else {
+                allZero = false;
+            }
+        })
+          
+        if (!allZero || iCube == 0) {
+            newRule.push(cubeType);
+        }
+    });
+
+    let colorset = Array.from(new Set([].concat.apply([], rule.map(r=>r.map(f=>{return Math.abs(f.color)}))))).filter(x => x != 0)
+    newRule.forEach(cubeType=>{
+        cubeType.forEach(face=>{
+            c = face.color;
+            if (c != 0) {
+                face.color = colorset.indexOf(Math.abs(c)) + 1;
+                if (c < 0) {
+                    face.color *= -1;
+                }
+            }
+        })
+    })
+    return newRule;
+}
+
+function simplify2(rule, onUpdate) {
+    rule = simplify(rule);
+
+    let correctCoords = getCoords(rule);
+
+    const rotations = allRotations();
+
+    let alreadyTried = new Set();
+    let triedStr = (a,b)=>`${[a,b].sort()}`;
+
+    let updatedRuleset = true;
+    while (updatedRuleset) {
+        updatedRuleset = false;
+        for (const [iA, cA] of rule.entries()) {
+            const coordsA = getPatchCoords(cA);
+            for (const [iB, cB] of rule.entries()) {
+                if (iA < iB) {
+                    const coordsB = getPatchCoords(cB);
+                    // If they have the same number of patches
+                    if (coordsA.length === coordsB.length && !alreadyTried.has(triedStr(iA,iB))) {
+                        for (const r of rotations) {
+                            if (compCols(coordsA, rotCoords(coordsB, r))) {
+                                console.log(`Cube type ${iA} is similar to ${iB}`);
+                                let colorMap = new Map();
+                                //let rotMap = new Map();
+                                const m = new THREE.Matrix4();
+                                m.setFromMatrix3(r);
+                                const q = new THREE.Quaternion().setFromRotationMatrix(m);
+                                const rotatedB = rotateRule(cB, q);
+                                for (let i=0; i<6; i++) {
+                                    if (rotatedB[i].color !== 0) {
+                                        console.assert(cA[i].color !== 0);
+                                        colorMap.set(rotatedB[i].color, cA[i].color);
+                                        //rotMap.set(rotatedB[i].color, getSignedAngle(cB[i].alignDir, cA[i].alignDir, ruleOrder[i]));
+                                    }
+                                }
+                                let newRule = [];
+                                // Clone rule and create new ruleset
+                                parseHexRule(ruleToHex(rule)).forEach((c,i)=>{
+                                    if (i !== iB) {
+                                        c.forEach((p,i)=>{
+                                            const color = p.color
+                                            if(colorMap.has(color)) {
+                                                p.color = colorMap.get(color);
+                                                p.alignDir = cA[i].alignDir;
+                                            }
+                                            else if(colorMap.has(-color)) {
+                                                p.color = -colorMap.get(-color);
+                                            }
+                                        });
+                                    } else {
+                                        c.forEach((p,i)=>{
+                                            p.color = 0;
+                                            p.alignDir = faceRotations[i];
+                                        })
+                                    }
+                                    newRule.push(c);
+                                });
+
+                                const simplifiedNewRule = simplify(newRule); //remove empty slots
+
+                                // Accept new ruleset if we still get the same chape
+                                if (
+                                    (isBoundedAndDeterministic(ruleToHex(simplifiedNewRule), undefined, 'seeded') === true) &&
+                                    coordEqual(getCoords(simplifiedNewRule, 'seeded'), correctCoords)
+                                ) {
+                                    updatedRuleset = true;
+                                    rule = newRule;
+                                    console.log(`Changing  ${iB} to ${iA} did work: ${ruleToHex(simplifiedNewRule)}`);
+                                    alreadyTried.add(triedStr(iA,iB));
+                                    if (onUpdate) {
+                                        onUpdate(ruleToHex(simplifiedNewRule));
+                                    }
+                                    break;
+                                } else {
+                                    console.log(`Changing  ${iB} to ${iA} did not work: ${ruleToHex(simplifiedNewRule)}\nBounded & Deterministic = ${isBoundedAndDeterministic(ruleToHex(simplifiedNewRule))}\nEqual coords = ${coordEqual(getCoords(simplifiedNewRule), correctCoords)}`);
+                                    alreadyTried.add(triedStr(iA,iB));
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+                if (updatedRuleset) {
+                    break;
+                }
+            }
+            if (updatedRuleset) {
+                break;
+            }
+        }
+    }
+    return simplify(rule);
+}
+
+function getPatchCoords(cube) {
+    let coords = [];
+    cube.forEach((f,i)=>{
+        if (f.color !== 0) {
+            coords.push(ruleOrder[i]);
+        }
+    });
+    return coords;
+}
+
+function patchCount(cube) {
+    return cube.filter(face=>face.color!=0).length;
+}
+
 function getCenterOfMass(coords) {
     let tot = new THREE.Vector3();
     coords.forEach(c=>tot.add(c));
-    return tot.divideScalar(coords.length);
+    tot.divideScalar(coords.length)
+    return tot;
 }
 
 function rotCoords(coords, r) {
-    let rotatedCoords = []
-    coords.forEach(c=>{
-        rotatedCoords.push(c.clone().applyMatrix3(r));
-    })
-    return rotatedCoords;
+    return coords.map(c=>c.clone().applyMatrix3(r));
 }
 
 function coordEqual(coordsA, coordsB) {
-    if (coordsA.length != coordsB.length) {
+    // Copy coords so as not to modify originals
+    let cA = coordsA.map(c=>c.clone());
+    let cB = coordsB.map(c=>c.clone());
+
+    if (cA.length != cB.length) {
+        console.log(`Coords not equal (different lengths)`);
         return false;
     }
-    let comA = getCenterOfMass(coordsA);
-    let comB = getCenterOfMass(coordsB);
-    coordsA.forEach(c=>c.sub(comA));
-    coordsB.forEach(c=>c.sub(comB));
+    let comA = getCenterOfMass(cA).round();
+    let comB = getCenterOfMass(cB).round();
+    cA.forEach(c=>c.sub(comA));
+    cB.forEach(c=>c.sub(comB));
 
-    for (var r of allRotations()) {
-        if (compCols(coordsA, rotCoords(coordsB, r))) {
+    for (const r of allRotations()) {
+        if (compCols(cA, rotCoords(cB, r))) {
             return true;
         }
     }
+    console.log(`Coords not equal (Could not find fitting rotation)`);
     return false;
 }
 
@@ -121,8 +383,9 @@ function compCols(coordsA, coordsB) {
     let s1 = new Set(coordsA.map(c=>c.toArray().toString()));
     let s2 = new Set(coordsB.map(c=>c.toArray().toString()));
 
+    // Check if sets are equal
     if (s1.size !== s2.size) return false;
-    for (var c of s1) {
+    for (const c of s1) {
         if (!s2.has(c)) {
             return false;
         }
@@ -156,5 +419,5 @@ function allRotations() {
         new THREE.Matrix3().set(0, 1, 0, 0, 0, 1, 1, 0, 0),
         new THREE.Matrix3().set(0, 0, -1, -1, 0, 0, 0, 1, 0),
         new THREE.Matrix3().set(0, 0, 1, -1, 0, 0, 0, -1, 0)
-    ]
+    ];
 }

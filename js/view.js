@@ -204,6 +204,15 @@ window.addEventListener('movesProcessed', function(e) {
     fitCamera();
 }, false);
 
+function toggleFog(density=0.08) {
+    if (!scene.fog || scene.fog.density != density) {
+        scene.fog = new THREE.FogExp2(0xffffff, density);
+    } else {
+        scene.fog = undefined;
+    }
+    render();
+}
+
 function switchCamera() {
     if (camera instanceof THREE.PerspectiveCamera) {
         //get camera parameters
