@@ -28,7 +28,6 @@ encoding functions:
 - rotation(p, r) = patch that p rotates to under rotation r
 """
 
-import subprocess
 import os
 import utils
 import numpy as np
@@ -71,7 +70,7 @@ class polysat:
         self.generate_constraints()
 
         # Solution must use all particles
-        #self.add_constraints_all_particles()
+        self.add_constraints_all_particles()
 
         # Solution must use all patches, except color 0 which should not bind
         self.add_constraints_all_patches_except(0)
@@ -109,8 +108,8 @@ class polysat:
 
         if self.nP is None:
             self.nP = nP
-        #elif self.nP != nP:
-        #raise IOError("Bindings text has different number of patches than imposed")
+        elif self.nP != nP:
+            raise IOError("Bindings text has different number of patches than imposed")
 
         return True
 
@@ -602,21 +601,6 @@ class polysat:
     def add_constraints_no_self_complementarity(self,above_color=0):
         for c in range(above_color,self.nC):
             self.basic_sat_clauses.append([-self.B(c,c)])
-
-    def add_constraints_unique_patches(self):
-        c = 0
-        for s in range(self.nS):
-            for p in range(self.nP):
-                self.basic_sat_clauses.append([self.C(s, p, c)])
-                c += 1
-
-    def add_constraints_unique_patches_except(self, forbidden=[]):
-        # "Each color is allowed exactly once in the soluton
-        for c in range(self.nC):
-            if c not in forbidden:
-                self.basic_sat_clauses.extend(
-                    self._exactly_one([self.C(s, p, c) for s in range(self.nS) for p in range(self.nP)])
-                )
 
     def fix_particle_colors(self,ptype,sid,cid):
         self.basic_sat_clauses.append([self.C(ptype,sid,cid)])

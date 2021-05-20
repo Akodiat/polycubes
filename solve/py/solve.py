@@ -156,7 +156,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
     if len(rules) > 0:
         rule = sorted(rules[0], key=patchCount, reverse=True)
         hexRule = ruleToHex(rule)
-        if libpolycubes.isBoundedAndDeterministic(hexRule, assemblyMode='seeded'):
+        if libpolycubes.isBoundedAndDeterministic(hexRule):
             return (i, hexRule, log)
         else:
             log += '{} is UND\n'.format(hexRule)
@@ -174,7 +174,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
             altrules = set(ruleToHex(sorted(r, key=patchCount)) for r in sols)
             log += '  Trying {} alternative solutions\n'.format(len(altrules))
             for altrule in altrules:
-                if libpolycubes.isBoundedAndDeterministic(altrule, assemblyMode='seeded'):
+                if libpolycubes.isBoundedAndDeterministic(altrule):
                     return (i, altrule, log)
                 #else:
                 #    log += '  {} is UND\n'.format(altrule)
@@ -251,7 +251,7 @@ def log_error(error):
     print('got error: {}'.format(error), flush=True)
     raise error
 
-def parallelFindMinimalRule(top, maxCubeTypes='auto', maxColors='auto', nSolutions=10, nDim=3, torsionalPatches=True):
+def parallelFindMinimalRule(top, maxCubeTypes='auto', maxColors='auto', nSolutions=100, nDim=3, torsionalPatches=True):
     # Never need to check for more than the topology can specify
     maxNT, maxNC = utils.countParticlesAndBindings(top)
     if maxCubeTypes == 'auto':
@@ -303,7 +303,7 @@ def solve(solveSpecPath):
     solveSpec = json.loads(data)
 
     return parallelFindMinimalRule(
-        [tuple(t) for t in solveSpec['bindings']],
+        solveSpec['bindings'],
         nDim=solveSpec['nDim'],
         torsionalPatches=solveSpec['torsion']
     )
