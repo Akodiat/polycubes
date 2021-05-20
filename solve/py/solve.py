@@ -115,11 +115,11 @@ def find_solution(top, nCubeTypes, nColors, nSolutions=1, nDim=3, torsionalPatch
     mysat = polysat(top, nCubeTypes, nColors, nSolutions, nDim, torsionalPatches)
 
     if nSolutions == 1: # Use minisat for single solutions
-        result, path = mysat.run_minisat()
+        result, solution = mysat.run_minisat()
         if result == 'TIMEOUT':
             return result
         elif result:
-            return [readSolutionFromPath(path)]
+            return [readSolution(solution)]
         else:
             return []
     else:
@@ -146,7 +146,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
     i = "{},{}".format(nCubeTypes,nColors)
     log = '\n{} colors and {} cube types: '.format(nColors, nCubeTypes)
     try:
-        rules = find_solution(top, nCubeTypes, nColors, nDim=nDim)
+        rules = find_solution(top, nCubeTypes, nColors, nDim=nDim, torsionalPatches=torsionalPatches)
     except Exception as error:
         log +="Error in find_solution: {}".format(error)
         return (i, 'ERROR', log)
@@ -154,9 +154,9 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
     if rules == 'TIMEOUT':
         return (i, rules, log)
     if len(rules) > 0:
-        rule = sorted(rules[0], key=patchCount)
+        rule = sorted(rules[0], key=patchCount, reverse=True)
         hexRule = ruleToHex(rule)
-        if libpolycubes.isBoundedAndDeterministic(hexRule):
+        if libpolycubes.isBoundedAndDeterministic(hexRule, assemblyMode='seeded'):
             return (i, hexRule, log)
         else:
             log += '{} is UND\n'.format(hexRule)
@@ -174,7 +174,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
             altrules = set(ruleToHex(sorted(r, key=patchCount)) for r in sols)
             log += '  Trying {} alternative solutions\n'.format(len(altrules))
             for altrule in altrules:
-                if libpolycubes.isBoundedAndDeterministic(altrule):
+                if libpolycubes.isBoundedAndDeterministic(altrule, assemblyMode='seeded'):
                     return (i, altrule, log)
                 #else:
                 #    log += '  {} is UND\n'.format(altrule)
@@ -251,7 +251,7 @@ def log_error(error):
     print('got error: {}'.format(error), flush=True)
     raise error
 
-def parallelFindMinimalRule(top, maxCubeTypes='auto', maxColors='auto', nSolutions=100, nDim=3, torsionalPatches=True):
+def parallelFindMinimalRule(top, maxCubeTypes='auto', maxColors='auto', nSolutions=10, nDim=3, torsionalPatches=True):
     # Never need to check for more than the topology can specify
     maxNT, maxNC = utils.countParticlesAndBindings(top)
     if maxCubeTypes == 'auto':
@@ -303,7 +303,7 @@ def solve(solveSpecPath):
     solveSpec = json.loads(data)
 
     return parallelFindMinimalRule(
-        solveSpec['bindings'],
+        [tuple(t) for t in solveSpec['bindings']],
         nDim=solveSpec['nDim'],
         torsionalPatches=solveSpec['torsion']
     )

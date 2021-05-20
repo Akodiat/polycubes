@@ -352,7 +352,7 @@ class polysat {
                             const v2 = patchRotToVec(p2, o2)
                             // Do they point in the same global direction?
                             // And do the patches face each other?
-                            if (v1.equals(v2) && p2+1 == p1) {
+                            if (v1.equals(v2) && p2%2==0 && p2+1 == p1) {
                                 this.basic_sat_clauses.push([this.D(p1, o1, p2, o2)])
                             }
                             else {

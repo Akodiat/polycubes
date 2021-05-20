@@ -49,16 +49,6 @@ def rotAroundAxis(patchPos, axis, angle):
     return r.apply(patchPos).round()
 
 
-def newIdxAfterAxisRot(patchPos):
-    # Find the new index that each face has rotated too, by comparing
-    # original vectors to the rotated ones in patchPos
-    return {i:getIndexOf(e, getRuleOrder()) for i, e in enumerate(patchPos)}
-
-
-def newOriAfterAxisRot(patchRot):
-    return {i:patchVecToRot(i, e) for i, e in enumerate(patchRot)}
-
-
 def getIndexOf(elem, array):
     for i, e in enumerate(array):
         if (e == elem).all():
@@ -96,60 +86,33 @@ def patchVecToRot(i, v):
     )
     return int((angle * (2/np.pi)+4) % 4)
 
-def enumerateRotations(dim=3):
-    """
-    if dim==2:
-        return {
-            0: {0:0, 1:1, 2:2, 3:3},
-            1: {0:1, 1:2, 2:3, 3:0},
-            2: {0:2, 1:3, 2:0, 3:1},
-            3: {0:3, 1:0, 2:1, 3:2}
-        }
-    """
-    initPatchPos = getRuleOrder()
-
-    # X, Y, Z
-    axes = [
-        np.array([1, 0, 0]),
-        np.array([0, 1, 0]),
-        np.array([0, 0, 1])
-    ]
-
-    # Rotate only around z-axis in 2D
-    if dim==2:
-        axes = [np.array([0, 0, 1])]
-
-    # Get initial rotation
-    r = newIdxAfterAxisRot(initPatchPos)
-    
-    # Save rotations in a set to avoid duplicates
-    # Need to make strings of everything since the set needs
-    # something hashable...
-    rotations = set([str(r)])
-
-    # Rotate around each axis in 90 deg increments, up to a whole turn
-    # to make sure we enumerate every possible rotation
-    for nTurns in range(4):
-        # Set angle to turn
-        v = nTurns*np.pi/2
-        for a1 in axes:
-            # Rotate patch position and orientation vectors
-            patchPos1 = rotAroundAxis(initPatchPos, a1, v)
-            # Convert to patch id:s
-            r1 = newIdxAfterAxisRot(patchPos1)
-            # Save result to set and map
-            rotations.add(str(r1))
-            # Run again for another (or the same) axis
-            for a2 in axes:
-                patchPos2 = rotAroundAxis(patchPos1, a2, v)
-                r2 = newIdxAfterAxisRot(patchPos2)
-                rotations.add(str(r2))
-                # Run again for yet another (or the same) axis
-                for a3 in axes:
-                    patchPos3 = rotAroundAxis(patchPos2, a3, v)
-                    r3 = newIdxAfterAxisRot(patchPos3)
-                    rotations.add(str(r3))
-    return {i: eval(e) for i, e in enumerate(sorted(rotations))}
+def enumerateRotations():
+    return {
+        0: {0: 0, 1: 1, 2: 2, 3: 3, 4: 4, 5: 5},
+        1: {0: 0, 1: 1, 2: 3, 3: 2, 4: 5, 5: 4},
+        2: {0: 0, 1: 1, 2: 4, 3: 5, 4: 3, 5: 2},
+        3: {0: 0, 1: 1, 2: 5, 3: 4, 4: 2, 5: 3},
+        4: {0: 1, 1: 0, 2: 2, 3: 3, 4: 5, 5: 4},
+        5: {0: 1, 1: 0, 2: 3, 3: 2, 4: 4, 5: 5},
+        6: {0: 1, 1: 0, 2: 4, 3: 5, 4: 2, 5: 3},
+        7: {0: 1, 1: 0, 2: 5, 3: 4, 4: 3, 5: 2},
+        8: {0: 2, 1: 3, 2: 0, 3: 1, 4: 5, 5: 4},
+        9: {0: 2, 1: 3, 2: 1, 3: 0, 4: 4, 5: 5},
+        10: {0: 2, 1: 3, 2: 4, 3: 5, 4: 0, 5: 1},
+        11: {0: 2, 1: 3, 2: 5, 3: 4, 4: 1, 5: 0},
+        12: {0: 3, 1: 2, 2: 0, 3: 1, 4: 4, 5: 5},
+        13: {0: 3, 1: 2, 2: 1, 3: 0, 4: 5, 5: 4},
+        14: {0: 3, 1: 2, 2: 4, 3: 5, 4: 1, 5: 0},
+        15: {0: 3, 1: 2, 2: 5, 3: 4, 4: 0, 5: 1},
+        16: {0: 4, 1: 5, 2: 0, 3: 1, 4: 2, 5: 3},
+        17: {0: 4, 1: 5, 2: 1, 3: 0, 4: 3, 5: 2},
+        18: {0: 4, 1: 5, 2: 2, 3: 3, 4: 1, 5: 0},
+        19: {0: 4, 1: 5, 2: 3, 3: 2, 4: 0, 5: 1},
+        20: {0: 5, 1: 4, 2: 0, 3: 1, 4: 3, 5: 2},
+        21: {0: 5, 1: 4, 2: 1, 3: 0, 4: 2, 5: 3},
+        22: {0: 5, 1: 4, 2: 2, 3: 3, 4: 0, 5: 1},
+        23: {0: 5, 1: 4, 2: 3, 3: 2, 4: 1, 5: 0}
+    }
 
 
 def topFromFile(path, nDim=3):
@@ -186,7 +149,7 @@ def calcEmptyFromTop(top):
 
     empty = []
     for i in ids:
-        for dPi in range(4):
+        for dPi in range(6):
             if not (i, dPi) in patches:
                 empty.append((i,dPi))
     return empty

@@ -32,7 +32,8 @@ import subprocess
 import os
 import utils
 import numpy as np
-import time
+from pysat.formula import CNF
+from pysat.solvers import Glucose4
 
 
 #Polycube SAT Solver
@@ -40,7 +41,7 @@ class polysat:
     relsat_executable  = 'relsat'
     minisat_executable = 'minisat'
 
-    def __init__(self, topology, nCubeTypes, nColors, nSolutions=1, nDim=3, tortionalPatches=True):
+    def __init__(self, topology, nCubeTypes, nColors, nSolutions=1, nDim=3, torsionalPatches=True):
         #topology, empty = utils.topFromFile(topPath, nDim)
 
         # Number of distinct cube types for the solver
@@ -55,10 +56,10 @@ class polysat:
 
         self.nD = nDim  #: Number of dimensions
         self.nP = 6   #: Number of patches on a single particle
-        self.tortionalPatches = tortionalPatches
-        if self.tortionalPatches:
+        self.torsionalPatches = torsionalPatches
+        if self.torsionalPatches:
             self.nO = 4   #: Number of possible orientations for a patch, N,S,W,E
-        self.rotations = utils.enumerateRotations(self.nD)
+        self.rotations = utils.enumerateRotations()
         self.nR = len(self.rotations)
 
         self.variables = {}
@@ -85,7 +86,7 @@ class polysat:
         for c in range(2, self.nC-1, 2):
             self.fix_color_interaction(c, c+1)
 
-        if nDim == 3 and tortionalPatches:
+        if nDim == 3 and torsionalPatches:
             self.add_constraints_fixed_blank_orientation()
 
         empty = utils.calcEmptyFromTop(topology)
@@ -245,7 +246,7 @@ class polysat:
             for p in range(self.nP):
                 for c in range(self.nC):
                     self.C(s, p, c)
-        if self.tortionalPatches:
+        if self.torsionalPatches:
             for s in range(self.nS):
                 for p in range(self.nP):
                     for o in range(self.nO):
@@ -278,7 +279,7 @@ class polysat:
         # - Legal species patch orientation
         # "Each patch on every species has exactly one orientation"
         #   forall s, forall p, exactly one o p.t. O(s, p, o)
-        if self.tortionalPatches:
+        if self.torsionalPatches:
             for s in range(self.nS):
                 for p in range(self.nP):
                     constraints.extend(self._exactly_one([self.O(s, p, o) for o in range(self.nO)]))
@@ -295,7 +296,7 @@ class polysat:
         # - Legal position patch orientation:
         # "Every position patch has exactly one orientation"
         # 	for all l, p exactly one o st. A(l, p, o)
-        if self.tortionalPatches:
+        if self.torsionalPatches:
             for l in range(self.nL):
                 for p in range(self.nP):
                     constraints.extend(self._exactly_one([self.A(l, p, o) for o in range(self.nO)]))
@@ -313,14 +314,14 @@ class polysat:
         # "Specified binds have compatible orientations"
         # 	forall (l1, p1) binding with (l2, p2) from crystal spec:
         # 		forall o1, o2: A(l1, p1, o1) and A(l2, p2, o2) => D(c1, c2)
-        if self.tortionalPatches:
+        if self.torsionalPatches:
             for (l1, p1), (l2, p2) in self.bindings.items():
                 for o1 in range(self.nO):
                     for o2 in range(self.nO):
                         constraints.append((-self.A(l1, p1, o1), -self.A(l2, p2, o2), self.D(p1, o1, p2, o2)))
 
         # Hard-code patch orientations to bind only if they point in the same direction
-        if self.tortionalPatches:
+        if self.torsionalPatches:
             for p1 in range(self.nP):
                 for p2 in range(self.nP):
                     if p2 >= p1:
@@ -331,8 +332,9 @@ class polysat:
                             v2 = utils.patchRotToVec(p2, o2)
                             # Do they point in the same global direction?
                             # And do the patches face each other?
-                            if np.array_equal(v1, v2) and p2+1 == p1:
+                            if np.array_equal(v1, v2) and p2%2 == 0 and p2+1 == p1:
                                 constraints.append([self.D(p1, o1, p2, o2)])
+                                #print("patch {}, orientation {} binds with patch {}, orientation {}".format(p1, o1, p2, o2))
                             else:
                                 constraints.append([-self.D(p1, o1, p2, o2)])
 
@@ -370,7 +372,7 @@ class polysat:
         # "Given a place, species and its rotation, the patch orientations on the position and (rotated) species must be correct"
         #   for all l, s, r:
         #       P(l, s, r) => (forall p, c: F(l, p, c) <=> C(s, rotation(p, r), c))
-        if self.tortionalPatches:
+        if self.torsionalPatches:
             for l in range(self.nL):
                 for s in range(self.nS):
                     for r in range(self.nR):
@@ -475,6 +477,17 @@ class polysat:
             if sols[vnum-1] > 0:
                 output.write(vname+'\n')
 
+    def convert_solution2(self, sols):
+        assert len(sols) <= len(self.variables)
+        out = ""
+
+        for vname, vnum in sorted(self.variables.items()):
+            if vnum > len(sols):
+                break
+            if sols[vnum-1] > 0:
+                out += vname+'\n'
+        return out
+
     def save_named_solution(self,solution,output,B=True,C=True,P=False):
         '''saves text values of system constraints , such as B(2,3) etc'''
         handle = open(output,'w')
@@ -550,34 +563,13 @@ class polysat:
             outf.write(parameters)
 
 
-    def run_minisat(self,return_constraints=True, timeout=18000):
-        #print("Writing data")
-        tempfilename = '/tmp/temp_for_minisat.%s.cls' % (time.time())
-        tempout = tempfilename+'.sol'
-        temp = open(tempfilename,'w')
-        self.output_cnf(self.basic_sat_clauses,temp)
-        #temp.write(parameters)
-        temp.close()
-        #here we execute
-        #print [self.minisat_executable,tempfilename]
-        process = subprocess.Popen([self.minisat_executable, '-cpu-lim={}'.format(timeout), tempfilename, tempout], stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        out = process.communicate()[0].decode()
-        #print(out.decode())
-        result = out.split()[-1]
-        if result == 'UNSATISFIABLE':
-            return False, tempout
-        elif result == 'SATISFIABLE':
-            if return_constraints:
-                #constraints = self.load_constraints_from_sol(tempout)
-                self.convert_solution(open(tempout),open(tempout+'.converted','w'))
-                #tempfilename = '/tmp/temp_for_minisat.%s.cls' % (os.getpid())
-                #tempout = tempfilename+'.sol'
-            return True, tempout+'.converted'
-        elif result == 'INDETERMINATE':
-            return 'TIMEOUT', tempout
-        else:
-            raise IOError("Unknown output: "+result)
-
+    def run_minisat(self, timeout=18000):
+        formula = CNF(from_string = self.output_cnf(self.basic_sat_clauses))
+        with Glucose4(bootstrap_with=formula.clauses) as m:
+            if m.solve() == True:
+                return True, self.convert_solution2(m.get_model())
+            else:
+                return False, None
 
     def add_constraints_all_particles(self):
         for s in range(self.nS):
