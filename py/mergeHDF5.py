@@ -21,16 +21,14 @@ def merge(outdir, assemblyMode):
     print("Merging files: {}".format(files))
 
     # Read all files found
-    datasets = {f: readDataset(os.path.join(root, f)) for f in files}
+    #datasets = {f: readDataset(os.path.join(root, f)) for f in files}
 
-    # Move the old files to a "merged" directory
-    for f in files:
-        os.renames(os.path.join(root, f), os.path.join(root, 'merged', f))
+    print("Finished reading all files")
 
     # Index all phenotypes by their size
     phenos = {}
-    for filename, dataset in datasets.items():
-        for n, shapegroup in dataset.items():
+    for filename in files:
+        for n, shapegroup in readDataset(os.path.join(root, filename)).items():
             for shape, ps in shapegroup.items():
                 sizeId = n + '/' + shape;
                 if not sizeId in phenos:
@@ -41,6 +39,13 @@ def merge(outdir, assemblyMode):
                         'rule': pheno[0],
                         'idx': i
                     })
+    print("Sorted phenotypes by size")
+
+    # Move the old files to a "merged" directory
+    for f in files:
+        os.renames(os.path.join(root, f), os.path.join(root, 'merged', f))
+
+    print("Moved old files to {}".format(os.path.join(root, 'merged')))
 
     outpath = os.path.join(root, 'out_{}.h5'.format(os.getpid()))
     with h5py.File(outpath, "w") as f:
@@ -72,7 +77,9 @@ def merge(outdir, assemblyMode):
                 n, shape = sizeId.split('/')
                 rules = [r
                     for j, filename in enumerate(group['filenames']) 
-                    for r in datasets[filename][n][shape][group['indices'][j]]
+                    for r in readDataset(
+                        os.path.join(root, 'merged', filename)
+                    )[n][shape][group['indices'][j]]
                 ]
 
                 dataset = h5group.create_dataset('pheno{}'.format(i), (len(rules),), h5py.string_dtype())
@@ -85,5 +92,5 @@ if __name__ == "__main__":
     if len(sys.argv) > 2:
         merge(sys.argv[1], sys.argv[2])
     else:
-        print("Please provide a path to an out directory")
-        merge('cpp', 'ordered')
+        print("Please provide a path to an out directory and an assembly mode")
+        merge('cpp/out', 'stochastic')
