@@ -1,6 +1,6 @@
 class PolycubeSystem {
 
-    constructor(rules, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded') {
+    constructor(rule, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded') {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
@@ -10,6 +10,8 @@ class PolycubeSystem {
 
         this.assemblyMode = assemblyMode;
         this.orderIndex = 0;
+
+        this.cubeTypeCount = rule.map(r=>0);
 
         this.colorMaterials = [];
         this.particleMaterials = [];
@@ -29,8 +31,8 @@ class PolycubeSystem {
         }
         this.lineGroup.visible = false;
 
-        this.rule = rules;
-        let nColors = Math.max.apply(Math, rules.map(x => Math.max.apply(
+        this.rule = rule;
+        let nColors = Math.max.apply(Math, rule.map(x => Math.max.apply(
             Math, x.map(r => Math.abs(r.color))))
         );
         nColors = Math.max(nColors, 2) //Avoid getting only red colors
@@ -44,7 +46,7 @@ class PolycubeSystem {
         }
 
         //let particleColors = randomColor({luminosity: 'light', count: rules.length, seed: 19});
-        for (let i=0; i<rules.length; i++) {
+        for (let i=0; i<rule.length; i++) {
             let cubeMaterial = new THREE.MeshLambertMaterial({color: selectColor(i)});
             this.particleMaterials.push(cubeMaterial);
         }
@@ -366,6 +368,8 @@ class PolycubeSystem {
         this.centerOfMass.add(position);
         this.cubeMap.set(vecToStr(position), position);
         this.centerOfMass.divideScalar(this.cubeMap.size);
+
+        this.cubeTypeCount[ruleIdx]++;
 
         if (!this.background) {
             render();

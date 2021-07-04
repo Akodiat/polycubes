@@ -173,6 +173,21 @@ function getCoords(rule, assemblyMode='seeded') {
     return [...system.cubeMap.values()];
 }
 
+function getCubeTypeCount(hexRule, assemblyMode='seeded') {
+    let rule = parseHexRule(hexRule);
+    let sys = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode);
+    sys.seed();
+    let processed = false;
+    while (!processed) {
+        processed = sys.processMoves();
+        if (processed == 'oub') {
+            console.warn("Getting cube type count for unbounded rule");
+            break;
+        }
+    }
+    return sys.cubeTypeCount;
+}
+
 function isBoundedAndDeterministic(hexRule, nTries=15, assemblyMode='seeded') {
     let rule = parseHexRule(hexRule);
     let oldCoords;
@@ -181,7 +196,7 @@ function isBoundedAndDeterministic(hexRule, nTries=15, assemblyMode='seeded') {
         system.seed();
         let processed = false;
         while (!processed) {
-            processed = system.processMoves(true); //process move in background, without animation
+            processed = system.processMoves();
             if (processed == 'oub') {
                 return '∞';
             }
@@ -310,7 +325,7 @@ function simplify2(rule, onUpdate) {
                                 } else {
                                     console.log(`Changing  ${iB} to ${iA} did not work: ${ruleToHex(simplifiedNewRule)}\nBounded & Deterministic = ${isBoundedAndDeterministic(ruleToHex(simplifiedNewRule))}\nEqual coords = ${coordEqual(getCoords(simplifiedNewRule), correctCoords)}`);
                                     alreadyTried.add(triedStr(iA,iB));
-                                    break;
+                                    //break;
                                 }
                             }
                         }
