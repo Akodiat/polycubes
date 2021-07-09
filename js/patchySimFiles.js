@@ -98,73 +98,72 @@ function getPatchySimFiles(hexRule, nAssemblies=1, name='sim',
     confDensity = 0.2
 ) {
     let zip = new JSZip();
-    for (const temperature of temperatures) {
-        let folder = zip.folder(`T_${temperature}`);
-
-        let getPatchStr = (id, color, i, a2, strength=1)=>{
-            let a1 = ruleOrder[i].clone();
-            return [
-                `patch_${id} = {`,
-                `  id = ${id}`,
-                `  color = ${color}`,
-                `  strength = ${strength}`,
-                `  position = ${a1.clone().divideScalar(2).toArray()}`,
-                `  a1 = ${a1.toArray()}`,
-                `  a2 = ${a2.toArray()}`,
-                '}',''
-            ].join('\n')
-        }
-        let getParticleStr = (typeID, patches)=>[
-            `particle_${typeID} = {`,
-            `  type = ${typeID}`,
-            `  patches = ${patches}`,
+    let getPatchStr = (id, color, i, a2, strength=1)=>{
+        let a1 = ruleOrder[i].clone();
+        return [
+            `patch_${id} = {`,
+            `  id = ${id}`,
+            `  color = ${color}`,
+            `  strength = ${strength}`,
+            `  position = ${a1.clone().divideScalar(2).toArray()}`,
+            `  a1 = ${a1.toArray()}`,
+            `  a2 = ${a2.toArray()}`,
             '}',''
-        ].join('\n');
+        ].join('\n')
+    }
+    let getParticleStr = (typeID, patches)=>[
+        `particle_${typeID} = {`,
+        `  type = ${typeID}`,
+        `  patches = ${patches}`,
+        '}',''
+    ].join('\n');
 
-        let particlesStr = "";
-        let patchesStr = "";
+    let particlesStr = "";
+    let patchesStr = "";
 
-        let patchCounter = 0;
-        let rule = parseHexRule(hexRule);
-        rule.forEach((cubeType, typeID)=>{
-            let patches = [];
-            cubeType.forEach((patch, i)=>{
-                if(patch.color != 0) {
-                    // Needs to be > 20 to not be self complementary
-                    let color = patch.color + 20 * Math.sign(patch.color);
-                    patchesStr += getPatchStr(patchCounter, color, i, patch.alignDir);
-                    patches.push(patchCounter);
-                    patchCounter++;
-                }
-            });
-            particlesStr += getParticleStr(typeID, patches);
-        });
-
-        const particlesFileName = 'particles.txt'
-        const patchesFileName = 'patches.txt'
-
-        const cubeTypeCount = getCubeTypeCount(hexRule);
-        const count = cubeTypeCount.map(n=>n*nAssemblies);
-
-        let total = 0;
-        let top = [];
-        count.forEach((c, typeID)=>{
-            total+=c;
-            for(let i=0; i<c; i++) {
-                top.push(typeID);
+    let patchCounter = 0;
+    let rule = parseHexRule(hexRule);
+    rule.forEach((cubeType, typeID)=>{
+        let patches = [];
+        cubeType.forEach((patch, i)=>{
+            if(patch.color != 0) {
+                // Needs to be > 20 to not be self complementary
+                let color = patch.color + 20 * Math.sign(patch.color);
+                patchesStr += getPatchStr(patchCounter, color, i, patch.alignDir);
+                patches.push(patchCounter);
+                patchCounter++;
             }
         });
-        let topStr = `${total} ${rule.length}\n${top.join(' ')}`;
+        particlesStr += getParticleStr(typeID, patches);
+    });
 
-        const topFileName = 'init.top';
+    const particlesFileName = 'particles.txt'
+    const patchesFileName = 'patches.txt'
+
+    const cubeTypeCount = getCubeTypeCount(hexRule);
+    const count = cubeTypeCount.map(n=>n*nAssemblies);
+
+    let total = 0;
+    let top = [];
+    count.forEach((c, typeID)=>{
+        total+=c;
+        for(let i=0; i<c; i++) {
+            top.push(typeID);
+        }
+    });
+    let topStr = `${total} ${rule.length}\n${top.join(' ')}`;
+    const topFileName = 'init.top';
+
+    const inputFileName = 'input';
+    let confGenStr = `${oxDNA_dir}/build/bin/confGenerator ${inputFileName} ${confDensity}`;
+
+    for (const temperature of temperatures) {
+        let folder = zip.folder(`T_${temperature}`);
 
         let inputStr = generateInputFile(rule.length, patchCounter, oxDNA_dir, patchesFileName,
             particlesFileName, topFileName, temperature
         );
 
-        const inputFileName = 'input';
-
-        let confGenStr = `${oxDNA_dir}/build/bin/confGenerator ${inputFileName} ${confDensity}`;
         let simulateStr = `addqueue -c "${name} T=${temperature} - 1 week" ${oxDNA_dir}/build/bin/oxDNA ${inputFileName}`;
 
         folder.file(particlesFileName, particlesStr);
@@ -185,6 +184,19 @@ do
     cd ..
 done`
     );
+
+    let complClusters = cubeTypeCount.flatMap((n,idx) => {
+        let cluster = [];
+        for (let i=0; i<n; i++) {
+            cluster.push(idx)
+        }
+        return cluster;
+    });
+
+    zip.file('data.py',
+`completeCluster = [${complClusters}]
+rule = '${hexRule}'`
+    )
 
     zip.generateAsync({type:"blob"})
     .then(function(content) {
