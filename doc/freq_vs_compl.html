@@ -46,7 +46,7 @@
           view.addEventListener('mouseover', function (event, item) {
             if(item && item.datum) {
               console.log(item.datum.rule)
-              polycubeSystem.resetRule(parseHexRule(item.datum.rule))
+              system.resetRule(parseHexRule(item.datum.rule))
             }
           })
         })
@@ -61,14 +61,19 @@
   <script src="../js/controls/OrbitControls.js"></script>
   <script src="../js/polycubeSystem.js"></script>
   <script src="../js/view.js"></script>
-    <script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/init.js"></script>
+  <script>
+      createPolycubeSystem();
+  </script>
+  <script>
     var rotation = 0;
     function rotateCamera() {
         rotation += 0.005;
         camera.position.y = Math.sin(rotation) * 10;
         camera.position.x = Math.cos(rotation) * 10;
         camera.updateProjectionMatrix();
-        camera.lookAt(polycubeSystem.centerOfMass);
+        camera.lookAt(system.centerOfMass);
         //fitCamera();
         render();
         requestAnimationFrame(rotateCamera.bind(this));

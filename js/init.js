@@ -23,7 +23,13 @@ function createPolycubeSystem() {
         });});
     }
     let assemblyMode = getUrlParam("assemblyMode", 'seeded');
-    document.getElementById('assemblyMode').value = assemblyMode;
+
+    try {
+        document.getElementById('assemblyMode').value = assemblyMode;
+    } catch (error) {
+        ; // Might not have an assembly mode DOM
+    }
+
 
     nMaxCubes = parseInt(getUrlParam("nMaxCubes", 100));
     maxCoord = parseInt(getUrlParam("maxCoord", 100));
