@@ -13,6 +13,7 @@ from polycubeSolver import polysat
 import sys
 import multiprocessing
 import json
+import traceback
 
 def parseHexRule(hexRule):
     ruleset = []
@@ -148,7 +149,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
     try:
         rules = find_solution(top, nCubeTypes, nColors, nDim=nDim, torsionalPatches=torsionalPatches)
     except Exception as error:
-        log +="Error in find_solution: {}".format(error)
+        log +="Error in find_solution: {}\n\t{}".format(error, traceback.format_exc())
         return (i, 'ERROR', log)
 
     if rules == 'TIMEOUT':
@@ -165,8 +166,8 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
                     top, nCubeTypes, nColors, nSolutions=nSolutions, nDim=nDim,
                     torsionalPatches=torsionalPatches
                 )
-            except:
-                log +="Error in find_solution\n"
+            except Exception as error:
+                log +="Error in find_solution: {}\n\t{}".format(error, traceback.format_exc())
                 return (i, 'ERROR', log)
 
             if sols == 'TIMEOUT':
@@ -237,7 +238,7 @@ def log_result(result):
                     line = OKBLUE+str(r)
                 elif r is None :
                     line = FAIL+str(r)
-                elif r is not '...':
+                elif r != '...':
                     line = OKGREEN+str(r)
                 if key == i:
                     line = BOLD+line
@@ -275,12 +276,12 @@ def parallelFindMinimalRule(top, maxCubeTypes='auto', maxColors='auto', nSolutio
 
 def findRules(topPath, nCubeTypes='auto', nColors='auto', nSolutions='auto', nDim=3, torsionalPatches=True):
     polyurl = "https://akodiat.github.io/polycubes?rule={}"
-    if nCubeTypes is 'auto' or nColors is 'auto':
-        if nSolutions is 'auto':
+    if nCubeTypes == 'auto' or nColors == 'auto':
+        if nSolutions == 'auto':
             nSolutions = 100
         r = [parallelFindMinimalRule(topPath, nSolutions=nSolutions, nDim=nDim, torsionalPatches=torsionalPatches)]
     else:
-        if nSolutions is 'auto':
+        if nSolutions == 'auto':
             nSolutions = 1
         sols = find_solution(topPath, nCubeTypes, nColors, nSolutions, nDim, torsionalPatches)
         if sols == 'TIMEOUT':

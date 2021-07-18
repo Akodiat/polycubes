@@ -108,8 +108,8 @@ class polysat:
 
         if self.nP is None:
             self.nP = nP
-        elif self.nP != nP:
-            raise IOError("Bindings text has different number of patches than imposed")
+        elif self.nP < nP:
+            raise IOError("Bindings text has larger number of patches %d than imposed %d " % (self.nP,nP))
 
         return True
 
