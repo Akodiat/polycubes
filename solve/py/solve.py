@@ -153,6 +153,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
         return (i, 'ERROR', log)
 
     if rules == 'TIMEOUT':
+        log += "Timed out!"
         return (i, rules, log)
     if len(rules) > 0:
         rule = sorted(rules[0], key=patchCount, reverse=True)
@@ -176,9 +177,10 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
             log += '  Trying {} alternative solutions\n'.format(len(altrules))
             for altrule in altrules:
                 if libpolycubes.isBoundedAndDeterministic(altrule):
+                    log += '  {} is a valid solution\n'.format(altrule)
                     return (i, altrule, log)
-                #else:
-                #    log += '  {} is UND\n'.format(altrule)
+                else:
+                    log += '  {} is UND\n'.format(altrule)
             log += '  All UND'
             return (i, 'UND', log)
     else:
@@ -298,21 +300,32 @@ def findRules(topPath, nCubeTypes='auto', nColors='auto', nSolutions='auto', nDi
         print('Sorry, no solution found', flush=True)
         return
 
-def solve(solveSpecPath):
+def solve(solveSpecPath, nCubeTypes=None, nColors=None):
     with open(solveSpecPath, 'r') as f:
         data = f.read()
     solveSpec = json.loads(data)
-
-    return parallelFindMinimalRule(
-        solveSpec['bindings'],
-        nDim=solveSpec['nDim'],
-        torsionalPatches=solveSpec['torsion']
-    )
+ 
+    if (nCubeTypes != None and nColors != None):
+        (i, rules, log) = findRuleFor(
+            solveSpec['bindings'],
+            nCubeTypes, nColors, nSolutions=1000,
+            nDim=solveSpec['nDim'],
+            torsionalPatches=solveSpec['torsion']
+        )
+        print(log)
+        print(rules)
+        return rules
+    else:
+        return parallelFindMinimalRule(
+            solveSpec['bindings'],
+            nDim=solveSpec['nDim'],
+            torsionalPatches=solveSpec['torsion']
+        )
 
 if __name__ == '__main__':
-    if len(sys.argv) > 2:
-        solve(sys.argv[1], nDim=int(sys.argv[2]));
+    if len(sys.argv) > 3:
+        solve(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]));
     elif len(sys.argv) > 1:
         solve(sys.argv[1]);
     else:
-        print("Need to provide path to a shape json file")
+        print("Need to provide path to a shape json file [shapePath, nCubeTypes, nColors]")
