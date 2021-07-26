@@ -21,7 +21,7 @@ echo "Max number of cube types is $maxNT"
 echo "Max number of colors is $maxNC"
 
 for f in $(python -c "import solve; [print('{}:{}'.format(nt,nc)) for nt, nc in solve.smartEnumerate($maxNT, $maxNC)]"); do
-    IFS=':' read -r nC nT <<< "$f"
+    IFS=':' read -r nT nC <<< "$f"
 
     echo "Scheduling $n with $nT cube types and $nC colors"
 
@@ -29,5 +29,5 @@ for f in $(python -c "import solve; [print('{}:{}'.format(nt,nc)) for nt, nc in 
     printf -v paddedNT "%0$(echo -n $maxNT | wc -m)d" $nT
     printf -v paddedNC "%0$(echo -n $maxNC | wc -m)d" $nC
 
-    addqueue -s -g $n -o "$n/${paddedNT}t_${paddedNC}c-%j.out" -c "SAT $n ${nT}t ${nC}c-" -n 1 -m 1 /users/joakim/miniconda3/bin/python solve.py "$1 $nT $nC" 
+    addqueue -s -g $n -o "$n/${paddedNT}t_${paddedNC}c-%j.out" -c "SAT $n ${nT}t ${nC}c-" -n 1 -m 4 /users/joakim/miniconda3/bin/python solve.py "$1 $nT $nC"
 done

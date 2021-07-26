@@ -124,7 +124,8 @@ def find_solution(top, nCubeTypes, nColors, nSolutions=1, nDim=3, torsionalPatch
         else:
             return []
     else:
-        result = mysat.run_relsat(nSolutions=nSolutions)
+        timeout = 86400 # 24h in seconds
+        result = mysat.run_relsat(nSolutions=nSolutions, timeout=timeout)
         if result == "TIMEOUT":
             return result
         nResults, results = result
