@@ -353,7 +353,7 @@ Eigen::Vector3f getOrientation(int index, int orientation) {
 
 std::vector<Rule> PolycubeSystem::parseRules(std::string ruleStr) {
     if (ruleStr.size() % 2*ruleSize != 0) {
-        std::cerr<<"Error: Incomplete rule"<<std::endl;
+        std::cerr<<"Error: Incomplete rule: "<<ruleStr<<std::endl;
         exit(EXIT_FAILURE);
     }
     std::vector<Rule> rules;
