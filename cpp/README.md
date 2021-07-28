@@ -7,7 +7,7 @@ You need Eigen and HDF5 installed to build
 Build the polycube binary with cmake:
 
 mkdir build && cd build
-cmake ..
+cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ ..
 make
 
 You should find the binary in the root of this directory (cpp)
