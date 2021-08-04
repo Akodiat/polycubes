@@ -3,6 +3,7 @@ import os
 import pickle
 import itertools as it
 import numpy as np
+import h5py
 
 def getRulesFromPheno(path):
     rules = []
@@ -19,6 +20,15 @@ def readConf(filename):
             conf[key] = val
     return conf
 
+def readDataset(path):
+    f = h5py.File(path, 'r')
+    return {n: {shape: [[
+                (rule if isinstance(rule, str) else rule.decode()) for rule in rules
+            ] for rules in phenos.values()
+        ] for shape, phenos in shapegroup.items()
+    } for n, shapegroup in f.items()}
+
+
 def loadPhenos(path="../cpp/out/3d/phenos"):
     phenos = []
     for root, _, files in os.walk(path):
@@ -27,6 +37,7 @@ def loadPhenos(path="../cpp/out/3d/phenos"):
                 #print("Loading "+file)
                 phenos.append(pickle.load(open(os.path.join(root, file), "rb")))
     return phenos
+
 
 def getMinColorsAndCubeTypes(hexRule):
     ruleset = simplifyRuleset(parseHexRule(hexRule))

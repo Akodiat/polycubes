@@ -3,14 +3,6 @@ import libpolycubes
 import os
 import h5py
 
-def readDataset(path):
-    f = h5py.File(path, 'r')
-    return {n: {shape: [[
-                (rule if isinstance(rule, str) else rule.decode()) for rule in rules
-            ] for rules in phenos.values()
-        ] for shape, phenos in shapegroup.items()
-    } for n, shapegroup in f.items()}
-
 def parseRule(rule):
     try:
         return rule if isinstance(rule, str) else rule.decode()
@@ -30,27 +22,23 @@ def merge(outdir, assemblyMode):
         files = [f for f in fs if ".h5" in f]
         root = r
         break
-    print("Merging files: {}".format(files))
-
-    # Read all files found
-    #datasets = {f: readDataset(os.path.join(root, f)) for f in files}
 
     # Index all phenotypes by their size
     phenos = {}
-    for filename in files:
-        f = h5py.File(os.path.join(root, filename), 'r')
-        for n, shapegroup in f.items():
-            for shape, ps in shapegroup.items():
-                sizeId = n + '/' + shape;
-                if not sizeId in phenos:
-                    phenos[sizeId] = []
-                for i, pheno in enumerate(ps.values()):
-                    phenos[sizeId].append({
-                        'filename': filename,
-                        'rule': parseRule(pheno[0]),
-                        'idx': i
-                    })
-        print("Read files from {}".format(filename))
+    for iFile, filename in enumerate(files):
+        with h5py.File(os.path.join(root, filename), 'r') as f:
+            for n, shapegroup in f.items():
+                for shape, ps in shapegroup.items():
+                    sizeId = n + '/' + shape;
+                    if not sizeId in phenos:
+                        phenos[sizeId] = []
+                    for i, pheno in enumerate(ps.values()):
+                        phenos[sizeId].append({
+                            'filename': filename,
+                            'rule': parseRule(pheno[0]),
+                            'idx': i
+                        })
+        print("Read file {} ({} files remaining)".format(filename, len(files) - iFile))
 
     print("Sorted phenotypes by size")
 
@@ -64,6 +52,7 @@ def merge(outdir, assemblyMode):
     with h5py.File(outpath, "w") as f:
         # For all phenotypes with the same dimensions
         for sizeId, phenolist in phenos.items():
+            print("Grouping {}:".format(sizeId), end=' ', flush=True)
             n, shape = sizeId.split('/')
             groups = []
             for p in phenolist:
@@ -83,6 +72,7 @@ def merge(outdir, assemblyMode):
                         'rule': p['rule'],
                         'indices':[p['idx']]
                     })
+                    print('.', end='', flush=True)
 
             h5group = f.create_group(sizeId)
 
@@ -99,7 +89,7 @@ def merge(outdir, assemblyMode):
                 for i, r in enumerate(rules):
                     dataset[i] = r.encode()
 
-            print("Found {} different phenotypes for {}".format(len(groups), sizeId))
+            print(" (Found {} unique phenotypes)".format(len(groups)), flush=True)
 
     print("Saved merged dataset as {}".format(outpath))
 
