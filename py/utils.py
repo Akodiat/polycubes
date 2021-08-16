@@ -4,6 +4,7 @@ import pickle
 import itertools as it
 import numpy as np
 import h5py
+import libpolycubes
 
 def getRulesFromPheno(path):
     rules = []
@@ -270,3 +271,73 @@ def calc_KC(s):
 
 def lzFromHexRule(hexRule):
     return calc_KC(bin(int(hexRule, 16))[2:])
+
+##############
+# Symmetry #
+##############
+
+# Compare matrices, ignoring column order
+def compCols(m1, m2, precision=4):
+    toSet = lambda m: set(str(p.round(precision)) for p in m)
+    return toSet(m1) == toSet(m2)
+
+def getRotations(ndim=3):
+    rots = [
+        # 2D rotations
+        #np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]]),
+        np.array([[0, -1, 0], [1, 0, 0], [0, 0, 1]]),
+        np.array([[-1, 0, 0], [0, -1, 0], [0, 0, 1]]),
+        np.array([[0, 1, 0], [-1, 0, 0], [0, 0, 1]]),
+    ]
+    if ndim > 2:
+        rots += [
+            # 3D rotations
+            np.array([[0, 0, 1], [0, 1, 0], [-1, 0, 0]]),
+            np.array([[-1, 0, 0], [0, 1, 0], [0, 0, -1]]),
+            np.array([[0, 0, -1], [0, 1, 0], [1, 0, 0]]),
+            np.array([[1, 0, 0], [0, 0, -1], [0, 1, 0]]),
+            np.array([[1, 0, 0], [0, -1, 0], [0, 0, -1]]),
+            np.array([[1, 0, 0], [0, 0, 1], [0, -1, 0]]),
+            np.array([[0, -1, 0], [0, 0, 1], [-1, 0, 0]]),
+            np.array([[0, -1, 0], [-1, 0, 0], [0, 0, -1]]),
+            np.array([[0, -1, 0], [0, 0, -1], [1, 0, 0]]),
+            np.array([[0, 0, 1], [1, 0, 0], [0, 1, 0]]),
+            np.array([[0, 1, 0], [1, 0, 0], [0, 0, -1]]),
+            np.array([[0, 0, -1], [1, 0, 0], [0, -1, 0]]),
+            np.array([[0, 0, -1], [0, -1, 0], [-1, 0, 0]]),
+            np.array([[0, 0, 1], [0, -1, 0], [1, 0, 0]]),
+            np.array([[-1, 0, 0], [0, 0, 1], [0, 1, 0]]),
+            np.array([[-1, 0, 0], [0, 0, -1], [0, -1, 0]]),
+            np.array([[0, 1, 0], [0, 0, -1], [-1, 0, 0]]),
+            np.array([[0, 1, 0], [0, 0, 1], [1, 0, 0]]),
+            np.array([[0, 0, -1], [-1, 0, 0], [0, 1, 0]]),
+            np.array([[0, 0, 1], [-1, 0, 0], [0, -1, 0]])
+        ]
+    return rots
+
+def getReflections(ndim=3):
+    refls = [
+        #np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]]),
+        np.array([[-1, 0, 0], [0, 1, 0], [0, 0, 1]]),
+        np.array([[1, 0, 0], [0, -1, 0], [0, 0, 1]]),
+    ]
+    if ndim > 2:
+        refls += [
+            np.array([[1, 0, 0], [0, -1, 0], [0, 0, -1]])
+        ]
+    return refls
+
+def getSymms(rule, assemblyMode='seeded', ndim=3, rotations=None, reflections=None, invertions = [np.array([[-1, 0, 0], [0, -1, 0], [0, 0, -1]])]):
+    if rotations == None:
+        rotations = getRotations(ndim)
+    if reflections == None:
+        reflections = getReflections(ndim)
+    # Get coordinates form rule
+    coords = libpolycubes.getCoords(rule, assemblyMode)
+    # Move to centre of mass:
+    coords = (coords.T - coords.mean(axis=1)).T
+    rotsymms = len([True for rot in rotations if compCols(coords.T, rot.dot(coords).T)])
+    reflsymms = len([True for refl in reflections if compCols(coords.T, refl.dot(coords).T)])
+    invsymms = len([True for inv in invertions if compCols(coords.T, inv.dot(coords).T)])
+
+    return rotsymms, reflsymms, invsymms
