@@ -12,6 +12,7 @@
 *.cb2
 .*.lb
 
+
 ## Intermediate documents:
 *.dvi
 *.xdv
@@ -43,6 +44,9 @@
 ## Build tool directories for auxiliary files
 # latexrun
 latex.out/
+
+## Intermediate svg folder
+svg-inkscape/
 
 ## Auxiliary and intermediate files from other packages:
 # algorithms

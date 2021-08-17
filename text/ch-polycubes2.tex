@@ -1,0 +1,74 @@
+\chapter{Designing polycube assembly rules}
+
+Fully addressable is the easy solution
+Could also sample the whole input space as in previous chapter
+But is there a better way?
+
+\subsection{Satisfiability solving}
+
+Building upon a method for determining patchy particle interactions for unbounded structures \cite{romano2020designing} it is possible to also formulate and solve satisfiability problems for the bounded polycube structures.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{l|l} 
+ \hline
+ Variable & Description \\ [0.5ex] 
+ \hline
+ \hline
+ 
+\(x_{l,p,o}^{A}\) & Patch \(p\) at position \(l\) has orientation \(o\) \\
+\(x_{c_i,c_j}^{B}\) &  Colour \(c_i\) is compatible with colour \(c_j\) \\
+\(x_{s,p,c}^{C}\) & Patch \(p\) on cube type \(s\) has colour \(c\) \\
+\(x_{p_1,o_1,p_2,o_2}^{D}\) & Patch \(p_1\), orientation \(o_1\) binds to patch \(p_2\), orientation \(o_2\) \\
+\(x_{l,p,c}^{F}\) & Patch \(p\) at position \(l\) has colour \(c\) \\
+\(x_{s,p,o}^{O}\) & Patch \(p\) on cube type \(s\) has orientation \(o\) \\
+\(x_{l,s,r}^{P}\) & Position \(l\) is occupied by cube type \(s\) rotated by \(r\) \\
+ \hline
+\end{tabular}
+\caption{SAT variables and descriptions}
+\label{tab:sat_variables}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|l|l|}
+    \hline
+    Id & Clause & Boolean expression \\ [0.5ex] 
+    \hline
+    \hline
+    (i) & \(C^{B}_{c_i,c_j,c_k}\) & \(\neg x_{c_i,c_j}^{B} \lor \neg x_{c_i,c_k}^{B}\) \\ % Each colour is compatible with exactly one colour
+    (ii) &  \(C^{C}_{s,p,c_k,c_l}\) & \(\neg x_{s, p, c_k}^{C} \lor \neg x_{s, p, c_l}^{C}\) \\ % Each patch is assigned exactly one colour
+    (iii) & \(C^{P}_{l, s_i, r_i, s_j, r_j}\)  & \(\neg x_{l,s_i,r_i}^{P} \lor \neg x_{l,s_j,r_j}^{P} \) \\ % Each lattice position is occupied by a single cube type with one assigned rotation
+    (iv) & \(C^{BF}_{l_i,p_i,c_i,l_j,p_j,c_j}\) & \(\left(x_{l_i,p_i,c_i}^{F} \land x_{l_j,p_j,c_j}^{F} \right) \Rightarrow x_{c_i,c_j}^{B}\) \\ % Colours of patches that interact in the target lattice must be compatible
+    (v) & \(C^{rotC}_{l,s,r,p,c}\) & \(x_{l,s,r}^{P} \Rightarrow \left(x_{l,p,c}^{F} \Leftrightarrow x_{s, \phi_r(p), c}^{C}\right)\) \\ % The patches at a lattice position is set to have the patch colours of the rotated occupying cube type.
+    (vi) & \(C^{all s}_{s}\)  & \(\bigvee_{\forall l, r} x_{l,s,r}^{P}\) \\ % All N_s cube types are used for the lattice assembly
+    (vii) & \(C^{all c}_{c}\)  & \(\bigvee_{\forall s, p} x_{s,p,c}^{C}\) \\ % All N_c patch colours are used in the solution
+    (iix) &  \(C^{O}_{s,p,o_k,o_l}\) & \(\neg x_{s, p, o_k}^{O} \lor \neg x_{s, p, o_l}^{O}\) \\ % Each patch is assigned exactly one orientation
+    (ix) & \(C^{DA}_{l_i,p_i,c_i,l_j,p_j,c_j}\) & \(\left(x_{l_i,p_i,c_i}^{A} \land x_{l_j,p_j,c_j}^{A} \right) \Rightarrow x_{p_i,c_i,p_j,c_j}^{D}\) \\ % Orientation of patches that interact in the target lattice must be compatible
+    (x) & \(C^{rotO}_{l,s,r,p,o}\) & \(x_{l,s,r}^{P} \Rightarrow \left(x_{l,p,o}^{A} \Leftrightarrow x_{s, \phi_r(p), o}^{O}\right)\) \\ % The patches at a lattice position is set to have the orientations of the rotated occupying cube type.
+    
+    \hline
+\end{tabular}
+\caption{SAT clauses. (i) Each colour is compatible with \textit{exactly one} colour. (ii) Each patch has \textit{exactly one} colour. (iii) Each lattice position contains a single cube type with an assigned rotation. (iv) Adjacent patches in the lattice must have compatible colours. (v) Patches at a lattice position are coloured according to the (rotated) occupying cube type. (vi) All \(N_t\) cube types are required in the solution. (vii) All \(N_c\) patch colours are required in the solution. (iix) Each patch is assigned \textit{exactly one} orientation. (ix) Adjacent patches in the target lattice must have the same orientation. (v)  Patches at a lattice position are oriented according to the (rotated) occupying cube type.}
+\label{tab:sat_clauses}
+\end{table}
+Clauses (i)-(vii) are the same as in \cite{romano2020designing}, while the remaining clauses have been added, together with variables \(x^D\), \(x^A\) and \(x^O\), to include torsional restrictions.
+
+Interaction matrix is fixed (compared to \cite{romano2020designing}).
+
+Figure of topology graph. Figure of particle schematic
+
+Add giraffe-duck-like example of when SAT solver gives UND solution
+
+\subsection{Finding the minimal assembly rule}
+
+The method presented here uses a SAT solver to determines if a provided polycube shape is satisfiable for a given number of cube types \(N_t\) and colours \(N_c\). By iteratively ruling out lower values of \(N_t\) and \(N_c\), a minimal solution can be found, as detailed in Figure \ref{fig:sat_alg}. It is also possible to generate and compare alternative solutions of varying complexity.
+
+\begin{figure}
+    \centering
+    \resizebox{\textwidth}{!}{\input{figures/SAT_flow}}
+    \caption{Algorithm for finding the minimal solution using SAT. Even if a solution is found to be satisfiable it might not assemble correctly every time. Additional solutions for a given \(N_c\) and \(N_t\) are found by explicitly forbidding the current solution. Alternatively, it is possible to use a solver like relsat to obtain multiple solutions. }
+    \label{fig:sat_alg}
+\end{figure}
+ADD FIGURE ABOUT DETERMINISTIC AND UNBOUNDED ASSEMBLIES!!
+
