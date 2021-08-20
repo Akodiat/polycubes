@@ -4,7 +4,9 @@ Fully addressable is the easy solution
 Could also sample the whole input space as in previous chapter
 But is there a better way?
 
-\subsection{Satisfiability solving}
+\minitoc
+
+\section{Satisfiability solving}
 
 Building upon a method for determining patchy particle interactions for unbounded structures \cite{romano2020designing} it is possible to also formulate and solve satisfiability problems for the bounded polycube structures.
 
@@ -60,7 +62,7 @@ Figure of topology graph. Figure of particle schematic
 
 Add giraffe-duck-like example of when SAT solver gives UND solution
 
-\subsection{Finding the minimal assembly rule}
+\section{Finding the minimal assembly rule}
 
 The method presented here uses a SAT solver to determines if a provided polycube shape is satisfiable for a given number of cube types \(N_t\) and colours \(N_c\). By iteratively ruling out lower values of \(N_t\) and \(N_c\), a minimal solution can be found, as detailed in Figure \ref{fig:sat_alg}. It is also possible to generate and compare alternative solutions of varying complexity.
 
