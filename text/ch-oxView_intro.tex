@@ -4,18 +4,69 @@ A process cannot be understood by stopping it. Understanding must move with the 
 \end{savequote}
 %Edsger W. Dijkstra, How do we tell truths that might hurt? (1975).
 
-\chapter{Tools for design and simulation of individual modules}\label{sec:toolsForIndMod}
+\chapter{An introduction to tools for the design and simulation of nucleic acid structures}\label{sec:toolsForIndMod}
 
 \minitoc
 
+While previous chapters have covered modular self-assembly on a very abstract level, approximating the modules as simple cubes or patchy particles, this chapter will introduce tools and methods for designing and simulating individual structures or modules folded using DNA (or RNA).
 
-Simulating the structure and dynamics of individual DNA origami modules has been possible for a while, but my aim with this project has been to make such simulations more accessible and easy to use and analyse.
+The following sections will cover a selection of useful design and simulation tools that have been developed over the years, providing context for the presentation of my contributions to the \emph{oxView} tool in Chapter \ref{ch:oxview}.
+
+
+%Simulating the structure and dynamics of individual DNA origami modules has been possible for a while, but my aim with this project has been to make such simulations more accessible and easy to use and analyse.
 
 %This is accomplished as I develop new tools and scripts while learning about the simulation methods and the designs that various laboratories are interested in.
 
-This chapter describes the currently available tools for simulation and design of individual module structures. DNA and RNA structures can be digitally represented in many different formats, for many different uses, and with different levels of coarse-graining. 
+%This chapter describes the currently available tools for simulation and design of individual module structures. DNA and RNA structures can be digitally represented in many different formats, for many different uses, and with different levels of coarse-graining. 
 
-The following sections cover my results over the last year, investigating methods for converting designs into the oxDNA/RNA format and for visualising and analysing the simulation results.
+%The following sections cover my results over the last year, investigating methods for converting designs into the oxDNA/RNA format and for visualising and analysing the simulation results.
+
+\section{Design tools}\label{sec:design_tools}
+Designing a DNA origami structure by hand would be a very labourious task for anything but the most simple design. As such, a host of computer-aided design tools have been introduced over the years to make things easier. This section will cover some of the more popular examples.
+
+\subsection{Lattice-based design tools}
+The caDNAno design tool \cite{cadnano} and the web-based scadnano\cite{scadnano} it inspired, allows the user to design DNA origami on a lattice of parallel helices.
+\subsubsection{caDNAno}
+CaDNAno \cite{cadnano} was introduced in 2009 as a way to simplify 3D DNA origami designs. It has a graphical user interface, seen in Figure \ref{fig:cadnano}, where the designer can place virtual helices on an either hexagonal or square lattice in a slice panel (the leftmost panel in the figure). The helices can then be filled in with strands and connected using crossovers in a path panel, seen in the middle of the figure.
+
+Finally, caDNAno is also available as a plugin to the Autodesk Maya software, which enables a 3D visualisation of the design as seen in the render panel to the right in Figure \ref{fig:cadnano}. However, caDNAno doesn't support Maya versions after 2015 \cite{cadnanoInstall}.
+
+\begin{figure}[h]
+  \begin{center}
+      \includegraphics[width=\textwidth]{figures/cadnano.jpeg}
+      \caption{The caDNAno design interface, adapted from figure 1.(a) in \cite{cadnano}}
+      \label{fig:cadnano}
+      \end{center}
+  \end{figure}
+
+\subsubsection{Scadnano}
+Scadnano \cite{scadnano} (scriptable caDNAno) is a relatively new design tool, independent from but inspired by caDNAno version 2. The main difference is that Scadnano is completely web-based (not requiring any installation). The python code base is also designed to make it easier to write scripts generating DNA designs.
+
+\subsection{Top-down shape converters}
+
+\subsubsection{BSCOR}\label{sec:bscor}
+\subsubsection{DAEDAULS/PERDIX}
+ATHENA? %https://www.biorxiv.org/content/10.1101/2020.02.09.940320v1.full.pdf
+\subsubsection{Triangulated truss structures}
+% M. Matthies
+% https://pubs.acs.org/doi/abs/10.1021/acs.nanolett.6b00381
+
+\subsection{Free-form or hybrid tools}
+
+\subsubsection{Tiamat}
+Tiamat is an early free-form design tool
+
+\subsubsection{vHelix}
+
+\subsubsection{Adenita}
+A final option for structure editing is Adenita \cite{miao_tvcg_2018}. So far, a version has only been released for beta testers and unfortunately, they do not yet support Linux. Still, after talking to Haichao Miao at the Nantech2019 conference, Adenita sounds like it could become a valuable off-lattice tool for designing and editing DNA nanostructures, with import options from caDNAno and export to oxDNA.
+
+\subsubsection{MagicDNA}
+Another method of solving topological issues through rigid-body manipulation was used by Chao-Min Huang \cite{huang2019uncertainty}. The tool used is not public, so I have not been able to examine it, but the supplementary material of the article shows them using a Matlab script to interactively move and rotate the helix bundles (treated as rigid bodies) into a desired configuration with less stretched bonds.
+
+\subsubsection{oxView}
+The oxView application was developed as part of this thesis project and will be described more in Chapter \ref{ch:oxview}.
+Chapter \ref{ch:oxview}
 
 \section{Simulation tools}
 Simulating a structure can provide insight to understand experimental results, but can also guide decisions at the design stage. Different models
@@ -49,37 +100,3 @@ Another promising feature of mrdna is that it has a spline-based helix represent
 \subsection{Cando}
 
 Cando is a finite element modelling framework\cite{kim2012cando} available through a web server at \url{https://cando-dna-origami.org}. DNA double helices are modelled as elastic rods (connected by rigid crossovers) that stretch, twist and bend in line with experimental measurements.
-
-\section{Design tools}\label{sec:design_tools}
-Designing a DNA origami structure by hand would be a very labourious task for anything but the most simple design. As such, a host of computer-aided design tools have been introduced over the years to make things easier. This section will cover some of the more popular examples.
-
-\subsection{Lattice-based design tools}
-The caDNAno design tool \cite{cadnano} and the web-based scadnano\cite{scadnano} it inspired, allows the user to design DNA origami on a lattice of parallel helices.
-\subsubsection{caDNAno}
-CaDNAno \cite{cadnano} was introduced in 2009 as a way to simplify 3D DNA origami designs. It has a graphical user interface where the designer can place virtual helices on a lattice (either hexagonal or square). The helices can then be filled in with strands and connected using crossovers at logical positions.
-\subsubsection{Scadnano}
-
-\subsection{Top-down shape converters}
-
-\subsubsection{BSCOR}\label{sec:bscor}
-\subsubsection{DAEDAULS/PERDIX}
-ATHENA? %https://www.biorxiv.org/content/10.1101/2020.02.09.940320v1.full.pdf
-\subsubsection{Triangulated truss structures}
-% M. Matthies
-% https://pubs.acs.org/doi/abs/10.1021/acs.nanolett.6b00381
-
-\subsection{Free-form or hybrid tools}
-
-\subsubsection{Tiamat}
-Tiamat is an early free-form design tool
-
-\subsubsection{vHelix}
-
-\subsubsection{Adenita}
-A final option for structure editing is Adenita \cite{miao_tvcg_2018}. So far, a version has only been released for beta testers and unfortunately, they do not yet support Linux. Still, after talking to Haichao Miao at the Nantech2019 conference, Adenita sounds like it could become a valuable off-lattice tool for designing and editing DNA nanostructures, with import options from caDNAno and export to oxDNA.
-
-\subsubsection{MagicDNA}
-Another method of solving topological issues through rigid-body manipulation was used by Chao-Min Huang \cite{huang2019uncertainty}. The tool used is not public, so I have not been able to examine it, but the supplementary material of the article shows them using a Matlab script to interactively move and rotate the helix bundles (treated as rigid bodies) into a desired configuration with less stretched bonds.
-
-\subsubsection{oxView}
-The oxView application was developed as part of this thesis project and will be described more in the following chapter.
