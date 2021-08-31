@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>three.js webgl - multiple elements</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+        <style>
+            * {
+                box-sizing: border-box;
+                -moz-box-sizing: border-box;
+            }
+
+            body {
+                background-color: #fff;
+                color: #444;
+            }
+
+            a {
+                color: #08f;
+            }
+
+            #content {
+                position: absolute;
+                top: 0;
+                width: 100%;
+                z-index: 1;
+                padding: 3em 0 0 0;
+            }
+
+            #c {
+                position: absolute;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+
+            .list-item {
+                display: inline-block;
+                margin: 1em;
+                padding: 1em;
+                box-shadow: 1px 2px 4px 0px rgba(0, 0, 0, 0.25);
+            }
+
+            .list-item > div:nth-child(1) {
+                width: 200px;
+                height: 200px;
+            }
+
+            .list-item > div:nth-child(2) {
+                color: #888;
+                font-family: sans-serif;
+                font-size: large;
+                width: 200px;
+                margin-top: 0.5em;
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="c"></canvas>
+
+        <div id="content">
+            <div id="info">Polycube gallery</div>
+        </div>
+
+        <script src="js/libs/three.min.js"></script>
+        <script src="js/controls/OrbitControls.js"></script>
+        <script src="js/polycubeSystem.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/libs/papaparse.min.js"></script>
+
+        <script type="module">
+            //import * as THREE from '../build/three.module.js';
+            //import { OrbitControls } from './jsm/controls/OrbitControls.js';
+
+            let canvas, renderer;
+
+            const scenes = [];
+
+            init();
+            animate();
+
+            function init() {
+                canvas = document.getElementById("c");
+
+                document.addEventListener("keydown", event => {
+                    if (event.key == 'p') {
+                        canvas.toBlob(function(blob) {
+                            var a = document.createElement('a');
+                            var url = URL.createObjectURL(blob);
+                            a.href = url;
+                            a.download = "canvas.png";
+                            a.click();
+                        }, 'image/png', 1.0);
+                    }
+                });
+
+                const geometries = [new THREE.BoxGeometry(1, 1, 1), new THREE.SphereGeometry(0.5, 12, 8), new THREE.DodecahedronGeometry(0.5), new THREE.CylinderGeometry(0.5, 0.5, 1, 12)];
+
+                const content = document.getElementById("content");
+
+                const addPheno = (pheno) => {
+                    const scene = new THREE.Scene();
+
+                    // make a list item
+                    const element = document.createElement("div");
+                    element.className = "list-item";
+
+                    const sceneElement = document.createElement("div");
+					const side = `${50 * Math.log(pheno.count)}px`;
+					sceneElement.style.height = side;
+					sceneElement.style.width = side;
+                    element.appendChild(sceneElement);
+
+                    const descriptionElement = document.createElement("div");
+                    descriptionElement.innerText = `Count=${pheno.count}`;
+                    element.appendChild(descriptionElement);
+
+                    // the element that represents the area we want to render the scene
+                    scene.userData.element = sceneElement;
+                    content.appendChild(element);
+
+                    const camera = new THREE.PerspectiveCamera(50, 1, 1, 10);
+                    camera.position.z = 2;
+                    scene.userData.camera = camera;
+
+                    const controls = new THREE.OrbitControls(scene.userData.camera, scene.userData.element);
+                    controls.minDistance = 2;
+                    controls.maxDistance = 5;
+                    controls.enablePan = false;
+                    controls.enableZoom = false;
+                    scene.userData.controls = controls;
+
+                    const rule = parseHexRule(pheno.minNt_r);
+                    const system = new PolycubeSystem(rule, scene, 100, 100, "seeded");
+                    system.background = true;
+                    system.seed();
+                    while (!system.processMoves());
+                    //render();
+
+                    scene.children[0].position.sub(system.centerOfMass);
+
+					const fitOffset = 1.3;
+					const box = new THREE.Box3();
+					box.expandByObject(system.objGroup);
+					const size = box.getSize(new THREE.Vector3()).addScalar(1.5);
+					//const center = system.centerOfMass;
+					const maxSize = Math.max(size.x, size.y, size.z);
+					const fitHeightDistance = maxSize / (2 * Math.atan(Math.PI * camera.fov / 360));
+					const fitWidthDistance = fitHeightDistance / camera.aspect;
+					const distance = fitOffset * Math.max(fitHeightDistance, fitWidthDistance);
+					const direction = controls.target.clone().sub(camera.position).normalize().multiplyScalar(distance);
+					controls.maxDistance = distance * 10;
+					camera.near = distance / 100;
+					camera.far = distance * 100;
+
+					let targetPos = controls.target.clone().sub(direction);
+					//let target = camera.quaternion.clone();
+                    // Later in your code
+                    //controls.object.position.copy(targetPos);
+                    //controls.target.copy(targetPos);
+
+					camera.position.copy(targetPos);
+                    //camera.lookAt
+					//camera.quaternion.copy(target);
+
+					//controls.target = center;
+
+                    //render();
+
+                    scene.add(new THREE.HemisphereLight(0xaaaaaa, 0x444444));
+
+                    const light = new THREE.DirectionalLight(0xffffff, 0.5);
+                    light.position.set(1, 1, 1);
+                    scene.add(light);
+                    scenes.push(scene);
+                }
+
+				Papa.parse("./py/seeded_3d_size_8.csv", {
+					header: true,
+					download: true,
+					complete: function(results) {
+                        console.log(results.data.map(p=>p.minNt_r));
+						results.data.forEach(p=>{
+							addPheno(p);
+						})
+					}
+				});
+
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+                renderer.setClearColor(0xffffff, 1);
+                renderer.setPixelRatio(window.devicePixelRatio);
+            }
+
+
+
+            function updateSize() {
+                const width = canvas.clientWidth;
+                const height = canvas.clientHeight;
+
+                if (canvas.width !== width || canvas.height !== height) {
+                    renderer.setSize(width, height, false);
+                }
+            }
+
+            function animate() {
+                render();
+                requestAnimationFrame(animate);
+            }
+
+            function render() {
+                updateSize();
+
+                canvas.style.transform = `translateY(${window.scrollY}px)`;
+
+                renderer.setClearColor(0xffffff);
+                renderer.setScissorTest(false);
+                renderer.clear();
+
+                renderer.setClearColor(0xe0e0e0);
+                renderer.setScissorTest(true);
+
+                scenes.forEach(function (scene) {
+                    // so something moves
+                    //scene.children[0].rotation.y = Date.now() * 0.0001;
+
+                    // get the element that is a place holder for where we want to
+                    // draw the scene
+                    const element = scene.userData.element;
+
+                    // get its position relative to the page's viewport
+                    const rect = element.getBoundingClientRect();
+
+                    // check if it's offscreen. If so skip it
+                    if (rect.bottom < 0 || rect.top > renderer.domElement.clientHeight || rect.right < 0 || rect.left > renderer.domElement.clientWidth) {
+                        return; // it's off screen
+                    }
+
+                    // set the viewport
+                    const width = rect.right - rect.left;
+                    const height = rect.bottom - rect.top;
+                    const left = rect.left;
+                    const bottom = renderer.domElement.clientHeight - rect.bottom;
+
+                    renderer.setViewport(left, bottom, width, height);
+                    renderer.setScissor(left, bottom, width, height);
+
+                    const camera = scene.userData.camera;
+
+                    //camera.aspect = width / height; // not changing in this example
+                    //camera.updateProjectionMatrix();
+
+                    //scene.userData.controls.update();
+
+                    renderer.render(scene, camera);
+                });
+            }
+        </script>
+    </body>
+</html>

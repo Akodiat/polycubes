@@ -16,21 +16,91 @@ function getCoordinateFile() {
     saveString(text, filename);
 }
 
-function exportGLTF() {
+function exportGLTF(name='scene') {
     // Instantiate an exporter
     let exporter = new THREE.GLTFExporter();
     let options = {'forceIndices': true};
 
     // Parse the input and generate the glTF output
-    exporter.parse(scene, function (result) {
+    exporter.parse(system.objGroup, function (result) {
         if (result instanceof ArrayBuffer) {
             saveArrayBuffer(result, 'scene.glb');
         } else {
             let output = JSON.stringify(result, null, 2);
             console.log(output);
-            saveString(output, 'scene.gltf');
+            saveString(output, `${name}.gltf`);
         }
     }, options);
+}
+
+// Adapted from https://stackoverflow.com/a/41350703
+ function getSpiralCoord(n) {
+    const k = Math.ceil((Math.sqrt(n) - 1) / 2);
+    let t = 2 * k + 1;
+    let m = Math.pow(t, 2);
+
+    t -= 1;
+
+    if (n >= m - t) {
+        return new THREE.Vector3(0, k - (m - n), -k);
+    }
+
+    m -= t;
+
+    if (n >= m - t) {
+        return new THREE.Vector3(0, -k, -k + (m - n));
+    }
+
+    m -= t;
+
+    if (n >= m - t) {
+        return new THREE.Vector3(0, -k + (m - n), k);
+    }
+
+    return new THREE.Vector3(0, k, k - (m - n - t));
+}
+
+
+function exportGLTFs(rules, padding=5, inclination=1, saveEvery=1000) {
+    let zip = new JSZip();
+    let savedCounter = 0;
+    for (let i=0; i<rules.length; i++) {
+        const rule = rules[i];
+        console.log(`${i} (${Math.round(100*i/rules.length)}%)`);
+        const system = new PolycubeSystem(parseHexRule(rule), new THREE.Scene(), 100, 100, "seeded");
+        system.background = true;
+        system.seed();
+        while (!system.processMoves());
+
+        system.objGroup.position.copy(getSpiralCoord(i+1));
+        system.objGroup.position.x = inclination * i;
+        system.objGroup.position.y *= padding;
+        system.objGroup.position.z *= padding;
+        //system.objGroup.position.y = Math.ceil(i / side) * padding;
+        //system.objGroup.position.z = (i % side) * padding;
+        system.objGroup.position.sub(system.centerOfMass);
+
+        // Instantiate an exporter
+        let exporter = new THREE.GLTFExporter();
+        let options = {'forceIndices': true};
+
+        // Parse the input and generate the glTF output
+        exporter.parse(system.objGroup, function (result) {
+            let output = JSON.stringify(result);
+            zip.file(`${i}_${rule}.gltf`, output);
+
+            if (i+1 % saveEvery == 0) {
+                zip = new JSZip();
+            }
+
+            if (i == rules.length-1 || i+1 % saveEvery == 0) {
+                zip.generateAsync({type:"blob"})
+                .then(function(content) {
+                    saveAs(content, `gltfs_${savedCounter++}.zip`); //FileSaver.js
+                });
+            }
+        }, options);
+    }
 }
 
 document.addEventListener("keydown", event => {
