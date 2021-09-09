@@ -1,10 +1,12 @@
 \chapter{Designing polycube assembly rules}
 
-Fully addressable is the easy solution
-Could also sample the whole input space as in previous chapter
-But is there a better way?
-
 \minitoc
+
+Fully addressable is the easy solution
+
+Could also sample the whole input space as in previous chapter
+
+But is there a better way?
 
 \section{Satisfiability solving}
 
@@ -72,5 +74,9 @@ The method presented here uses a SAT solver to determines if a provided polycube
     \caption{Algorithm for finding the minimal solution using SAT. Even if a solution is found to be satisfiable it might not assemble correctly every time. Additional solutions for a given \(N_c\) and \(N_t\) are found by explicitly forbidding the current solution. Alternatively, it is possible to use a solver like relsat to obtain multiple solutions. }
     \label{fig:sat_alg}
 \end{figure}
+
 ADD FIGURE ABOUT DETERMINISTIC AND UNBOUNDED ASSEMBLIES!!
 
+\section{Example solves}
+
+  

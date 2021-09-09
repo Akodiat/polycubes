@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" height="380" viewBox="0 0 500 380" width="500">
+  <g transform="translate(200 17.480347)">
+    <rect fill="#fff" height="100" width="100" y="122.51965" />
+    <path d="m 0,222.51965 50,-50 50,50" fill="red" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" y="122.51965" />
+  </g>
+  <g transform="translate(200 17.480347)">
+    <rect fill="#fff" height="100" width="100" x="120" y="122.51965" />
+    <path d="m 120,122.51965 50,50 50,-50" fill="red" />
+    <path d="m 220,122.51965 -50,50 50,50" fill="#0f0" />
+    <path d="m 120,222.51965 50,-50 50,50" fill="#00f" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" x="120" y="122.51965" />
+  </g>
+  <g transform="translate(-220 137.48035)">
+    <rect fill="#00f" height="100" width="100" x="240" y="122.51965" />
+    <path d="m 240,222.51965 50,-50 -50,-50" fill="red" />
+    <path d="m 340,122.51965 -50,50 50,50" fill="#fff" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" x="240" y="122.51965" />
+  </g>
+  <g transform="translate(-220 137.48035)">
+    <rect fill="red" height="100" width="100" x="360" y="122.51965" />
+    <path d="m 360,122.51965 50,50 50,-50" fill="#00f" />
+    <path d="m 360,222.51965 50,-50 50,50" fill="#fff" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" x="360" y="122.51965" />
+  </g>
+  <g transform="translate(-220 137.48035)">
+    <rect fill="red" height="100" width="100" x="480" y="122.51965" />
+    <path d="m 480,122.51965 h 100 v 100" fill="#0f0" />
+    <path d="m 480,222.51965 50,-50 50,50" fill="#00f" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" x="480" y="122.51965" />
+  </g>
+  <g transform="translate(-220 137.48035)">
+    <rect fill="red" height="100" width="100" x="600" y="122.51965" />
+    <path d="m 700,122.51965 -50,50 50,50" fill="#fff" />
+    <path d="m 600,222.51965 50,-50 -50,-50" fill="#0f0" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" x="600" y="122.51965" />
+  </g>
+  <g transform="translate(-40 17.480347)">
+    <rect fill="#00f" height="100" width="100" x="180" y="2.5196533" />
+    <path d="m 180,102.51965 50,-50 -50,-50" fill="#0f0" />
+    <path d="m 280,2.51965 -50,50 50,50" fill="red" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" x="180" y="2.5196533" />
+  </g>
+  <g transform="translate(-40 17.480347)">
+    <rect fill="#0f0" height="100" width="100" x="300" y="2.5196533" />
+    <path d="m 300,2.51965 50,50 50,-50" fill="red" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" x="300" y="2.5196533" />
+  </g>
+  <g transform="translate(-40 17.480347)">
+    <rect fill="#00f" height="100" width="100" x="420" y="2.5196533" />
+    <path d="m 420,2.51965 50,50 50,-50" fill="#fff" />
+    <path d="m 420,102.51965 50,-50 50,50" fill="red" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" x="420" y="2.5196533" />
+  </g>
+  <g transform="translate(-460 137.48035)">
+    <rect fill="#00f" height="100" width="100" x="540" y="2.5196533" />
+    <path d="m 540,102.51965 50,-50 50,50" fill="#fff" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" x="540" y="2.5196533" />
+  </g>
+  <g transform="translate(-40 17.480347)">
+    <rect fill="red" height="100" width="100" x="60" y="2.51965" />
+    <path d="M 60,102.51965 110,52.519647 60,2.51965" fill="#0f0" />
+    <rect fill="none" height="100" stroke="#000" stroke-width="4" width="100" x="60" y="2.51965" />
+  </g>
+</svg>

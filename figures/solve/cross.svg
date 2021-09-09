@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   class="marks"
+   width="269"
+   height="176"
+   viewBox="0 0 269 176"
+   id="svg22858"
+   sodipodi:docname="cross.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata22864">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs22862" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     id="namedview22860"
+     showgrid="false"
+     inkscape:zoom="3.5539345"
+     inkscape:cx="137.27497"
+     inkscape:cy="88.657847"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg22858" />
+  <rect
+     width="269"
+     height="176"
+     id="rect22474"
+     fill="white" />
+  <g
+     fill="none"
+     stroke-miterlimit="10"
+     transform="translate(34,22)"
+     id="g22856">
+    <g
+       class="mark-group role-frame root"
+       role="graphics-object"
+       aria-roledescription="group mark container"
+       id="g22854">
+      <g
+         transform="translate(0,0)"
+         id="g22852">
+        <path
+           class="background"
+           aria-hidden="true"
+           d="M0.5,0.5h140v120h-140Z"
+           stroke="#ddd"
+           id="path22476" />
+        <g
+           id="g22848">
+          <g
+             class="mark-rect role-mark marks"
+             role="graphics-symbol"
+             aria-roledescription="rect mark container"
+             id="g22646">
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22480">
+              <path
+                 d="M60,40h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22478" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22484">
+              <path
+                 d="M20,80h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22482" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=8d8d068c8c080101020c000001018600000001010e000000010102008800"
+               id="a22488">
+              <path
+                 d="M80,60h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22486" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22492">
+              <path
+                 d="M60,100h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22490" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22496">
+              <path
+                 d="M40,60h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22494" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22500">
+              <path
+                 d="M60,0h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22498" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=91891a8c849401010204000001010210000015010200000001990200000001010e000000010902000000"
+               id="a22504">
+              <path
+                 d="M120,0h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22502" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22508">
+              <path
+                 d="M100,80h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22506" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=098d068c8c8c0101020c000001018600000001018a000000"
+               id="a22512">
+              <path
+                 d="M60,60h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22510" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22516">
+              <path
+                 d="M40,0h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22514" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=8905920c909001010210000001018e000000010112000000010102000800010102000084"
+               id="a22520">
+              <path
+                 d="M100,40h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22518" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22524">
+              <path
+                 d="M80,20h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22522" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=858586848484010102040000"
+               id="a22528">
+              <path
+                 d="M20,100h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22526" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22532">
+              <path
+                 d="M20,0h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22530" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=89058a888888010102080000010102080000010102080000010102008400"
+               id="a22536">
+              <path
+                 d="M80,80h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22534" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=050506040404010102840000018502000000"
+               id="a22540">
+              <path
+                 d="M40,100h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22538" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=0101020090000101160000000191020000000101020000848d010200000001010a00000011950e100488"
+               id="a22544">
+              <path
+                 d="M120,20h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22542" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=85098e088c080101028800000101020088000d01020000000101020c0000010106000000010102880000"
+               id="a22548">
+              <path
+                 d="M120,60h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22546" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22552">
+              <path
+                 d="M0,60h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22550" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22556">
+              <path
+                 d="M0,0h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22554" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22560">
+              <path
+                 d="M120,80h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22558" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22564">
+              <path
+                 d="M40,40h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22562" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22568">
+              <path
+                 d="M0,100h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22566" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22572">
+              <path
+                 d="M100,100h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22570" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=85898a848888010102080000010102000800010102000004"
+               id="a22576">
+              <path
+                 d="M60,80h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22574" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22580">
+              <path
+                 d="M40,20h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22578" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=898906888888010102080000010186000000"
+               id="a22584">
+              <path
+                 d="M40,80h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22582" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=058d128810100101029000000101020000900101020800000101020c0000010102008400010102009000"
+               id="a22588">
+              <path
+                 d="M120,40h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22586" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=858586848484010102040000010106000000010102040000010102040000"
+               id="a22592">
+              <path
+                 d="M80,100h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22590" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22596">
+              <path
+                 d="M60,20h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22594" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=0991060c040401018a00000001110200000001010284000001010200008c"
+               id="a22600">
+              <path
+                 d="M80,40h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22598" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=In progress"
+               id="a22604"
+               style="fill:#f58518;fill-opacity:1">
+              <path
+                 d="M100,0h20v20h-20Z"
+                 fill="#4c78a8"
+                 id="path22602"
+                 style="fill:#f58518;fill-opacity:1" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22608">
+              <path
+                 d="M0,80h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22606" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22612">
+              <path
+                 d="M0,20h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22610" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=05098e1014040101020c0000010102000084010102880000010102009000950102000000"
+               id="a22616">
+              <path
+                 d="M100,20h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22614" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22620">
+              <path
+                 d="M0,40h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22618" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22624">
+              <path
+                 d="M80,0h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22622" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22628">
+              <path
+                 d="M20,60h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22626" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22632">
+              <path
+                 d="M120,100h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22630" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22636">
+              <path
+                 d="M20,40h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22634" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=8d0102000000018d0200000001010200008c010102040000090102000000850d8a880c0c"
+               id="a22640">
+              <path
+                 d="M100,60h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22638" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22644">
+              <path
+                 d="M20,20h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22642" />
+            </a>
+          </g>
+          <g
+             class="mark-group role-legend"
+             role="graphics-symbol"
+             aria-roledescription="legend"
+             aria-label="Symbol legend titled 'category' for fill color with 4 values: In progress, None, Solution, UND"
+             id="g22736">
+            <g
+               transform="translate(158,0)"
+               id="g22734">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M0,0h72v66h-72Z"
+                 pointer-events="none"
+                 id="path22648" />
+              <g
+                 id="g22730">
+                <g
+                   class="mark-group role-legend-entry"
+                   id="g22724"
+                   transform="translate(0,-16)">
+                  <g
+                     transform="translate(0,16)"
+                     id="g22722">
+                    <path
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path22650"
+                       inkscape:connector-curvature="0" />
+                    <g
+                       id="g22718">
+                      <g
+                         class="mark-group role-scope"
+                         role="graphics-object"
+                         aria-roledescription="group mark container"
+                         id="g22716">
+                        <g
+                           transform="translate(0,13)"
+                           id="g22682">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 71.633335 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path22668"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g22678">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g22672">
+                              <path
+                                 transform="translate(6,6)"
+                                 d="M -5,-5 H 5 V 5 H -5 Z"
+                                 id="path22670"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:1;fill:#f58518;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g22676">
+                              <text
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text22674"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">None</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path22680"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                        <g
+                           transform="translate(0,26)"
+                           id="g22698">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 71.633335 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path22684"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g22694">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g22688">
+                              <path
+                                 transform="translate(6,6)"
+                                 d="M -5,-5 H 5 V 5 H -5 Z"
+                                 id="path22686"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:1;fill:#e45756;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g22692">
+                              <text
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text22690"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">Solution</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path22696"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                        <g
+                           transform="translate(0,39)"
+                           id="g22714">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 71.633335 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path22700"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g22710">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g22704">
+                              <path
+                                 transform="translate(6,6)"
+                                 d="M -5,-5 H 5 V 5 H -5 Z"
+                                 id="path22702"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:1;fill:#72b7b2;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g22708">
+                              <text
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text22706"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">UND</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path22712"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                      </g>
+                    </g>
+                    <path
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path22720"
+                       inkscape:connector-curvature="0"
+                       style="display:none" />
+                  </g>
+                </g>
+                <g
+                   class="mark-text role-legend-title"
+                   pointer-events="none"
+                   id="g22728">
+                  <text
+                     text-anchor="start"
+                     transform="translate(0,9)"
+                     font-family="sans-serif"
+                     font-size="11px"
+                     font-weight="bold"
+                     fill="#000"
+                     opacity="1"
+                     id="text22726">category</text>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path22732" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-title"
+             id="g22750">
+            <g
+               transform="translate(70,-17)"
+               id="g22748">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M0,0h0v0h0Z"
+                 pointer-events="none"
+                 id="path22738" />
+              <g
+                 id="g22744">
+                <g
+                   class="mark-text role-title-text"
+                   role="graphics-symbol"
+                   aria-roledescription="title"
+                   aria-label="Title text '3D cross'"
+                   pointer-events="none"
+                   id="g22742">
+                  <text
+                     text-anchor="middle"
+                     transform="translate(0,10)"
+                     font-family="sans-serif"
+                     font-size="13px"
+                     font-weight="bold"
+                     fill="#000"
+                     opacity="1"
+                     id="text22740">3D cross</text>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path22746" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-axis"
+             role="graphics-symbol"
+             aria-roledescription="axis"
+             aria-label="X-axis titled '# of species' for a discrete scale with 7 values: 1, 2, 3, 4, 5, 6, 7"
+             id="g22800">
+            <g
+               transform="translate(0.5,120.5)"
+               id="g22798">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M0,0h0v0h0Z"
+                 pointer-events="none"
+                 id="path22752" />
+              <g
+                 id="g22794">
+                <g
+                   class="mark-rule role-axis-tick"
+                   pointer-events="none"
+                   id="g22768">
+                  <line
+                     transform="translate(10,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22754" />
+                  <line
+                     transform="translate(30,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22756" />
+                  <line
+                     transform="translate(50,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22758" />
+                  <line
+                     transform="translate(70,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22760" />
+                  <line
+                     transform="translate(90,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22762" />
+                  <line
+                     transform="translate(110,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22764" />
+                  <line
+                     transform="translate(130,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22766" />
+                </g>
+                <g
+                   class="mark-text role-axis-label"
+                   pointer-events="none"
+                   id="g22784">
+                  <text
+                     text-anchor="end"
+                     transform="translate(9.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22770">1</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(29.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22772">2</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(49.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22774">3</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(69.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22776">4</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(89.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22778">5</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(109.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22780">6</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(129.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22782">7</text>
+                </g>
+                <g
+                   class="mark-rule role-axis-domain"
+                   pointer-events="none"
+                   id="g22788">
+                  <line
+                     transform="translate(0,0)"
+                     x2="140"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22786" />
+                </g>
+                <g
+                   class="mark-text role-axis-title"
+                   pointer-events="none"
+                   id="g22792">
+                  <text
+                     text-anchor="middle"
+                     transform="translate(70,26.366666793823242)"
+                     font-family="sans-serif"
+                     font-size="11px"
+                     font-weight="bold"
+                     fill="#000"
+                     opacity="1"
+                     id="text22790"># of species</text>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path22796" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-axis"
+             role="graphics-symbol"
+             aria-roledescription="axis"
+             aria-label="Y-axis titled '# of colors' for a discrete scale with 6 values: 6, 5, 4, 3, 2, 1"
+             id="g22846">
+            <g
+               transform="translate(0.5,0.5)"
+               id="g22844">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M0,0h0v0h0Z"
+                 pointer-events="none"
+                 id="path22802" />
+              <g
+                 id="g22840">
+                <g
+                   class="mark-rule role-axis-tick"
+                   pointer-events="none"
+                   id="g22816">
+                  <line
+                     transform="translate(0,10)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22804" />
+                  <line
+                     transform="translate(0,30)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22806" />
+                  <line
+                     transform="translate(0,50)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22808" />
+                  <line
+                     transform="translate(0,70)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22810" />
+                  <line
+                     transform="translate(0,90)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22812" />
+                  <line
+                     transform="translate(0,110)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22814" />
+                </g>
+                <g
+                   class="mark-text role-axis-label"
+                   pointer-events="none"
+                   id="g22830">
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,12.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22818">6</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,32.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22820">5</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,52.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22822">4</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,72.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22824">3</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,92.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22826">2</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,112.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text22828">1</text>
+                </g>
+                <g
+                   class="mark-rule role-axis-domain"
+                   pointer-events="none"
+                   id="g22834">
+                  <line
+                     transform="translate(0,0)"
+                     x2="0"
+                     y2="120"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line22832" />
+                </g>
+                <g
+                   class="mark-text role-axis-title"
+                   pointer-events="none"
+                   id="g22838">
+                  <text
+                     text-anchor="middle"
+                     transform="translate(-17.366666793823242,60) rotate(-90) translate(0,-2)"
+                     font-family="sans-serif"
+                     font-size="11px"
+                     font-weight="bold"
+                     fill="#000"
+                     opacity="1"
+                     id="text22836"># of colors</text>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path22842" />
+            </g>
+          </g>
+        </g>
+        <path
+           class="foreground"
+           aria-hidden="true"
+           d=""
+           display="none"
+           id="path22850" />
+      </g>
+    </g>
+  </g>
+  <image
+     y="96.407043"
+     x="188.16617"
+     id="image17509"
+     xlink:href="data:image/png;base64,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 CEgAAHL8fy4T63CTNM3jAAAAAElFTkSuQmCC "
+     style="image-rendering:optimizeSpeed"
+     preserveAspectRatio="none"
+     height="79.592957"
+     width="80.833824" />
+</svg>

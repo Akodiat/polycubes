@@ -1,8 +1,9 @@
 \chapter{\label{ch:3-polycubes}Modular self-assembly of polycubes}
-As introduced in the previous chapter, there is an increasing interest in researching multi-component origami structures. While some coarse-grained tile models exists, there still remains a need for methods to quickly explore the assembly of multi-component 3D structures.
-This chapter describes my polycube model and details how it can be used to sample a large amount of assembly rules, showing that some polycube shapes are significantly more common than others. The following chapter will show how to obtain the simplest assembly rule for any given polycube shape.
 
 \minitoc
+
+As introduced in the previous chapter, there is an increasing interest within the field of DNA nanotechnology to create finite-sized multi-component objects. While some coarse-grained tile models exists, there still remains a need for methods to quickly explore the assembly of multi-component 3D structures.
+This chapter describes my polycube model and details how it can be used to sample a large amount of assembly rules, showing that some polycube shapes are significantly more common than others. The following chapter will show how to obtain the simplest assembly rule for any given polycube shape.
 
 \section{The polycube model}
 A polycube consists of a number of equally-sized cubes, connected by their neigbouring faces; a three-dimensional analogue to how polyominos are squares connected by their neigbouring edges. In the model presented here, a polycube is stochastically self-assembled according to a specified rule, where a rule is a set of available species. Each cube species describes a type of cube that can be present in the polycube; cubes belonging to the same species are always identical.
@@ -10,13 +11,13 @@ A polycube consists of a number of equally-sized cubes, connected by their neigb
 Each species has six patches; one on each face of the cube, and each patch has a "colour" and an orientation. The colour is indicated by a signed integer and the orientation is one of four possible rotations: \includegraphics[width=10pt]{figures/face.eps}\hspace{4pt}(\(0\)),
 \begingroup\setbox0=\hbox{\includegraphics[width=10pt,angle=-90]{figures/face.eps}}\parbox{\wd0}{\box0}\endgroup\hspace{4pt}(\(\frac{\pi}{2}\)),
 \begingroup\setbox0=\hbox{\includegraphics[width=10pt,angle=180]{figures/face.eps}}\parbox{\wd0}{\box0}\endgroup\hspace{4pt}(\(\pi\)) or
-\begingroup\setbox0=\hbox{\includegraphics[width=10pt,angle=90]{figures/face.eps}}\parbox{\wd0}{\box0}\endgroup\hspace{4pt}(\(\frac{3\pi}{2}\)). A patch can bind to another patch if and only if they have the opposite colour and the same orientation. If the patch color is zero, the patch is considered empty and will not bind to anything. The model can also be expanded to more complicated colour interaction matrices or changed to pair odd integers with each subsequent integer likIaine in Johnston's polyomino model\cite{ahnert2010self}\cite{johnston2011evolutionary}.
+\begingroup\setbox0=\hbox{\includegraphics[width=10pt,angle=90]{figures/face.eps}}\parbox{\wd0}{\box0}\endgroup\hspace{4pt}(\(\frac{3\pi}{2}\)). A patch can bind to another patch if and only if they have the opposite colour and the same orientation. If the patch color is zero, the patch is considered empty and will not bind to anything. The model can also be expanded to more complicated colour interaction matrices or changed to pair odd integers with each subsequent integer as in the polyomino model\cite{ahnert2010self}\cite{johnston2011evolutionary} described in Section \ref{sec:polyomino}.
 
-The seeded self-assembly of a polycube starts by placing a cube corresponding to the first species in the rule as a seed at the origin. Each possible neighbour to the placed cube, given the cube's patches, is then added to a list of possible moves. For the next step, a possible move is chosen at random and the rule is searched in a random order for a species fitting the move. Cubes can be rotated to fit and if a fitting species is found, the corresponding cube is added. If there is no fit, the move is discarded. Moves are processed until the list of moves is empty or the polycube grows beyond a specified size, at which point it is considered unbounded.
+The stochastic self-assembly of a polycube starts by placing a cube from one of the available species as a seed at the origin. If the assembly mode is set to be seeded, it will always use first species in of rule. If the assembly mode is stochastic, the species of the seed is chosen at random.
 
-It is also possible to simulate unseeded assembly, in which case the initial seed is choosen at random from the available species in the rule.
+Each possible neighbour to the placed cube, given the cube's patches, is then added to a list of possible moves. For the next step, a possible move is chosen at random and the rule is searched in a random order for a species fitting the move. Cubes can be rotated to fit and if a fitting species is found, the corresponding cube is added. If there is no fit, the move is discarded. Moves are processed until the list of moves is empty or the polycube grows beyond a specified size, at which point it is considered unbounded.
 
-To determine if the rule is deterministic, the assembly is repeated a \(n_{times}\) times (default 10) and the outputs compared for equality (allowing rotation).
+To determine if the rule is deterministic, the assembly is repeated \(n_{times}\) times (default 10) and the outputs compared for equality (allowing rotation).
 
 ADD FIGURE ABOUT DETERMINISTIC AND UNBOUNDED ASSEMBLIES!!
 
