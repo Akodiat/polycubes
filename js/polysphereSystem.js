@@ -224,6 +224,26 @@ class PolysphereSystem {
         render();
     }
 
+    seed() {
+        let i = 0;
+        if(this.assemblyMode == 'stochastic') {
+            i = Math.floor(Math.random() * this.rule.length);
+        }
+        this.addParticle(new THREE.Vector3(), this.rule[i], i);
+    }
+
+    regenerate() {
+        this.reset();
+        this.seed();
+        this.processMoves();
+
+        if (typeof window !== 'undefined') {
+            render();
+            let argstr = "?assemblyMode="+this.assemblyMode + (this.rule.length > 0 ? "&rule="+this.getRuleStr() : "");
+            window.history.pushState(null, null, argstr);
+        }
+    }
+
     getMismatchRatio() {
         return this.mismatches / (this.matches + this.mismatches)
     }
