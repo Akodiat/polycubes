@@ -128,9 +128,29 @@ The tensegrity kite structure, adopted from \cite{liedl2010_kite} is harder to r
 Finally, the Möbius strip, adopted from \cite{han2010moebius}, is particularly tricky to relax, since the caDNAno design have all helices drawn in the same plane, with bonds from each end stretching through the whole structure and intersecting at a single point, as can be seen in the first image of Figure \ref{fig:oxDNA_sims}.d. With some help from Chris Maffeo, however, I was able to use a mrdna script to edit the structure into a configuration much easier to relax, as seen in the second image of Figure \ref{fig:oxDNA_sims}.d. Since the caDNAno design does not make it clear if the Möbius strip should be left-handed or right-handed, this is also decided in the script; changing the rotational direction will produce a mirrored version of the structure, as seen in the third image of Figure \ref{fig:oxDNA_sims}.d.
 
 \section{Visualization options}
-Centring with periodic boundary conditions
+Depending on the design, a user of oxView might want to modify the visualization settings to make certain features of the structure more or less visible.
 
-Change component sizes, change colours, fog., virtual reality, glTF in blender.
+\paragraph{Centring with periodic boundary conditions.} A useful utility when visualising an oxDNA trajectory is to keep the structure centered at the origin, stopping it from drifting out of view. The method described in \cite{PBC_centring} was used to achieve centering while taking periodic boundary contitions into account.
+
+% https://doi.org/10.1080/2151237X.2008.10129266
+% https://en.wikipedia.org/wiki/
+
+In essence, for each coordinate \(p_j = \left(p_x^j, p_y^j, p_z^j\right) \) in the centring set of size \(n\), each dimension \(i \in \left\{x,y,z\right\}\) gets averaged in its own variable \(\alpha_i\), representing its 1D interval as a 2D circle (where the circumference \(b_i\) is the bounding box side length:
+
+\[
+  c_i = \frac{1}{n} \sum_{j = 1}^{n} \left[ \cos \left( \alpha_i^j \right), \sin \left( \alpha_i^j \right) \right]  
+\]
+
+Where \(\alpha_i^j = \frac{2 \pi}{b_i} p_i^j\) is the angle on the unit circle and \(c_i\) is the average 2D position representing dimension \(i\). Finally, the averages are converted back to cartesian coordinates:
+
+\[
+  cm_i = \pi + \frac{b_i}{2\pi} atan2(-c_{i,y}, -c_{i, x})
+\]
+
+\paragraph{Change component sizes}
+
+
+, change colours, fog, virtual reality.
 
 \begin{figure}
 \centering\includegraphics[width=\textwidth]{figures/oxview.png} 
@@ -138,7 +158,22 @@ Change component sizes, change colours, fog., virtual reality, glTF in blender.
 \label{fig:oxview}\end{figure}
 
 \section{Exporting designs}
-Video, image, 3D files, sequence files, oxDNA simulation files.
+Once a structure has been created in or loaded into oxView, it can be exported in a variety of formats.
+
+\subsection{Exporting oxDNA simulation files}
+Also force files
+
+\subsection{Exporting other 3D formats}
+
+\subsection{Exporting sequence files}
+
+\subsection{Saving image files}
+
+\subsection{Creating videos}
+Trajectory
+
+Leminiscate
+
 
 
 \section{Converting RNA origami designs}
