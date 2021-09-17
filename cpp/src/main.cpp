@@ -147,7 +147,7 @@ int main(int argc, char **argv) {
     int nCubeTypes = 5;
     int nDimensions = 3;
     int nRules = 1000;
-    int nTries = 10;
+    int nTries = 100;
     int writeResultEvery = 10000;
     AssemblyMode assemblyMode = AssemblyMode::stochastic;
     std::string input = "";
@@ -208,7 +208,7 @@ int main(int argc, char **argv) {
             assembleRule(rule, nTries, assemblyMode, &phenomap, outputWriter);
             if (n % writeResultEvery == 0) {
                 std::cout<<(100*n/nRules)<<"% done ("<<n<<" rules sampled). "<<nPhenos<<" phenotypes found so far"<<std::endl;
-                writePhenos(phenomap, outputWriter);
+                writePhenos(&phenomap, outputWriter);
             }
         }
     } else {
@@ -219,13 +219,13 @@ int main(int argc, char **argv) {
                 assembleRule(rule, nTries, assemblyMode, &phenomap, outputWriter);
                 if (n % writeResultEvery == 0) {
                     std::cout<<n<<" rules sampled. "<<nPhenos<<" phenotypes found so far"<<std::endl;
-                    writePhenos(phenomap, outputWriter);
+                    writePhenos(&phenomap, outputWriter);
                 }
                 n++;
             }
             inputfile.close();
         }
     }
-    writePhenos(phenomap, outputWriter);
+    writePhenos(&phenomap, outputWriter);
     std::cout<<"Done! Found "<<nPhenos<<" phenos. Also found "<<nOub<<" unbounded and "<<nNondet<<" nondeterministic rules"<<std::endl;
 }

@@ -45,15 +45,17 @@ void OutputWriter::appendToPheno(Phenotype pheno, std::string rule) {
     execute("INSERT INTO "+path+"(-1) VALUES(\"" + rule + "\")");
 }
 
-void writePhenos(std::unordered_map<std::string, std::vector<Phenotype>> phenomap, OutputWriter outputWriter) {
-    for (auto &x: phenomap) {
-        for (Phenotype &p : x.second) {
-            while (!p.rules.empty()) {
-                std::string rule = p.rules.back();
-                p.rules.pop_back();
-                outputWriter.appendToPheno(p, rule);
+void writePhenos(std::unordered_map<std::string, std::vector<Phenotype>> *phenomap, OutputWriter outputWriter) {
+    for (auto &x: *phenomap) {
+        for (size_t i=0; i<x.second.size(); i++) {
+            while (!phenomap->at(x.first)[i].rules.empty()) {
+                std::string rule = phenomap->at(x.first)[i].rules.back();
+                // Remove rule from map so we don't write it next time
+                phenomap->at(x.first)[i].rules.pop_back();
+                outputWriter.appendToPheno(phenomap->at(x.first)[i], rule);
             }
         }
     }
     outputWriter.flush();
 }
+
