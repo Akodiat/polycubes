@@ -27,6 +27,7 @@ def analyse(path, toFile=True, assemblyMode='seeded', ndim=3):
                     'minLz': minLz, 'minLz_r': minLz_r, # Min Lempel-Ziv size
                     'size': size,
                     'sizeId': sizeId,
+                    'sizeIdN': i,
                     'rotsymms': rotsymms,
                     'reflsymms': reflsymms,
                     'invsymms': invsymms

@@ -33,12 +33,19 @@ def merge(outdir, assemblyMode):
                     if not sizeId in phenos:
                         phenos[sizeId] = []
                     for i, pheno in enumerate(ps.values()):
+                        # Add extra check to make sure the representative rules we use are deterministic
+                        idx = 0
+                        while idx < len(pheno) and not libpolycubes.isBoundedAndDeterministic(parseRule(pheno[idx]), 100, assemblyMode):
+                            print("{}: {} at {} in {} is not reliable".format(idx, parseRule(pheno[idx]), sizeId, filename))
+                            idx += 1
+                        if idx >= len(pheno):
+                            continue
                         phenos[sizeId].append({
                             'filename': filename,
-                            'rule': parseRule(pheno[0]),
+                            'rule': parseRule(pheno[idx]),
                             'idx': i
                         })
-        print("Read file {} ({} files remaining)".format(filename, len(files) - iFile))
+        print("Read file {} ({} files remaining)".format(filename, len(files) - iFile - 1))
 
     print("Sorted phenotypes by size")
 
