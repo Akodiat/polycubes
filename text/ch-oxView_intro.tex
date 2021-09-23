@@ -166,6 +166,18 @@ Another promising feature of mrdna is that it has a spline-based helix represent
   \end{center}
 \end{figure}
 
+\begin{figure}
+  \centering
+  \begin{overpic}[width=\textwidth]{figures/oxdna_sims.eps}
+    \put(0,960){a)}
+    \put(0,760){b)}
+    \put(0,540){c)}
+    \put(0,260){d)}
+  \end{overpic}
+  \caption{Relaxation results for various DNA designs. Each row depicts a new design, with the left-hand side showing the structure as it was drawn in caDNAno (and parsed by mrdna), while the right-hand side is the relaxed structure in oxDNA. Intermediate images are edits done in mrdna. While the switch design\cite{gerling2015dynamic} in \textbf{a)} 
+  and the small DNA origami box\cite{zadegan2012smallbox} in \textbf{b)} relaxed without any required editing, the tensegrity kite structure \cite{liedl2010_kite} in \textbf{c)} and the Möbius strip\cite{han2010moebius} in \textbf{d)} benefited greatly from moving selected helices to a position off the lattice before starting the simulation.}
+  \label{fig:oxDNA_sims}\end{figure}
+
 \subsection{Cando}
 
 Cando is a finite element modelling framework\cite{kim2012cando} available through a web server at \url{https://cando-dna-origami.org}. DNA double helices are modelled as elastic rods (connected by rigid crossovers) that stretch, twist and bend in line with experimental measurements.

@@ -3,23 +3,28 @@ Simplicity is prerequisite for reliability.
   \qauthor{--- Edsger W. Dijkstra}
 \end{savequote}
 
-\chapter{An introduction to high-level modular assembly}
+\chapter{An introduction to modular assembly}
 
 \minitoc
 
-Already from the start, the field of structural DNA nanotechnology has been interested in modular assemblies, although initially in the form of infinite chrystal structures. Prof. Ned Seeman was inspired to pioneer the field after seeing the woodcut \emph{Depth} by M.C. Escher \cite{seeman_2016}, where fish are depicted organised into a neat chrystalline structure.
+From the start, the field of structural DNA nanotechnology has been interested in modular assemblies, although initially in the form of infinite crystal structures. Prof. Ned Seeman was inspired to pioneer the field after seeing the woodcut \emph{Depth} by M.C. Escher \cite{seeman_2016}, where fish are depicted organised into a neat crystalline structure.
 
-But components that self-assemble into chrystals can also be made to assemble into bounded structures, given that a way can be found to make them self-limiting. This chapter will provide an overview on the background of self-assembled multi-component structures, starting with experimental results of ever-increasing size and followed by a selection of theoretical models.
+However, components that self-assemble into chrystals can also be made to assemble into bounded structures, given that a way can be found to make them self-limiting. This chapter will provide an overview of the background of self-assembled multicomponent structures, starting with experimental results of ever-increasing size and followed by a selection of theoretical models.
 
 \section{Experimental applications} \label{sec:experimental_appl}
-From small tiles made from a handful of strands to megadalton-scale structures made from multiple origamis, modular assembly has seen a lot of experimental research. This section will detail some results of particular interest to the polycube model presented in Chapter \ref{ch:3-polycubes}.
+From small tiles made from a handful of strands to megadalton-scale structures made from multiple origamis, modular self-assembly has seen considerable experimental research. This section will detail some results of particular interest to the polycube model presented in Chapter \ref{ch:3-polycubes}.
 
 \subsection{DNA tiles and bricks}
+Following early nucleic acid milti-arm junctions and lattices suggested by Seeman \cite{seeman1982nucleic}, Winfree \cite{winfree1998design} used double-crossover (DX) motifs, shown in Figure \ref{fig:dna_tiles}.a, to self-assemble 2D DNA crystals. As can be seen in figure \ref{fig:dna_tiles}.b, the lattices could be made with varying complexity; examplified using either two or for different species of tiles.
 % Tiles: https://www.nature.com/articles/28998
 
 \begin{figure}[h]
-  \centering\includegraphics[width=\textwidth]{figures/dna_tiles.png}
-  \caption{DX tiles forming 2D lattices, adapted from \cite{winfree1998design}. a) Lattices made from two units and four units respectively. b) Examples of DAO and DAE tile designs.}
+  \centering
+  \begin{overpic}[width=\textwidth]{figures/dna_tiles.png}
+    \put(0,450){a)}
+    \put(0,240){b)}
+  \end{overpic}
+  \caption{DX tiles forming 2D lattices, adapted from \cite{winfree1998design}. a) Examples of DAO and DAE tile designs. b) Lattices made from two and four tile species respectively.}
   \label{fig:dna_tiles}
 \end{figure}
 
@@ -33,21 +38,26 @@ From small tiles made from a handful of strands to megadalton-scale structures m
 
 \subsection{RNA tiles}
 %https://www.science.org/doi/abs/10.1126/science.1253920 
-In 2014, Cody Geary published a method of folding RNA tiles co-transcriptionally \cite{geary2014single}. The design used a set of tertiary RNA motifs, such as kissing hairpins and double crossovers, to fold the RNA strand into the desired tile structure. The tiles then assembled connected by complementary 120-degree kissing loop interactions. The design method was later described in depth in the \emph{Methods in Molecular Biology} book series \cite{sparvath2017computer}.
+As covered in Section \ref{sec:RNA_design}, it is possible to co-transcriptionally fold RNA origami \cite{geary2014single}. This was shown in 2014, by folding RNA tiles that connect through complementary 120-degree kissing loop interactions, as seen in Figure \ref{fig:rna_tiles}.
 
 \begin{figure}[h]
-  \centering\includegraphics[width=\textwidth]{figures/rna_tiles.jpeg}
-  \caption{2D RNA tiles from \cite{geary2014single}}
+  \centering
+  \begin{overpic}[width=\textwidth]{figures/rna_tiles.jpeg}
+      \put(50,450){a)}
+      \put(650,450){b)}
+      \put(550,150){c)}
+  \end{overpic}
+  \caption{Co-transcriptional folding RNA origami tiles, adapted from \cite{geary2014single}. The tiles connect through 120-degree kissing loop interactions, forming a hexagonal lattice. a) Co-transcriptional folding, where the RNA tile folds as it is transcribed from a DNA template. b) Hexagonal lattice formed by folded tiles. c) Detailed scematic of the four-helix 4H-AO tile, shown in a) and b).}
   \label{fig:rna_tiles}
 \end{figure}
 
 \subsection{DNA origami arrays}\label{sec:origamiArrays}
 % https://www.nature.com/articles/nature24655
 
-In 2017, Tikhomirov, et al.\cite{tikhomirov2017fractal} demonstrated two-dimensional patterns assembled on the micrometre-scale using square origami tiles connecting through their complementary edges. helices
+In 2017, Tikhomirov et al.\cite{tikhomirov2017fractal} demonstrated two-dimensional patterns assembled on the micrometre-scale using square origami tiles connecting through their complementary edges. helices
 
 \begin{figure}[h]
-  \centering\includegraphics[width=0.6\textwidth]{figures/monalisa_tiles.png}
+  \centering\includegraphics[width=\textwidth]{figures/monalisa_tiles.png}
   \caption{Adapted from \cite{tikhomirov2017fractal}}
 \end{figure}
 
@@ -57,10 +67,10 @@ In 2017, Tikhomirov, et al.\cite{tikhomirov2017fractal} demonstrated two-dimensi
 
 % Huge https://www.nature.com/articles/s41563-021-01020-4
 
-Also in 2017, Wagenbauer, et al. \cite{wagenbauer2017gigadalton} used shape-complementarity to assemble origami tiles into three-dimensional polyhedral shapes up to 450 nanometers in diameter.
+Also, in 2017, Wagenbauer et al. \cite{wagenbauer2017gigadalton} used shape-complementarity to assemble origami tiles into three-dimensional polyhedral shapes up to 450 nanometers in diameter.
 
 \begin{figure}[h]
-  \centering\includegraphics[width=0.6\textwidth]{figures/dietz_ring.png}
+  \centering\includegraphics[width=\textwidth]{figures/dietz_ring.png}
   \caption{Adapted from \cite{wagenbauer2017gigadalton}}
 \end{figure}
 
@@ -87,10 +97,10 @@ Also in 2017, Wagenbauer, et al. \cite{wagenbauer2017gigadalton} used shape-comp
 
 
 \section{Modular assembly models}
-It would be computationally unreasonable to simulate module assemblhelicesy at the level of individual nucleotides. A better approach is instead to use an abstract model to predict the assembly process with the modules treated as rigid bodies. This section will present earlier such models as a background to my own model described in Chapter \ref{ch:3-polycubes}.
+It would be computationally unreasonable to simulate module assembly at the level of individual nucleotides. A better approach is to use an abstract model to predict the assembly process with the modules treated as rigid bodies. This section will present earlier such models as a background to my own model described in Chapter \ref{ch:3-polycubes}.
 
 \subsection{Wang tiles}
-Introduced by Hao Wang in 1961 \cite{wang1961proving}, so called \emph{Wang tiles} are 
+Introduced by Hao Wang in 1961 \cite{wang1961proving}, s-called \emph{Wang tiles} are 
 
 \begin{figure}[h]
   \centering\includesvg[width=0.6\textwidth]{figures/Wang_11_tiles.svg}
@@ -119,7 +129,7 @@ The main inspiration for the polycube model presented in Chapter \ref{ch:3-polyc
 
 %, studying the self-assembly, modularity and evolutionary dynamics of \emph{polyominoes}.
 
-Polyominoes are abstract structures composed of one or more squares, connected by their edges. The polyomino assembly model developed is similar in assembly to the later experimental micro-meter scale tile designs by Tikhomirov \cite{tikhomirov2017fractal} described in Section \ref{sec:origamiArrays}. Compared to Wang tiles\cite{wang1961proving}, the edge binding does not need to be between edges of the same colour, but can be specified by a more complex interaction matrix. Furthermore, the tiles can be rotated to bind, creating further possibilities for symmetries.
+Polyominoes are abstract structures composed of one or more squares connected by their edges. The polyomino assembly model developed is similar in assembly to the later experimental micro-meter scale tile designs by Tikhomirov \cite{tikhomirov2017fractal} described in Section \ref{sec:origamiArrays}. Compared to Wang tiles\cite{wang1961proving}, the edge binding does not need to be between edges of the same colour but can be specified by a more complex interaction matrix. Furthermore, the tiles can be rotated to bind, creating further possibilities for symmetries.
 
 \begin{figure}[h]
     \centering\includegraphics[width=0.6\textwidth]{figures/polyominoes.eps}
@@ -153,7 +163,7 @@ However, some strings can have a description shorter than a full listing of the 
 for(int i=50; i--;) printf("A");
 \end{lstlisting}
 
-There are also a number of possible valid variations of the code avove, with different variable names and coding conventions, all producing the same output. In other words, not only is the description shorter than writing out the full string, but there are also multiple inputs that map to the same output, increasing the probability further.
+There are also a number of possible valid variations of the code above, with different variable names and coding conventions, all producing the same output. In other words, not only is the description shorter than writing out the full string but multiple inputs map to the same output, increasing the probability of the output further.
 
 The concept of using the shortest possible computer program that can describe an object (for example, a binary string) to determine its complexity is central within the field of Algorithmic Information Theory (AIT) and is called Kolmogorov complexity (or Solomonoff–Kolmogorov–Chaitin to give full credit) \cite{LiMing2019AitK}. More specifically, the Kolmogorov complexity \(K(x)\) of an output \(x\) is the length of the shortest program that generates \(x\) on a Universal Turing Machine (UTM).
 

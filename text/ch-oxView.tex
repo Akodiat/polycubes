@@ -2,17 +2,17 @@
 
 \minitoc
 
-This chapter contains my results on how to design, simulate and analyse DNA and RNA nanostructures. It starts with an introductory description of earlier approaches to this problem and will then describe how my contributions to the oxView tool have improved the previous methods and enabled new results.
+This chapter contains my results on how to design, simulate and analyze DNA and RNA nanostructures. It starts with an introductory description of earlier approaches to this problem and will then describe how my contributions to the oxView tool have improved the previous methods and enabled new results.
 
 As I started this DPhil, I was tasked with the issue of converting origami designs created in caDNAno so that they can be correctly simulated in oxDNA.
 
-I soon started collaborating with Hannah Fowler from the Doye group at Theoretical Chemistry. She was simulating a large collection of old DNA designs, so it was a good opportunity to convert and relax problematic structures, investigating why some structures are more problematic than others.
+I soon started collaborating with Hannah Fowler from the Doye group at Theoretical Chemistry. She was simulating an extensive collection of old DNA designs, so it was a good opportunity to convert and relax problematic structures, investigating why some structures are more problematic than others.
 
-At this time, there was a python script included in the UTILS directory of the oxDNA repository, but it was difficult to use and it failed for many structures. At the end of 2018, the tacoxDNA webserver \cite{suma2019tacoxdna} was launched, updating the conversion script and making it more accessible. Still, since caDNAno structures are drawn on a lattice, the resulting oxDNA configurations often had unnaturally extended backbone bonds, requiring time-consuming relaxation.
+At this time, there was a python script included in the UTILS directory of the oxDNA repository, but it was not easy to use, and it failed for many structures. At the end of 2018, the tacoxDNA webserver \cite{suma2019tacoxdna} was launched, updating the conversion script and making it more accessible. Still, since caDNAno structures are drawn on a lattice, the resulting oxDNA configurations often had unnaturally extended backbone bonds, requiring time-consuming relaxation.
 
-During a secondment within the {\v{S}}ulc group at Arizona State University in 2019, I contributed to the development of a web-based oxDNA viewer called oxView\cite{poppleton2020design}. Among the main features I added to oxView was a cluster-level rigid-body dynamics option (detailed in Section \ref{sec:rigid-body_dynamics}) that in many cases speed up the relaxation with orders of magnitude compared to oxDNA relaxation alone. Since then I have been collaborating with the {\v{S}}ulc group to add more features and to make the tool more accessible as a visualiser and editor. For our second oxView publication I rewrote the main parts of the taxoxDNA codebase into typescript, resulting in the \emph{taxoxdna.js} library (\url{https://github.com/Akodiat/tacoxdna.js}) which oxView uses to import various common design formats automatically.
+During a secondment within the {\v{S}}ulc group at Arizona State University in 2019, I contributed to the development of a web-based oxDNA viewer called oxView\cite{poppleton2020design}. Among the main features I added to oxView was a cluster-level rigid-body dynamics option (detailed in Section \ref{sec:rigid-body_dynamics}) that in many cases speed up the relaxation with orders of magnitude compared to oxDNA relaxation alone. Since then I have been collaborating with the {\v{S}}ulc group to add more features and to make the tool more accessible as a visualizer and editor. For our second oxView publication I rewrote the main parts of the taxoxDNA codebase into typescript, resulting in the \emph{taxoxdna.js} library (\url{https://github.com/Akodiat/tacoxdna.js}) which oxView uses to import various common design formats automatically.
 
-This section will present my own contributions to oxView, unless otherwise stated, but also I want to acknowledge the work done by Erik Poppleton and Michael Matthies; without them this tool would not exist. Michael was the original oxView developer and has done a great work in enabling live oxDNA relaxations through the \emph{ox-serve} webserver. Erik made oxView able to smoothly render and analyse systems with over a million nucleotides and has created a large set of handy analysis scripts.
+This section will present my own contributions to oxView, unless otherwise stated, but also I want to acknowledge the work done by Erik Poppleton and Michael Matthies; without them this tool would not exist. Michael was the original oxView developer and has done a great work in enabling live oxDNA relaxations through the \emph{ox-serve} webserver. Erik made oxView able to smoothly render and analyze systems with over a million nucleotides and has created a large set of handy analysis scripts.
 
 \section{Importing designs}\label{sec:cadnanoConv}
 There are a lot of different formats available for DNA origami design; some of the main design tools are covered in Section \ref{sec:design_tools}. This section will describe how to use oxView to import different designs.
@@ -44,7 +44,7 @@ Some structures, while converted without failure to the oxDNA format, will have 
 
 The oxDNA software already includes relaxation procedures for such structures, bringing them together in a slow and controlled manner using a specified maximum backbone force. However, for large structures, this can take a very long time, even while using GPU simulation.
 
-In such cases, another software I have investigated, called mrdna (Multi-resolution DNA nanotechnology), proves very useful\cite{maffeo2018}. It is a python package using ARBD (Atomic Resolution Brownian Dynamics), both being developed by Chris Maffeo, to simulate double- and single-stranded DNA structures at multiple levels of coarse-graining. Since these simulations are more coarse-grained than oxDNA, they run significantly faster. Furthermore, after I have been in contact with Chris, mrdna can now also be configured to output and simulate oxDNA configurations as the final simulation step. Because of this, mrdna can also be useful for converting simple structures, if tacoxDNA fails to parse the caDNAno file.
+In such cases, another software I have investigated, called mrdna (Multi-resolution DNA nanotechnology), proves very useful\cite{maffeo2018}. It is a python package using ARBD (Atomic Resolution Brownian Dynamics), both being developed by Chris Maffeo, to simulate double- and single-stranded DNA structures at multiple levels of coarse-graining. Since these simulations are more coarse-grained than oxDNA, they run significantly faster. Furthermore, after I have been in contact with Chris, mrdna can now also be configured to output and simulate oxDNA configurations as the final simulation step. Because of this, mrdna can also be useful for converting simple structures if tacoxDNA fails to parse the caDNAno file.
 
 \section{Rigid-body manipulation and dynamics}
 \label{sec:rigid-body_dynamics}
@@ -62,14 +62,24 @@ where \(c_{spr}\) is a spring constant, \(l\) is the current bond length and \(l
 $$ f_{\rm rep} = max\left(c_{rep}\left(1-\frac{d}{r_a+r_b}\right),0\right)$$ is added between the centre of each group, where \(c_{rep}\) is a repulsion constant, \(d\) is the distance between the two centres of mass, and \(r_a+r_b\) is the sum of the group radii (the greatest distance they can be while still overlapping).
 
 \begin{figure}
-\centering\includegraphics[width=\textwidth]{figures/icosahedron.png} 
+\centering
+\begin{overpic}[width=\textwidth]{figures/icosahedron.png}
+  \put(0,300){a)}
+  \put(240,300){b)}
+  \put(620,300){c)}
+\end{overpic} 
 \caption{Rigid-body dynamics of clusters. Snapshots from the automatic rigid-body relaxation of an icosahedron, starting with the configuration converted from caDNAno \textbf{a)}, through the intermediate \textbf{b)} where the dynamics are applied, and \textbf{c)} the final resulting relaxed state.}
 \label{fig:rigidBody}\end{figure}
 
 \section{Editing designs}
 
 \begin{figure}
-\includegraphics[width=\textwidth]{figures/tetra.eps} 
+\begin{overpic}[width=\textwidth]{figures/tetra.eps}
+  \put(0,200){a)}
+  \put(200,200){b)}
+  \put(470,200){c)}
+  \put(740,200){d)}
+\end{overpic}
 \caption{Designing the DNA tetrahedron from \cite{goodman2005rapid} using the oxView editing tools. a) The initial helix created. b) Duplicated helices being translated into place. c) Strands ligated together. d) The resulting 3D tetrahedron shape, as seen after applying rigid-body dynamics.}
 \label{fig:design}
 \end{figure}
@@ -112,14 +122,6 @@ $$ f_{\rm rep} = max\left(c_{rep}\left(1-\frac{d}{r_a+r_b}\right),0\right)$$ is 
 \label{table:edit_tools}
 \end{table}
 
-
-
-\begin{figure}
-\centering\includegraphics[width=\textwidth]{figures/oxdna_sims.eps} 
-\caption{Relaxation results for various DNA designs. Each row depicts a new design, with the left-hand side showing the structure as it was drawn in caDNAno (and parsed by mrdna), while the right-hand side is the relaxed structure in oxDNA. Intermediate images are edits done in mrdna. While the switch design\cite{gerling2015dynamic} in \textbf{a)} 
-and the small DNA origami box\cite{zadegan2012smallbox} in \textbf{b)} relaxed without any required editing, the tensegrity kite structure \cite{liedl2010_kite} in \textbf{c)} and the Möbius strip\cite{han2010moebius} in \textbf{d)} benefited greatly from moving selected helices to a position off the lattice before starting the simulation.}
-\label{fig:oxDNA_sims}\end{figure}
-
 \section{Example conversions}
 A selection of the DNA designs I have relaxed are shown in Figure \ref{fig:oxDNA_sims}. The first two examples, adopted from \cite{gerling2015dynamic} and \cite{zadegan2012smallbox} and illustrated in Figure \ref{fig:oxDNA_sims}.a and \ref{fig:oxDNA_sims}.b, are both quite straightforward to relax in oxDNA, although the relaxation is much faster using mrdna.
 
@@ -130,7 +132,7 @@ Finally, the Möbius strip, adopted from \cite{han2010moebius}, is particularly 
 \section{Visualization options}
 Depending on the design, a user of oxView might want to modify the visualization settings to make certain features of the structure more or less visible.
 
-\paragraph{Centring with periodic boundary conditions.} A useful utility when visualising an oxDNA trajectory is to keep the structure centered at the origin, stopping it from drifting out of view. The method described in \cite{PBC_centring} was used to achieve centering while taking periodic boundary contitions into account.
+\paragraph{Centring with periodic boundary conditions.} A useful utility when visualizing an oxDNA trajectory is to keep the structure centred at the origin, stopping it from drifting out of view. The method described in \cite{PBC_centring} was used to achieve centring while taking periodic boundary conditions into account.
 
 % https://doi.org/10.1080/2151237X.2008.10129266
 % https://en.wikipedia.org/wiki/
@@ -177,7 +179,7 @@ Leminiscate
 
 
 \section{Converting RNA origami designs}
-During my secondment at the Andersen lab in Aarhus, I worked with converting RNA structures designed using their ASCII-based blueprint format into oxRNA simulation files. Examples of converted structures are shown in Figure \ref{fig:oxRNA_sims}. The Andersen lab already has scripts, soon to be published, for parsing their blueprint files and building the corresponding PDB structures (the first two columns of Figure \ref{fig:oxRNA_sims}). However, the resulting PDB files are not relaxed and would take a long time to relax using all-atom simulation. As such, I modified the tacoxDNA \cite{suma2019tacoxdna} PDB parser to enable PDB-to-oxRNA conversion. I have contacted Lorenzo to let him know about these additions and hopefully, they will be included in a future version of tacoxDNA. One issue I noticed with the conversion was that the asterisk (*) and prime (') characters were used interchangeably in the RNA motif library to name atoms of the sugar group, causing problems with the tacoxDNA script, which only recognises the prime. This has already been fixed in tacoxDNA. The third column of Figure \ref{fig:oxRNA_sims} shows the structures relaxed and simulated in oxRNA, some significantly different from the previously available PDB models in the second column.
+During my secondment at the Andersen lab in Aarhus, I worked with converting RNA structures designed using their ASCII-based blueprint format into oxRNA simulation files. Examples of converted structures are shown in Figure \ref{fig:oxRNA_sims}. The Andersen lab already has scripts, soon to be published, for parsing their blueprint files and building the corresponding PDB structures (the first two columns of Figure \ref{fig:oxRNA_sims}). However, the resulting PDB files are not relaxed and would take a long time to relax using all-atom simulation. As such, I modified the tacoxDNA \cite{suma2019tacoxdna} PDB parser to enable PDB-to-oxRNA conversion. I have contacted Lorenzo to let him know about these additions and hopefully, they will be included in a future version of tacoxDNA. One issue I noticed with the conversion was that the asterisk (*) and prime (') characters were used interchangeably in the RNA motif library to name atoms of the sugar group, causing problems with the tacoxDNA script, which only recognizes the prime. This has already been fixed in tacoxDNA. The third column of Figure \ref{fig:oxRNA_sims} shows the structures relaxed and simulated in oxRNA, some significantly different from the previously available PDB models in the second column.
 
 % "The asterisk (*) is used in place of the prime character (') for naming atoms of the sugar group" - https://cdn.rcsb.org/wwpdb/docs/documentation/file-format/PDB_format_1996.pdf
 
