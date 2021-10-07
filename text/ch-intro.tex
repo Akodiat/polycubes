@@ -7,15 +7,20 @@ Far out in the uncharted backwaters of the unfashionable end of the western spir
 
 \minitoc
 
-This chapter explains the background and motivation for my project and introduces the two sub-projects I have been working on for the last year.
-
-
-\section{Scope of the thesis}
-
-\section{Background}
 How do you design and assemble something on the nanoscale? Imagine building something with lego bricks; you choose the building blocks you want and use your hands to attach them where you want them to be. However, for nanoscale objects, it is difficult to have that level of control. Instead, more success has been had by imitating nature and letting the building blocks assemble themselves.
 
-\subsection{DNA design}
+\section{Thesis structure}
+This thesis covers two related projects, both concerning the design and modular self-assembly of nanostructures. This chapter serves as an introduction to both projects, providing background on DNA and RNA self-assembly. Each project will then be introduced by a separate chapter on its relevant history and background.
+
+The first project, introduced by Chapter \ref{ch:polycubes_intro}, covers an abstract self-assembly model called \emph{polycubes}. Chapter \ref{ch:polycubes1} details the model and presents results on the shapes that assemble when randomly sampling the input space. Chapter \ref{ch:polycubes2} presents the results on the reverse problem; given a polycube shape, what input rules will assemble it and can you minimise input complexity?
+
+The second project takes a more detailed view of self-assembly design. Chapter \ref{ch:oxview_intro} gives a background on computer-aided design tools for nucleic acid structures, followed by an introduction of the models used to simulate such designs. Chapter \ref{ch:oxview} then presents my contributions to \emph{oxView}, a web-based tool for the visualisation, design, and integration of DNA, RNA and protein structures.
+
+
+%\section{Scope of the thesis}
+
+
+\section{DNA design}
 Deoxyribonucleic acid (DNA) is a string-like molecule used to encode the genes of living systems \cite{calladine1997understanding}. These strings are made up of units called \emph{nucleotides}, consisting of the connecting sugar-phosphate backbone as well as one of four possible bases: \emph{adenine} (A), \emph{thymine} (T) \emph{cytosine} (C), and \emph{guanine} (G).
 
 Through Watson-Crick base-pairing, ``A'' forms two hydrogen bonds with ``T'', while ``G'' forms three with ``C'', making DNA double-stranded. Each strand has a directionality, conventionally represented as going from the 3' to the 5' end of the strand, making the duplex anti-parallel.
@@ -50,15 +55,15 @@ A breakthrough in the field of structural DNA nanotechnology was the DNA origami
     \label{fig:dnaOrigami}
 \end{figure}
 
-Using design tools such as caDNAno\cite{douglas2009rapid}, it has become relatively easy to design structures of any given form. However, the size of the origami is limited by the length of the scaffold, which one of the motivations for researchers to investigate modular approaches, as described in Section \ref{sec:experimental_appl}.
+Using design tools such as caDNAno\cite{cadnano}, it has become relatively easy to design structures of any given form. However, the size of the origami is limited by the length of the scaffold, which one of the motivations for researchers to investigate modular approaches, as described in Section \ref{sec:experimental_appl}.
 
-\subsection{RNA design}
+\section{RNA design}
 \label{sec:RNA_design}
 Ribonucleic acid (RNA) is very similar to DNA, but with the \emph{thymine} base replaced by \emph{uracil} (U). Just like DNA, it is possible to use it as a self-assembling building material.
 
-Biologically, DNA is transcribed into RNA by the RNA polymerase enzyme as part of gene expression. While DNA folding is easier to predict, the fact that RNA is more reactive also offers the possibility of a more useful structure; for example by incorporating aptamers, enzymes and other such functionalities\cite{guo2010emerging}.
+Biologically, DNA is transcribed into RNA by the RNA polymerase enzyme as part of gene expression. While DNA folding is easier to predict, the fact that RNA is more reactive than DNA also offers the possibility of a more useful structure; for example, by incorporating aptamers, enzymes and other such functionalities\cite{guo2010emerging}.
 
-Geary, et al., from the Andersen lab in Aarhus demonstrated a method\cite{geary2014single, sparvath2017computer, geary2021rna} for co-transcriptionally folded RNA origami in 2014, which also enables folding \emph{in vivo}. The design used a set of tertiary RNA motifs, such as kissing hairpins and double crossovers, to fold the transcribed RNA strand into the desired structure. The Andersen lab is one of the network partners, and I have spent a two-month secondment there working with their RNA origami method.
+Geary et al., from the Andersen lab in Aarhus, demonstrated a method\cite{geary2014single, sparvath2017computer, geary2021rna} for co-transcriptionally folded RNA origami in 2014, which also enables folding \emph{in vivo}. The design used a set of tertiary RNA motifs, such as kissing hairpins and double crossovers, to fold the transcribed RNA strand into the desired structure. The Andersen lab is one of the network partners, and I have spent a two-month secondment there working with their RNA origami method.
 
 \begin{figure}[h]
     \centering

@@ -3,7 +3,7 @@ Simplicity is prerequisite for reliability.
   \qauthor{--- Edsger W. Dijkstra}
 \end{savequote}
 
-\chapter{An introduction to modular assembly}
+\chapter{\label{ch:polycubes_intro}An introduction to modular assembly}
 
 \minitoc
 
@@ -12,9 +12,10 @@ From the start, the field of structural DNA nanotechnology has been interested i
 However, components that self-assemble into chrystals can also be made to assemble into bounded structures, given that a way can be found to make them self-limiting. This chapter will provide an overview of the background of self-assembled multicomponent structures, starting with experimental results of ever-increasing size and followed by a selection of theoretical models.
 
 \section{Experimental applications} \label{sec:experimental_appl}
-From small tiles made from a handful of strands to megadalton-scale structures made from multiple origamis, modular self-assembly has seen considerable experimental research. This section will detail some results of particular interest to the polycube model presented in Chapter \ref{ch:3-polycubes}.
+From small tiles made from a handful of strands to megadalton-scale structures made from multiple origamis, modular self-assembly has seen considerable experimental research. This section will detail some results of particular interest to the polycube model presented in Chapter \ref{ch:polycubes1}.
 
 \subsection{DNA tiles and bricks}
+\label{sec:dna_tiles_bricks}
 Following early nucleic acid milti-arm junctions and lattices suggested by Seeman \cite{seeman1982nucleic}, Winfree \cite{winfree1998design} used double-crossover (DX) motifs, shown in Figure \ref{fig:dna_tiles}.a, to self-assemble 2D DNA crystals. As can be seen in figure \ref{fig:dna_tiles}.b, the lattices could be made with varying complexity; examplified using either two or for different species of tiles.
 % Tiles: https://www.nature.com/articles/28998
 
@@ -97,7 +98,7 @@ Also, in 2017, Wagenbauer et al. \cite{wagenbauer2017gigadalton} used shape-comp
 
 
 \section{Modular assembly models}
-It would be computationally unreasonable to simulate module assembly at the level of individual nucleotides. A better approach is to use an abstract model to predict the assembly process with the modules treated as rigid bodies. This section will present earlier such models as a background to my own model described in Chapter \ref{ch:3-polycubes}.
+It would be computationally unreasonable to simulate module assembly at the level of individual nucleotides. A better approach is to use an abstract model to predict the assembly process with the modules treated as rigid bodies. This section will present earlier such models as a background to my own model described in Chapter \ref{ch:polycubes1}.
 
 \subsection{Wang tiles}
 Introduced by Hao Wang in 1961 \cite{wang1961proving}, s-called \emph{Wang tiles} are 
@@ -125,7 +126,7 @@ Co-operative binding
 
 \subsection{The polyomino model}\label{sec:polyomino}
 
-The main inspiration for the polycube model presented in Chapter \ref{ch:3-polycubes} is the polyomino model \cite{ahnert2010self}\cite{johnston2011evolutionary}. The main difference to aTAM is that polyomino tiles are allowed to rotate. They also have a constant binding strength (in other words, it is a temperature-1 model).
+The main inspiration for the polycube model presented in Chapter \ref{ch:polycubes1} is the polyomino model \cite{ahnert2010self}\cite{johnston2011evolutionary}. The main difference to aTAM is that polyomino tiles are allowed to rotate. They also have a constant binding strength (in other words, it is a temperature-1 model).
 
 %, studying the self-assembly, modularity and evolutionary dynamics of \emph{polyominoes}.
 
@@ -137,7 +138,7 @@ Polyominoes are abstract structures composed of one or more squares connected by
     \label{fig:polyominoes}
 \end{figure}
 
-I aim to build on Johnston's work on polyominoes to explore the properties of such self-assembling systems in three dimensions; the self-assembly of \emph{polycubes}. With such a model in place, it should be possible to design, through shape complementary in DNA origami \cite{wagenbauer2017gigadalton}, kissing interactions in RNA origami \cite{geary2014single}, or other methods, robotic modules with the interfaces necessary to assemble into the desired polycube shape. My current progress within this project is covered in Chapter \ref{ch:3-polycubes}.
+I aim to build on Johnston's work on polyominoes to explore the properties of such self-assembling systems in three dimensions; the self-assembly of \emph{polycubes}. With such a model in place, it should be possible to design, through shape complementary in DNA origami \cite{wagenbauer2017gigadalton}, kissing interactions in RNA origami \cite{geary2014single}, or other methods, robotic modules with the interfaces necessary to assemble into the desired polycube shape. My current progress within this project is covered in Chapter \ref{ch:polycubes1}.
 
 \subsection{Patchy particles}
 

@@ -1,16 +1,20 @@
-\chapter{Designing polycube assembly rules}
+\chapter{\label{ch:polycubes2}Designing polycube assembly rules}
 
 \minitoc
 
-Fully addressable is the easy solution
+In the previous chapter, we saw how to map an input rule into an output polycube shape. However, the reverse problem is just as significant; given a target shape, how do you find a rule that assembles it?  
 
-Could also sample the whole input space as in previous chapter
+% Fully addressable is the easy solution.
+
+A trivial solution would be to use fully addressable assembly, simply assign a unique species to each cube, and a unique colour to each pair of adjacent patches. This is similar to what was done for DNA bricks (Section \ref{sec:dna_tiles_bricks}), but for many shapes there are alternative solutions requiring significantly fewer unique components.
+
+Could also sample the whole input space as in the previous chapter
 
 But is there a better way?
 
 \section{Satisfiability solving}
 
-Building upon a method for determining patchy particle interactions for unbounded structures \cite{romano2020designing} it is possible to also formulate and solve satisfiability problems for the bounded polycube structures.
+Building upon a method for determining patchy particle interactions for unbounded structures \cite{romano2020designing} it is possible to formulate and solve satisfiability problems for the bounded polycube structures.
 
 \begin{table}[h!]
 \centering
@@ -60,13 +64,15 @@ Clauses (i)-(vii) are the same as in \cite{romano2020designing}, while the remai
 
 Interaction matrix is fixed (compared to \cite{romano2020designing}).
 
-Figure of topology graph. Figure of particle schematic
+Figure of topology graph.
+
+Figure of particle schematic
 
 Add giraffe-duck-like example of when SAT solver gives UND solution
 
 \section{Finding the minimal assembly rule}
 
-The method presented here uses a SAT solver to determines if a provided polycube shape is satisfiable for a given number of cube types \(N_t\) and colours \(N_c\). By iteratively ruling out lower values of \(N_t\) and \(N_c\), a minimal solution can be found, as detailed in Figure \ref{fig:sat_alg}. It is also possible to generate and compare alternative solutions of varying complexity.
+The method presented here uses a boolean satisfiability (SAT) solver to determines if a provided polycube shape is satisfiable for a given number of cube types \(N_t\) and colours \(N_c\). By iteratively ruling out lower values of \(N_t\) and \(N_c\), a minimal solution can be found, as detailed in Figure \ref{fig:sat_alg}. It is also possible to generate and compare alternative solutions of varying complexity.
 
 \begin{figure}
     \centering
@@ -77,4 +83,20 @@ The method presented here uses a SAT solver to determines if a provided polycube
 
 \section{Example solves}
 
-  
+\begin{figure}[h]
+    \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/solve/cross.svg}
+    \caption{3D-cross}
+\end{figure}
+
+\begin{figure}[h]
+    \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/solve/cube.svg}
+    \caption{Cube}
+\end{figure}
+
+
+\section{Patchy particle simulation}
+
+\begin{figure}[h]
+    \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/patchysim/all.svg}
+    \caption{Patchy particle simulation}
+\end{figure}
