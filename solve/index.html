@@ -127,7 +127,7 @@
 			<h2>Polycube SAT solver</h2>
 			<small>By Joakim Bohlin</small><br>
 			<p>Click the cube faces to add cubes (shift-click to remove), then click <button onclick="findMinimalRuleFromSettings(); document.getElementById('modal').classList.add('show-modal')">here</button> to solve.</p>
-            <a onmouseover="this.href='../?rule='+ruleToHex(getFullyAdressableRule());" style="color: black" target="_blank">Fully adressable rule</a>
+            <a onmouseover="this.href='../?decRule='+ruleToDec(getFullyAdressableRule());" style="color: black" target="_blank">Fully adressable rule</a>
             <div>
                 <button onclick="saveSolveSpec()">Save</button>
                 <input type="file" id="load" accept="json" onchange="handleFile()">

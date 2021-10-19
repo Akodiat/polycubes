@@ -6,8 +6,8 @@ importScripts(
 );
 
 onmessage = function(e) {
-    let inputRule = parseHexRule(e.data);
-    let result = ruleToHex(simplify2(inputRule, rule=>postMessage(rule)));
+    let inputRule = parseDecRule(e.data);
+    let result = ruleToDec(simplify2(inputRule, rule=>postMessage(rule)));
     console.log("Got result: "+result);
     postMessage(result);
 }

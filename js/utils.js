@@ -65,6 +65,30 @@ function vecToStr(v) {
     return `(${v.x},${v.y},${v.z})`;
 }
 
+function ruleToDec(rule) {
+    return rule.map(s=>s.map((face,i)=>{
+        if (face.color === 0) {
+            return '';
+        } else {
+            let orientation = (getSignedAngle(faceRotations[i], face.alignDir, ruleOrder[i])*(2/Math.PI)+4)%4;
+            return `${face.color}:${orientation}`;
+        }
+    }).join('|')).join('_');
+}
+
+function parseDecRule(ruleStr) {
+    return ruleStr.split('_').map(s=>s.split('|').map((face,i)=>{
+        let color = 0;
+        let orientation = 0;
+        if (face !== '') {
+            [color, orientation] = face.split(':').map(v=>parseInt(v));
+        }
+        let r = faceRotations[i].clone();
+        r.applyAxisAngle(ruleOrder[i], orientation*Math.PI/2).round();
+        return {'color': color, 'alignDir': r};
+    }))
+}
+
 // https://stackoverflow.com/a/45054052
 function parseHexRule(ruleStr) {
     let ruleSize = 6;
@@ -88,6 +112,25 @@ function parseHexRule(ruleStr) {
     }
     return rules;
 }
+
+function ruleToHex(rule) {
+    const ruleSize = 6;
+    let ruleStr = "";
+    for (let i=0; i< rule.length; i++) {
+        for (let j = 0; j<ruleSize; j++) {
+            const face = rule[i][j];
+            const sign = face.color < 0 ? "1" : "0";
+            const color = Math.abs(face.color).toString(2).padStart(5,'0');
+            let orientation = (getSignedAngle(faceRotations[j], face.alignDir, ruleOrder[j])*(2/Math.PI)+4)%4
+            orientation = orientation.toString(2).padStart(2,'0');
+            const binStr = sign + color + orientation;
+            const hexStr = parseInt(binStr,2).toString(16).padStart(2,'0');
+            ruleStr += hexStr;
+        }
+    }
+    return ruleStr;
+}
+
 function getSignedAngle(v1, v2, axis) {
     let s = v1.clone().cross(v2);
     let c = v1.clone().dot(v2);
@@ -146,24 +189,6 @@ function randOrdering(length) {
     }
     shuffleArray(l);
     return l;
-}
-
-function ruleToHex(rule) {
-    const ruleSize = 6;
-    let ruleStr = "";
-    for (let i=0; i< rule.length; i++) {
-        for (let j = 0; j<ruleSize; j++) {
-            const face = rule[i][j];
-            const sign = face.color < 0 ? "1" : "0";
-            const color = Math.abs(face.color).toString(2).padStart(5,'0');
-            let orientation = (getSignedAngle(faceRotations[j], face.alignDir, ruleOrder[j])*(2/Math.PI)+4)%4
-            orientation = orientation.toString(2).padStart(2,'0');
-            const binStr = sign + color + orientation;
-            const hexStr = parseInt(binStr,2).toString(16).padStart(2,'0');
-            ruleStr += hexStr;
-        }
-    }
-    return ruleStr;
 }
 
 function getCoords(rule, assemblyMode='seeded') {

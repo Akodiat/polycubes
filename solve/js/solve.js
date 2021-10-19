@@ -58,7 +58,7 @@ function saveSolveSpec() {
 
 function loadSolveSpec(solveSpec) {
     // If we just have a default cube, remove it
-    if (voxels.size = 1 && [...voxels][0].position.equals(new THREE.Vector3())) {
+    if (voxels.size == 1 && [...voxels][0].position.equals(new THREE.Vector3())) {
         let d = [...voxels][0];
         scene.remove(d);
         voxels.delete(d);
@@ -594,19 +594,19 @@ function findMinimalRule(nDim=3, torsionalPatches=true) {
     const fullyAdressable = getFullyAdressableRule();
     let [topology, _] = getCurrentTop(nDim);
     let [maxNT, maxNC] = countParticlesAndBindings(topology);
-    updateStatus({status:'✓', rule: ruleToHex(fullyAdressable)}, maxNT, maxNC);
+    updateStatus({status:'✓', rule: ruleToDec(fullyAdressable)}, maxNT, maxNC);
 
     // Try to simplify:
     let simplifyWorker = new Worker('js/simplifyWorker.js');
     simplifyWorker.onmessage = function(e) {
         const simplified = e.data;
-        const simplifiedRule = parseHexRule(simplified);
+        const simplifiedRule = parseDecRule(simplified);
         const nCubeTypes = getNt(simplifiedRule);
         const nColors = getNc(simplifiedRule);
         updateStatus({status:'✓', rule: simplified}, nCubeTypes, nColors);
         globalBest = Math.min(globalBest, nCubeTypes+nColors);
     }
-    simplifyWorker.postMessage(ruleToHex(fullyAdressable));
+    simplifyWorker.postMessage(ruleToDec(fullyAdressable));
 
     maxCubeTypes = maxCubeTypes < 0 ? maxNT: Math.min(maxNT, maxCubeTypes);
     maxColors = maxColors < 0 ? maxNC: Math.min(maxNC, maxColors);
@@ -726,7 +726,7 @@ function updateStatus(result, nCubeTypes, nColors) {
     }
     let cell = row.cells[nColors];
     if (result.rule) {
-        cell.innerHTML = `<a href="../?assemblyMode=stochastic&rule=${result.rule}" target="_blank">${result.status}</a>`;
+        cell.innerHTML = `<a href="../?assemblyMode=stochastic&decRule=${result.rule}" target="_blank">${result.status}</a>`;
     } else if (result.status == '...') {
         cell.innerHTML = '<div class="busy">...</div>';
     } else {

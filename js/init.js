@@ -7,6 +7,8 @@ function createPolycubeSystem() {
         rules = parseHexRule(vars["rule"]);
     } else if ("hexRule" in vars) {
         rules = parseHexRule(vars["hexRule"]);
+    } else if ("decRule" in vars) {
+        rules = parseDecRule(vars["decRule"]);
     } else {
         defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
         rules = JSON.parse(getUrlParam("rules",defaultRule));

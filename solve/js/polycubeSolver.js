@@ -733,26 +733,6 @@ function countParticles(topology) {
     particles = topology.map(x=>x[0]).concat(topology.map(x=>x[2]));
     return Math.max(...particles)+1
 }
-/*
-// https://stackoverflow.com/a/45054052
-function parseHexRule(ruleStr) {
-    let ruleSize = 6;
-    let rule = [];
-    for (let i=0; i<ruleStr.length; i+=2*ruleSize) {
-        let cube = [];
-        for (let j = 0; j<ruleSize; j++) {
-            let face = ruleStr.substring(i+(2*j), i+(2*j) + 2);
-            let binStr = (parseInt(face, 16).toString(2)).padStart(8, '0');
-            let sign = parseInt(binStr[0], 2);
-            let color = parseInt(binStr.substring(1,6),2);
-            let orientation = parseInt(binStr.substring(6,8),2);
-            cube.push( {'color': color * (sign ? -1:1), 'orientation': orientation} );
-        }
-        rule.push(cube);
-    }
-    return rule;
-}
-*/
 
 function render() {
     return; // Do nothing, since we should be in a web worker
@@ -857,7 +837,7 @@ function find_solution(topology, empty, nCubeTypes, nColors, nDim=3, tortionalPa
     let mysat = new polysat(topology, empty, nCubeTypes, nColors, nDim, tortionalPatches);
     let nMaxTries = 10;
     let status;
-    let hexRule;
+    let decRule;
     while (nMaxTries--) {
         if (minSol && minSol[0]+minSol[1] < nCubeTypes+nColors) {
             return 'skipped';
@@ -866,21 +846,21 @@ function find_solution(topology, empty, nCubeTypes, nColors, nDim=3, tortionalPa
         if (result) {
             let rule = readSolution(result);
             rule.sort((a,b)=>{return patchCount(b)-patchCount(a)});
-            hexRule = ruleToHex(rule);
-            status = isBoundedAndDeterministic(hexRule);
+            decRule = ruleToDec(rule);
+            status = isBoundedAndDeterministic(decRule);
             if (status == '∞' || status == '?') {
-                console.log(`https://akodiat.github.io/polycubes/?rule=${hexRule}"`);
+                console.log(`https://akodiat.github.io/polycubes/?decRule=${decRule}"`);
                 mysat.forbidSolution(result);
             }
             else {
                 minSol = [nCubeTypes, nColors];
-                return {'status': '✓', 'rule': hexRule};
+                return {'status': '✓', 'rule': decRule};
             }
         } else {
             return {'status': '×'};
         }
     }
-    return {'status': status, 'rule': hexRule};
+    return {'status': status, 'rule': decRule};
 }
 
 // Modified from https://stackoverflow.com/a/8273091
