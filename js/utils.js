@@ -70,7 +70,7 @@ function ruleToDec(rule) {
         if (face.color === 0) {
             return '';
         } else {
-            let orientation = (getSignedAngle(faceRotations[i], face.alignDir, ruleOrder[i])*(2/Math.PI)+4)%4;
+            let orientation = Math.round(getSignedAngle(faceRotations[i], face.alignDir, ruleOrder[i])*(2/Math.PI)+4)%4;
             return `${face.color}:${orientation}`;
         }
     }).join('|')).join('_');
@@ -213,8 +213,7 @@ function getCubeTypeCount(hexRule, assemblyMode='seeded') {
     return sys.cubeTypeCount;
 }
 
-function isBoundedAndDeterministic(hexRule, nTries=15, assemblyMode='seeded') {
-    let rule = parseHexRule(hexRule);
+function isBoundedAndDeterministic(rule, nTries=15, assemblyMode='seeded') {
     let oldCoords;
     while (nTries--) {
         let system = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode);
@@ -252,7 +251,7 @@ function simplify(rule) {
                 allZero = false;
             }
         })
-          
+
         if (!allZero || iCube == 0) {
             newRule.push(cubeType);
         }
@@ -278,7 +277,10 @@ function simplify2(rule, onUpdate) {
 
     let correctCoords = getCoords(rule);
 
-    const rotations = allRotations();
+    const rotations = allRotations().map(
+        r=>[r,new THREE.Quaternion().setFromRotationMatrix(
+            new THREE.Matrix4().setFromMatrix3(r))]
+    );
 
     let alreadyTried = new Set();
     let triedStr = (a,b)=>`${[a,b].sort()}`;
@@ -293,14 +295,12 @@ function simplify2(rule, onUpdate) {
                     const coordsB = getPatchCoords(cB);
                     // If they have the same number of patches
                     if (coordsA.length === coordsB.length && !alreadyTried.has(triedStr(iA,iB))) {
-                        for (const r of rotations) {
+                        for (const [r,q] of rotations) {
                             if (compCols(coordsA, rotCoords(coordsB, r))) {
                                 console.log(`Cube type ${iA} is similar to ${iB}`);
                                 let colorMap = new Map();
                                 //let rotMap = new Map();
-                                const m = new THREE.Matrix4();
-                                m.setFromMatrix3(r);
-                                const q = new THREE.Quaternion().setFromRotationMatrix(m);
+                                //const q = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().setFromMatrix3(r));
                                 const rotatedB = rotateRule(cB, q);
                                 for (let i=0; i<6; i++) {
                                     if (rotatedB[i].color !== 0) {
@@ -311,16 +311,18 @@ function simplify2(rule, onUpdate) {
                                 }
                                 let newRule = [];
                                 // Clone rule and create new ruleset
-                                parseHexRule(ruleToHex(rule)).forEach((c,i)=>{
+                                parseDecRule(ruleToDec(rule)).forEach((c,i)=>{
                                     if (i !== iB) {
                                         c.forEach((p,i)=>{
-                                            const color = p.color
+                                            // Replace all of the old color with the new
+                                            const color = p.color;
                                             if(colorMap.has(color)) {
                                                 p.color = colorMap.get(color);
                                                 p.alignDir = cA[i].alignDir;
                                             }
                                             else if(colorMap.has(-color)) {
                                                 p.color = -colorMap.get(-color);
+                                                p.alignDir.applyQuaternion(q.invert());
                                             }
                                         });
                                     } else {
@@ -336,19 +338,19 @@ function simplify2(rule, onUpdate) {
 
                                 // Accept new ruleset if we still get the same chape
                                 if (
-                                    (isBoundedAndDeterministic(ruleToHex(simplifiedNewRule), undefined, 'seeded') === true) &&
+                                    (isBoundedAndDeterministic(simplifiedNewRule, undefined, 'seeded') === true) &&
                                     coordEqual(getCoords(simplifiedNewRule, 'seeded'), correctCoords)
                                 ) {
                                     updatedRuleset = true;
                                     rule = newRule;
-                                    console.log(`Changing  ${iB} to ${iA} did work: ${ruleToHex(simplifiedNewRule)}`);
+                                    console.log(`Changing  ${iB} to ${iA} did work: ${ruleToDec(simplifiedNewRule)}`);
                                     alreadyTried.add(triedStr(iA,iB));
                                     if (onUpdate) {
-                                        onUpdate(ruleToHex(simplifiedNewRule));
+                                        onUpdate(ruleToDec(simplifiedNewRule));
                                     }
                                     break;
                                 } else {
-                                    console.log(`Changing  ${iB} to ${iA} did not work: ${ruleToHex(simplifiedNewRule)}\nBounded & Deterministic = ${isBoundedAndDeterministic(ruleToHex(simplifiedNewRule))}\nEqual coords = ${coordEqual(getCoords(simplifiedNewRule), correctCoords)}`);
+                                    console.log(`Changing  ${iB} to ${iA} did not work: ${ruleToDec(simplifiedNewRule)}\nBounded & Deterministic = ${isBoundedAndDeterministic(simplifiedNewRule)}\nEqual coords = ${coordEqual(getCoords(simplifiedNewRule), correctCoords)}`);
                                     alreadyTried.add(triedStr(iA,iB));
                                     //break;
                                 }

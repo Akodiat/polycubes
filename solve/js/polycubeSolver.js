@@ -847,7 +847,7 @@ function find_solution(topology, empty, nCubeTypes, nColors, nDim=3, tortionalPa
             let rule = readSolution(result);
             rule.sort((a,b)=>{return patchCount(b)-patchCount(a)});
             decRule = ruleToDec(rule);
-            status = isBoundedAndDeterministic(decRule);
+            status = isBoundedAndDeterministic(rule);
             if (status == '∞' || status == '?') {
                 console.log(`https://akodiat.github.io/polycubes/?decRule=${decRule}"`);
                 mysat.forbidSolution(result);
