@@ -17,15 +17,70 @@ AssemblyMode parseAssemblyMode(std::string s) {
     return m;
 }
 
-Result runTries(std::string rule, int nTries, AssemblyMode assemblyMode)
+std::vector<Rule> parseDecRule(std::string ruleStr) {
+    std::vector<Rule> rules;
+    for (std::string s : splitString(ruleStr, '_')) {
+        Rule rule;
+        int i = 0;
+        for (std::string face : splitString(s, '|')) {
+            int color, orientation;
+            if (face == "") {
+                color = orientation = 0;
+            } else {
+                std::vector<std::string> values = splitString(face, ':');
+                color = std::stoi(values[0]);
+                orientation = std::stoi(values[1]);
+            }
+            rule[i] = new Face(color, getOrientation(i, orientation));
+            i++;
+        }
+        rules.push_back(rule);
+    }
+    return rules;
+}
+
+std::vector<Rule> parseRules(std::string ruleStr) {
+    if (ruleStr.size() % 2*ruleSize != 0) {
+        std::cerr<<"Error: Incomplete rule: "<<ruleStr<<std::endl;
+        exit(EXIT_FAILURE);
+    }
+    std::vector<Rule> rules;
+    for(size_t i = 0; i<ruleStr.size(); i+=2*ruleSize) {
+        Rule rule;
+        //std::cout<<"Rule "<<(i/(2*ruleSize))+1<<std::endl;
+        for(size_t j = 0; j<ruleSize; j++) {
+            std::string s = ruleStr.substr(i+(2*j), 2);
+            int hex = std::stoi(s, 0, 16);
+            std::bitset<8> bitset(hex);
+            std::bitset<8> colorMask(0b01111100);
+            std::bitset<8> orientationMask(0b00000011);
+            int color = ((bitset & colorMask) >> 2).to_ulong();
+            if(bitset[7]) color *= -1; // Why is there no .to_long()?
+            int orientation = (bitset & orientationMask).to_ulong();
+            //std::cout<<"Colour: "<<color<<"\t Orientation: "<<orientation<<std::endl;
+            rule[j] = new Face(color, getOrientation(j, orientation));
+        }
+        rules.push_back(rule);
+        //std::cout<<std::endl;
+    }
+    return rules;
+}
+
+Result runTries(std::string rule, int nTries, AssemblyMode assemblyMode) {
+    return runTries(rule, nTries, assemblyMode, true);
+}
+
+Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex)
 {
     int refnCubes = 0;
     Eigen::Matrix3Xf coords;
     std::string refStr = "";
     std::vector<int> refDims;
 
+    std::vector<Rule> rule;
+
     while (nTries--) {
-        PolycubeSystem* p = new PolycubeSystem(rule, assemblyMode);
+        PolycubeSystem* p = new PolycubeSystem(ruleIsHex ? parseRules(rulestr) : parseDecRule(rulestr), assemblyMode);
         p->seed();
         int nCubes = p->processMoves();
 
@@ -85,6 +140,27 @@ bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMo
     delete p1;
     delete p2;
     return equal;
+}
+
+Eigen::Vector3f getOrientation(int index, int orientation) {
+    Eigen::Vector3f v;
+    switch (index) {
+        case 0: v = Eigen::Vector3f( 0,-1, 0); break;
+        case 1: v = Eigen::Vector3f( 0, 1, 0); break;
+        case 2: v = Eigen::Vector3f( 0, 0,-1); break;
+        case 3: v = Eigen::Vector3f( 0, 0, 1); break;
+        case 4: v = Eigen::Vector3f(-1, 0, 0); break;
+        case 5: v = Eigen::Vector3f( 1, 0, 0); break;
+    default:
+        throw std::out_of_range("Index should be in interval 0-5");
+    }
+    const Eigen::Vector3f dir = PolycubeSystem::getRuleOrder(index);
+    const float angle = ((float) orientation) * M_PI_2;
+    Eigen::AngleAxis<float> a = Eigen::AngleAxis<float>(
+        angle, dir
+    );
+    Eigen::Quaternion<float> q = Eigen::Quaternion<float>(a);
+    return (q*v);
 }
 
 // Split string, from https://stackoverflow.com/a/10058725

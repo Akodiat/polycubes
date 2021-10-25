@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <set>
+#include <bitset>
 #include "polycubeSystem.hpp"
 #include <Eigen/Dense>
 #include <Eigen/Geometry>
@@ -52,6 +53,12 @@ std::string assemblyModeToString(AssemblyMode m);
 AssemblyMode parseAssemblyMode(std::string s);
 
 Result runTries(std::string rule, int nTries, AssemblyMode assemblyMode);
+Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex);
+
+Eigen::Vector3f getOrientation(int index, int orientation);
+
+std::vector<Rule> parseDecRule(std::string ruleStr);
+std::vector<Rule> parseRules(std::string ruleStr);
 
 bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMode);
 bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode);

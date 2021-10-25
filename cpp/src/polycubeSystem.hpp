@@ -97,6 +97,7 @@ class PolycubeSystem
 {
 public:
     PolycubeSystem(std::vector<Rule> rules);
+    PolycubeSystem(std::vector<Rule> rules, AssemblyMode assemblyMode);
     PolycubeSystem(std::string rules);
     PolycubeSystem(std::string rules, size_t nMaxCubes);
     PolycubeSystem(std::string rules, AssemblyMode assemblyMode);
@@ -122,7 +123,6 @@ public:
     bool equals(Eigen::Matrix3Xf m2);
 
     static Eigen::Vector3f getRuleOrder(int index);
-    static std::vector<Rule> parseRules(std::string ruleStr);
 
 private:
     //Mersenne Twister random number generator

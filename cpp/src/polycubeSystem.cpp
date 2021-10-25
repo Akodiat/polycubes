@@ -1,6 +1,5 @@
 #include "polycubeSystem.hpp"
 #include "utils.hpp"
-#include <bitset>
 
 Move::Move(Eigen::Vector3f movePos) {
     this->movePos = movePos;
@@ -93,6 +92,10 @@ bool PolycubeSystem::equals(Eigen::Matrix3Xf m2) {
 
 PolycubeSystem::PolycubeSystem(std::vector<Rule> rules) {
     init(rules, 100, AssemblyMode::stochastic);
+}
+
+PolycubeSystem::PolycubeSystem(std::vector<Rule> rules, AssemblyMode assemblyMode) {
+    init(rules, 100, assemblyMode);
 }
 
 PolycubeSystem::PolycubeSystem(std::string rules) {
@@ -328,54 +331,6 @@ Eigen::Vector3f PolycubeSystem::getRuleOrder(int index) {
         break;
     }
     return v;
-}
-
-Eigen::Vector3f getOrientation(int index, int orientation) {
-    Eigen::Vector3f v;
-    switch (index) {
-        case 0: v = Eigen::Vector3f( 0,-1, 0); break;
-        case 1: v = Eigen::Vector3f( 0, 1, 0); break;
-        case 2: v = Eigen::Vector3f( 0, 0,-1); break;
-        case 3: v = Eigen::Vector3f( 0, 0, 1); break;
-        case 4: v = Eigen::Vector3f(-1, 0, 0); break;
-        case 5: v = Eigen::Vector3f( 1, 0, 0); break;
-    default:
-        throw std::out_of_range("Index should be in interval 0-5");
-    }
-    const Eigen::Vector3f dir = PolycubeSystem::getRuleOrder(index);
-    const float angle = ((float) orientation) * M_PI_2;
-    Eigen::AngleAxis<float> a = Eigen::AngleAxis<float>(
-        angle, dir
-    );
-    Eigen::Quaternion<float> q = Eigen::Quaternion<float>(a);
-    return (q*v);
-}
-
-std::vector<Rule> PolycubeSystem::parseRules(std::string ruleStr) {
-    if (ruleStr.size() % 2*ruleSize != 0) {
-        std::cerr<<"Error: Incomplete rule: "<<ruleStr<<std::endl;
-        exit(EXIT_FAILURE);
-    }
-    std::vector<Rule> rules;
-    for(size_t i = 0; i<ruleStr.size(); i+=2*ruleSize) {
-        Rule rule;
-        //std::cout<<"Rule "<<(i/(2*ruleSize))+1<<std::endl;
-        for(size_t j = 0; j<ruleSize; j++) {
-            std::string s = ruleStr.substr(i+(2*j), 2);
-            int hex = std::stoi(s, 0, 16);
-            std::bitset<8> bitset(hex);
-            std::bitset<8> colorMask(0b01111100);
-            std::bitset<8> orientationMask(0b00000011);
-            int color = ((bitset & colorMask) >> 2).to_ulong();
-            if(bitset[7]) color *= -1; // Why is there no .to_long()?
-            int orientation = (bitset & orientationMask).to_ulong();
-            //std::cout<<"Colour: "<<color<<"\t Orientation: "<<orientation<<std::endl;
-            rule[j] = new Face(color, getOrientation(j, orientation));
-        }
-        rules.push_back(rule);
-        //std::cout<<std::endl;
-    }
-    return rules;
 }
 
 Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {

@@ -8,10 +8,11 @@ namespace py = pybind11;
 
 using namespace pybind11::literals;
 
-bool isBoundedAndDeterministic(std::string rule, int nTries, std::string assemblyMode) {
+bool isBoundedAndDeterministic(std::string rule, int nTries, std::string assemblyMode, bool isHexString) {
     Result result = runTries(
         rule, nTries,
-        parseAssemblyMode(assemblyMode)
+        parseAssemblyMode(assemblyMode),
+        isHexString
     );
     return result.isBounded() && result.isDeterministic();
 }
@@ -58,7 +59,7 @@ PYBIND11_MODULE(libpolycubes, m) {
     );
     m.def("isBoundedAndDeterministic", &isBoundedAndDeterministic,
         "Check if the rule is bounded and form the same polycube every time (set nTries to 0 to only check if bounded)",
-        "rule"_a, "nTries"_a = 15, "assemblyMode"_a = "stochastic"
+        "rule"_a, "nTries"_a = 15, "assemblyMode"_a = "stochastic", "isHexString"_a = true
     );
     m.def("getCoordStr", &getCoordStr, "Get coordinate string of assembled polycube", "rule"_a, "assemblyMode"_a = "stochastic");
     m.def("getCoords", &getCoords, "Get coordinates of assembled polycube", "rule"_a, "assemblyMode"_a = "stochastic");

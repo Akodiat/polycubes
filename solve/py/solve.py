@@ -185,7 +185,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
     if len(rules) > 0:
         rule = sorted(rules[0], key=patchCount, reverse=True)
         decRule = ruleToDec(rule)
-        if libpolycubes.isBoundedAndDeterministic(decRule):
+        if libpolycubes.isBoundedAndDeterministic(decRule, isHexString=False):
             return (i, decRule, log)
         else:
             log += '{} is UND\n'.format(decRule)
@@ -203,7 +203,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
             altrules = set(ruleToDec(sorted(r, key=patchCount)) for r in sols)
             log += '  Trying {} alternative solutions\n'.format(len(altrules))
             for altrule in altrules:
-                if libpolycubes.isBoundedAndDeterministic(altrule):
+                if libpolycubes.isBoundedAndDeterministic(altrule, isHexString=False):
                     log += '  {} is a valid solution\n'.format(altrule)
                     return (i, altrule, log)
                 else:
