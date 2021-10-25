@@ -15,6 +15,32 @@ import multiprocessing
 import json
 import traceback
 
+def parseDecRule(decRule):
+    rule = []
+    for s in decRule.split('_'):
+        faces = []
+        for face in s.split('|'):
+            if face != '':
+                color, orientation = [int(v) for v in face.split(':')]
+            else:
+                color = 0
+                orientation = 0
+            faces.append({
+                'color': color,
+                'orientation': orientation
+            })
+        rule.append(faces)
+    return rule
+
+def ruleToDec(ruleset):
+    return '_'.join(
+        '|'.join(
+            "{}:{}".format(
+                f['color'], f['orientation']
+            ) for f in s
+        ) for s in ruleset
+    )
+
 def parseHexRule(hexRule):
     ruleset = []
     faces = []
@@ -158,11 +184,11 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
         return (i, rules, log)
     if len(rules) > 0:
         rule = sorted(rules[0], key=patchCount, reverse=True)
-        hexRule = ruleToHex(rule)
-        if libpolycubes.isBoundedAndDeterministic(hexRule):
-            return (i, hexRule, log)
+        decRule = ruleToDec(rule)
+        if libpolycubes.isBoundedAndDeterministic(decRule):
+            return (i, decRule, log)
         else:
-            log += '{} is UND\n'.format(hexRule)
+            log += '{} is UND\n'.format(decRule)
             try:
                 sols = find_solution(
                     top, nCubeTypes, nColors, nSolutions=nSolutions, nDim=nDim,
@@ -174,7 +200,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
 
             if sols == 'TIMEOUT':
                 return (i, sols, log)
-            altrules = set(ruleToHex(sorted(r, key=patchCount)) for r in sols)
+            altrules = set(ruleToDec(sorted(r, key=patchCount)) for r in sols)
             log += '  Trying {} alternative solutions\n'.format(len(altrules))
             for altrule in altrules:
                 if libpolycubes.isBoundedAndDeterministic(altrule):
@@ -199,7 +225,7 @@ def log_result(result):
     global finalResult
     results[i] = rule
     if rule and rule != 'UND' and rule != 'TIMEOUT' and rule != 'ERROR':
-        polyurl = "https://akodiat.github.io/polycubes?hexRule={}"
+        polyurl = "https://akodiat.github.io/polycubes?decRule={}"
         log += 'Found solution: '+polyurl.format(rule)
     print(log, flush=True)
 
@@ -290,12 +316,12 @@ def findRules(topPath, nCubeTypes='auto', nColors='auto', nSolutions='auto', nDi
         if sols == 'TIMEOUT':
             print('Timed out')
             return
-        r = [ruleToHex(rule) for rule in sols]
+        r = [ruleToDec(rule) for rule in sols]
     if len(r) > 0:
         for rule in r:
             print(polyurl.format(rule), flush=True)
             if nDim == 2:
-                print(translateToPolyominoNotation(parseHexRule(rule)))
+                print(translateToPolyominoNotation(parseDecRule(rule)))
         return r
     else:
         print('Sorry, no solution found', flush=True)
