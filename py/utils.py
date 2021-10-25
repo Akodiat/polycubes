@@ -3,6 +3,7 @@ import os
 import pickle
 import itertools as it
 import numpy as np
+import sympy as sym
 import h5py
 import libpolycubes
 
@@ -316,16 +317,35 @@ def getRotations(ndim=3):
     return rots
 
 def getReflections(ndim=3):
-    refls = [
+    planerefls = [
         #np.array([[1, 0, 0], [0, 1, 0], [0, 0, 1]]),
         np.array([[-1, 0, 0], [0, 1, 0], [0, 0, 1]]),
         np.array([[1, 0, 0], [0, -1, 0], [0, 0, 1]]),
     ]
     if ndim > 2:
-        refls += [
+        planerefls += [
             np.array([[1, 0, 0], [0, -1, 0], [0, 0, -1]])
         ]
-    return refls
+
+    # Diagonal reflections:
+
+    ## Matrices to reflect along x,y,z:
+    refls = [
+        sym.Matrix([[-1, 0, 0], [0, 1, 0], [0, 0, 1]]),
+        sym.Matrix([[1, 0, 0], [0, -1, 0], [0, 0, 1]])
+    ]
+    axes = [sym.rot_axis1, sym.rot_axis1]
+
+    if ndim > 2:
+        refls.append(sym.Matrix([[1, 0, 0], [0, 1, 0], [0, 0, -1]]))
+        axes.append(sym.rot_axis1)
+
+    # Rotations 45 degrees from x,y,\
+    rots = [r(c * 2 * sym.pi) for c in [1/8, 3/8, 5/8, 7/8] for r in axes]
+    symset =  set([sym.ImmutableMatrix(refl * rot) for refl in refls for rot in rots])
+    npmats = [np.array(m).astype(np.float64) for m in symset]
+
+    return planerefls + npmats
 
 def getSymms(rule, assemblyMode='seeded', ndim=3, rotations=None, reflections=None, invertions = [np.array([[-1, 0, 0], [0, -1, 0], [0, 0, -1]])]):
     if rotations == None:
