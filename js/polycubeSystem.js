@@ -1,6 +1,6 @@
 class PolycubeSystem {
 
-    constructor(rule, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded') {
+    constructor(rule, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded', buildConfmap=true) {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
@@ -12,6 +12,10 @@ class PolycubeSystem {
         this.orderIndex = 0;
 
         this.cubeTypeCount = rule.map(r=>0);
+
+        if (buildConfmap) {
+            this.confMap = new Map();
+        }
 
         this.colorMaterials = [];
         this.particleMaterials = [];
@@ -83,6 +87,9 @@ class PolycubeSystem {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
+        if (this.confMap) {
+            this.confMap = new Map;
+        }
         this.matches = 0;
         this.mismatches = 0;
         this.connections = [];
@@ -185,12 +192,12 @@ class PolycubeSystem {
                     if (a[i].color == b[j].color) {
                         // Rotate rule b so that the matching face has
                         // the same direction:
-                        b = rotateRuleFromTo(b,
+                        b = rotateSpeciesFromTo(b,
                             ruleOrder[j],
                             ruleOrder[i]);
                         console.assert(a[i].color == b[i].color);
                         // ...and the same rotation:
-                        b = rotateRuleAroundAxis(b,
+                        b = rotateSpeciesAroundAxis(b,
                             ruleOrder[i],
                            -getSignedAngle(a[i].alignDir, b[i].alignDir,
                             ruleOrder[i]));
@@ -370,6 +377,10 @@ class PolycubeSystem {
         this.centerOfMass.divideScalar(this.cubeMap.size);
 
         this.cubeTypeCount[ruleIdx]++;
+
+        if(this.confMap) {
+            this.confMap.set(vecToStr(position), {'ruleIdx': ruleIdx, 'q': getRotationFromSpecies(this.rule[ruleIdx], rule)});
+        }
 
         if (!this.background) {
             render();

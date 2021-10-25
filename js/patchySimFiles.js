@@ -92,6 +92,50 @@ data_output_1 = {
 }`
 }
 
+function generateTopAndConfig(rule, assemblyMode='seeded') {
+    let sys = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode, true);
+    sys.seed();
+    let processed = false;
+    while (!processed) {
+        processed = sys.processMoves();
+        if (processed == 'oub') {
+            console.warn("Getting config for unbounded rule");
+            break;
+        }
+    }
+    let top = [];
+    let conf = [];
+    let nParticles = 0;
+    let max = new THREE.Vector3();
+    let min = new THREE.Vector3();
+    let mean = new THREE.Vector3();
+    for (const [key, c] of system.confMap) {
+        const p = system.cubeMap.get(key);
+        for (let i=0; i<3; i++) {
+            max.setComponent(i, Math.max(max.getComponent(i), p.getComponent(i)));
+            min.setComponent(i, Math.min(min.getComponent(i), p.getComponent(i)));
+        }
+        mean.add(p);
+        nParticles++;
+    }
+    let box = max.clone().sub(min).multiplyScalar(3);
+    mean.divideScalar(nParticles);
+
+    for (const [key, c] of system.confMap) {
+        const p = system.cubeMap.get(key).sub(mean).add(box.clone().divideScalar(2));
+        const a1 = new THREE.Vector3(1, 0, 0).applyQuaternion(c.q);
+        const a3 = new THREE.Vector3(0, 0, 1).applyQuaternion(c.q);
+        const vF = (v) => v.toArray().map(
+            n=>Math.round(n*100)/100 // Round to 2 decimal places
+        ).join(' ');
+        conf.push(`${vF(p)} ${vF(a1)} ${vF(a3)} 0 0 0 0 0 0`);
+        top.push(`${c.ruleIdx}`);
+    }
+    let confStr = `t = 0\nb = ${box.toArray().join(' ')}\nE = 0 0 0\n` + conf.join('\n');
+    let topStr = `${nParticles} ${rule.length}\n` + top.join(' ');
+    return [topStr, confStr];
+}
+
 function getPatchySimFiles(hexRule, nAssemblies=1, name='sim',
     oxDNA_dir = '/users/joakim/repo/oxDNA_torsion2',
     temperatures = ['[template]'],
@@ -141,18 +185,25 @@ function getPatchySimFiles(hexRule, nAssemblies=1, name='sim',
     const patchesFileName = 'patches.txt'
 
     const cubeTypeCount = getCubeTypeCount(hexRule);
-    const count = cubeTypeCount.map(n=>n*nAssemblies);
 
-    let total = 0;
-    let top = [];
-    count.forEach((c, typeID)=>{
-        total+=c;
-        for(let i=0; i<c; i++) {
-            top.push(typeID);
-        }
-    });
-    let topStr = `${total} ${rule.length}\n${top.join(' ')}`;
+    let topStr, confStr;
     const topFileName = 'init.top';
+    const confFileName = 'init.conf';
+    if (nAssemblies > 1) {
+        const count = cubeTypeCount.map(n=>n*nAssemblies);
+
+        let total = 0;
+        let top = [];
+        count.forEach((c, typeID)=>{
+            total+=c;
+            for(let i=0; i<c; i++) {
+                top.push(typeID);
+            }
+        });
+        topStr = `${total} ${rule.length}\n${top.join(' ')}`;
+    } else {
+        [topStr, confStr] = generateTopAndConfig(rule, assemblyMode);
+    }
 
     const inputFileName = 'input';
     let confGenStr = `${oxDNA_dir}/build/bin/confGenerator ${inputFileName} ${confDensity}`;
@@ -172,6 +223,10 @@ function getPatchySimFiles(hexRule, nAssemblies=1, name='sim',
         folder.file(inputFileName, inputStr);
         folder.file('generateConf.sh', confGenStr);
         folder.file('simulate.sh', simulateStr);
+
+        if (confStr) {
+            folder.file(confFileName, confStr);
+        }
     }
 
     zip.file(

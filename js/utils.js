@@ -141,11 +141,21 @@ function getSignedAngle(v1, v2, axis) {
     return a;
 }
 
+function getRotationFromSpecies(speciesA, speciesB) {
+    const decRuleB = ruleToDec([speciesB]);
+    for(const r of allRotations()) {
+        const q = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().setFromMatrix3(r));
+        if (ruleToDec([rotateSpecies(speciesA, q)]) === decRuleB) {
+            return q;
+        }
+    };
+    throw "Matching rotation not found";
+}
 
 //https://stackoverflow.com/a/25199671
-function rotateRule(rule, q) {
+function rotateSpecies(rule, q) {
     const l=6;
-    let newRule = Array(l);
+    let newSpecies = Array(l);
     for (let i=0; i<l; i++) {
         let face = ruleOrder[i];
         let newFace = face.clone().applyQuaternion(q).round();
@@ -153,22 +163,22 @@ function rotateRule(rule, q) {
         let iNewFace = ruleOrder.findIndex(
             function(element){return newFace.equals(element)
         });
-        newRule[iNewFace] = {'color': rule[i].color, 'alignDir': newFaceDir};
+        newSpecies[iNewFace] = {'color': rule[i].color, 'alignDir': newFaceDir};
     }
-    return newRule;
+    return newSpecies;
 }
 
 //https://stackoverflow.com/a/25199671
-function rotateRuleFromTo(rule, vFrom, vTo) {
+function rotateSpeciesFromTo(rule, vFrom, vTo) {
     let quaternion = new THREE.Quaternion(); // create one and reuse it
     quaternion.setFromUnitVectors(vFrom, vTo);
-    return rotateRule(rule, quaternion);
+    return rotateSpecies(rule, quaternion);
 }
 
-function rotateRuleAroundAxis(rule, axis, angle) {
+function rotateSpeciesAroundAxis(rule, axis, angle) {
     let quaternion = new THREE.Quaternion(); // create one and reuse it
     quaternion.setFromAxisAngle(axis, angle);
-    return rotateRule(rule, quaternion);
+    return rotateSpecies(rule, quaternion);
 }
 
 // From stackoverflow/a/12646864
@@ -301,7 +311,7 @@ function simplify2(rule, onUpdate) {
                                 let colorMap = new Map();
                                 //let rotMap = new Map();
                                 //const q = new THREE.Quaternion().setFromRotationMatrix(new THREE.Matrix4().setFromMatrix3(r));
-                                const rotatedB = rotateRule(cB, q);
+                                const rotatedB = rotateSpecies(cB, q);
                                 for (let i=0; i<6; i++) {
                                     if (rotatedB[i].color !== 0) {
                                         console.assert(cA[i].color !== 0);
