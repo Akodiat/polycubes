@@ -7,21 +7,21 @@ Simplicity is prerequisite for reliability.
 
 \minitoc
 
-From the start, the field of structural DNA nanotechnology has been interested in modular assemblies, although initially in the form of infinite crystal structures. Prof. Ned Seeman was inspired to pioneer the field after seeing the woodcut \emph{Depth} by M.C. Escher \cite{seeman_2016}, where fish are depicted organised into a neat crystalline structure.
+From the start, the field of structural DNA nanotechnology has been interested in modular assemblies, although initially in the form of infinite and uniform crystal structures. In fact, Professor Ned Seeman was inspired to pioneer the field after seeing the woodcut \emph{Depth} by M.C. Escher \cite{seeman_2016}, where fish are depicted organised into a neat crystalline structure.
 
-However, components that self-assemble into chrystals can also be made to assemble into bounded structures, given that a way can be found to make them self-limiting. This chapter will provide an overview of the background of self-assembled multicomponent structures, starting with experimental results of ever-increasing size and followed by a selection of theoretical models.
+However, components that self-assemble into chrystals can also assemble bounded structures, if a way can be found to make them self-limiting. The question is how many unique components would be required. This chapter will provide an overview of the background of self-assembled multicomponent structures, starting with experimental results of ever-increasing size and followed by a selection of theoretical models.
 
 \section{Experimental applications} \label{sec:experimental_appl}
-From small tiles made from a handful of strands to megadalton-scale structures made from multiple origamis, modular self-assembly has seen considerable experimental research. This section will detail some results of particular interest to the polycube model presented in Chapter \ref{ch:polycubes1}.
+From small tiles made from a handful of strands to megadalton-scale structures made from multiple origami designs, modular self-assembly has seen considerable experimental research. This section will detail some results of particular interest to the polycube model presented in Chapter \ref{ch:polycubes1}.
 
-\subsection{DNA tiles and bricks}
+\subsection{DNA tiles}
 \label{sec:dna_tiles_bricks}
-Following early nucleic acid milti-arm junctions and lattices suggested by Seeman \cite{seeman1982nucleic}, Winfree \cite{winfree1998design} used double-crossover (DX) motifs, shown in Figure \ref{fig:dna_tiles}.a, to self-assemble 2D DNA crystals. As can be seen in figure \ref{fig:dna_tiles}.b, the lattices could be made with varying complexity; examplified using either two or for different species of tiles.
+Following early nucleic acid multi-arm junctions and lattices suggested by Seeman \cite{seeman1982nucleic}, Winfree \cite{winfree1998algorithmic, winfree1998design} used double-crossover (DX) motifs, shown in Figure \ref{fig:dna_tiles}.a, to self-assemble 2D DNA crystals. As can be seen in figure \ref{fig:dna_tiles}.b, the lattices could be made with varying complexity, exemplified using either two or four different species of tiles.
 % Tiles: https://www.nature.com/articles/28998
 
 \begin{figure}[h]
   \centering
-  \begin{overpic}[width=\textwidth]{figures/dna_tiles.png}
+  \begin{overpic}[width=0.7\textwidth]{figures/dna_tiles.png}
     \put(0,450){a)}
     \put(0,240){b)}
   \end{overpic}
@@ -29,37 +29,53 @@ Following early nucleic acid milti-arm junctions and lattices suggested by Seema
   \label{fig:dna_tiles}
 \end{figure}
 
+
+\subsection{DNA bricks}
 % Bricks: https://www.nature.com/articles/nature24648
 
+A three-dimensional DNA lattice was created in 2017 by Ong et al. \cite{ong2017programmable}, called DNA bricks. Structures are assembled from up to about 30,000 unique components, as seen in Figure \ref{fig:dna_bricks}. Since each component consists of a unique strand, custom shapes can be ``sculpted'' by leaving out the voxels (3D pixels) not required.
+
 \begin{figure}[h]
-  \centering\includegraphics[width=0.6\textwidth]{figures/dna_bricks.png}
-  \caption{3D bricks from \cite{ong2017programmable}}
-  \label{fig:dna_tiles}
+  \centering
+  \begin{overpic}[width=\textwidth]{figures/dna_bricks.png}
+    \put(0,350){a)}
+    \put(450,350){b)}
+    \put(450,120){c)}
+  \end{overpic}
+  \caption{DNA bricks, adapted from \cite{ong2017programmable}. a) DNA brick structure, where each of the up to 30'000 unique components is a 52 nucleotide DNA strand. The strands connect through a 13 base pair complementary domain at a 90 degree dihedral angle. b) A cuboid, here shown with 10,000 components, corresponds to a 20,000 voxel canvas. c) Approximating the shape of a teddy bear by removing a subset of the voxels from the canvas.}
+  \label{fig:dna_bricks}
 \end{figure}
 
 \subsection{RNA tiles}
 %https://www.science.org/doi/abs/10.1126/science.1253920 
-As covered in Section \ref{sec:RNA_design}, it is possible to co-transcriptionally fold RNA origami \cite{geary2014single}. This was shown in 2014, by folding RNA tiles that connect through complementary 120-degree kissing loop interactions, as seen in Figure \ref{fig:rna_tiles}.
+As covered in Section \ref{sec:RNA_design}, it is possible to co-transcriptionally fold \emph{RNA origami} \cite{geary2014single}. This was first shown by Geary et al. in 2014, who folded RNA tiles that connect through complementary 120-degree kissing loop interactions, as seen in Figure \ref{fig:rna_tiles}, forming a hexagonal lattice.
 
 \begin{figure}[h]
   \centering
   \begin{overpic}[width=\textwidth]{figures/rna_tiles.jpeg}
-      \put(50,450){a)}
-      \put(650,450){b)}
-      \put(550,150){c)}
+      \put(0,300){a)}
+      \put(320,300){b)}
+      \put(750,300){c)}
   \end{overpic}
-  \caption{Co-transcriptional folding RNA origami tiles, adapted from \cite{geary2014single}. The tiles connect through 120-degree kissing loop interactions, forming a hexagonal lattice. a) Co-transcriptional folding, where the RNA tile folds as it is transcribed from a DNA template. b) Hexagonal lattice formed by folded tiles. c) Detailed scematic of the four-helix 4H-AO tile, shown in a) and b).}
+  \caption{Co-transcriptional folding RNA origami tiles, adapted from \cite{geary2014single}. The tiles connect through 120-degree kissing loop interactions, forming a hexagonal lattice. a) Detailed scematic of the four-helix 4H-AO tile. b) Co-transcriptional folding, where the RNA tile folds as it is transcribed from a DNA template. c) Hexagonal lattice formed by folded tiles.}
   \label{fig:rna_tiles}
 \end{figure}
 
-\subsection{DNA origami arrays}\label{sec:origamiArrays}
+\subsection{Finite DNA origami arrays}\label{sec:origamiArrays}
 % https://www.nature.com/articles/nature24655
 
-In 2017, Tikhomirov et al.\cite{tikhomirov2017fractal} demonstrated two-dimensional patterns assembled on the micrometre-scale using square origami tiles connecting through their complementary edges. helices
+In 2017, Tikhomirov et al.\cite{tikhomirov2017fractal, tikhomirov2017programmable} demonstrated two-dimensional patterns assembled on the micrometre-scale using square origami tiles connecting through their complementary edges, as seen in Figure \ref{fig:origamiArrays}. The patterns could either be hierarchically assembled from unique tiles \cite{tikhomirov2017fractal}, or assembled into random patterns from a small number of tile types \cite{tikhomirov2017programmable}. The binding stregth could be calibrated using a variable amount of overhangs on the edges, as seen in Figure \ref{fig:origamiArrays}.b). While the random tilings were generally unbounded, Tikhomirov et al also showed how to program a finite grid (see Figure \ref{fig:origamiArrays}.d). Arrays up to \(8 \times 8\) tiles were successfully produced, although larger arrays had a much smaller yield (Figure \ref{fig:origamiArrays}.c).
 
 \begin{figure}[h]
-  \centering\includegraphics[width=\textwidth]{figures/monalisa_tiles.png}
-  \caption{Adapted from \cite{tikhomirov2017fractal}}
+  \centering
+  \begin{overpic}[width=\textwidth]{figures/monalisa_tiles.png}
+    \put(-20,580){a)}
+    \put(200,580){b)}
+    \put(-20,150){c)}
+    \put(600,580){d)}
+  \end{overpic}
+  \caption{DNA origami arrays, adapted from \cite{tikhomirov2017fractal, tikhomirov2017programmable}. a) Strand-level diagram of a \(12 \times 12\) version of the the origami tile (actual size is \(22 \times 22\) helices). b) \(4 \times 4\) tile ``Mona Lisa'' pattern. c) AFM image of patterned assemblies of different sizes (left) with their respective yields (right). d) Abstract design diagrams (left) and AFM images (right) of finite origami arrays, designed to different sizes \cite{tikhomirov2017programmable}.}
+  \label{fig:origamiArrays}
 \end{figure}
 
 \subsection{Shape-complementary origami}
@@ -68,114 +84,95 @@ In 2017, Tikhomirov et al.\cite{tikhomirov2017fractal} demonstrated two-dimensio
 
 % Huge https://www.nature.com/articles/s41563-021-01020-4
 
-Also, in 2017, Wagenbauer et al. \cite{wagenbauer2017gigadalton} used shape-complementarity to assemble origami tiles into three-dimensional polyhedral shapes up to 450 nanometers in diameter.
+Also, in 2017, Wagenbauer et al. \cite{wagenbauer2017gigadalton} used shape-complementarity to assemble DNA origami components into three-dimensional polyhedral shapes up to 450 nanometers in diameter. Later, in 2021, Sigl et al. assembled large shells from shape-complementary origami triangles, as seen in Figure \ref{fig:shape-complementarity}. The triangular sides attach through helix protrusions and indentations of complementary shape, as seen in figure \ref{fig:shape-complementarity}.a), binding together through blunt-end stacking interactions, a method first shown by Woo et al. \cite{woo2011programmable}.
 
 \begin{figure}[h]
-  \centering\includegraphics[width=\textwidth]{figures/dietz_ring.png}
-  \caption{Adapted from \cite{wagenbauer2017gigadalton}}
+  \centering
+  \begin{overpic}[width=\textwidth]{figures/icosahedral_shell.png}
+    \put(0,320){a)}
+    \put(620,320){b)}
+  \end{overpic}
+  \caption{Shape-complementary triangles assembling polyhedral shells. Adapted from \cite{sigl2021programmable}. a) Polyhedral shell design for T=9. \(N\) is the triangulation number (the number of unique edges required for assembly), \(\alpha\) is the bevel angle of the triangle sides, and \(N\) is the number of triangles required for a full shell. b) Cryo-EM reconstruction of the individual sub-units (top) and the assembled shell (bottom) for a T=4 icosahedral shell.}
+  \label{fig:shape-complementarity}
 \end{figure}
-
-\cite{sigl2021programmable}
 
 
 \subsection{DNA origami nanochambers}
 % https://pubs.acs.org/doi/full/10.1021/jacs.0c07263
 
-\begin{figure}[h]
-  \centering\includegraphics[width=\textwidth]{figures/nanochambers2.jpeg}
-  \caption{DNA nanochambers, adapted from \cite{nano-chambers_lin2020}}
+In 2020, Lin et al.\cite{nano-chambers_lin2020} presented cubic DNA origami ``nanochambers''. The chambers have sticky-end overhangs on every side of the cube, allowing it to assemble in 1D, 2Dm and 3D, as can be seen in Figure \ref{fig:nanochambers}. However, since the shape is only rotationally symmetric around the z-axis, the assembly is a limited subset of the polycube model described in Chapter \ref{ch:polycubes1}. 
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics{figures/nanochambers2.jpeg}
+  \caption{DNA origami nanochambers, adapted from \cite{nano-chambers_lin2020}. a) Concept illustration, where building blocks with \emph{polychromatic} bonds (differentiated though different single-stranded sequences), assemble into 1D, 2D, and 3D structures. b) Schematic of DNA nanochamber programmable assembly, showing sticky end overhangs applied in 1D, 2D, and 3D assemblies.}
+  \label{fig:nanochambers}
 \end{figure}
 
 \subsection{Octahedral DNA origami frames}
+In 2020, Wang et al. \cite{tian_octahedra2020} showed how octahedral DNA origami frames could be used as building blocks in limited and unlimited programmed assemblies, as seen in Figure \ref{fig:tian_octahedra}. Using sticky-end overhangs at the octahedral vertices, the building blocks have the connectivity, as well as the rotational symmetry, of a cube.
+
+Due to the flexibility of the single-stranded connections, the connections are less torsionally rigid than assumed in the polucube model, later described in Chapter \ref{ch:polycubes1}. However, as can be seen in Figure \ref{fig:tian_octahedra}, shapes such as the cube can still be assembled with good yield.
+
 % https://onlinelibrary.wiley.com/doi/abs/10.1002/anie.201913958
 
-\begin{figure}[h]
-  \centering\includegraphics[width=\textwidth]{figures/tian.jpg}
-  \caption{Octahedral DNA origami frames, adapted from \cite{tian_octahedra2020}}
+\begin{figure}[!h]
+  \centering
+  \begin{overpic}[width=\textwidth]{figures/tian.jpg}
+    \put(0,480){a)}
+    \put(280,480){b)}
+    \put(670,480){c)}
+  \end{overpic}
+  \caption{Octahedral DNA origami frames, adapted from \cite{tian_octahedra2020}. a) Two octahedra with complementary sticky ends binding together to form a dimer. The edges consist of six-helix bundles. b) nanoclusters assembled from different sets of building blocks. c) \(2 \times 2 \times 2 \) cube nano cluster (top) and histogram of the mass fraction, where the intended design of eight components per cluster is the most common.}
+  \label{fig:tian_octahedra}
 \end{figure}
-
-
 
 
 \section{Modular assembly models}
-It would be computationally unreasonable to simulate module assembly at the level of individual nucleotides. A better approach is to use an abstract model to predict the assembly process with the modules treated as rigid bodies. This section will present earlier such models as a background to my own model described in Chapter \ref{ch:polycubes1}.
+It would be computationally unreasonable to simulate module assembly at the level of individual nucleotides. A simpler approach is to use an abstract model to predict the assembly process with the modules treated as rigid bodies or discrete tiles. This section will present earlier such models as a background to my own polycube model, described in Chapter \ref{ch:polycubes1}.
 
 \subsection{Wang tiles}
-Introduced by Hao Wang in 1961 \cite{wang1961proving}, s-called \emph{Wang tiles} are 
+Introduced by Hao Wang in 1961 \cite{wang1961proving}, so-called \emph{Wang tiles} are square tiles with a colour on each of their four edges. Without rotating or reflecting the tiles, they assemble so that adjacent edges have the same colour.
 
-\begin{figure}[h]
-  \centering\includesvg[width=0.6\textwidth]{figures/Wang_11_tiles.svg}
-  \caption{Wang tiles}
-\end{figure}
+%\begin{figure}[h]
+ % \centering\includesvg[width=0.5\textwidth]{figures/Wang_11_tiles.svg}
+ % \caption{Wang tiles}
+%\end{figure}
+
+The DNA tiles by Winfree et al. \cite{winfree1998design}, presented in Section \ref{sec:dna_tiles_bricks}, behave like Wang tiles by design and do not allow rotations or reflections. Winfree investigated the possibility of using such tiles for computation \cite{winfree1998algorithmic}, which led to aTAM: the algorithmic Tile Assembly Model.
 
 \subsection{The algorithmic tile assembly model}
-
+\label{sec:atam}
 % David Doty overview: https://cacm.acm.org/magazines/2012/12/157881-theory-of-algorithmic-self-assembly/fulltext
 
 % Molecular algorithms https://www.nature.com/articles/s41586-019-1014-9
 
-In his 1998 thesis Erik Winfree showed the usage of the double-crossover (DX) motif to create regular arrays \cite{winfree1998design}. These tiles behave like Wang tiles\cite{wang1961proving} and do not allow rotations or reflections. Winfree also investigated the possibility of using such tiles for computation \cite{winfree1998algorithmic}.
+The algorithmic Tile Assembly Model (aTAM), shown in Figure \ref{fig:atam}, models the dynamic behaviour of the DNA tiles introduced by Winfree et al. \cite{winfree1998design}. Each tile has four patches, one on each edge. Furthermore, the patches can have different strengths, with a global temperature variable determining the total connection strength required for a tile to attach \cite{doty2012theory}.
+
+In the example seen in Figure \ref{fig:atam}, the pattern grows from the initial bottom-right seed into the blue horizontal bottom row and the rightmost vertical column. This is because these tiles have ``strength-2'' glues with enough binding strength to attach by themselves \cite{doty2012theory}. The additional tiles have weaker ``strength-1'' glues (illustrated as thinner black connectors), so they need at least two complementary patches to achieve the binding strength treshold (temperature). Because of this so-called co-operative binding, the tiles can be seen as logic gates performing computation; given the bottom and right patches as input bits, the matching tile attaches and produces two computed output bits (top and left).
+
 % DX array https://www.nature.com/articles/28998
 
-Co-operative binding
 
 \begin{figure}[h]
   \centering\includesvg[width=\textwidth]{figures/atam.svg}
-  \caption{Algorithmic self-assembly model}
+  \caption{Algorithmic self-assembly of a Sierpiński triangle. Adapted from \cite{doty2017}. A tile set (right) grows from an initial seed by co-operatively attaching self-complementary edges (without rotation). The \(0\) and \(0\) ``glues'' are weaker and require two matching bonds to attach (co-operative binding), compared to the \(W\) (west) and \(N\) (north) glues that are strong enough to bind alone.}
+  \label{fig:atam}
 \end{figure}
 
 \subsection{The polyomino model}\label{sec:polyomino}
 
-The main inspiration for the polycube model presented in Chapter \ref{ch:polycubes1} is the polyomino model \cite{ahnert2010self}\cite{johnston2011evolutionary}. The main difference to aTAM is that polyomino tiles are allowed to rotate. They also have a constant binding strength (in other words, it is a temperature-1 model).
+The main inspiration for the polycube model presented in Chapter \ref{ch:polycubes1} is the polyomino model \cite{ahnert2010self, johnston2011evolutionary}. The 2D model is similar in assembly to the later experimental micro-meter scale tile designs by Tikhomirov \cite{tikhomirov2017programmable} shown in Figure \ref{fig:origamiArrays}.d). Compared to the abstract tile assembly model, described in Section \ref{sec:atam}, polyomino tiles are allowed to rotate; creating further possibilities for symmetries. Also, the edge binding is not self-complementary, using complementary color pairs instead. Finally, polyominoes have a constant binding strength (in other words, it is a temperature-1 model), avoiding co-operative binding. 
+
+See Figure \ref{fig:polyominoes} for an illustration of the model, where an input \emph{genotype} genotype (describing four possible tile types) is mapped into an assembled output polyomino by stochastically growing the shape from an initial seed. The growth stops if, as in the example in Figure \ref{fig:polyominoes}, no more tiles can attach (since the color \(0\) does not bind to anything).
 
 %, studying the self-assembly, modularity and evolutionary dynamics of \emph{polyominoes}.
 
-Polyominoes are abstract structures composed of one or more squares connected by their edges. The polyomino assembly model developed is similar in assembly to the later experimental micro-meter scale tile designs by Tikhomirov \cite{tikhomirov2017fractal} described in Section \ref{sec:origamiArrays}. Compared to Wang tiles\cite{wang1961proving}, the edge binding does not need to be between edges of the same colour but can be specified by a more complex interaction matrix. Furthermore, the tiles can be rotated to bind, creating further possibilities for symmetries.
-
 \begin{figure}[h]
     \centering\includegraphics[width=0.6\textwidth]{figures/polyominoes.eps}
-    \caption{Illustration of the polyomino assembly model used by Johnston. A \emph{genotype}, in the form of a ruleset of possible tiles, encodes for a polyomino \emph{phenotype}, grown stochastically from an initial seed tile. Image adapted from \cite{johnston2011evolutionary}.}
+    \caption{Illustration of the polyomino assembly model, adapted from \cite{johnston2011evolutionary}. A \emph{genotype}, in the form of a ruleset of possible tiles, encodes for a polyomino \emph{phenotype}, grown stochastically from an initial seed tile.}
     \label{fig:polyominoes}
 \end{figure}
 
-I aim to build on Johnston's work on polyominoes to explore the properties of such self-assembling systems in three dimensions; the self-assembly of \emph{polycubes}. With such a model in place, it should be possible to design, through shape complementary in DNA origami \cite{wagenbauer2017gigadalton}, kissing interactions in RNA origami \cite{geary2014single}, or other methods, robotic modules with the interfaces necessary to assemble into the desired polycube shape. My current progress within this project is covered in Chapter \ref{ch:polycubes1}.
 
 \subsection{Patchy particles}
-
-\section{Algorithmic Information Theory and input-output maps}
-% https://www.ox.ac.uk/news/science-blog/%E2%80%98simplicity-bias%E2%80%99-science
-
-% https://www.nature.com/articles/s41467-018-03101-6
-
-% https://solo.bodleian.ox.ac.uk/permalink/f/89vilt/oxfaleph022417805
-
-%Some things, whether in the form of a shape, a song, or a binary string, require less information to describe than others.
-
-If you have a monkey pressing random keys on a typewriter, you would expect it to produce every string of length \(N\) with equal probability (assuming the keystrokes were indeed truly random). With \(k\) keys on the keyboard, the probability for any string of length \(N\) is then \(k^{-N}\). For example, the title of this thesis, while unlikely to appear randomly, would be equally as probable as any other 50-character string, see the three example strings below:
-\begin{lstlisting}[numbers=left]
-  DESIGN AND MODULAR SELF-ASSEMBLY OF NANOSTRUCTURES
-  SHWDRVWKFORWJDOEXOZLSBNREKC Z  VSDJJF  ROKFYRVMIUI
-  AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-\end{lstlisting}
-
-However, some strings can have a description shorter than a full listing of the letters it contains. For example, string number three above could be described simply as ``Print \texttt{A}, 50 times'', or if we use the C programming language:
-
-\begin{lstlisting}[language=c]
-for(int i=50; i--;) printf("A");
-\end{lstlisting}
-
-There are also a number of possible valid variations of the code above, with different variable names and coding conventions, all producing the same output. In other words, not only is the description shorter than writing out the full string but multiple inputs map to the same output, increasing the probability of the output further.
-
-The concept of using the shortest possible computer program that can describe an object (for example, a binary string) to determine its complexity is central within the field of Algorithmic Information Theory (AIT) and is called Kolmogorov complexity (or Solomonoff–Kolmogorov–Chaitin to give full credit) \cite{LiMing2019AitK}. More specifically, the Kolmogorov complexity \(K(x)\) of an output \(x\) is the length of the shortest program that generates \(x\) on a Universal Turing Machine (UTM).
-
-AIT includes the \emph{coding theorem}, introducing lower and upper bounds for the probability \(P(x)\) of generating a binary string \(x\) as \(2^{-K(x)} \le P(x) \le 2^{-K(x) + \mathcal{O} (1)}\). In other words, low-complexity outputs are exponentially more likely to generated by random input compared to high-complexity outputs. This could be compared to how, intuitively, there are likely more programs generating the ``simple'' string number 3 above compared to the randomly generated number 2.
-
-However, finding the shortest program for an output is far from trivial (in general, it is in fact \emph{uncomputable}, due to the \emph{halting problem}). Fortunately, Dingle at al \cite{dingle2018input} were able to derive an upper bound to the probability using a computable approximation \(\widetilde{K}(x)\) of the Komologrov complexity:
-
-\[
-  P(x) \lesssim 2^{-a\widetilde{K}(x) -b}
-\]
-
-where \(a\) and \(b\) are constants that depend on the input-output map used (but are independent of \(x\)).
-
-

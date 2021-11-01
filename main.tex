@@ -7,17 +7,14 @@
 % Modified by Sam Evans (sam@samuelevansresearch.org), 2007
 % Modified by John McManigle (mcmanigle@gmail.com), 2015
 
-% I've (John) tried to comment this file extensively, so read through it to see how to use the various options.  Remember
-% that in LaTeX, any line starting with a % is NOT executed.  Several places below, you have a choice of which line to use
-% out of multiple options (eg draft vs final, for PDF vs for binding, etc.)  When you pick one, add a % to the beginning of
-% the lines you don't want.
+% I've (John) tried to comment this file extensively, so read through it to see how to use the various options.  Remember that in LaTeX, any line starting with a % is NOT executed.  Several places below, you have a choice of which line to use out of multiple options (eg draft vs final, for PDF vs for binding, etc.)  When you pick one, add a % to the beginning of the lines you don't want.
 
 
 %%%%% CHOOSE PAGE LAYOUT
 % The most common choices should be below.  You can also do other things, like replacing "a4paper" with "letterpaper", etc.
 
 % This one will format for two-sided binding (ie left and right pages have mirror margins; blank pages inserted where needed):
-\documentclass[hidelinks, a4paper,twoside]{ociamthesis}
+\documentclass[hidelinks, a4paper, twoside]{ociamthesis}
 % This one will format for one-sided binding (ie left margin > right margin; no extra blank pages):
 %\documentclass[a4paper]{ociamthesis}
 % This one will format for PDF output (ie equal margins, no extra blank pages):
@@ -32,6 +29,8 @@
 \usepackage{tikz} 
 
 \usepackage{listings}
+
+\usepackage{amsmath}
 
 \usepackage[permil]{overpic}
 
@@ -55,9 +54,7 @@
 % This adds a "DRAFT" footer to every normal page.  (The first page of each chapter is not a "normal" page.)
 \fancyfoot[C]{\emph{DRAFT Printed on \today}}  
 
-% This highlights (in blue) corrections marked with (for words) \mccorrect{blah} or (for whole
-% paragraphs) \begin{mccorrection} . . . \end{mccorrection}.  This can be useful for sending a PDF of
-% your corrected thesis to your examiners for review.  Turn it off, and the blue disappears.
+% This highlights (in blue) corrections marked with (for words) \mccorrect{blah} or (for whole paragraphs) \begin{mccorrection} . . . \end{mccorrection}.  This can be useful for sending a PDF of your corrected thesis to your examiners for review.  Turn it off, and the blue disappears.
 \correctionstrue
 
 
@@ -148,8 +145,7 @@
 
 
 %%%%% ABSTRACT SEPARATE
-% This is used to create the separate, one-page abstract that you are required to hand into the Exam
-% Schools.  You can comment it out to generate a PDF for printing or whatnot.
+% This is used to create the separate, one-page abstract that you are required to hand into the Exam Schools. You can comment it out to generate a PDF for printing or whatnot.
 \begin{abstractseparate}
 	\input{text/abstract} % Create an abstract.tex file in the 'text' folder for your abstract.
 \end{abstractseparate}
@@ -160,14 +156,14 @@
 \begin{romanpages}
 
 % Title page is created here
-\maketitle
+\maketitle 
 
 %%%%% DEDICATION -- If you'd like one, un-comment the following.
-%\begin{dedication}
-%This thesis is dedicated to\\
-%someone\\
-%for some special reason\\
-%\end{dedication}
+\begin{dedication}
+This thesis is dedicated to\\
+Ellen \includegraphics[height=1em]{figures/ulsk.eps}\\
+for joining me on this adventure\\
+\end{dedication}
 
 %%%%% ACKNOWLEDGEMENTS -- Nothing to do here except comment out if you don't want it.
 \begin{acknowledgements}

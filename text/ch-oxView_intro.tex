@@ -29,6 +29,7 @@ Designing a DNA origami structure by hand would be very laborious for anything b
 \subsection{Lattice-based design tools}
 The caDNAno design tool \cite{cadnano} and the web-based scadnano\cite{scadnano} it inspired, allows the user to design DNA origami on a lattice of parallel helices.
 \subsubsection{caDNAno}
+\label{sec:cadnano}
 CaDNAno \cite{cadnano} was introduced in 2009 as a way to simplify 2D and 3D DNA origami designs. It has a graphical user interface with multiple panels, seen in Figure \ref{fig:cadnano}. In the slice panel, the designer can place virtual helices on a lattice (either hexagonal or square), seen in the leftmost panel of the figure. The helices can then be filled in with strands and connected using crossovers in a path panel, seen in the middle of the figure.
 
 Finally, caDNAno is also available as a plugin to the Autodesk Maya software, which enables a 3D visualisation of the design as seen in the render panel to the right in Figure \ref{fig:cadnano}. However, caDNAno does not support Maya versions after 2015 \cite{cadnanoInstall}.
@@ -120,14 +121,16 @@ Adenita \cite{miao_tvcg_2018} is a free-form editing tool developed as a plugin 
 \end{figure}
 
 \subsubsection{MagicDNA}
-Another method of solving topological issues through rigid-body manipulation was used by Chao-Min Huang \cite{huang2021integrated}.
+Another method of solving topological issues through rigid-body manipulation was used by Chao-Min Huang \cite{huang2021integrated}. MagicDNA, as seen in Figure \ref{fig:magicDNA}, has an computer-aided design workflow where geometry can be specified from helix cross-sections or imported from a part library, then assembled into an integrated structure (using multiple scaffolds if neccesary).
+
+MagicDNA is written as a plugin to the Matlab suite.
 
 
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=\textwidth]{figures/magicDNA.jpeg}
-    \caption{magicDNA adapted from \cite{huang2021integrated}}
-    \label{fig:tiamat}
+    \caption{MagicDNA adapted from \cite{huang2021integrated}.}
+    \label{fig:magicDNA}
   \end{center}
 \end{figure}
 

@@ -6,67 +6,104 @@ In the previous chapter, we saw how to map an input rule into an output polycube
 
 % Fully addressable is the easy solution.
 
-A trivial solution would be to use fully addressable assembly, simply assign a unique species to each cube, and a unique colour to each pair of adjacent patches. This is similar to what was done for DNA bricks (Section \ref{sec:dna_tiles_bricks}), but for many shapes there are alternative solutions requiring significantly fewer unique components.
+A trivial solution would be to use fully addressable assembly, simply assign a unique species to each cube, and a unique colour to each pair of adjacent patches. This is similar to what was done for DNA bricks (Section \ref{sec:dna_tiles_bricks}). However, as was seen in Chapter \ref{ch:polycubes1}, many shapes have alternative solutions requiring significantly fewer unique components. See Figure \ref{fig:addressable}, where a square tetromino is shown to have a range of possible inputs assembling it, from the minimal solution with just a single species and one colour, up to the fully adressable solution with four species and four colours.
 
-Could also sample the whole input space as in the previous chapter
+\begin{figure}[h]
+    \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/solve/adressable.svg}
+    \caption{2x2 polyomino assembled with different levels of complexity.}
+    \label{fig:addressable}
+\end{figure}
 
-But is there a better way?
+So, is there a better way to find these simpler input rules than to sample the space of all rules? This chapter presents an approach where satisfiability solving is used to determine if a shape can be assembled from a given number of colours and species. Furthermore, a complementary approach of substituting similar species is also described.
+
 
 \section{Satisfiability solving}
 
-Building upon a method for determining patchy particle interactions for unbounded structures \cite{romano2020designing} it is possible to formulate and solve satisfiability problems for the bounded polycube structures.
+Building upon a method for determining patchy particle interactions for unbounded structures \cite{romano2020designing}, it is possible to formulate and solve satisfiability problems for the bounded polycube structures.
+
+In essence, we formulate a boolean expression that, if true, means it is possible to assemble a given polycube topology using a given number of colours and species. We can then use a satisfiability solver to check if the expression is indeed solvable and, if it is, extract an assembly rule from the solution.
+
+\subsection{Boolean expressions}
+
+The boolean expression is written in conjunctive normal form (CNF), where variables are composed into clauses using \emph{NOT} (\(\lnot\)) and \emph{OR} (\(\lor\)) operators and where the clauses are joined by \emph{AND} (\(\land\)) operators. As a simple example, see the expression below:
+
+\[
+    (\lnot x_{rain} \lor x_{umbrella} \lor  \lnot x_{walk}) \land
+    (\lnot x_{rainbow} \lor x_{rain}) \land
+    (\lnot x_{rainbow} \lor x_{sunny})
+\]
+
+The first clause is \(true\) for all values except when \(x_{rain}=true\), \(x_{umbrella}=false\) and \(x_{walk}=true\), so the solution of taking a walk in the rain without an umbrella is forbidden (allthough I would prefer a good coat). This could also be written as an \emph{implication}: \(x_{rain} \land x_{walk} \implies x_{umbrella}\).
+
+The following two clauses are the CNF form of (\(x_{rainbow} \implies  x_{rain} \land x_{sunshine}\)), stating that a rainbow implies that we have both rain and sunshine. We cannot have a rainbow without rain or without sunshine. The full expression is satisfiable, for example, if we set \(x_{sun}=true\),\(x_{rain}=false\), \(x_{walk}=false\), \(x_{umbrella}=false\), and \(x_{rainbow}=false\); ignoring the sunshine and remaining inside to write.
+
+\subsection{Polycube formulation}
+
+For the polycube problem, we introduce the following variables:
+\begin{description}
+    \item[\(x_{l,p,o}^{A}\)] (patch \(p\) at position \(l\) has orientation \(o\))
+    \item[\(x_{c_i,c_j}^{B}\)] (colour \(c_i\) is compatible with colour \(c_j\))
+    \item[\(x_{s,p,c}^{C}\)] (patch \(p\) on cube type \(s\) has colour \(c\))
+    \item[\(x_{p_1,o_1,p_2,o_2}^{D}\)] (patch \(p_1\) with orientation \(o_1\) binds to patch \(p_2\) with orientation \(o_2\))
+    \item[\(x_{l,p,c}^{F}\)] (patch \(p\) at position \(l\) has colour \(c\))
+    \item[\(x_{s,p,o}^{O}\)] (patch \(p\) on cube type \(s\) has orientation \(o\))
+    \item[\(x_{l,s,r}^{P}\)] (position \(l\) is occupied by cube type \(s\) rotated by \(r\))] 
+\end{description}
+
+We then formulate clauses to constrain the problem, seen in Table \ref{tab:sat_clauses}. Clauses (i)-(vii) are the same as in \cite{romano2020designing} while the remaining are added, together with variables \(x^D\), \(x^A\) and \(x^O\), to include torsional restrictions, meaning that patches need to bind at a compatible orientation (complared to being allowed to rotate freely).
 
 \begin{table}[h!]
-\centering
-\begin{tabular}{l|l} 
- \hline
- Variable & Description \\ [0.5ex] 
- \hline
- \hline
- 
-\(x_{l,p,o}^{A}\) & Patch \(p\) at position \(l\) has orientation \(o\) \\
-\(x_{c_i,c_j}^{B}\) &  Colour \(c_i\) is compatible with colour \(c_j\) \\
-\(x_{s,p,c}^{C}\) & Patch \(p\) on cube type \(s\) has colour \(c\) \\
-\(x_{p_1,o_1,p_2,o_2}^{D}\) & Patch \(p_1\), orientation \(o_1\) binds to patch \(p_2\), orientation \(o_2\) \\
-\(x_{l,p,c}^{F}\) & Patch \(p\) at position \(l\) has colour \(c\) \\
-\(x_{s,p,o}^{O}\) & Patch \(p\) on cube type \(s\) has orientation \(o\) \\
-\(x_{l,s,r}^{P}\) & Position \(l\) is occupied by cube type \(s\) rotated by \(r\) \\
- \hline
-\end{tabular}
-\caption{SAT variables and descriptions}
-\label{tab:sat_variables}
-\end{table}
+    \centering
+    \begin{tabular}{|l|l|l|}
+        \hline
+        & Clause & Boolean expression \\ [0.5ex] 
+        \hline
+        \hline
+        (i) & \(C^{B}_{c_i,c_j,c_k}\) & \(\neg x_{c_i,c_j}^{B} \lor \neg x_{c_i,c_k}^{B}\) \\ % Each colour is compatible with exactly one colour
+        (ii) &  \(C^{C}_{s,p,c_k,c_l}\) & \(\neg x_{s, p, c_k}^{C} \lor \neg x_{s, p, c_l}^{C}\) \\ % Each patch is assigned exactly one colour
+        (iii) & \(C^{P}_{l, s_i, r_i, s_j, r_j}\)  & \(\neg x_{l,s_i,r_i}^{P} \lor \neg x_{l,s_j,r_j}^{P} \) \\ % Each lattice position is occupied by a single cube type with one assigned rotation
+        (iv) & \(C^{BF}_{l_i,p_i,c_i,l_j,p_j,c_j}\) & \(\left(x_{l_i,p_i,c_i}^{F} \land x_{l_j,p_j,c_j}^{F} \right) \Rightarrow x_{c_i,c_j}^{B}\) \\ % Colours of patches that interact in the target lattice must be compatible
+        (v) & \(C^{rotC}_{l,s,r,p,c}\) & \(x_{l,s,r}^{P} \Rightarrow \left(x_{l,p,c}^{F} \Leftrightarrow x_{s, \phi_r(p), c}^{C}\right)\) \\ % The patches at a lattice position is set to have the patch colours of the rotated occupying cube type.
+        (vi) & \(C^{all s}_{s}\)  & \(\bigvee_{\forall l, r} x_{l,s,r}^{P}\) \\ % All N_s cube types are used for the lattice assembly
+        (vii) & \(C^{all c}_{c}\)  & \(\bigvee_{\forall s, p} x_{s,p,c}^{C}\) \\ % All N_c patch colours are used in the solution
+        (iix) &  \(C^{O}_{s,p,o_k,o_l}\) & \(\neg x_{s, p, o_k}^{O} \lor \neg x_{s, p, o_l}^{O}\) \\ % Each patch is assigned exactly one orientation
+        (ix) & \(C^{DA}_{l_i,p_i,c_i,l_j,p_j,c_j}\) & \(\left(x_{l_i,p_i,c_i}^{A} \land x_{l_j,p_j,c_j}^{A} \right) \Rightarrow x_{p_i,c_i,p_j,c_j}^{D}\) \\ % Orientation of patches that interact in the target lattice must be compatible
+        (x) & \(C^{rotO}_{l,s,r,p,o}\) & \(x_{l,s,r}^{P} \Rightarrow \left(x_{l,p,o}^{A} \Leftrightarrow x_{s, \phi_r(p), o}^{O}\right)\) \\ % The patches at a lattice position is set to have the orientations of the rotated occupying cube type.
+        
+        \hline
+    \end{tabular}
+    \caption{SAT clauses. (i) Each colour is compatible with \textit{exactly one} colour. (ii) Each patch has \textit{exactly one} colour. (iii) Each lattice position contains a single cube type with an assigned rotation. (iv) Adjacent patches in the lattice must have compatible colours. (v) Patches at a lattice position are coloured according to the (rotated) occupying cube type. (vi) All \(N_t\) cube types are required in the solution. (vii) All \(N_c\) patch colours are required in the solution. (iix) Each patch is assigned \textit{exactly one} orientation. (ix) Adjacent patches in the target lattice must have the same orientation. (v)  Patches at a lattice position are oriented according to the (rotated) occupying cube type.}
+    \label{tab:sat_clauses}
+    \end{table}
 
-\begin{table}[h!]
-\centering
-\begin{tabular}{|l|l|l|}
-    \hline
-    Id & Clause & Boolean expression \\ [0.5ex] 
-    \hline
-    \hline
-    (i) & \(C^{B}_{c_i,c_j,c_k}\) & \(\neg x_{c_i,c_j}^{B} \lor \neg x_{c_i,c_k}^{B}\) \\ % Each colour is compatible with exactly one colour
-    (ii) &  \(C^{C}_{s,p,c_k,c_l}\) & \(\neg x_{s, p, c_k}^{C} \lor \neg x_{s, p, c_l}^{C}\) \\ % Each patch is assigned exactly one colour
-    (iii) & \(C^{P}_{l, s_i, r_i, s_j, r_j}\)  & \(\neg x_{l,s_i,r_i}^{P} \lor \neg x_{l,s_j,r_j}^{P} \) \\ % Each lattice position is occupied by a single cube type with one assigned rotation
-    (iv) & \(C^{BF}_{l_i,p_i,c_i,l_j,p_j,c_j}\) & \(\left(x_{l_i,p_i,c_i}^{F} \land x_{l_j,p_j,c_j}^{F} \right) \Rightarrow x_{c_i,c_j}^{B}\) \\ % Colours of patches that interact in the target lattice must be compatible
-    (v) & \(C^{rotC}_{l,s,r,p,c}\) & \(x_{l,s,r}^{P} \Rightarrow \left(x_{l,p,c}^{F} \Leftrightarrow x_{s, \phi_r(p), c}^{C}\right)\) \\ % The patches at a lattice position is set to have the patch colours of the rotated occupying cube type.
-    (vi) & \(C^{all s}_{s}\)  & \(\bigvee_{\forall l, r} x_{l,s,r}^{P}\) \\ % All N_s cube types are used for the lattice assembly
-    (vii) & \(C^{all c}_{c}\)  & \(\bigvee_{\forall s, p} x_{s,p,c}^{C}\) \\ % All N_c patch colours are used in the solution
-    (iix) &  \(C^{O}_{s,p,o_k,o_l}\) & \(\neg x_{s, p, o_k}^{O} \lor \neg x_{s, p, o_l}^{O}\) \\ % Each patch is assigned exactly one orientation
-    (ix) & \(C^{DA}_{l_i,p_i,c_i,l_j,p_j,c_j}\) & \(\left(x_{l_i,p_i,c_i}^{A} \land x_{l_j,p_j,c_j}^{A} \right) \Rightarrow x_{p_i,c_i,p_j,c_j}^{D}\) \\ % Orientation of patches that interact in the target lattice must be compatible
-    (x) & \(C^{rotO}_{l,s,r,p,o}\) & \(x_{l,s,r}^{P} \Rightarrow \left(x_{l,p,o}^{A} \Leftrightarrow x_{s, \phi_r(p), o}^{O}\right)\) \\ % The patches at a lattice position is set to have the orientations of the rotated occupying cube type.
-    
-    \hline
-\end{tabular}
-\caption{SAT clauses. (i) Each colour is compatible with \textit{exactly one} colour. (ii) Each patch has \textit{exactly one} colour. (iii) Each lattice position contains a single cube type with an assigned rotation. (iv) Adjacent patches in the lattice must have compatible colours. (v) Patches at a lattice position are coloured according to the (rotated) occupying cube type. (vi) All \(N_t\) cube types are required in the solution. (vii) All \(N_c\) patch colours are required in the solution. (iix) Each patch is assigned \textit{exactly one} orientation. (ix) Adjacent patches in the target lattice must have the same orientation. (v)  Patches at a lattice position are oriented according to the (rotated) occupying cube type.}
-\label{tab:sat_clauses}
-\end{table}
-Clauses (i)-(vii) are the same as in \cite{romano2020designing}, while the remaining clauses have been added, together with variables \(x^D\), \(x^A\) and \(x^O\), to include torsional restrictions.
+
+\subsection{Bounded structures}
+An important difference to \cite{romano2020designing} is that the method presented here allows for bounded structures. This is done by adding species of type ``empty'' as a "shell" around the shape to ensure that empty patches remain unbound. Adding a clause \(x_{0,1}^{B}\) ensures that colour 0 always binds to 1. 
+
+We then add clauses \(x_{l,p,1}^{F}\) to constrain every boundary patch \(p\) at lattice position \(l\) to have the colour \(1\) and thereby not bind anything else. For the example in Figure \ref{fig:sat_boundary}, these boundary patches are seen coloured white, so there we get:
+
+\begin{equation}
+    \begin{aligned}
+        &x_{0,0,1}^{F} \land x_{0,1,1}^{F} \land x_{0,3,1}^{F} \land \\
+        &x_{1,0,1}^{F} \land x_{1,2,1}^{F} \land x_{1,3,1}^{F} \land \\
+        &x_{3,0,1}^{F} \land x_{3,1,1}^{F} \land x_{3,2,1}^{F} \land \\
+        &x_{4,1,1}^{F} \land x_{4,2,1}^{F} \land x_{4,3,1}^{F}
+    \end{aligned}
+\end{equation}
+
+Note that for 3D polucubes, there are six patches per species, instead of the four seen in the 2D polyomino in Figure \ref{fig:sat_boundary}. This also introduces 27 possible cube rotations, compared to the 4 square rotations defined for 2D.
+
+The topology of the shape is enforced by clause (iv), \(\left(\lnot x_{l_1, p_1, c_1}^{F} \lor \lnot x_{l_2, p_2, c_2}^{F} \lor x_{c_1, c_2}^{B}\right)\) in CNF, making sure that if patch \(p_1\) on lattice position \(l_1\) binds to \(p_2\) on lattice position \(l_2\), their colours are compatible. Similarly, clause (ix) ensures that the patches have the same orientation.
+
+\begin{figure}[h]
+    \centering\includesvg[width=.5\textwidth, inkscapelatex=false]{figures/sat_boundary.svg}
+    \caption{Bounded shape topology for satisfiability solving. Patches at the boundary of the shape (white) are constrained to only bind to ``empty''. 3D shapes are specified the same way, but with six patches per species.}
+    \label{fig:sat_boundary}
+\end{figure}
 
 Interaction matrix is fixed (compared to \cite{romano2020designing}).
 
 Figure of topology graph.
-
-Figure of particle schematic
 
 Add giraffe-duck-like example of when SAT solver gives UND solution
 
@@ -80,6 +117,9 @@ The method presented here uses a boolean satisfiability (SAT) solver to determin
     \caption{Algorithm for finding the minimal solution using SAT. Even if a solution is found to be satisfiable it might not assemble correctly every time. Additional solutions for a given \(N_c\) and \(N_t\) are found by explicitly forbidding the current solution. Alternatively, it is possible to use a solver like relsat to obtain multiple solutions. }
     \label{fig:sat_alg}
 \end{figure}
+
+\section{Simplification by substitution}
+An alternative approach is to substitute species in the input that are similar, removing duplicates. Starting from a fully addressable solution, any pair of species \(s_1\) and \(s_2\) with the same configuration of patches are tested. If we can remove \(s_1\) and replace the patches complementary to it with ones complementary to the patches of \(s_2\) and still get the correct output, we have successfully simplified the rule. This continues until all pairs have been tried.
 
 \section{Example solves}
 
