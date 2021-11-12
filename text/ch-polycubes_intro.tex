@@ -64,7 +64,7 @@ As covered in Section \ref{sec:RNA_design}, it is possible to co-transcriptional
 \subsection{Finite DNA origami arrays}\label{sec:origamiArrays}
 % https://www.nature.com/articles/nature24655
 
-In 2017, Tikhomirov et al.\cite{tikhomirov2017fractal, tikhomirov2017programmable} demonstrated two-dimensional patterns assembled on the micrometre-scale using square origami tiles connecting through their complementary edges, as seen in Figure \ref{fig:origamiArrays}. The patterns could either be hierarchically assembled from unique tiles \cite{tikhomirov2017fractal}, or assembled into random patterns from a small number of tile types \cite{tikhomirov2017programmable}. The binding stregth could be calibrated using a variable amount of overhangs on the edges, as seen in Figure \ref{fig:origamiArrays}.b). While the random tilings were generally unbounded, Tikhomirov et al also showed how to program a finite grid (see Figure \ref{fig:origamiArrays}.d). Arrays up to \(8 \times 8\) tiles were successfully produced, although larger arrays had a much smaller yield (Figure \ref{fig:origamiArrays}.c).
+In 2017, Tikhomirov et al.\cite{tikhomirov2017fractal, tikhomirov2017programmable} demonstrated two-dimensional patterns assembled on the micrometre-scale using square origami tiles connecting through their complementary edges, as seen in Figure \ref{fig:origamiArrays}. The patterns could either be hierarchically assembled from unique tiles \cite{tikhomirov2017fractal}, or assembled into random patterns from a small number of tile types \cite{tikhomirov2017programmable}. The binding strength could be calibrated using a variable amount of overhangs on the edges, as seen in Figure \ref{fig:origamiArrays}.b). While the random tilings were generally unbounded, Tikhomirov et al. also showed how to program a finite grid (see Figure \ref{fig:origamiArrays}.d). Arrays up to \(8 \times 8\) tiles were successfully produced, although larger arrays had a much smaller yield (Figure \ref{fig:origamiArrays}.c).
 
 \begin{figure}[h]
   \centering
@@ -92,7 +92,7 @@ Also, in 2017, Wagenbauer et al. \cite{wagenbauer2017gigadalton} used shape-comp
     \put(0,320){a)}
     \put(620,320){b)}
   \end{overpic}
-  \caption{Shape-complementary triangles assembling polyhedral shells. Adapted from \cite{sigl2021programmable}. a) Polyhedral shell design for T=9. \(N\) is the triangulation number (the number of unique edges required for assembly), \(\alpha\) is the bevel angle of the triangle sides, and \(N\) is the number of triangles required for a full shell. b) Cryo-EM reconstruction of the individual sub-units (top) and the assembled shell (bottom) for a T=4 icosahedral shell.}
+  \caption{Shape-complementary triangles assembling polyhedral shells. Adapted from \cite{sigl2021programmable}. a) Polyhedral shell design for T=9. \(N\) is the triangulation number (the number of unique edges required for assembly), \(\alpha\) is the bevel angle of the triangle sides, and \(N\) is the number of triangles required for a full shell. b) Cryo-EM reconstruction of an assembled T=4 icosahedral shell.}
   \label{fig:shape-complementarity}
 \end{figure}
 
@@ -112,7 +112,7 @@ In 2020, Lin et al.\cite{nano-chambers_lin2020} presented cubic DNA origami ``na
 \subsection{Octahedral DNA origami frames}
 In 2020, Wang et al. \cite{tian_octahedra2020} showed how octahedral DNA origami frames could be used as building blocks in limited and unlimited programmed assemblies, as seen in Figure \ref{fig:tian_octahedra}. Using sticky-end overhangs at the octahedral vertices, the building blocks have the connectivity, as well as the rotational symmetry, of a cube.
 
-Due to the flexibility of the single-stranded connections, the connections are less torsionally rigid than assumed in the polucube model, later described in Chapter \ref{ch:polycubes1}. However, as can be seen in Figure \ref{fig:tian_octahedra}, shapes such as the cube can still be assembled with good yield.
+Due to the flexibility of the single-stranded connections, the connections are less torsionally rigid than assumed in the polycube model, later described in Chapter \ref{ch:polycubes1}. However, as can be seen in Figure \ref{fig:tian_octahedra}, shapes such as the cube can still be assembled with good yield.
 
 % https://onlinelibrary.wiley.com/doi/abs/10.1002/anie.201913958
 
@@ -147,9 +147,11 @@ The DNA tiles by Winfree et al. \cite{winfree1998design}, presented in Section \
 
 % Molecular algorithms https://www.nature.com/articles/s41586-019-1014-9
 
-The algorithmic Tile Assembly Model (aTAM), shown in Figure \ref{fig:atam}, models the dynamic behaviour of the DNA tiles introduced by Winfree et al. \cite{winfree1998design}. Each tile has four patches, one on each edge. Furthermore, the patches can have different strengths, with a global temperature variable determining the total connection strength required for a tile to attach \cite{doty2012theory}.
+The algorithmic Tile Assembly Model (aTAM), shown in Figure \ref{fig:atam}, models the dynamic behaviour of the double crossover DNA tiles introduced by Winfree et al. \cite{winfree1998design}. Each tile has four patches, one on each edge, corresponding to the four single-stranded regions of the DNA tile. Furthermore, the patches can have different strengths, with a global temperature variable determining the total connection strength required for a tile to attach \cite{doty2012theory}.
 
-In the example seen in Figure \ref{fig:atam}, the pattern grows from the initial bottom-right seed into the blue horizontal bottom row and the rightmost vertical column. This is because these tiles have ``strength-2'' glues with enough binding strength to attach by themselves \cite{doty2012theory}. The additional tiles have weaker ``strength-1'' glues (illustrated as thinner black connectors), so they need at least two complementary patches to achieve the binding strength treshold (temperature). Because of this so-called co-operative binding, the tiles can be seen as logic gates performing computation; given the bottom and right patches as input bits, the matching tile attaches and produces two computed output bits (top and left).
+In the example seen in Figure \ref{fig:atam}, the pattern grows from the initial bottom-right seed into the blue horizontal bottom row and the rightmost vertical column. This is because these tiles have ``strength-2'' glues with enough binding strength to attach by themselves \cite{doty2012theory}. The additional tiles have weaker ``strength-1'' glues (illustrated as thinner black connectors), so they need at least two complementary patches to achieve the binding strength threshold (temperature).
+
+Because of this so-called co-operative binding, the tiles can be seen as logic gates performing computation; given the bottom and right patches as input bits, the matching tile attaches and produces two computed output bits (top and left).
 
 % DX array https://www.nature.com/articles/28998
 
@@ -162,17 +164,47 @@ In the example seen in Figure \ref{fig:atam}, the pattern grows from the initial
 
 \subsection{The polyomino model}\label{sec:polyomino}
 
-The main inspiration for the polycube model presented in Chapter \ref{ch:polycubes1} is the polyomino model \cite{ahnert2010self, johnston2011evolutionary}. The 2D model is similar in assembly to the later experimental micro-meter scale tile designs by Tikhomirov \cite{tikhomirov2017programmable} shown in Figure \ref{fig:origamiArrays}.d). Compared to the abstract tile assembly model, described in Section \ref{sec:atam}, polyomino tiles are allowed to rotate; creating further possibilities for symmetries. Also, the edge binding is not self-complementary, using complementary color pairs instead. Finally, polyominoes have a constant binding strength (in other words, it is a temperature-1 model), avoiding co-operative binding. 
+The main inspiration for the polycube model presented in Chapter \ref{ch:polycubes1} is the polyomino model \cite{ahnert2010self, johnston2011evolutionary}. The 2D model is similar in assembly to the later experimental micro-meter scale tile designs by Tikhomirov \cite{tikhomirov2017programmable} shown in Figure \ref{fig:origamiArrays}.d). Compared to the abstract tile assembly model, described in Section \ref{sec:atam}, polyomino tiles are allowed to rotate, creating further possibilities for symmetries. Also, the edge binding is not self-complementary, using complementary colour pairs instead. Finally, polyominoes have a constant binding strength (in other words, it is a temperature-1 model), avoiding co-operative binding. 
 
-See Figure \ref{fig:polyominoes} for an illustration of the model, where an input \emph{genotype} genotype (describing four possible tile types) is mapped into an assembled output polyomino by stochastically growing the shape from an initial seed. The growth stops if, as in the example in Figure \ref{fig:polyominoes}, no more tiles can attach (since the color \(0\) does not bind to anything).
-
-%, studying the self-assembly, modularity and evolutionary dynamics of \emph{polyominoes}.
+See Figure \ref{fig:polyominoes} for an illustration of the model, where an input \emph{genotype} genotype (describing four possible tile types) is mapped into an assembled output polyomino by stochastically growing the shape from an initial seed. The growth stops if, as in the example in Figure \ref{fig:polyominoes}, no more tiles can attach (since the colour \(0\) does not bind to anything). If the growth is infinite, the genotype is called \emph{unbounded}. A genotype is deemed deterministic if it assembles the same phenotype polyomino every time. Only bounded and deterministic genotypes are considered valid inputs.
 
 \begin{figure}[h]
-    \centering\includegraphics[width=0.6\textwidth]{figures/polyominoes.eps}
+    \centering
+    \includegraphics[width=0.6\textwidth]{figures/polyominoes.eps}
     \caption{Illustration of the polyomino assembly model, adapted from \cite{johnston2011evolutionary}. A \emph{genotype}, in the form of a ruleset of possible tiles, encodes for a polyomino \emph{phenotype}, grown stochastically from an initial seed tile.}
     \label{fig:polyominoes}
 \end{figure}
 
+In 2021, evolutionary runs of polyominoes were shown to have a clear bias toward structures with low complexity and high symmetry \cite{johnston2021}. See Figure \ref{fig:polyomino_symmetries}, where the frequency of protein complexes and polyominoes are compared to their complexity. More specifically, the number of interface types required (number of patch colours in the polyomino case) is used as a proxy measure for the Komologrov complexity (see Section \ref{sec:AIT}). The fitness of the structures only depended on their size (16-mers had the highest fitness), so the simplicity was not selected for. This is in line with the Algorithmic Information Theory arguments made by Dingle et al. \cite{dingle2018input}, who showed the same simplicity bias for a set of various input-output maps.
 
-\subsection{Patchy particles}
+\begin{figure}[h]
+  \centering
+  \begin{overpic}[width=0.9\textwidth]{figures/polyomino_symm_and_simpl.eps}
+    \put(0,750){a)}
+    \put(520,750){b)}
+    \put(0,590){c)}
+    \put(520,590){d)}
+  \end{overpic}
+  \caption{Frequent symmetry and simplicity through evolution, adapted from \cite{johnston2021}. Both protein complexes (a) and polyominoes (b) self-assemble from individual units. c) Frequency of 6-mer protein complex topologies in the protein data bank, versus their complexity (measured as the number of interface types) d) Frequency versus complexity of polyominoes found in evolutionary runs with a fitness function seeking 16-mers.}
+  \label{fig:polyomino_symmetries}
+\end{figure}
+
+
+\subsection{Patchy particle simulation}
+\label{sec:patchy_particles}
+
+Besides discrete tile models, self-assembly can also be modelled using Molecular Dynamics simulations of rigid-body spheres called \emph{patchy particles}. Each particle has a number of patches that bind when they come in contact with another complementary patch.
+
+One such patchy particle simulator is included as part of the oxDNA package \cite{rovigatti2015comparison}. It was, for example, used by Romano et al., as seen in Figure \ref{fig:patchy_particles}, to verify the patchy interactions designed by their SAT-solver method \cite{romano2020designing}.
+
+
+\begin{figure}[h]
+  \centering
+  \begin{overpic}[width=\textwidth]{figures/patchy_particles.png}
+    \put(0,310){a)}
+    \put(280,310){b)}
+    \put(650,310){c)}
+  \end{overpic}
+  \caption{Patchy particle simulation, adapted from \cite{romano2020designing}. a) The unit cell of a tetrastack lattice build with patchy particles. b) Simulation snapshot of a forming tetrastack lattice. Note the free-flowing particles that have not yet attached the growing latttice they surround. c) Tetrastack particle energy plotted over simulation time for different temperatures. Sudden drops in energy correspond to nucleation events (where the lattices start forming).}
+  \label{fig:patchy_particles}
+\end{figure}

@@ -1,0 +1,697 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   class="marks"
+   width="525"
+   height="53.788086"
+   viewBox="0 0 525 53.788086"
+   id="svg264"
+   sodipodi:docname="rule_validity.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata270">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs268" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1376"
+     id="namedview266"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="3.2409061"
+     inkscape:cx="242.10851"
+     inkscape:cy="56.307577"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg264" />
+  <g
+     stroke-miterlimit="10"
+     id="g262"
+     style="fill:none;stroke-miterlimit:10">
+    <g
+       class="mark-group role-frame root"
+       role="graphics-object"
+       aria-roledescription="group mark container"
+       id="g260">
+      <g
+         id="g258">
+        <path
+           class="background"
+           aria-hidden="true"
+           d="M 0,0 Z"
+           id="path4"
+           inkscape:connector-curvature="0" />
+        <g
+           id="g254">
+          <g
+             class="mark-group role-column-footer column_footer"
+             role="graphics-object"
+             aria-roledescription="group mark container"
+             id="g126">
+            <g
+               transform="translate(0,21)"
+               id="g124">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M 0,0 H 400 V 0 Z"
+                 id="path52"
+                 inkscape:connector-curvature="0" />
+              <g
+                 id="g120">
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="X-axis titled 'Samples' for a linear scale with values from 0 to 1,000,000,000"
+                   id="g118">
+                  <g
+                     transform="translate(0.5,0.5)"
+                     id="g116">
+                    <path
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path54"
+                       inkscape:connector-curvature="0" />
+                    <g
+                       id="g112">
+                      <g
+                         class="mark-rule role-axis-tick"
+                         pointer-events="none"
+                         id="g78">
+                        <line
+                           x2="0"
+                           y2="5"
+                           id="line56"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(40)"
+                           x2="0"
+                           y2="5"
+                           id="line58"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(80)"
+                           x2="0"
+                           y2="5"
+                           id="line60"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(120)"
+                           x2="0"
+                           y2="5"
+                           id="line62"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(160)"
+                           x2="0"
+                           y2="5"
+                           id="line64"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(200)"
+                           x2="0"
+                           y2="5"
+                           id="line66"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(240)"
+                           x2="0"
+                           y2="5"
+                           id="line68"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(280)"
+                           x2="0"
+                           y2="5"
+                           id="line70"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(320)"
+                           x2="0"
+                           y2="5"
+                           id="line72"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(360)"
+                           x2="0"
+                           y2="5"
+                           id="line74"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(400)"
+                           x2="0"
+                           y2="5"
+                           id="line76"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-label"
+                         pointer-events="none"
+                         id="g102">
+                        <text
+                           transform="translate(0,15)"
+                           font-size="10px"
+                           id="text80"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">0</text>
+                        <text
+                           transform="translate(40,15)"
+                           font-size="10px"
+                           id="text82"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000">100,000,000</text>
+                        <text
+                           transform="translate(80,15)"
+                           font-size="10px"
+                           id="text84"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000">200,000,000</text>
+                        <text
+                           transform="translate(120,15)"
+                           font-size="10px"
+                           id="text86"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000">300,000,000</text>
+                        <text
+                           transform="translate(160,15)"
+                           font-size="10px"
+                           id="text88"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000">400,000,000</text>
+                        <text
+                           transform="translate(200,15)"
+                           font-size="10px"
+                           id="text90"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000">500,000,000</text>
+                        <text
+                           transform="translate(240,15)"
+                           font-size="10px"
+                           id="text92"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000">600,000,000</text>
+                        <text
+                           transform="translate(280,15)"
+                           font-size="10px"
+                           id="text94"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000">700,000,000</text>
+                        <text
+                           transform="translate(320,15)"
+                           font-size="10px"
+                           id="text96"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000">800,000,000</text>
+                        <text
+                           transform="translate(360,15)"
+                           font-size="10px"
+                           id="text98"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000">900,000,000</text>
+                        <text
+                           transform="translate(400,15)"
+                           font-size="10px"
+                           id="text100"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:0;fill:#000000">1,000,000,000</text>
+                      </g>
+                      <g
+                         class="mark-rule role-axis-domain"
+                         pointer-events="none"
+                         id="g106">
+                        <line
+                           x2="400"
+                           y2="0"
+                           id="line104"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-title"
+                         pointer-events="none"
+                         id="g110">
+                        <text
+                           transform="translate(200,30)"
+                           font-size="11px"
+                           font-weight="bold"
+                           id="text108"
+                           style="font-weight:bold;font-size:11px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000">Samples</text>
+                      </g>
+                    </g>
+                    <path
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path114"
+                       inkscape:connector-curvature="0"
+                       style="display:none" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path122"
+                 inkscape:connector-curvature="0"
+                 style="display:none" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-scope cell"
+             role="graphics-object"
+             aria-roledescription="group mark container"
+             id="g178">
+            <g
+               id="g176">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="m 0.5,0.5 h 400 v 20 H 0.5 Z"
+                 id="path128"
+                 inkscape:connector-curvature="0"
+                 style="stroke:#dddddd" />
+              <g
+                 id="g172">
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="X-axis for a linear scale with values from 0 to 1,000,000,000"
+                   id="g162">
+                  <g
+                     transform="translate(0.5,20.5)"
+                     id="g160">
+                    <path
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path130"
+                       inkscape:connector-curvature="0" />
+                    <g
+                       id="g156">
+                      <g
+                         class="mark-rule role-axis-grid"
+                         pointer-events="none"
+                         id="g154">
+                        <line
+                           x2="0"
+                           y2="-20"
+                           id="line132"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                        <line
+                           transform="translate(40)"
+                           x2="0"
+                           y2="-20"
+                           id="line134"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                        <line
+                           transform="translate(80)"
+                           x2="0"
+                           y2="-20"
+                           id="line136"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                        <line
+                           transform="translate(120)"
+                           x2="0"
+                           y2="-20"
+                           id="line138"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                        <line
+                           transform="translate(160)"
+                           x2="0"
+                           y2="-20"
+                           id="line140"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                        <line
+                           transform="translate(200)"
+                           x2="0"
+                           y2="-20"
+                           id="line142"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                        <line
+                           transform="translate(240)"
+                           x2="0"
+                           y2="-20"
+                           id="line144"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                        <line
+                           transform="translate(280)"
+                           x2="0"
+                           y2="-20"
+                           id="line146"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                        <line
+                           transform="translate(320)"
+                           x2="0"
+                           y2="-20"
+                           id="line148"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                        <line
+                           transform="translate(360)"
+                           x2="0"
+                           y2="-20"
+                           id="line150"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                        <line
+                           transform="translate(400)"
+                           x2="0"
+                           y2="-20"
+                           id="line152"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#dddddd;stroke-width:1" />
+                      </g>
+                    </g>
+                    <path
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path158"
+                       inkscape:connector-curvature="0"
+                       style="display:none" />
+                  </g>
+                </g>
+                <g
+                   class="mark-rect role-mark child_marks"
+                   role="graphics-symbol"
+                   aria-roledescription="rect mark container"
+                   id="g170">
+                  <path
+                     d="M 0,1 H 17.818228 V 19 H 0 Z"
+                     id="path164"
+                     inkscape:connector-curvature="0"
+                     style="fill:#4daf4a" />
+                  <path
+                     d="M 51.53783,1 H 400 V 19 H 51.53783 Z"
+                     id="path166"
+                     inkscape:connector-curvature="0"
+                     style="fill:#e41a1c" />
+                  <path
+                     d="M 17.818228,1 H 51.53783 V 19 H 17.818228 Z"
+                     id="path168"
+                     inkscape:connector-curvature="0"
+                     style="fill:#377eb8" />
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path174"
+                 inkscape:connector-curvature="0"
+                 style="display:none" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-legend"
+             role="graphics-symbol"
+             aria-roledescription="legend"
+             aria-label="Symbol legend titled 'Rule validity' for fill color with 3 values: Non-deterministic, Unbounded, Valid"
+             id="g252">
+            <g
+               transform="translate(419)"
+               id="g250">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M 0,0 H 106 V 53 H 0 Z"
+                 pointer-events="none"
+                 id="path180"
+                 inkscape:connector-curvature="0" />
+              <g
+                 id="g246">
+                <g
+                   class="mark-group role-legend-entry"
+                   id="g240">
+                  <g
+                     transform="translate(0,16)"
+                     id="g238">
+                    <path
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path182"
+                       inkscape:connector-curvature="0" />
+                    <g
+                       id="g234">
+                      <g
+                         class="mark-group role-scope"
+                         role="graphics-object"
+                         aria-roledescription="group mark container"
+                         id="g232">
+                        <g
+                           id="g198">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 105.1 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path184"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g194">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g188">
+                              <path
+                                 transform="translate(6,6)"
+                                 d="M -5,-5 H 5 V 5 H -5 Z"
+                                 id="path186"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:1;fill:#e41a1c;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g192">
+                              <text
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text190"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">Non-deterministic</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path196"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                        <g
+                           transform="translate(0,13)"
+                           id="g214">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 105.1 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path200"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g210">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g204">
+                              <path
+                                 transform="translate(6,6)"
+                                 d="M -5,-5 H 5 V 5 H -5 Z"
+                                 id="path202"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:1;fill:#377eb8;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g208">
+                              <text
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text206"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">Unbounded</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path212"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                        <g
+                           transform="translate(0,26)"
+                           id="g230">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 105.1 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path216"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g226">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g220">
+                              <path
+                                 transform="translate(6,6)"
+                                 d="M -5,-5 H 5 V 5 H -5 Z"
+                                 id="path218"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:1;fill:#4daf4a;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g224">
+                              <text
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text222"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">Valid</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path228"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                      </g>
+                    </g>
+                    <path
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path236"
+                       inkscape:connector-curvature="0"
+                       style="display:none" />
+                  </g>
+                </g>
+                <g
+                   class="mark-text role-legend-title"
+                   pointer-events="none"
+                   id="g244">
+                  <text
+                     transform="translate(0,9)"
+                     font-size="11px"
+                     font-weight="bold"
+                     id="text242"
+                     style="font-weight:bold;font-size:11px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">Rule validity</text>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path248"
+                 inkscape:connector-curvature="0"
+                 style="display:none" />
+            </g>
+          </g>
+        </g>
+        <path
+           class="foreground"
+           aria-hidden="true"
+           d=""
+           display="none"
+           id="path256"
+           inkscape:connector-curvature="0"
+           style="display:none" />
+      </g>
+    </g>
+  </g>
+</svg>

@@ -27,7 +27,7 @@ The following sections will cover a selection of practical design and simulation
 Designing a DNA origami structure by hand would be very laborious for anything but the most simple design. As such, a host of computer-aided design tools have been introduced over the years to make things easier. This section will cover some of the more common examples.
 
 \subsection{Lattice-based design tools}
-The caDNAno design tool \cite{cadnano} and the web-based scadnano\cite{scadnano} it inspired, allows the user to design DNA origami on a lattice of parallel helices.
+The caDNAno design tool \cite{cadnano} and the web-based scadnano \cite{scadnano} it inspired, allows the user to design DNA origami on a lattice of parallel helices.
 \subsubsection{caDNAno}
 \label{sec:cadnano}
 CaDNAno \cite{cadnano} was introduced in 2009 as a way to simplify 2D and 3D DNA origami designs. It has a graphical user interface with multiple panels, seen in Figure \ref{fig:cadnano}. In the slice panel, the designer can place virtual helices on a lattice (either hexagonal or square), seen in the leftmost panel of the figure. The helices can then be filled in with strands and connected using crossovers in a path panel, seen in the middle of the figure.
@@ -36,8 +36,8 @@ Finally, caDNAno is also available as a plugin to the Autodesk Maya software, wh
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=\textwidth]{figures/cadnano.jpeg}
-    \caption{The caDNAno design interface, adapted from figure 1.(a) in \cite{cadnano}}
+    \includegraphics[width=0.6\textwidth]{figures/cadnano.jpeg}
+    \caption{The caDNAno design interface, adapted from \cite{cadnano}. The slice panel (left) shows helices as circles on a lattice, while the path panel (centre) shows individual strands from a flatened side view of the helices. The rightmost panel shows a 3D visualisation of the design.}
     \label{fig:cadnano}
   \end{center}
 \end{figure}
@@ -50,17 +50,26 @@ While tools like caDNAno simplify bottoms-up design, where the user builds struc
 
 % Mention DNA bricks software?
 
-\subsubsection{BSCOR}\label{sec:bscor}
+\subsubsection{BSCOR}
+\label{sec:bscor}
 %https://doi.org/10.1038/nature14586
 
 In 2015, Benson et al. published a method for converting arbitrary mesh designs into a DNA origami mesh \cite{vHelix}. Figure \ref{fig:bscor} shows a set of example polyhedral shapes, with the designed shape in a), the output DNA design in b), and microscopy characterisations in c)-d). A follow-up paper in 2016 also introduced the ability to design flat-sheet meshes \cite{benson2016computer}. BSCOR uses single DNA duplex edges, with double edges added whenever topologically necessary.
 
 \begin{figure}[h]
-  \begin{center}
-    \includegraphics[width=\textwidth]{figures/bscor.png}
-    \caption{3D meshes rendered in DNA origami using BSCOR. Adapted from \cite{vHelix}.}
-    \label{fig:bscor}
-  \end{center}
+  \centering
+  \begin{overpic}[width=\textwidth]{figures/bscor.png}
+    \put(20,460){\small{1. Mesh generation}}
+    \put(280,460){\small{2. Scaffold routing}}
+    \put(520,460){\small{3. Spring relaxation}}
+    \put(780,460){\small{4. Staple design}}
+    \put(-30,550){a)}
+    \put(-30,350){b)}
+    \put(-30,210){c)}
+    \put(-30,70){d)}
+  \end{overpic}
+  \caption{3D meshes rendered in DNA origami using BSCOR. Adapted from \cite{vHelix} and \cite{vHelixWeb}. a) Automated design process, where a scaffold is routed onto a mesh, each helix is relaxed using spring forces, and staple strands are added. b) Examples of initial meshes. b) Completed DNA designs with strands rendered as tubes. c) Negative-stain dry-state TEM micrographs of each design.}
+  \label{fig:bscor}
 \end{figure}
 
 
@@ -69,59 +78,64 @@ In 2015, Benson et al. published a method for converting arbitrary mesh designs 
 %https://www.science.org/doi/full/10.1126/science.aaf4388
  %ATHENA? https://academic.oup.com/nar/advance-article/doi/10.1093/nar/gkab762/6368527 - Use fig 2 in now published paper!!!
 
- ATHENA is a recently published tool for automatic design wireframe origami shapes. As seen in Figure \ref{fig:athena}, earlier software such as PERDIX, METIS, DAEDAULS and TALOS have facilitated design for 2D and 3D wireframes respectively, using different edge designs, but ATHENA aims to bring them all toghether as a single package.
+ ATHENA is a recently published tool for automatic design wireframe origami shapes. As seen in Figure \ref{fig:athena}, earlier software such as PERDIX, METIS, DAEDALUS and TALOS has facilitated design for 2D and 3D wireframes using different edge designs but ATHENA aims to bring them all together as a single package.
 
 
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=\textwidth]{figures/athena.jpeg}
-    \caption{Automatic wireframe origami shapes using ATHENA. Adapted from \cite{athena}. }
+    \caption{Automatic wireframe origami shapes using ATHENA. Adapted from \cite{athena}. ATHENA includes the previous design packages PERDIX, METIS DAEDALUS and TALOS for 2D and 3D wireframe design, using double crossover (DX) and six-helix bundle (6HB) edges respectively. }
     \label{fig:athena}
   \end{center}
 \end{figure}
 
-\subsubsection{Triangulated truss structures}
+%\subsubsection{Triangulated truss structures}
 % M. Matthies
 % https://pubs.acs.org/doi/abs/10.1021/acs.nanolett.6b00381
 
 \subsection{Free-form or hybrid tools}
+The final category of design tools is either free-form, where designs are drawn without a lattice, or hybrid tools combining both lattice and free-form design. 
 
 \subsubsection{Tiamat}
-Tiamat is an early free-form design tool introduced in 2009.
+Tiamat is an early free-form design tool introduced in 2009 \cite{Tiamat}, running on Microsoft Windows. See Figure \ref{fig:tiamat} for a screenshot of the user interface of Tiamat 2, where a DNA tetrahedron is being designed. Tiamat can also import DNA from PDB files.
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=\textwidth]{figures/tiamat.png}
-    \caption{Tiamat}
+    \includegraphics[width=\textwidth]{figures/tiamat_ui.png}
+    \caption{A screenshot of the Tiamat \cite{Tiamat} (v2) user interface. The loaded tetrahedron design is from the Yan Lab resources page \cite{tiamatWeb}}
     \label{fig:tiamat}
   \end{center}
 \end{figure}
 
 \subsubsection{vHelix}
+The free-form tool vHelix \cite{vHelix} is a plugin for the Autodesk Maya software and was developed together with the BSCOR toolkit. Users can import the ``rpoly'' wireframe result from BSCOR, create designs from scratch, or import caDNAno files. It is also possible to export oxDNA simulation files. An example of the vHelix interface is shown in Figure \ref{fig:vhelix}. 
 
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=\textwidth]{figures/vhelix.jpg}
-    \caption{vHelix}
+    \caption{Free-form editing in vHelix. Image is from the vHelix website \url{http://www.vhelix.net/} \cite{vHelixWeb}.}
     \label{fig:vhelix}
   \end{center}
 \end{figure}
 
 
 \subsubsection{Adenita}
-Adenita \cite{miao_tvcg_2018} is a free-form editing tool developed as a plugin to the SAMSON toolkitb
+Adenita \cite{miao_tvcg_2018} is a free-form editing tool developed as a plugin to the SAMSON toolkit, see Figure \ref{fig:adenita}.
 
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=\textwidth]{figures/adenita.jpg}
-    \caption{Adenita}
+    \begin{overpic}[width=\textwidth]{figures/adenita.jpg}
+      \put(-20,400){a)}
+      \put(-20,100){b)}
+    \end{overpic}
+    \caption{Adenita, adapted from \cite{miao_tvcg_2018}.}
     \label{fig:adenita}
   \end{center}
 \end{figure}
 
 \subsubsection{MagicDNA}
-Another method of solving topological issues through rigid-body manipulation was used by Chao-Min Huang \cite{huang2021integrated}. MagicDNA, as seen in Figure \ref{fig:magicDNA}, has an computer-aided design workflow where geometry can be specified from helix cross-sections or imported from a part library, then assembled into an integrated structure (using multiple scaffolds if neccesary).
+Another method of solving topological issues through rigid-body manipulation was used by Chao-Min Huang \cite{huang2021integrated}. MagicDNA, as seen in Figure \ref{fig:magicDNA}, has a computer-aided design workflow where geometry can be specified from helix cross-sections or imported from a part library, then assembled into an integrated structure (using multiple scaffolds if necessary).
 
 MagicDNA is written as a plugin to the Matlab suite.
 
@@ -141,7 +155,7 @@ The oxView application was developed as part of this thesis project and will be 
 Simulating a structure can provide insight to understand experimental results but can also guide decisions at the design stage. Different models
 
 \subsection{All-atom simulation}
-Simulation tools such as NAMD\cite{NAMDphillips2005scalable}, use force fields such as AMBER\cite{AMBERcornell1996second} and CHARMM \cite{brooks1983charmm} that model interactions between individual atoms. While it is possible to perform atomistic simulations of large DNA origami structures\cite{yoo2013situ}, the simulations take a long time to run, and it is unknown how well the models represent DNA thermodynamics \cite{sengar2021primer}.
+Simulation tools such as NAMD \cite{NAMDphillips2005scalable}, use force fields such as AMBER \cite{AMBERcornell1996second} and CHARMM \cite{brooks1983charmm} that model interactions between individual atoms. While it is possible to perform atomistic simulations of large DNA origami structures \cite{yoo2013situ}, the simulations take a long time to run, and it is unknown how well the models represent DNA thermodynamics \cite{sengar2021primer}.
 
 %Also cite Pointer origami https://academic.oup.com/nar/article/44/7/3013/2467847 ?
 
@@ -154,6 +168,7 @@ Simulation tools such as NAMD\cite{NAMDphillips2005scalable}, use force fields s
 \end{figure}
 
 \subsection{oxDNA/RNA}
+\label{sec:oxDNA}
 In 2010, a coarse-grained simulation software called oxDNA was introduced by Thomas Ouldridge \cite{ouldridge2010dna}. It simulates DNA on the level of nucleotides and has been shown to model complex origami devices with a generally good agreement with experimental data \cite{sharma2017characterizing}. In 2014, the DNA model was extended to include RNA by Petr {\v{S}}ulc \cite{vsulc2014nucleotide}, showing its ability to model a set of common RNA motifs. 
 
 Molecular Dynamics (MD) and Monte Carlo (MC) simulation techiniques.
@@ -174,7 +189,11 @@ While oxDNA can be very useful for modelling a structure, it has traditionally n
 \end{figure}
 
 \subsection{mrDNA}
-Another promising feature of mrdna is that it has a spline-based helix representation and is implemented in python. This enables users to easily script edits to the structure, translating and rotating parts of it before starting the simulation. Thus, topological issues or over-stretched bonds can, with some skill, be resolved even before starting to simulate. I did, based on this, also create a rudimentary interactive editor interface to mrdna, but it would need a lot of refinement to be externally usable.
+The mrDNA simulation model is a multi-resultion model representing a user-defined number of base-pairs as a rigid-body bead.
+
+Since mrDNA is implemented in Python and has a spline-based helix representation, users can write scripts to edit the structure, translating and rotating parts before starting the simulation. Thus, topological issues or over-stretched bonds can, with some skill, be resolved even before starting to simulate.
+
+I did, based on this, also create a rudimentary interactive editor interface to mrdna, but it would need a lot of refinement to be externally usable. More importantly, the oxView editor described in Chapter \ref{ch:oxview} can now easily resolve these issues.
 
 \begin{figure}[h]
   \begin{center}
@@ -198,19 +217,24 @@ Finally, the Möbius strip, adopted from \cite{han2010moebius}, is particularly 
     \put(0,540){c)}
     \put(0,260){d)}
   \end{overpic}
-  \caption{Relaxation results for various DNA designs. Each row depicts a new design, with the left-hand side showing the structure as it was drawn in caDNAno (and parsed by mrdna), while the right-hand side is the relaxed structure in oxDNA. Intermediate images are edits done in mrdna. While the switch design\cite{gerling2015dynamic} in \textbf{a)} 
-  and the small DNA origami box\cite{zadegan2012smallbox} in \textbf{b)} relaxed without any required editing, the tensegrity kite structure \cite{liedl2010_kite} in \textbf{c)} and the Möbius strip\cite{han2010moebius} in \textbf{d)} benefited greatly from moving selected helices to a position off the lattice before starting the simulation.}
+  \caption{Relaxation results for various DNA designs. Each row depicts a new design, with the left-hand side showing the structure as it was drawn in caDNAno (and parsed by mrdna), while the right-hand side is the relaxed structure in oxDNA. Intermediate images are edits done in mrdna. While the switch design \cite{gerling2015dynamic} in \textbf{a)} 
+  and the small DNA origami box \cite{zadegan2012smallbox} in \textbf{b)} relaxed without any required editing, the tensegrity kite structure \cite{liedl2010_kite} in \textbf{c)} and the Möbius strip \cite{han2010moebius} in \textbf{d)} benefited greatly from moving selected helices to a position off the lattice before starting the simulation.}
   \label{fig:oxDNA_sims}
 \end{figure}
 
 \subsection{Cando}
 
-Cando is a finite element modelling framework\cite{kim2012cando} available through a web server at \url{https://cando-dna-origami.org}. DNA double helices are modelled as elastic rods (connected by rigid crossovers) that stretch, twist and bend in line with experimental measurements.
+Cando is a finite element modelling framework \cite{castro2011primer, kim2012cando} available through a web server at \url{https://cando-dna-origami.org}. DNA double helices are modelled as elastic rods (connected by rigid crossovers) that stretch, twist and bend in line with experimental measurements. See Figure \ref{fig:cando} for a set of example structures designed in caDNAno and simulated in Cando.
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=\textwidth]{figures/cando.png}
-    \caption{Cando}
+    \begin{overpic}[width=\textwidth]{figures/cando.png}
+      \put(0,670){a)}
+      \put(500,670){b)}
+      \put(0,300){c)}
+      \put(810,300){d)}
+    \end{overpic}
+    \caption{Cando simulation results. Adapted from \cite{castro2011primer}. CaDNAno design diagrams, Cando structure and flexibility prediction, and negative-stain TEM micrographs a) 90 degree gear. b) 180 degree gear. c) ``Robot'' design d) 60-helix bundle.}
     \label{fig:cando}
   \end{center}
 \end{figure}
