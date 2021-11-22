@@ -61,10 +61,111 @@ function exportGLTF(name='scene') {
 }
 
 
-function exportGLTFs(rules, padding=5, inclination=1, saveEvery=1000) {
-    let zip = new JSZip();
-    let savedCounter = 0;
+// Adapted from https://codeincomplete.com/articles/bin-packing/
+class Packer {
+    constructor(w, h) {
+        console.log(`Creating new packer with w=${w} and h=${h}.`);
+        this.root = {x: 0, y: 0, w: w, h: h};
+    }
+
+    fit(blocks) {
+        let n, node, block;
+        this.root = { x: 0, y: 0, w: blocks[0].w, h: blocks[0].h };
+        for (n = 0; n < blocks.length; n++) {
+            block = blocks[n];
+            if (node = this.findNode(this.root, block.w, block.h)) {
+                block.fit = this.splitNode(node, block.w, block.h);
+            } else {
+                block.fit = this.growNode(block.w, block.h);
+            }
+            try {
+                block.obj.position.x = block.fit.x + block.w/2;
+                block.obj.position.y = block.fit.y + block.h/2;
+            } catch (error) {
+                console.warn(`Failed to position block ${n}.`);
+            }
+        }
+    }
+
+    findNode(root, w, h) {
+        if (root.used) {
+            return this.findNode(root.right, w, h) || this.findNode(root.down, w, h);
+        } else if ((w <= root.w) && (h <= root.h)) {
+            return root;
+        } else {
+            return null;
+        }
+    }
+
+    splitNode(node, w, h) {
+        node.used = true;
+        node.down  = {x: node.x,     y: node.y + h, w: node.w,     h: node.h - h};
+        node.right = {x: node.x + w, y: node.y,     w: node.w - w, h: h         };
+        return node;
+    }
+
+    growNode(w, h) {
+        let canGrowDown  = (w <= this.root.w);
+        let canGrowRight = (h <= this.root.h);
+
+        let shouldGrowRight = canGrowRight && (this.root.h >= (this.root.w + w)); // attempt to keep square-ish by growing right when height is much greater than width
+        let shouldGrowDown  = canGrowDown  && (this.root.w >= (this.root.h + h)); // attempt to keep square-ish by growing down when width is much greater than height
+
+        if (shouldGrowRight) {
+            return this.growRight(w, h);
+        } else if (shouldGrowDown) {
+            return this.growDown(w, h);
+        } else if (canGrowRight) {
+            return this.growRight(w, h);
+        } else if (canGrowDown) {
+            return this.growDown(w, h);
+        } else {
+            console.warn('Need to ensure sensible root starting size to avoid this happening');
+            return null;
+        }
+    }
+
+    growDown(w, h) {
+        this.root = {
+            used: true,
+            x: 0, y: 0,
+            w: this.root.w,
+            h: this.root.h + h,
+            down:  { x: 0, y: this.root.h, w: this.root.w, h: h },
+            right: this.root
+        };
+        let node = this.findNode(this.root, w, h);
+        if (node) {
+            return this.splitNode(node, w, h);
+        } else {
+            return null;
+        }
+    }
+
+    growRight(w, h) {
+        this.root = {
+            used: true,
+            x: 0, y: 0,
+            w: this.root.w + w, h: this.root.h,
+            down: this.root,
+            right: { x: this.root.w, y: 0, w: w, h: this.root.h }
+        };
+        let node = this.findNode(this.root, w, h);
+        if (node) {
+            return this.splitNode(node, w, h);
+        } else {
+            return null;
+        }
+    }
+}
+
+
+function exportGLTFs(rules, counts, scaling='linear', name="exported") {
+    let pc = [];
+
+    const maxCount = counts[0];
     for (let i=0; i<rules.length; i++) {
+        //Assemble rule
         const rule = rules[i];
         console.log(`${i} (${Math.round(100*i/rules.length)}%)`);
         const system = new PolycubeSystem(parseHexRule(rule), new THREE.Scene(), 100, 100, "seeded");
@@ -72,35 +173,60 @@ function exportGLTFs(rules, padding=5, inclination=1, saveEvery=1000) {
         system.seed();
         while (!system.processMoves());
 
-        system.objGroup.position.copy(getSpiralCoord(i+1));
-        system.objGroup.position.x = inclination * i;
-        system.objGroup.position.y *= padding;
-        system.objGroup.position.z *= padding;
-        //system.objGroup.position.y = Math.ceil(i / side) * padding;
-        //system.objGroup.position.z = (i % side) * padding;
-        system.objGroup.position.sub(system.centerOfMass);
+        system.objGroup.name = `${i}_${rule}`;
+        system.objGroup.children.forEach(cube=>cube.position.sub(system.centerOfMass));
 
-        // Instantiate an exporter
-        let exporter = new THREE.GLTFExporter();
-        let options = {'forceIndices': true};
+        if (scaling == 'log') {
+            system.objGroup.scale.multiplyScalar(Math.log(counts[i]/Math.log(maxCount)));
+        } else {
+            system.objGroup.scale.multiplyScalar(counts[i]/maxCount);
+        }
 
-        // Parse the input and generate the glTF output
-        exporter.parse(system.objGroup, function (result) {
-            let output = JSON.stringify(result);
-            zip.file(`${i}_${rule}.gltf`, output);
+        // Find bounding box
+        let box = new THREE.Box3().expandByObject(system.objGroup);
+        let size = box.getSize(new THREE.Vector3()) //.add(new THREE.Vector3(0.5, 0.5, 0));
 
-            if (i+1 % saveEvery == 0) {
-                zip = new JSZip();
-            }
+        // Rotate so that thinnest dir faces camera
+        thinnestIdx = size.toArray().findIndex(v=>v==Math.min(...size.toArray()));
+        thinnestDir = new THREE.Vector3().setComponent(thinnestIdx, 1);
+        system.objGroup.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(
+            thinnestDir, new THREE.Vector3(0,0,1))
+        );
 
-            if (i == rules.length-1 || i+1 % saveEvery == 0) {
-                zip.generateAsync({type:"blob"})
-                .then(function(content) {
-                    saveAs(content, `gltfs_${savedCounter++}.zip`); //FileSaver.js
-                });
-            }
-        }, options);
+        box = new THREE.Box3().expandByObject(system.objGroup) //.add(new THREE.Vector3(0.5, 0.5, 0));
+        size = box.getSize(new THREE.Vector3());
+        console.assert(size.z - Math.min(...size.toArray()) < 1e-5,
+            `${size.z} !== ${Math.min(...size.toArray())}`
+        );
+
+        //system.objGroup.children.forEach(cube=>cube.position.add(size.clone().divideScalar(2)));
+
+        pc.push({
+            'w': size.x * 1.25 + 1,
+            'h': size.y * 1.25 + 1,
+            'obj': system.objGroup
+        });
     }
+
+    //let maxSize = Math.max(...pc.map(p=>p.w), ...pc.map(p=>p.h));
+    pc.sort((a,b)=>{return b.w*b.h - a.w*a.h});
+    let packer = new Packer(pc[0].w, pc[0].h);
+    packer.fit(pc);
+
+    // Instantiate an exporter
+    let exporter = new THREE.GLTFExporter();
+    let options = {'forceIndices': true};
+
+    // Parse the input and generate the glTF output
+    exporter.parse(pc.map(p=>p.obj), function (result) {
+        if (result instanceof ArrayBuffer) {
+            saveArrayBuffer(result, 'scene.glb');
+        } else {
+            let output = JSON.stringify(result, null, 2);
+            console.log(output);
+            saveString(output, `${name}.gltf`);
+        }
+    }, options);
 }
 
 document.addEventListener("keydown", event => {
