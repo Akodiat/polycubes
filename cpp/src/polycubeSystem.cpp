@@ -59,35 +59,7 @@ bool PolycubeSystem::equals(PolycubeSystem* other) {
 
 bool PolycubeSystem::equals(Eigen::Matrix3Xf m2) {
     Eigen::Matrix3Xf m1 = this->getCoordMatrix();
-
-    if (m1.size() != m2.size()) {
-        return false;
-    }
-
-    // Find the centroids then shift to the origin
-    Eigen::Vector3f m1_ctr = Eigen::Vector3f::Zero();
-    Eigen::Vector3f m2_ctr = Eigen::Vector3f::Zero();
-    for (int col = 0; col < m1.cols(); col++) {
-        m1_ctr += m1.col(col);
-        m2_ctr += m2.col(col);
-    }
-    m1_ctr /= m1.cols();
-    m2_ctr /= m2.cols();
-    for (int col = 0; col < m1.cols(); col++) {
-        m1.col(col) -= m1_ctr;
-        m2.col(col) -= m2_ctr;
-    }
-
-    std::vector<Eigen::Matrix3f> rots = calcAllRotations();
-
-    int nrot = rots.size();
-    for(int i=0; i<nrot; i++) {
-        if (compCols(m1, rots[i]*m2)) {
-            return true;
-        }
-    }
-
-    return false;
+    return coordEquality(m1, m2);
 }
 
 PolycubeSystem::PolycubeSystem(std::vector<Rule> rules) {

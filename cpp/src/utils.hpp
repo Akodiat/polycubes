@@ -52,6 +52,8 @@ public:
 std::string assemblyModeToString(AssemblyMode m);
 AssemblyMode parseAssemblyMode(std::string s);
 
+double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex);
+
 Result runTries(std::string rule, int nTries, AssemblyMode assemblyMode);
 Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex);
 
@@ -62,6 +64,7 @@ std::vector<Rule> parseRules(std::string ruleStr);
 
 bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMode);
 bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode);
+bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode, bool ruleIsHex);
 
 // Split string, from https://stackoverflow.com/a/10058725
 std::vector<std::string> splitString(std::string s, char delim);
@@ -74,6 +77,9 @@ std::string vecToStr(Eigen::Vector3f v);
 
 // Enumerate all rotation matrices for polycube equality
 std::vector<Eigen::Matrix3f> calcAllRotations();
+
+// Compare coordinate matrices, ignoring orientation
+bool coordEquality(Eigen::Matrix3Xf m1, Eigen::Matrix3Xf m2);
 
 // Compare matrices, ignoring column order
 bool compCols(Eigen::Matrix3Xf m1, Eigen::Matrix3Xf m2);

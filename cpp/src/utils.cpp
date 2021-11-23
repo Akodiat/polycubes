@@ -66,6 +66,19 @@ std::vector<Rule> parseRules(std::string ruleStr) {
     return rules;
 }
 
+double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex
+) {
+    int nEqual = 0;
+
+    for (int i=0; i<nTries; i++) {
+        if (checkEquality(rulestr, coords, assemblyMode, ruleIsHex)) {
+            nEqual++;
+        }
+    }
+    // If we had the same result every try:
+    return double(nEqual)/nTries;
+}
+
 Result runTries(std::string rule, int nTries, AssemblyMode assemblyMode) {
     return runTries(rule, nTries, assemblyMode, true);
 }
@@ -110,7 +123,11 @@ Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool
 
 // Compare if the two rules form the same polycube
 bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode) {
-    PolycubeSystem* p = new PolycubeSystem(rule, assemblyMode);
+    return checkEquality(rule, coords, assemblyMode, true);
+}
+
+bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode, bool ruleIsHex) {
+    PolycubeSystem* p = new PolycubeSystem(ruleIsHex ? parseRules(rule) : parseDecRule(rule), assemblyMode);
     p->seed();
     int nCubes = p->processMoves();
     bool equal = false;
@@ -140,6 +157,37 @@ bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMo
     delete p1;
     delete p2;
     return equal;
+}
+
+bool coordEquality(Eigen::Matrix3Xf m1, Eigen::Matrix3Xf m2) {
+    if (m1.size() != m2.size()) {
+        return false;
+    }
+
+    // Find the centroids then shift to the origin
+    Eigen::Vector3f m1_ctr = Eigen::Vector3f::Zero();
+    Eigen::Vector3f m2_ctr = Eigen::Vector3f::Zero();
+    for (int col = 0; col < m1.cols(); col++) {
+        m1_ctr += m1.col(col);
+        m2_ctr += m2.col(col);
+    }
+    m1_ctr /= m1.cols();
+    m2_ctr /= m2.cols();
+    for (int col = 0; col < m1.cols(); col++) {
+        m1.col(col) -= m1_ctr;
+        m2.col(col) -= m2_ctr;
+    }
+
+    std::vector<Eigen::Matrix3f> rots = calcAllRotations();
+
+    int nrot = rots.size();
+    for(int i=0; i<nrot; i++) {
+        if (compCols(m1, rots[i]*m2)) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 Eigen::Vector3f getOrientation(int index, int orientation) {
