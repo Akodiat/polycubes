@@ -154,6 +154,23 @@ def calcEmptyFromTop(top):
                 empty.append((i,dPi))
     return empty
 
+def calcCoordsFromTop(top, nDim=3):
+    posmaps = []
+    origin = np.array([0,0,0])
+    posmap = {0: origin}
+    dirs = getRuleOrder(nDim)
+    for i, dPi, j, dPj in sorted(top):
+        if i in posmap:
+            posmap[j] = posmap[i] + dirs[dPi]
+        elif j in posmap:
+            posmap[i] = posmap[j] + dirs[dPj]
+        else:
+            posmaps.append(posmap)
+            posmap = {i: origin, j: dirs[dPi]}
+    posmaps.append(posmap)
+
+    return [np.array([v for v in posmap.values()]).T for posmap in posmaps]
+
 def countParticlesAndBindings(topology):
     pidsa = [x[0] for x in topology]
     pidsb = [x[2] for x in topology]

@@ -40,7 +40,7 @@ class polysat:
     relsat_executable  = 'relsat'
     minisat_executable = 'minisat'
 
-    def __init__(self, topology, nCubeTypes, nColors, nSolutions=1, nDim=3, torsionalPatches=True):
+    def __init__(self, topology, nCubeTypes, nColors, nDim=3, torsionalPatches=True):
         #topology, empty = utils.topFromFile(topPath, nDim)
 
         # Number of distinct cube types for the solver
@@ -609,8 +609,14 @@ class polysat:
         self.basic_sat_clauses.append([self.F(ptype,sid,cid)])
 
     def fix_color_interaction(self,c1,c2):
-        self.basic_sat_clauses.append([self.B(c1,c2)] )
+        self.basic_sat_clauses.append([self.B(c1,c2)])
 
+    def forbidSolution(self, solution):
+        forbidden = []
+        for vname in solution.split('\n'):
+            if 'C' in vname or 'O' in vname:
+                forbidden.append(-self.variables[vname])
+        self.basic_sat_clauses.append(forbidden)
 
     def run_relsat(self,nSolutions, timeout=18000):
         #print("Writing data")

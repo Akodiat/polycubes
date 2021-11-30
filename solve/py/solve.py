@@ -139,7 +139,7 @@ def find_solution(top, nCubeTypes, nColors, nSolutions=1, nDim=3, torsionalPatch
         [dict]: Returns a polycube rule dict.
     """
 
-    mysat = polysat(top, nCubeTypes, nColors, nSolutions, nDim, torsionalPatches)
+    mysat = polysat(top, nCubeTypes, nColors, nDim, torsionalPatches)
 
     if nSolutions == 1: # Use minisat for single solutions
         result, solution = mysat.run_minisat()
@@ -349,9 +349,60 @@ def solve(solveSpecPath, nCubeTypes=None, nColors=None):
             torsionalPatches=solveSpec['torsion']
         )
 
+def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=100):
+    with open(solveSpecPath, 'r') as f:
+        data = f.read()
+    solveSpec = json.loads(data)
+
+    mysat = polysat(
+        solveSpec['bindings'],
+        nCubeTypes,
+        nColors,
+        solveSpec['nDim'],
+        solveSpec['torsion']
+    )
+    
+    shapes = utils.calcCoordsFromTop(solveSpec['bindings'])
+    
+    if len(shapes) > 1:
+        print("Multifarious assembly")
+
+    nTries = 0
+    maxRatio = 0
+    while nTries < maxTries:
+        result, solution = mysat.run_minisat()
+        if result == 'TIMEOUT':
+            print('Sorry, timed out')
+        elif result:
+            rule = sorted(readSolution(solution), key=patchCount, reverse=True)
+            decRule = ruleToDec(rule)
+            ratiosum = 0
+            for shape in shapes:
+                ratio = libpolycubes.assembleRatio(shape, decRule, isHexString=False)
+                if ratio == 0:
+                    print("Shape {}never assembled".format((("{} ").format(shape) if len(shapes)>1 else '')))
+                    ratiosum = 0
+                    break
+                else:
+                    ratiosum += ratio
+            if ratiosum >= ratioLimit:
+                print("Found solution: https://akodiat.github.io/polycubes/?decRule={} at assembly ratio {}".format(ruleToDec(rule), ratiosum))
+                return ruleToDec(rule)
+            else:
+                if ratiosum > 0:
+                    print("Solution {} assembles, but only at assembly ratio {}. {} tries left".format(ruleToDec(rule), ratiosum, maxTries-nTries))
+                    maxRatio = max(maxRatio, ratiosum)
+                mysat.forbidSolution(solution)
+                nTries += 1
+        else:
+            print("No solution possible")
+            return None
+    print("No valid solution found after {} tries".format(maxTries))
+    return maxRatio
+
 if __name__ == '__main__':
     if len(sys.argv) > 3:
-        solve(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]));
+        print(newSolve(sys.argv[1], int(sys.argv[2]), int(sys.argv[3])))
     elif len(sys.argv) > 1:
         solve(sys.argv[1]);
     else:
