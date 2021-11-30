@@ -574,6 +574,7 @@ class polysat:
                 timer = Timer(timeout, interrupt, [m])
                 timer.start()
                 solved = m.solve_limited(expect_interrupt=True)
+                timer.cancel()
             else:
                 solved = m.solve()
             if solved == True:
