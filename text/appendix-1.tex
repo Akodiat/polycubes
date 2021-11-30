@@ -16,20 +16,51 @@ The code used for polycube assembly can be found at \url{https://github.com/Akod
 
 \subsection{C++}
 
+\subsection{Python binding}
+
 \subsection{JavaScript}
 
 \section{Polycube solver}
 
 \subsection{Python}
-In order to speedup sampling, the c++ binary can be called multiple times in parallell and merged with the merge python script. For the results covered in Chapter \ref{ch:polycubes1}, the sampling was done on 100 concurrent nodes and merged.
+In order to speedup sampling, the c++ binary can be called multiple times in parallell and merged with the merge python script. For the results covered in Chapter~\ref{ch:polycubes1}, the sampling was done on 100 concurrent nodes and merged.
 
-The largest sampling done, the polyomino reference with 1e9 samples (described in Section \ref{sec:refcalc}), took a total of 72 hours, 57 minutes and 58 seconds to sample with 100 copies each performing 1e7 samples in parallel. The merging script then took another 197 hours, 40 minutes and 24 seconds to run, but it clearly saved a significant amount of time compared to running a single sampling for 100 times longer (which would take almost 7300 hours, or 304 days).
+The largest sampling done, the polyomino reference with 1e9 samples (described in Section~\ref{sec:refcalc}), took a total of 72 hours, 57 minutes and 58 seconds to sample with 100 copies each performing 1e7 samples in parallel. The merging script then took another 197 hours, 40 minutes and 24 seconds to run, but it clearly saved a significant amount of time compared to running a single sampling for 100 times longer (which would take almost 7300 hours, or 304 days).
 
 Finally the analysis script took another 301 hours, 44 minutes and 17 seconds to run.
 
 took 359 hours, 9 minutes and 44 seconds
 
 \subsection{JavaScript}
+
+\subsection{Patchy particle code}
+\label{sec:appendix_patchy}
+The modified version of oxDNA used to simulate torsional patchy particles can be found at \url{https://github.com/Akodiat/oxDNA_torsion}. To download and combile, run:
+
+\begin{lstlisting}[language=bash]
+  git clone https://github.com/Akodiat/oxDNA_torsion.git
+  cd oxDNA
+  mkdir build
+  cd build
+  cmake ..
+  make -j4
+  make romano
+\end{lstlisting}
+
+Simulation files for a given polycube shape can then be generated through the web console at \url{https://akodiat.github.io/polycubes}, by running:
+
+\begin{lstlisting}[language=JavaScript]
+  getPatchySimFiles(
+    '070000070500868700000000', // Rule string
+    1, // Number of assemblies
+    'cube', // Name
+    '/users/joakim/repo/oxDNA_torsion', // Path to oxDNA directory
+    [.01,.02,.03,.04,.05,.06,.07,.08,.09,.1], // Temperature range
+    0.1 // Density (used to generate configuration when the number
+    // of assemblies is more than one)
+  )
+\end{lstlisting}
+
 
 \section{Analysis}
 

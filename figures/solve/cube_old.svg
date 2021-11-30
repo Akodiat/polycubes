@@ -1,0 +1,2639 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   class="marks"
+   width="520"
+   height="542"
+   viewBox="0 0 520 542"
+   id="svg23925"
+   sodipodi:docname="cube.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata23931">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs
+     id="defs23929" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview23927"
+     showgrid="false"
+     inkscape:zoom="0.43542435"
+     inkscape:cx="260"
+     inkscape:cy="271"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg23925" />
+  <rect
+     width="520"
+     height="542"
+     fill="white"
+     id="rect22881" />
+  <g
+     fill="none"
+     stroke-miterlimit="10"
+     transform="translate(40,22)"
+     id="g23923">
+    <g
+       class="mark-group role-frame root"
+       role="graphics-object"
+       aria-roledescription="group mark container"
+       id="g23921">
+      <g
+         transform="translate(0,0)"
+         id="g23919">
+        <path
+           class="background"
+           aria-hidden="true"
+           d="M0.5,0.5h400v480h-400Z"
+           stroke="#ddd"
+           id="path22883" />
+        <g
+           id="g23915">
+          <g
+             class="mark-rect role-mark marks"
+             role="graphics-symbol"
+             aria-roledescription="rect mark container"
+             id="g23589">
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22887">
+              <path
+                 d="M240,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22885" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22891">
+              <path
+                 d="M120,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22889" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22895">
+              <path
+                 d="M40,220h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22893" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22899">
+              <path
+                 d="M320,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22897" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=87008c00290000240048001ecc001c00002100c08b003f009800002f009400bab70000b00090900000c61a40000000000000000014040000314600004f0f000000009ebe000000000000a3380000a8c900000000000008110000a44100000000000034ad0000"
+               id="a22903">
+              <path
+                 d="M320,100h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22901" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22907">
+              <path
+                 d="M200,420h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22905" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22911">
+              <path
+                 d="M280,400h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22909" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22915">
+              <path
+                 d="M0,340h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22913" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22919">
+              <path
+                 d="M20,220h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22917" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=8a00860019008a0086001900008f001611000000000091980c0400000000099600000000"
+               id="a22923">
+              <path
+                 d="M100,360h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22921" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
+               id="a22927">
+              <path
+                 d="M360,40h20v20h-20Z"
+                 fill="#4c78a8"
+                 id="path22925" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22931">
+              <path
+                 d="M340,420h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22929" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22935">
+              <path
+                 d="M40,360h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22933" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22939">
+              <path
+                 d="M100,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22937" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22943">
+              <path
+                 d="M220,420h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22941" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22947">
+              <path
+                 d="M160,420h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22945" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22951">
+              <path
+                 d="M140,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22949" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=9c00290000a20089920089000015a0000c008600a6009b0000000a2200008c26000000000000a90400009719000000001d1000000000"
+               id="a22955">
+              <path
+                 d="M160,280h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22953" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22959">
+              <path
+                 d="M0,0h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22957" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22963">
+              <path
+                 d="M40,20h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22961" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a22967">
+              <path
+                 d="M200,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path22965" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22971">
+              <path
+                 d="M80,200h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22969" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=050400000000850000858700"
+               id="a22975">
+              <path
+                 d="M20,460h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22973" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22979">
+              <path
+                 d="M0,300h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22977" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22983">
+              <path
+                 d="M60,380h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22981" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=0032009faa00002f00a4008700201300000b008f94001b00000000000eb1171e0000000028a300000000000000008b24000090ae000000009b040000"
+               id="a22987">
+              <path
+                 d="M180,240h20v20h-20Z"
+                 fill="#e45756"
+                 id="path22985" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22991">
+              <path
+                 d="M0,40h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22989" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22995">
+              <path
+                 d="M60,260h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22993" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a22999">
+              <path
+                 d="M60,240h20v20h-20Z"
+                 fill="#f58518"
+                 id="path22997" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=040500000000000005040000870085000085"
+               id="a23003">
+              <path
+                 d="M40,460h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23001" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23007">
+              <path
+                 d="M0,80h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23005" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23011">
+              <path
+                 d="M280,360h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23009" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23015">
+              <path
+                 d="M60,140h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23013" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23019">
+              <path
+                 d="M60,160h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23017" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23023">
+              <path
+                 d="M20,60h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23021" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23027">
+              <path
+                 d="M20,320h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23025" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23031">
+              <path
+                 d="M20,280h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23029" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23035">
+              <path
+                 d="M60,0h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23033" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23039">
+              <path
+                 d="M40,120h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23037" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=8e000004008b00000000850c000000000a09"
+               id="a23043">
+              <path
+                 d="M40,420h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23041" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23047">
+              <path
+                 d="M40,200h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23045" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23051">
+              <path
+                 d="M300,380h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23049" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=00168a0000b40020000c3100002c9200320000051d00320000aa0024001b00041600001400000000a03597b3000000000000000010a50000000087940bad0000000000008d98000000002b9d0000"
+               id="a23055">
+              <path
+                 d="M240,220h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23053" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23059">
+              <path
+                 d="M40,340h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23057" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23063">
+              <path
+                 d="M60,80h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23061" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23067">
+              <path
+                 d="M0,320h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23065" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23071">
+              <path
+                 d="M40,240h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23069" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23075">
+              <path
+                 d="M20,0h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23073" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23079">
+              <path
+                 d="M240,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23077" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23083">
+              <path
+                 d="M160,400h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23081" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23087">
+              <path
+                 d="M0,420h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23085" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23091">
+              <path
+                 d="M220,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23089" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23095">
+              <path
+                 d="M0,360h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23093" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=090086009000002c0e003c003a0000b3c30000b400a292002b002d00b000009c002e0098a500b3000015a9110000000000000000439600000000ad330000b8bd00001e2400000000000000008e0400008a360000211900000000"
+               id="a23099">
+              <path
+                 d="M280,160h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23097" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=00b100a10014b00088002c00b000a9008d00009300a6b2000400001e98000000000087312009000000000000000029270000ad1100009f1800000000000000000d94"
+               id="a23103">
+              <path
+                 d="M200,240h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23101" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23107">
+              <path
+                 d="M20,120h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23105" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
+               id="a23111">
+              <path
+                 d="M320,40h20v20h-20Z"
+                 fill="#4c78a8"
+                 id="path23109" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23115">
+              <path
+                 d="M240,320h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23113" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=008b00a58f0000ae8e00b80000130500001e00980014003300b400a3280000000000859000000000091a372f00000000a8240000000000000000b29f000000009d0d000000009d21000094390000"
+               id="a23119">
+              <path
+                 d="M240,200h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23117" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23123">
+              <path
+                 d="M40,140h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23121" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23127">
+              <path
+                 d="M100,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23125" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
+               id="a23131">
+              <path
+                 d="M300,80h20v20h-20Z"
+                 fill="#4c78a8"
+                 id="path23129" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23135">
+              <path
+                 d="M60,220h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23133" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23139">
+              <path
+                 d="M60,300h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23137" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23143">
+              <path
+                 d="M180,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23141" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23147">
+              <path
+                 d="M20,340h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23145" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23151">
+              <path
+                 d="M180,400h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23149" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23155">
+              <path
+                 d="M20,20h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23153" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23159">
+              <path
+                 d="M20,440h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23157" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23163">
+              <path
+                 d="M220,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23161" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23167">
+              <path
+                 d="M60,100h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23165" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23171">
+              <path
+                 d="M20,200h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23169" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23175">
+              <path
+                 d="M220,380h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23173" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23179">
+              <path
+                 d="M60,180h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23177" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23183">
+              <path
+                 d="M40,60h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23181" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23187">
+              <path
+                 d="M60,360h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23185" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23191">
+              <path
+                 d="M260,300h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23189" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23195">
+              <path
+                 d="M80,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23193" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=00008a89000089840000000000070900000b000a08000a00"
+               id="a23199">
+              <path
+                 d="M60,440h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23197" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=009792008800a3000400980099001f00008d0c8700000000141900000000209e0000000000000b100000"
+               id="a23203">
+              <path
+                 d="M120,320h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23201" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23207">
+              <path
+                 d="M60,340h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23205" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23211">
+              <path
+                 d="M40,380h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23209" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23215">
+              <path
+                 d="M260,420h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23213" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=860000bd001b001c14003a000039460000c3002800a4920000312d00b4002300000c88000000000011c400000000bb9a00000000400b0000279f000000000000a0340000958c000000000000ab3500003cac000007b000000000"
+               id="a23219">
+              <path
+                 d="M280,140h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23217" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=87840000000000000000858a00008586000000000000848b000000008487000000008b880000000086850000888b0000000608000600"
+               id="a23223">
+              <path
+                 d="M160,440h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23221" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=000000000b0800000a090000080700000000000005060000890000870089"
+               id="a23227">
+              <path
+                 d="M80,440h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23225" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23231">
+              <path
+                 d="M340,340h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23229" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23235">
+              <path
+                 d="M40,100h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23233" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23239">
+              <path
+                 d="M240,340h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23237" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23243">
+              <path
+                 d="M300,360h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23241" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23247">
+              <path
+                 d="M100,420h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23245" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=00ad870000a4000e00170090000b002b00aca000001f18009d24000000002f980000000000008f12000000000000a895000000009d8a000094220000000004960000"
+               id="a23251">
+              <path
+                 d="M200,260h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23249" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23255">
+              <path
+                 d="M0,100h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23253" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23259">
+              <path
+                 d="M20,420h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23257" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23263">
+              <path
+                 d="M20,260h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23261" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23267">
+              <path
+                 d="M340,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23265" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23271">
+              <path
+                 d="M120,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23269" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23275">
+              <path
+                 d="M20,400h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23273" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23279">
+              <path
+                 d="M20,40h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23277" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23283">
+              <path
+                 d="M0,260h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23281" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23287">
+              <path
+                 d="M240,400h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23285" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23291">
+              <path
+                 d="M20,80h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23289" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23295">
+              <path
+                 d="M40,40h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23293" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23299">
+              <path
+                 d="M0,220h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23297" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23303">
+              <path
+                 d="M20,160h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23301" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23307">
+              <path
+                 d="M40,300h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23305" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=ad009d00a300002816000004009800a50030310000a40010000a0037000c96b50000000000000000192c8620000000008db2000000000000902e0000251f00000000000088aa0000"
+               id="a23311">
+              <path
+                 d="M220,220h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23309" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23315">
+              <path
+                 d="M280,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23313" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
+               id="a23319">
+              <path
+                 d="M360,0h20v20h-20Z"
+                 fill="#4c78a8"
+                 id="path23317" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23323">
+              <path
+                 d="M20,380h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23321" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=001300071c00130005009400130005000b00000e00250099a100000410000000179c00008923000000000000848f000000000000a7a6911900000000"
+               id="a23327">
+              <path
+                 d="M180,300h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23325" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23331">
+              <path
+                 d="M60,40h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23329" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23335">
+              <path
+                 d="M0,460h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23333" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23339">
+              <path
+                 d="M60,320h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23337" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23343">
+              <path
+                 d="M20,140h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23341" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23347">
+              <path
+                 d="M280,420h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23345" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23351">
+              <path
+                 d="M60,120h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23349" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23355">
+              <path
+                 d="M20,300h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23353" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23359">
+              <path
+                 d="M280,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23357" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23363">
+              <path
+                 d="M200,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23361" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23367">
+              <path
+                 d="M20,180h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23365" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23371">
+              <path
+                 d="M220,400h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23369" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23375">
+              <path
+                 d="M280,380h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23373" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23379">
+              <path
+                 d="M60,60h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23377" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23383">
+              <path
+                 d="M20,100h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23381" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23387">
+              <path
+                 d="M260,320h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23385" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23391">
+              <path
+                 d="M340,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23389" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23395">
+              <path
+                 d="M40,80h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23393" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23399">
+              <path
+                 d="M0,180h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23397" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=140023009c00001a24000a000086000f1100000000008c8900008b1f0000a699000000000000000004970000a1920000"
+               id="a23403">
+              <path
+                 d="M140,300h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23401" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=1200000897000d0004009a00000c10000700858f00000000000000008f88000000001487000000009319"
+               id="a23407">
+              <path
+                 d="M120,360h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23405" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23411">
+              <path
+                 d="M0,160h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23409" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=8f00880000111700001a070000000f0b0000988400000000969100000000"
+               id="a23415">
+              <path
+                 d="M80,360h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23413" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=8a0088000088008686000089000000000b05"
+               id="a23419">
+              <path
+                 d="M40,440h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23417" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23423">
+              <path
+                 d="M0,120h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23421" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23427">
+              <path
+                 d="M40,280h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23425" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23431">
+              <path
+                 d="M40,180h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23429" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23435">
+              <path
+                 d="M0,400h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23433" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=009300918c009100000b00860000138800000c1000000000061000000000"
+               id="a23439">
+              <path
+                 d="M80,400h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23437" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23443">
+              <path
+                 d="M60,20h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23441" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23447">
+              <path
+                 d="M240,380h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23445" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=4900a000880000414100009304009c00009b2800003b30003c000034001600260c00460088002e00330000000000b7ba00000000a81f0000b2c50000c0a70000000000000000bf2000000000ac1b000000000b8f000000009412000084c90000"
+               id="a23451">
+              <path
+                 d="M300,120h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23449" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23455">
+              <path
+                 d="M180,420h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23453" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23459">
+              <path
+                 d="M40,400h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23457" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23463">
+              <path
+                 d="M40,260h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23461" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23467">
+              <path
+                 d="M20,360h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23465" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23471">
+              <path
+                 d="M240,420h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23469" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23475">
+              <path
+                 d="M300,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23473" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23479">
+              <path
+                 d="M340,360h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23477" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23483">
+              <path
+                 d="M60,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23481" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23487">
+              <path
+                 d="M280,340h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23485" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23491">
+              <path
+                 d="M60,280h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23489" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23495">
+              <path
+                 d="M0,440h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23493" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23499">
+              <path
+                 d="M260,360h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23497" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23503">
+              <path
+                 d="M300,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23501" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23507">
+              <path
+                 d="M260,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23505" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23511">
+              <path
+                 d="M180,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23509" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23515">
+              <path
+                 d="M260,400h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23513" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23519">
+              <path
+                 d="M200,400h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23517" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23523">
+              <path
+                 d="M0,200h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23521" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23527">
+              <path
+                 d="M60,200h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23525" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23531">
+              <path
+                 d="M140,440h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23529" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23535">
+              <path
+                 d="M40,0h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23533" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23539">
+              <path
+                 d="M0,140h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23537" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23543">
+              <path
+                 d="M20,240h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23541" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23547">
+              <path
+                 d="M300,320h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23545" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23551">
+              <path
+                 d="M40,160h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23549" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23555">
+              <path
+                 d="M0,60h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23553" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23559">
+              <path
+                 d="M160,460h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23557" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23563">
+              <path
+                 d="M40,320h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23561" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=UND"
+               id="a23567">
+              <path
+                 d="M340,400h20v20h-20Z"
+                 fill="#72b7b2"
+                 id="path23565" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23571">
+              <path
+                 d="M0,20h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23569" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23575">
+              <path
+                 d="M0,280h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23573" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23579">
+              <path
+                 d="M0,380h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23577" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a23583">
+              <path
+                 d="M0,240h20v20h-20Z"
+                 fill="#f58518"
+                 id="path23581" />
+            </a>
+            <a
+               xlink:href="https://akodiat.github.io/polycubes?rule=b400d300ae009e004800004c00b0bf0000b800e01000000c00de230000c300159a000004008856002400004700d8002a305f000000000000594200000000d73900009651000000000000ab85000000003c180000cac40000000000002fcf00000000000092a4000000008c1c61a100000000000034080000"
+               id="a23587">
+              <path
+                 d="M380,0h20v20h-20Z"
+                 fill="#e45756"
+                 id="path23585" />
+            </a>
+          </g>
+          <g
+             class="mark-group role-legend"
+             role="graphics-symbol"
+             aria-roledescription="legend"
+             aria-label="Symbol legend titled 'category' for fill color with 4 values: Error, None, Solution, UND"
+             id="g23679">
+            <g
+               transform="translate(418,0)"
+               id="g23677">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M0,0h57v66h-57Z"
+                 pointer-events="none"
+                 id="path23591" />
+              <g
+                 id="g23673">
+                <g
+                   class="mark-group role-legend-entry"
+                   id="g23667">
+                  <g
+                     transform="translate(0,16)"
+                     id="g23665">
+                    <path
+                       class="background"
+                       aria-hidden="true"
+                       d="M0,0h0v0h0Z"
+                       pointer-events="none"
+                       id="path23593" />
+                    <g
+                       id="g23661">
+                      <g
+                         class="mark-group role-scope"
+                         role="graphics-object"
+                         aria-roledescription="group mark container"
+                         id="g23659">
+                        <g
+                           transform="translate(0,0)"
+                           id="g23609">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M0,0h56.733333587646484v11h-56.733333587646484Z"
+                             pointer-events="none"
+                             opacity="1"
+                             id="path23595" />
+                          <g
+                             id="g23605">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g23599">
+                              <path
+                                 transform="translate(6,6)"
+                                 d="M-5,-5h10v10h-10Z"
+                                 fill="#4c78a8"
+                                 stroke-width="1.5"
+                                 opacity="1"
+                                 id="path23597" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g23603">
+                              <text
+                                 text-anchor="start"
+                                 transform="translate(16,9)"
+                                 font-family="sans-serif"
+                                 font-size="10px"
+                                 fill="#000"
+                                 opacity="1"
+                                 id="text23601">Error</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path23607" />
+                        </g>
+                        <g
+                           transform="translate(0,13)"
+                           id="g23625">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M0,0h56.733333587646484v11h-56.733333587646484Z"
+                             pointer-events="none"
+                             opacity="1"
+                             id="path23611" />
+                          <g
+                             id="g23621">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g23615">
+                              <path
+                                 transform="translate(6,6)"
+                                 d="M-5,-5h10v10h-10Z"
+                                 fill="#f58518"
+                                 stroke-width="1.5"
+                                 opacity="1"
+                                 id="path23613" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g23619">
+                              <text
+                                 text-anchor="start"
+                                 transform="translate(16,9)"
+                                 font-family="sans-serif"
+                                 font-size="10px"
+                                 fill="#000"
+                                 opacity="1"
+                                 id="text23617">None</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path23623" />
+                        </g>
+                        <g
+                           transform="translate(0,26)"
+                           id="g23641">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M0,0h56.733333587646484v11h-56.733333587646484Z"
+                             pointer-events="none"
+                             opacity="1"
+                             id="path23627" />
+                          <g
+                             id="g23637">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g23631">
+                              <path
+                                 transform="translate(6,6)"
+                                 d="M-5,-5h10v10h-10Z"
+                                 fill="#e45756"
+                                 stroke-width="1.5"
+                                 opacity="1"
+                                 id="path23629" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g23635">
+                              <text
+                                 text-anchor="start"
+                                 transform="translate(16,9)"
+                                 font-family="sans-serif"
+                                 font-size="10px"
+                                 fill="#000"
+                                 opacity="1"
+                                 id="text23633">Solution</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path23639" />
+                        </g>
+                        <g
+                           transform="translate(0,39)"
+                           id="g23657">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M0,0h56.733333587646484v11h-56.733333587646484Z"
+                             pointer-events="none"
+                             opacity="1"
+                             id="path23643" />
+                          <g
+                             id="g23653">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g23647">
+                              <path
+                                 transform="translate(6,6)"
+                                 d="M-5,-5h10v10h-10Z"
+                                 fill="#72b7b2"
+                                 stroke-width="1.5"
+                                 opacity="1"
+                                 id="path23645" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g23651">
+                              <text
+                                 text-anchor="start"
+                                 transform="translate(16,9)"
+                                 font-family="sans-serif"
+                                 font-size="10px"
+                                 fill="#000"
+                                 opacity="1"
+                                 id="text23649">UND</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path23655" />
+                        </g>
+                      </g>
+                    </g>
+                    <path
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path23663" />
+                  </g>
+                </g>
+                <g
+                   class="mark-text role-legend-title"
+                   pointer-events="none"
+                   id="g23671">
+                  <text
+                     text-anchor="start"
+                     transform="translate(0,9)"
+                     font-family="sans-serif"
+                     font-size="11px"
+                     font-weight="bold"
+                     fill="#000"
+                     opacity="1"
+                     id="text23669">category</text>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path23675" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-title"
+             id="g23693">
+            <g
+               transform="translate(200,-17)"
+               id="g23691">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M0,0h0v0h0Z"
+                 pointer-events="none"
+                 id="path23681" />
+              <g
+                 id="g23687">
+                <g
+                   class="mark-text role-title-text"
+                   role="graphics-symbol"
+                   aria-roledescription="title"
+                   aria-label="Title text 'Cube'"
+                   pointer-events="none"
+                   id="g23685">
+                  <text
+                     text-anchor="middle"
+                     transform="translate(0,10)"
+                     font-family="sans-serif"
+                     font-size="13px"
+                     font-weight="bold"
+                     fill="#000"
+                     opacity="1"
+                     id="text23683">Cube</text>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path23689" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-axis"
+             role="graphics-symbol"
+             aria-roledescription="axis"
+             aria-label="X-axis titled '# of species' for a discrete scale with 20 values: 1, 2, 3, 4, 5, ending with 20"
+             id="g23795">
+            <g
+               transform="translate(0.5,480.5)"
+               id="g23793">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M0,0h0v0h0Z"
+                 pointer-events="none"
+                 id="path23695" />
+              <g
+                 id="g23789">
+                <g
+                   class="mark-rule role-axis-tick"
+                   pointer-events="none"
+                   id="g23737">
+                  <line
+                     transform="translate(10,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23697" />
+                  <line
+                     transform="translate(30,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23699" />
+                  <line
+                     transform="translate(50,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23701" />
+                  <line
+                     transform="translate(70,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23703" />
+                  <line
+                     transform="translate(90,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23705" />
+                  <line
+                     transform="translate(110,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23707" />
+                  <line
+                     transform="translate(130,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23709" />
+                  <line
+                     transform="translate(150,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23711" />
+                  <line
+                     transform="translate(170,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23713" />
+                  <line
+                     transform="translate(190,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23715" />
+                  <line
+                     transform="translate(210,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23717" />
+                  <line
+                     transform="translate(230,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23719" />
+                  <line
+                     transform="translate(250,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23721" />
+                  <line
+                     transform="translate(270,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23723" />
+                  <line
+                     transform="translate(290,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23725" />
+                  <line
+                     transform="translate(310,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23727" />
+                  <line
+                     transform="translate(330,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23729" />
+                  <line
+                     transform="translate(350,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23731" />
+                  <line
+                     transform="translate(370,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23733" />
+                  <line
+                     transform="translate(390,0)"
+                     x2="0"
+                     y2="5"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23735" />
+                </g>
+                <g
+                   class="mark-text role-axis-label"
+                   pointer-events="none"
+                   id="g23779">
+                  <text
+                     text-anchor="end"
+                     transform="translate(9.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23739">1</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(29.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23741">2</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(49.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23743">3</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(69.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23745">4</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(89.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23747">5</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(109.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23749">6</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(129.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23751">7</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(149.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23753">8</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(169.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23755">9</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(189.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23757">10</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(209.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23759">11</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(229.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23761">12</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(249.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23763">13</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(269.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23765">14</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(289.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23767">15</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(309.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23769">16</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(329.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23771">17</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(349.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23773">18</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(369.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23775">19</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(389.5,7) rotate(270) translate(0,3)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23777">20</text>
+                </g>
+                <g
+                   class="mark-rule role-axis-domain"
+                   pointer-events="none"
+                   id="g23783">
+                  <line
+                     transform="translate(0,0)"
+                     x2="400"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23781" />
+                </g>
+                <g
+                   class="mark-text role-axis-title"
+                   pointer-events="none"
+                   id="g23787">
+                  <text
+                     text-anchor="middle"
+                     transform="translate(200,32.733333587646484)"
+                     font-family="sans-serif"
+                     font-size="11px"
+                     font-weight="bold"
+                     fill="#000"
+                     opacity="1"
+                     id="text23785"># of species</text>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path23791" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-axis"
+             role="graphics-symbol"
+             aria-roledescription="axis"
+             aria-label="Y-axis titled '# of colors' for a discrete scale with 24 values: 24, 23, 22, 21, 20, ending with 1"
+             id="g23913">
+            <g
+               transform="translate(0.5,0.5)"
+               id="g23911">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M0,0h0v0h0Z"
+                 pointer-events="none"
+                 id="path23797" />
+              <g
+                 id="g23907">
+                <g
+                   class="mark-rule role-axis-tick"
+                   pointer-events="none"
+                   id="g23847">
+                  <line
+                     transform="translate(0,10)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23799" />
+                  <line
+                     transform="translate(0,30)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23801" />
+                  <line
+                     transform="translate(0,50)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23803" />
+                  <line
+                     transform="translate(0,70)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23805" />
+                  <line
+                     transform="translate(0,90)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23807" />
+                  <line
+                     transform="translate(0,110)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23809" />
+                  <line
+                     transform="translate(0,130)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23811" />
+                  <line
+                     transform="translate(0,150)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23813" />
+                  <line
+                     transform="translate(0,170)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23815" />
+                  <line
+                     transform="translate(0,190)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23817" />
+                  <line
+                     transform="translate(0,210)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23819" />
+                  <line
+                     transform="translate(0,230)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23821" />
+                  <line
+                     transform="translate(0,250)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23823" />
+                  <line
+                     transform="translate(0,270)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23825" />
+                  <line
+                     transform="translate(0,290)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23827" />
+                  <line
+                     transform="translate(0,310)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23829" />
+                  <line
+                     transform="translate(0,330)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23831" />
+                  <line
+                     transform="translate(0,350)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23833" />
+                  <line
+                     transform="translate(0,370)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23835" />
+                  <line
+                     transform="translate(0,390)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23837" />
+                  <line
+                     transform="translate(0,410)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23839" />
+                  <line
+                     transform="translate(0,430)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23841" />
+                  <line
+                     transform="translate(0,450)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23843" />
+                  <line
+                     transform="translate(0,470)"
+                     x2="-5"
+                     y2="0"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23845" />
+                </g>
+                <g
+                   class="mark-text role-axis-label"
+                   pointer-events="none"
+                   id="g23897">
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,12.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23849">24</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,32.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23851">23</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,52.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23853">22</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,72.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23855">21</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,92.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23857">20</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,112.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23859">19</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,132.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23861">18</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,152.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23863">17</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,172.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23865">16</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,192.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23867">15</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,212.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23869">14</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,232.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23871">13</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,252.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23873">12</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,272.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23875">11</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,292.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23877">10</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,312.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23879">9</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,332.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23881">8</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,352.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23883">7</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,372.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23885">6</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,392.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23887">5</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,412.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23889">4</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,432.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23891">3</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,452.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23893">2</text>
+                  <text
+                     text-anchor="end"
+                     transform="translate(-7,472.5)"
+                     font-family="sans-serif"
+                     font-size="10px"
+                     fill="#000"
+                     opacity="1"
+                     id="text23895">1</text>
+                </g>
+                <g
+                   class="mark-rule role-axis-domain"
+                   pointer-events="none"
+                   id="g23901">
+                  <line
+                     transform="translate(0,0)"
+                     x2="0"
+                     y2="480"
+                     stroke="#888"
+                     stroke-width="1"
+                     opacity="1"
+                     id="line23899" />
+                </g>
+                <g
+                   class="mark-text role-axis-title"
+                   pointer-events="none"
+                   id="g23905">
+                  <text
+                     text-anchor="middle"
+                     transform="translate(-23.733333587646484,240) rotate(-90) translate(0,-2)"
+                     font-family="sans-serif"
+                     font-size="11px"
+                     font-weight="bold"
+                     fill="#000"
+                     opacity="1"
+                     id="text23903"># of colors</text>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path23909" />
+            </g>
+          </g>
+        </g>
+        <path
+           class="foreground"
+           aria-hidden="true"
+           d=""
+           display="none"
+           id="path23917" />
+      </g>
+    </g>
+  </g>
+  <image
+     y="40.187496"
+     x="146.87598"
+     id="image17498"
+     xlink:href="data:image/png;base64,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 TkSuQmCC "
+     style="image-rendering:optimizeSpeed"
+     preserveAspectRatio="none"
+     height="144.69279"
+     width="138.01071" />
+</svg>
