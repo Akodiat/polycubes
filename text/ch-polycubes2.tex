@@ -21,7 +21,7 @@ Meanwhile, the empty red region in Figure~\ref{fig:addressable}.b) shows combina
     \end{overpic}
     \vspace{1em}
     %\includesvg[width=\textwidth, inkscapelatex=false]{figures/solve/adressable.svg}
-    \caption{2x2 square polyomino assembled with different levels of complexity. a) Scematic of the input shape, consisting of four connected tiles. b) The green region shows possible assembly solutions, from the \emph{minimal solution} using a single species and a single colour (bottom left), to the \emph{fully addressable solution} using four species and colours (top right). The red region lacks solutions. }
+    \caption{\(2 \times 2\) square polyomino assembled with different levels of complexity. a) Scematic of the input shape, consisting of four connected tiles. b) The green region shows possible assembly solutions, from the \emph{minimal solution} using a single species and a single colour (bottom left), to the \emph{fully addressable solution} using four species and colours (top right). The red region lacks solutions. }
     \label{fig:addressable}
 \end{figure}
 
@@ -83,9 +83,25 @@ We then formulate clauses to constrain the problem, seen in Table~\ref{tab:sat_c
         
         \hline
     \end{tabular}
-    \caption{SAT clauses. (i) Each colour is compatible with \textit{exactly one} colour. (ii) Each patch has \textit{exactly one} colour. (iii) Each lattice position contains a single species with an assigned rotation. (iv) Adjacent patches in the lattice must have compatible colours. (v) Patches at a lattice position are coloured according to the (rotated) occupying species. (vi) All \(N_t\) species are required in the solution. (vii) All \(\widetilde{K}_c\) patch colours are required in the solution. (iix) Each patch is assigned \textit{exactly one} orientation. (ix) Adjacent patches in the target lattice must have the same orientation. (v)  Patches at a lattice position are oriented according to the (rotated) occupying species.}
+    \caption{SAT clauses. (i) Each colour is compatible with \textit{exactly one} colour. (ii) Each patch has \textit{exactly one} colour. (iii) Each lattice position contains a single species with an assigned rotation. (iv) Adjacent patches in the lattice must have compatible colours. (v) Patches at a lattice position are coloured according to the (rotated) occupying species. (vi) All \(\widetilde{K}_s\) species are required in the solution. (vii) All \(\widetilde{K}_c\) patch colours are required in the solution. (iix) Each patch is assigned \textit{exactly one} orientation. (ix) Adjacent patches in the target lattice must have the same orientation. (v)  Patches at a lattice position are oriented according to the (rotated) occupying species.}
     \label{tab:sat_clauses}
     \end{table}
+
+\subsection{On the importance of torsional interactions}
+
+It would certainly be possible to use the solver without any constraints on the patch orientations (as it was done in \cite{romano2020designing}), orientations would then have to be assigned randomly in the stochastic assembler, resulting in a combinatoric explosion of additional assembly paths.
+
+More importantly, correct assembly should benefit from torsional patch interaction (for 2D polyominoes, this corresponds to the requirement that tiles can be rotated in the plane but not flipped). Figure~\ref{fig:torsion} shows two version of a simple rule, the only difference being the orientation of a single patch. While co-operative binding might in such a case benefit the desired \(\frac{\pi}{2}\) square assembly, the self-limiting ability would be significantly improved if the patches were torsionally rigid.
+
+\begin{figure}[h]
+    \centering
+    \begin{overpic}[width=\textwidth]{figures/torsion.png}
+        \put(0,470){a)}
+        \put(550,500){b)}
+    \end{overpic}
+    \caption{The consequences of a rotated patch. a) A minimal solution (one species and one colour)to a \(2 \times 2\) square. b) The same rule as a), except one patch on is rotated by \(\frac{\pi}{2}\).}
+    \label{fig:torsion}
+\end{figure}
 
 
 \subsection{Bounded structures}
@@ -114,29 +130,24 @@ The topology of the shape is enforced by clause (iv), \(\left(\lnot x_{l_1, p_1,
     \label{fig:sat_boundary}
 \end{figure}
 
-\subsection{On the importance of torsional interactions}
-
-[Flowerball]
-
-
 \subsection{Interaction matrix}
-Interaction matrix is fixed (compared to \cite{romano2020designing}).
-
-Thus, the \(x_{c_i,c_j}^{B}\) variable has fixed values and we only need to extract the values of \(x_{l,p,c}^{F}\) and \(x_{s,p,o}^{O}\) to construct the assembly rule.
+Compared to \cite{romano2020designing}, the interaction matrix is fixed. Thus, the \(x_{c_i,c_j}^{B}\) variable has fixed values and we only need to extract the values of \(x_{l,p,c}^{F}\) and \(x_{s,p,o}^{O}\) to construct the assembly rule. Note, however, that it is still possible to re-enable a variable interaction matrix, something which could prove useful for some shapes where, for example, self-complementary patches would result in a lower complexity.
 
 \subsection{Assembly determinism}
-Even if the SAT solver determines that a solution exists, it is still possible that the rule we get can also assemble into other shapes than the one we want.
+Even if the SAT solver determines that a solution exists, it is still possible that the rule we get can also assemble into other shapes than the one we want. Recall, once more, the ``giraffe duck'' shape from Figure~\ref{fig:UND}.b). If we solved for the shape with two neck cubes, the undeterministic rule shown would be a perfectly valid solution according to the SAT solver, even though it also produces giraffe ducks with other neck lengths.
+
+Because of this, we use the stochastic assembler from Chapter~\ref{ch:polycubes1} to verify that the rule assembles into the correct shape every time. Each potential rule is evaluated a large number of times (by default \(100\)), resulting in an assembly ratio. If the ratio is \(1\), the rule is considered bounded and deterministic, and, as such, a valid solution.
 
 Add giraffe-duck-like example of when SAT solver gives UND solution
 
 \section{Finding the minimal assembly rule}
 
-The method presented here uses a boolean satisfiability (SAT) solver to determine if a provided polycube shape is satisfiable for a given number of species \(N_t\) and colours \(\widetilde{K}_c\). By iteratively ruling out lower values of \(N_t\) and \(\widetilde{K}_c\), a minimal solution can be found, as detailed in Figure~\ref{fig:sat_alg}. It is also possible to generate and compare alternative solutions of varying complexity.
+The method presented here uses a boolean satisfiability (SAT) solver to determine if a provided polycube shape is satisfiable for a given number of species \(\widetilde{K}_s\) and colours \(\widetilde{K}_c\). By iteratively ruling out lower values of \(\widetilde{K}_s\) and \(\widetilde{K}_c\), a minimal solution can be found, as detailed in Figure~\ref{fig:sat_alg}. It is also possible to generate and compare alternative solutions of varying complexity.
 
 \begin{figure}
     \centering
     \resizebox{\textwidth}{!}{\input{figures/SAT_flow}}
-    \caption{Algorithm for finding the minimal solution using SAT. Even if a solution is found to be satisfiable it might not assemble correctly every time. Additional solutions for a given \(\widetilde{K}_c\) and \(N_t\) are found by explicitly forbidding the current solution. Alternatively, it is possible to use a solver like relsat to obtain multiple solutions. }
+    \caption{Algorithm for finding the minimal solution using SAT. Even if a solution is found to be satisfiable it might not assemble correctly every time. Additional solutions for a given \(\widetilde{K}_c\) and \(\widetilde{K}_s\) are found by explicitly forbidding the current solution. Alternatively, it is possible to use a solver like relsat to obtain multiple solutions. }
     \label{fig:sat_alg}
 \end{figure}
 
