@@ -34,6 +34,12 @@ import numpy as np
 from pysat.formula import CNF
 from pysat.solvers import Glucose4
 
+from threading import Timer
+
+def interrupt(s):
+    print("Timeout. Interrupting solve...")
+    s.interrupt()
+
 
 #Polycube SAT Solver
 class polysat:
@@ -561,11 +567,16 @@ class polysat:
         with open(fname,'w') as outf:
             outf.write(parameters)
 
-
-    def run_minisat(self, timeout=18000):
+    def solve(self, timeout=None):
         formula = CNF(from_string = self.output_cnf(self.basic_sat_clauses))
         with Glucose4(bootstrap_with=formula.clauses) as m:
-            if m.solve() == True:
+            if timeout:
+                timer = Timer(timeout, interrupt, [m])
+                timer.start()
+                solved = m.solve_limited(expect_interrupt=True)
+            else:
+                solved = m.solve()
+            if solved == True:
                 return True, self.convert_solution2(m.get_model())
             else:
                 return False, None

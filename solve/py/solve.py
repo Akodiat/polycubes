@@ -14,6 +14,7 @@ import sys
 import multiprocessing
 import json
 import traceback
+import os
 
 def parseDecRule(decRule):
     rule = []
@@ -142,7 +143,7 @@ def find_solution(top, nCubeTypes, nColors, nSolutions=1, nDim=3, torsionalPatch
     mysat = polysat(top, nCubeTypes, nColors, nDim, torsionalPatches)
 
     if nSolutions == 1: # Use minisat for single solutions
-        result, solution = mysat.run_minisat()
+        result, solution = mysat.solve()
         if result == 'TIMEOUT':
             return result
         elif result:
@@ -350,6 +351,7 @@ def solve(solveSpecPath, nCubeTypes=None, nColors=None):
         )
 
 def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=100):
+    print("Solving {} for {}s {}c on pid={}".format(solveSpecPath, nCubeTypes, nColors, os.getpid()))
     with open(solveSpecPath, 'r') as f:
         data = f.read()
     solveSpec = json.loads(data)
@@ -361,16 +363,16 @@ def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=100):
         solveSpec['nDim'],
         solveSpec['torsion']
     )
-    
+
     shapes = utils.calcCoordsFromTop(solveSpec['bindings'])
-    
+
     if len(shapes) > 1:
         print("Multifarious assembly")
 
     nTries = 0
     maxRatio = 0
     while nTries < maxTries:
-        result, solution = mysat.run_minisat()
+        result, solution = mysat.solve(3600) # Timeout after one hour
         if result == 'TIMEOUT':
             print('Sorry, timed out')
         elif result:
