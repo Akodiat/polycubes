@@ -41,9 +41,9 @@
      inkscape:window-height="1376"
      id="namedview380"
      showgrid="false"
-     inkscape:zoom="4.2996743"
-     inkscape:cx="74.244408"
-     inkscape:cy="65.653678"
+     inkscape:zoom="1.5201644"
+     inkscape:cx="112.06799"
+     inkscape:cy="73.434945"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -132,7 +132,7 @@
                      style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
                      id="text18"
                      font-size="10px"
-                     transform="translate(-7,32.5)">stochastic</text>
+                     transform="translate(-7,32.5)">unseeded</text>
                 </g>
                 <g
                    id="g24"
@@ -185,7 +185,7 @@
                      style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
                      id="text36"
                      font-size="10px"
-                     transform="rotate(-90,4,-4)">2d</text>
+                     transform="rotate(-90,4,-4)">2D</text>
                 </g>
               </g>
               <path
@@ -266,7 +266,7 @@
                      style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
                      id="text66"
                      font-size="10px"
-                     transform="translate(-7,32.5)">stochastic</text>
+                     transform="translate(-7,32.5)">unseeded</text>
                 </g>
                 <g
                    id="g72"
@@ -319,7 +319,7 @@
                      style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
                      id="text84"
                      font-size="10px"
-                     transform="rotate(-90,4,-4)">3d</text>
+                     transform="rotate(-90,4,-4)">3D</text>
                 </g>
               </g>
               <path
