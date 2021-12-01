@@ -144,7 +144,7 @@ MagicDNA \cite{huang2021integrated}, as seen in Figure~\ref{fig:magicDNA}, has a
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=\textwidth]{figures/magicDNA.jpeg}
-    \caption{MagicDNA adapted from \cite{huang2021integrated}.}
+    \caption{MagicDNA design workflow, adapted from \cite{huang2021integrated}. Assemblies can be created from line drawings and helix cross sections or imported from a library of parts. After strand routing and some optional fine-tuning in caDNAno, designs can be exported as sequences for fabrication or oxDNA files for simulation.}
     \label{fig:magicDNA}
   \end{center}
 \end{figure}
@@ -156,14 +156,14 @@ The oxView application was developed as part of this thesis project and will be 
 Simulating a structure can provide insight to understand experimental results but can also guide decisions at the design stage. More coarse-grained models tend to run faster, but may lose some accuracy compared to models with more detail. This section covers simulation models at an increasing level of coarse-graining, from individual atoms to cylindrical helices.
 
 \subsection{All-atom simulation}
-Simulation tools such as NAMD \cite{NAMDphillips2005scalable}, use force fields such as AMBER \cite{AMBERcornell1996second} and CHARMM \cite{brooks1983charmm} that model interactions between individual atoms. While it is possible to perform atomistic simulations of large DNA origami structures \cite{yoo2013situ}, the simulations take a long time to run, and it is unknown how well the models represent DNA thermodynamics \cite{sengar2021primer}.
+Simulation tools such as NAMD \cite{NAMDphillips2005scalable}, use force fields such as AMBER \cite{AMBERcornell1996second} and CHARMM \cite{brooks1983charmm} that model interactions between individual atoms. While it is possible to perform atomistic simulations of large DNA origami structures \cite{yoo2013situ} as shown in Figure~\ref{fig:all-atom}, the simulations take a long time to run, and it is unknown how well the models represent DNA thermodynamics \cite{sengar2021primer}.
 
 %Also cite Pointer origami https://academic.oup.com/nar/article/44/7/3013/2467847 ?
 
 \begin{figure}[h]
   \begin{center}
     \includegraphics[width=\textwidth]{figures/all-atom.jpg}
-    \caption{All-atom simulation}
+    \caption{All-atom simulation of three DNA origami structures, adapted from \cite{yoo2013situ}. HC-0$^{\circ}$ is a honeycomb (hexagonal) lattice origami with no programmed curvature, while SQ-0$^{\circ}$ is designed on a square lattice. HC-0$^{\circ}$ has a programmed 90$^{\circ}$ bend. The plots show the root-mean-square deviation from the original atom positions (top) and the fraction of base pairs broken during the simulation (bottom).}
     \label{fig:all-atom}
   \end{center}
 \end{figure}
