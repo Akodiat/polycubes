@@ -136,7 +136,7 @@ function generateTopAndConfig(rule, assemblyMode='seeded') {
     return [topStr, confStr];
 }
 
-function getPatchySimFiles(hexRule, nAssemblies=1, name='sim',
+function getPatchySimFiles(rule, nAssemblies=1, name='sim',
     oxDNA_dir = '/users/joakim/repo/oxDNA_torsion2',
     temperatures = ['[template]'],
     confDensity = 0.2
@@ -166,7 +166,6 @@ function getPatchySimFiles(hexRule, nAssemblies=1, name='sim',
     let patchesStr = "";
 
     let patchCounter = 0;
-    let rule = parseHexRule(hexRule);
     rule.forEach((cubeType, typeID)=>{
         let patches = [];
         cubeType.forEach((patch, i)=>{
@@ -184,7 +183,7 @@ function getPatchySimFiles(hexRule, nAssemblies=1, name='sim',
     const particlesFileName = 'particles.txt'
     const patchesFileName = 'patches.txt'
 
-    const cubeTypeCount = getCubeTypeCount(hexRule);
+    const cubeTypeCount = getCubeTypeCount(rule);
 
     let topStr, confStr;
     const topFileName = 'init.top';
@@ -250,7 +249,7 @@ done`
 
     zip.file('data.py',
 `completeCluster = [${complClusters}]
-rule = '${hexRule}'`
+rule = '${ruleToDec(rule)}'`
     )
 
     zip.generateAsync({type:"blob"})

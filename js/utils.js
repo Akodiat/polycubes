@@ -141,6 +141,26 @@ function getSignedAngle(v1, v2, axis) {
     return a;
 }
 
+//https://stackoverflow.com/a/55248720
+//https://robokitchen.tumblr.com/post/67060392720/finding-a-quaternion-from-two-pairs-of-vectors
+function rotateVectorsSimultaneously(u0, v0, u2, v2) {
+    const q2 = new THREE.Quaternion().setFromUnitVectors(u0, u2);
+
+    const v1 = v2.clone().applyQuaternion(q2.clone().conjugate());
+
+    const v0_proj = v0.projectOnPlane(u0);
+    const v1_proj = v1.projectOnPlane(u0);
+
+    let angleInPlane = v0_proj.angleTo(v1_proj);
+    if (v1_proj.dot(new THREE.Vector3().crossVectors(u0, v0)) < 0) {
+        angleInPlane *= -1;
+    }
+    const q1 = new THREE.Quaternion().setFromAxisAngle(u0, angleInPlane);
+
+    const q = new THREE.Quaternion().multiplyQuaternions(q2, q1);
+    return q;
+}
+
 function getRotationFromSpecies(speciesA, speciesB) {
     const decRuleB = ruleToDec([speciesB]);
     for(const r of allRotations()) {
@@ -208,8 +228,7 @@ function getCoords(rule, assemblyMode='seeded') {
     return [...system.cubeMap.values()];
 }
 
-function getCubeTypeCount(hexRule, assemblyMode='seeded') {
-    let rule = parseHexRule(hexRule);
+function getCubeTypeCount(rule, assemblyMode='seeded') {
     let sys = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode);
     sys.seed();
     let processed = false;

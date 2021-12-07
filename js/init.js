@@ -46,22 +46,19 @@ function createPolycubeSystem() {
 }
 
 function createPolysphereSystem() {
-    let defaultRule = "[[[-1,0.25,0,0],[1,0.25,0.6,0]]]";
+    let defaultRule = "[[[1,-2.5,0,0,-0.5,1,0,0],[1,-2,-1,0,-1,0,0,0],[1,1,0,0,1,1,-0,0],[1,0,-1,0,-1,0,1,0],[1,0,1,0,0,-1,0,1],[1,0,0,-1,-0,1,-1,0],[1,0,0,1,1,0,0,1]],[[-1,-1,0,0,-1,1,0,0]]]";
     let rule = JSON.parse(getUrlParam("rule", defaultRule));
     // Replace rotation number with vector
     rule = rule.map(function(patches) {return patches.map(function(p) {
         //https://en.wikipedia.org/wiki/Spherical_coordinate_system#Unique_coordinates
-        let tau = 2*Math.PI;
         let color = p[0];
-        let phi = p[1] * tau;
-        let theta = p[2] * tau;
-        let rotation = p[3] * tau;
-        return Patch.init(color, phi, theta, rotation);
+        let pos = new THREE.Vector3(p[1], p[2], p[3]);
+        let q = new THREE.Quaternion(p[4], p[5], p[6], p[7]);
+        return new Patch(color, pos, q);
     });});
 
-    nMaxCubes = JSON.parse(getUrlParam("nMaxCubes",100));
 
-    system = new PolysphereSystem(rule, scene, nMaxCubes);
+    system = new PolysphereSystem(rule, scene, 10);
     orbit.target = system.centerOfMass;
 
     system.addParticle(new THREE.Vector3(), system.rule[0], 0);

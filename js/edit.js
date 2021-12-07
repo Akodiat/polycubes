@@ -45,50 +45,42 @@ function addRule(patches) {
             face.appendChild(rotation);
             face.appendChild(color);
         } else {
-            let patch= patches[i].toJSON();
+            face.appendChild(color);
+            const patch = patches[i];
+            const patchlist = patch.toJSON();
 
-            let phi = document.createElement("input");
-            phi.type = "number";
-            phi.value = patch[1]; phi.max = 1, phi.min = -1, phi.step = 0.01;
+            const g = (i) => document.getElementById(i).valueAsNumber;
 
-            let theta = document.createElement("input");
-            theta.type = "number";
-            theta.value = patch[2]; theta.max = 1, theta.min = -1, theta.step = 0.01;
-
-            let rotation = document.createElement("input");
-            rotation.type = "number";
-            rotation.value = patch[3]; rotation.max = 1, rotation.min = -1, rotation.step = 0.01;
-            let removePatch = document.createElement("button");
-            removePatch.innerHTML = "x";
-            //removePatch.style.width = "2em"
+            ['p.x','p.y','p.z','q.x','q.y','q.z','q.w'].forEach((label,i)=>{
+                let input = document.createElement("input");
+                input.type = "number";
+                input.value = patchlist[i];
+                input.step = 0.01;
+                input.id = label;
+                input.title = label;
+                input.onchange = ()=>{
+                    patch.update(
+                        color.valueAsNumber,
+                        new THREE.Vector3(g('p.x'), g('p.y'), g('p.z')),
+                        new THREE.Quaternion(g('q.x'), g('q.y'), g('q.z'), g('q.w'))
+                    );
+                    if(document.getElementById("autoUpdate").checked) {
+                        system.regenerate();
+                    };
+                }
+                face.appendChild(input);
+            });
 
             color.style.background = 'transparent';
+
+            let removePatch = document.createElement('button');
             removePatch.style.background = 'transparent';
+            removePatch.innerHTML = 'x';
 
             removePatch.onclick = ()=>{
                 patches.splice(i, 1);
                 clearRules();
             };
-
-            let updatedPatch = ()=>{
-                patches[i].set(
-                    color.valueAsNumber,
-                    phi.valueAsNumber * 2 * Math.PI,
-                    theta.valueAsNumber * 2 * Math.PI,
-                    rotation.valueAsNumber * 2 * Math.PI
-                );
-                if(document.getElementById("autoUpdate").checked) {
-                    system.regenerate();
-                };
-            }
-            phi.onchange = updatedPatch;
-            theta.onchange = updatedPatch;
-            rotation.onchange = updatedPatch;
-
-            face.appendChild(color);
-            face.appendChild(phi);
-            face.appendChild(theta);
-            face.appendChild(rotation);
             face.appendChild(removePatch);
         }
         ruleField.appendChild(face);
@@ -99,7 +91,7 @@ function addRule(patches) {
         add.style.height = "20px";
         add.style.margin = "0px";
         add.onclick = ()=>{
-            patches.push(Patch.init(0, 0, 0, 0));
+            patches.push(new Patch(0, new THREE.Vector3(1,0,0), new THREE.Quaternion()));
             clearRules();
         }
         ruleField.appendChild(add);
