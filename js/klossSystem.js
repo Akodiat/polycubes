@@ -46,7 +46,7 @@ class Patch {
     update(color, pos, q) {
         this.color = color;
         this.pos = pos;
-        this.q = q;
+        this.q = q.normalize();
     }
 
     get alignBase() {
@@ -113,7 +113,7 @@ class Move {
     }
 }
 
-class PolysphereSystem {
+class KlossSystem {
 
     constructor(rule, scene, maxParticles=1000, maxCoord=100) {
         this.moves = [];
@@ -185,13 +185,13 @@ class PolysphereSystem {
                 if (patch.color !== 0) {
                     let p = new Patch(
                         patch.color,
-                        ruleOrder[i],
+                        ruleOrder[i].clone().multiplyScalar(0.5),
                         new THREE.Quaternion()
                     );
 
-                    p.q.multiply(rotateVectorsSimultaneously(
-                        p.dirBase, p.alignBase,
-                        ruleOrder[i], faceRotations[i]
+                    p.q.copy(rotateVectorsSimultaneously(
+                        p.alignDir, p.dir,
+                        patch.alignDir, ruleOrder[i]
                     ));
 
                     console.assert(
@@ -208,6 +208,26 @@ class PolysphereSystem {
             sphereRule.push(sphereSpecies);
         });
         this.resetRule(sphereRule);
+    }
+
+    resetRandom(maxS=4, maxP=4, maxC=4) {
+        let fr = (max, min=0) => Math.random()*(max-min)+min;
+        let r = (max, min=0) => Math.round(fr(max,min));
+        let nSpecies = r(maxS, 1);
+        let rule = []
+        while (nSpecies--) {
+            let s = []
+            let nPatches = r(maxP);
+            while (nPatches--) {
+                s.push(new Patch(
+                    r(maxC) * r(1) ? -1:1,
+                    new THREE.Vector3(fr(1,-1),fr(1,-1),fr(1,-1)),
+                    new THREE.Quaternion(fr(1,-1),fr(1,-1),fr(1,-1),fr(1,-1))
+                ))
+            }
+            rule.push(s);
+        }
+        this.resetRule(rule);
     }
 
     resetRule(rule) {

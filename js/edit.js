@@ -50,7 +50,6 @@ function addRule(patches) {
             const patchlist = patch.toJSON();
 
             const g = (i) => document.getElementById(i).valueAsNumber;
-
             ['p.x','p.y','p.z','q.x','q.y','q.z','q.w'].forEach((label,i)=>{
                 let input = document.createElement("input");
                 input.type = "number";

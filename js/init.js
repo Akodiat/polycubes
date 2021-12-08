@@ -12,7 +12,7 @@ function createPolycubeSystem() {
     } else {
         defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
         rules = JSON.parse(getUrlParam("rules",defaultRule));
-        
+
         // Replace rotation number with vector
         rules = rules.map(function(rule) {return rule.map(function(face, i) {
             let r = faceRotations[i].clone();
@@ -45,8 +45,8 @@ function createPolycubeSystem() {
     render();
 }
 
-function createPolysphereSystem() {
-    let defaultRule = "[[[1,-2.5,0,0,-0.5,1,0,0],[1,-2,-1,0,-1,0,0,0],[1,1,0,0,1,1,-0,0],[1,0,-1,0,-1,0,1,0],[1,0,1,0,0,-1,0,1],[1,0,0,-1,-0,1,-1,0],[1,0,0,1,1,0,0,1]],[[-1,-1,0,0,-1,1,0,0]]]";
+function createKlossSystem() {
+    let defaultRule = "[[[1,-1.25,0,0,-0.5,1,0,0],[1,-1,-1,0,-1,0,0,0],[1,0.5,0,0,1,1,-0,0],[1,0,-0.5,0,-1,0,1,0],[1,0,0.5,0,0,-1,0,1],[1,0,0,-0.5,-0,1,-1,0],[1,0,0,0.5,1,0,0,1]],[[-1,-0.5,0,0,-1,1,0,0]]]";
     let rule = JSON.parse(getUrlParam("rule", defaultRule));
     // Replace rotation number with vector
     rule = rule.map(function(patches) {return patches.map(function(p) {
@@ -58,7 +58,7 @@ function createPolysphereSystem() {
     });});
 
 
-    system = new PolysphereSystem(rule, scene, 10);
+    system = new KlossSystem(rule, scene, 100);
     orbit.target = system.centerOfMass;
 
     system.addParticle(new THREE.Vector3(), system.rule[0], 0);
