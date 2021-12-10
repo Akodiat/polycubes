@@ -29,7 +29,7 @@
             overflow-x: hidden;
             opacity: 0.8;
             max-height: 100%;
-            width: auto;
+            width: min-content;
             font-family: Monospace;
             font-size: 12px;
             text-align: center;
@@ -90,7 +90,7 @@
         }
 
         input[type=number] {
-            width: 3em;
+            width: 4em;
             height: 30px;
             text-align: center;
             border-width:0px;
@@ -123,7 +123,8 @@
                 <a href="./?hexRule=040087000000">Square</a>,
                 <a href="./?hexRule=040803000000888403000000">Linear chain</a>,
                 <a href="./?hexRule=05050a08000085858a880000">2D plane (checkerboard)</a>,
-                <a href="./polyspheres?rule=[[[1,1,0,0,1,1,-0,0],[2,0,1,0,0,-1,0,1],[3,0,0,1,1,0,0,1]],[[-1,-1,0,0,-1,1,0,0],[-2,0,-1,0,-1,0,1,0],[-3,0,0,-1,-0,1,-1,0]]]">Cube</a>,
+                <a href="./klossar?rule=[[[1,1,0,0,0,0,-0.5877852522924731,0.8090169943749475],[-1,0.5,-0.5,0,-1,0,0,0]]]">Shuriken</a>,
+                <a href="./klossar?rule=[[[1,1,0,0,1,1,-0,0],[2,0,1,0,0,-1,0,1],[3,0,0,1,1,0,0,1]],[[-1,-1,0,0,-1,1,0,0],[-2,0,-1,0,-1,0,1,0],[-3,0,0,-1,-0,1,-1,0]]]">Cube</a>,
                 <a href="./?hexRule=0406008800008400140000008c0800000000901400000000980c171710129c1a0000000094000000000016141c000000">Robot</a>,
                 <a href="./?hexRule=00000006008b00008600000c000000028c00080c0c000c0c048600000000">Giraffe-duck</a>,
                 <a href="./?hexRule=980e1b0c0c1b020c0c01008d">64-mer</a>,
@@ -138,16 +139,21 @@
         <button onclick="system.resetRandom(); clearRules();">Random input</button>
         <button onclick="system.resetRule(parseHexRule(mutateRule(polycubeSystem.getRuleStr()))); clearRules()">Mutate input</button>
         <button onclick="simplifyRule()">Simplify</button>
+        <label for="patchselect">Patch orientation type:</label>
+        <select name="patchselect" id="patchselect" onchange="clearRules()">
+          <option value="quaternion">Quaternion</option>
+          <option value="euler">Euler angles</option>
+          <option value="vector">Unit vectors</option>
+        </select> 
         <fieldset>
-        <legend>Input:</legend>
-        <div id="ruleset" style="overflow: hidden"></div>
-        <button class="primary" onclick="addRule()">Add particle type</button>
-        <span style="display: flex;">
-            <button onclick="regenerate()">Update</button>
-            <input type="checkbox" id="autoUpdate" checked="True", onchange="regenerate()">Auto update    
-        </span>
-        <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>
-        <!--https://stackoverflow.com/a/19965480 location.search-->
+            <legend>Input:</legend>
+            <div id="ruleset" style="overflow: hidden"></div>
+            <button class="primary" onclick="addSpecies()">Add species</button>
+            <span style="display: flex;">
+                <button onclick="system.regenerate()">Update</button>
+                <input type="checkbox" id="autoUpdate" checked="True", onchange="system.regenerate()">Auto update    
+            </span>
+            <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>
         </fieldset>
     </div>
     <canvas id="threeCanvas"></canvas>

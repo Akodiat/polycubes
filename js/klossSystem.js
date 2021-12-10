@@ -44,9 +44,9 @@ class Patch {
     }
 
     update(color, pos, q) {
-        this.color = color;
-        this.pos = pos;
-        this.q = q.normalize();
+        if (color !== undefined) this.color = color;
+        if (pos !== undefined) this.pos = pos;
+        if (q !== undefined) this.q = q.normalize();
     }
 
     get alignBase() {
@@ -63,31 +63,6 @@ class Patch {
 
     get dir() {
         return this.dirBase.applyQuaternion(this.q);
-    }
-
-
-    orientate(dir, alignDir) {
-        console.assert(Math.abs(dir.dot(alignDir)) < 1e-4, 'Vectors not orthogonal');
-        // Rotate directional base so that we face dir
-        let q = new THREE.Quaternion().setFromUnitVectors(this.dirBase, dir).normalize();
-
-        // Rotate aligned base 
-        let angle2 = getSignedAngle(this.alignBase, alignDir, dir);
-        q.multiply(new THREE.Quaternion().setFromAxisAngle(dir, -angle2).normalize());
-
-        //q.multiply(new THREE.Quaternion().setFromUnitVectors(this.alignBase.applyQuaternion(q), alignDir));
-        //q.normalize()
-
-        /*
-        console.assert(Math.abs(dir.dot(alignDir)) < 1e-4, 'Vectors not orthogonal');
-        let q = new THREE.Quaternion().setFromUnitVectors(this.dirBase, dir.normalize());
-        let q2 = new THREE.Quaternion().setFromUnitVectors(this.alignBase, alignDir.clone().normalize().applyQuaternion(q));
-        q.multiply(q2)
-        */
-
-        //console.assert(alignDir.distanceTo(this.alignBase.applyQuaternion(q)) < 1e-4, 'Alignment did not work');
-        //console.assert(dir.distanceTo(this.dirBase.applyQuaternion(q)) < 1e-4, 'Direction did not work');
-        this.q = q;
     }
 
     toJSON() {

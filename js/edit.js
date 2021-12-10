@@ -1,4 +1,4 @@
-function addRule(patches) {
+function addSpecies(patches) {
     let faces = ["left","right","bottom","top","back","front"];
     if (patches == undefined) {
         patches = [];
@@ -47,28 +47,73 @@ function addRule(patches) {
         } else {
             face.appendChild(color);
             const patch = patches[i];
-            const patchlist = patch.toJSON();
 
-            const g = (i) => document.getElementById(i).valueAsNumber;
-            ['p.x','p.y','p.z','q.x','q.y','q.z','q.w'].forEach((label,i)=>{
+            const roundFloatingErr = (x) => Math.abs(Math.round(x) - x) <= Number.EPSILON ? Math.round(x) : x;
+            let inputs = []
+            const g = (i) => inputs[i].valueAsNumber;
+            const addElems = (label, j, setFun, getFun) =>{
                 let input = document.createElement("input");
                 input.type = "number";
-                input.value = patchlist[i];
+                input.value = roundFloatingErr(getFun(j));
                 input.step = 0.01;
                 input.id = label;
                 input.title = label;
-                input.onchange = ()=>{
-                    patch.update(
-                        color.valueAsNumber,
-                        new THREE.Vector3(g('p.x'), g('p.y'), g('p.z')),
-                        new THREE.Quaternion(g('q.x'), g('q.y'), g('q.z'), g('q.w'))
-                    );
-                    if(document.getElementById("autoUpdate").checked) {
-                        system.regenerate();
-                    };
-                }
+                input.onchange = setFun;
                 face.appendChild(input);
-            });
+                inputs.push(input);
+            }
+            ['p.x','p.y','p.z'].forEach((label,j)=>addElems(label, j, ()=>{
+                patch.update(
+                    undefined,
+                    new THREE.Vector3(g(0), g(1), g(2))
+                );
+                if(document.getElementById("autoUpdate").checked) {
+                    system.regenerate();
+                };
+            }, (i)=>patch.toJSON()[i+1]));
+
+            switch (document.getElementById('patchselect').value) {
+                case 'euler':
+                    const t = 2*Math.PI;
+                    ['e.x','e.y','e.z'].forEach((label,j)=>addElems(label, j+4, ()=>{
+                        patch.update(
+                            undefined, undefined,
+                            new THREE.Quaternion().setFromEuler(new THREE.Euler(t*g(3), t*g(4), t*g(5)))
+                        );
+                        console.log(`Changing orientation angle`);
+                        if(document.getElementById("autoUpdate").checked) {
+                            system.regenerate();
+                        };
+                    }, (j) => new THREE.Euler().setFromQuaternion(patch.q).toArray()[j-4]/t));
+                    break;
+                case 'vector':
+                    ['a1.x','a1.y','a1.z','a2.x','a2.y','a2.z'].forEach((label,j)=>addElems(label, j+4, ()=>{
+                        let q = rotateVectorsSimultaneously(
+                            patch.dir, patch.alignDir,
+                            new THREE.Vector3(g(3), g(4), g(5)).normalize(),
+                            new THREE.Vector3(g(6), g(7), g(8)).normalize(),
+                        );
+                        console.log(`Changing orientation vector`);
+                        patch.update(undefined, undefined, q);
+                        if(document.getElementById("autoUpdate").checked) {
+                            system.regenerate();
+                        };
+                    }, (j) => [patch.dir.toArray(), patch.alignDir.toArray()].flat()[j-4]));
+                    break;
+                default:
+                    ['q.x','q.y','q.z','q.w'].forEach((label,j)=>addElems(label, j+4, ()=>{
+                        patch.update(
+                            undefined, undefined,
+                            new THREE.Quaternion(g(3), g(4), g(5), g(6))
+                        );
+                        console.log(`Changing orientation quaternion ${[g(3), g(4), g(5), g(6)]}`);
+                        if(document.getElementById("autoUpdate").checked) {
+                            system.regenerate();
+                        };
+                    }, (j)=>patch.toJSON()[j]));
+                    break;
+            }
+
 
             color.style.background = 'transparent';
 
@@ -96,7 +141,7 @@ function addRule(patches) {
         ruleField.appendChild(add);
     }
     let remove = document.createElement("button");
-    remove.innerHTML = "Delete patches";
+    remove.innerHTML = "Delete species";
     remove.style.height = "20px";
     remove.style.margin = "0px";
     remove.addEventListener("click", removeRule.bind(
@@ -166,7 +211,7 @@ function simplifyRule2() {
 
 function clearRules() {
     document.getElementById("ruleset").innerText = "";
-    system.rule.forEach(addRule);
+    system.rule.forEach(addSpecies);
     if(document.getElementById("autoUpdate").checked) {
         system.regenerate();
     }
@@ -188,4 +233,4 @@ function toggleRuleSet() {
     }
 }
 
-system.rule.forEach(addRule);
+system.rule.forEach(addSpecies);
