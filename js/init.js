@@ -46,17 +46,17 @@ function createPolycubeSystem() {
 }
 
 function createKlossSystem() {
-    let defaultRule = "[[[1,-1.25,0,0,-0.5,1,0,0],[1,-1,-1,0,-1,0,0,0],[1,0.5,0,0,1,1,-0,0],[1,0,-0.5,0,-1,0,1,0],[1,0,0.5,0,0,-1,0,1],[1,0,0,-0.5,-0,1,-1,0],[1,0,0,0.5,1,0,0,1]],[[-1,-0.5,0,0,-1,1,0,0]]]";
-    let rule = JSON.parse(getUrlParam("rule", defaultRule));
-    // Replace rotation number with vector
-    rule = rule.map(function(patches) {return patches.map(function(p) {
-        //https://en.wikipedia.org/wiki/Spherical_coordinate_system#Unique_coordinates
-        let color = p[0];
-        let pos = new THREE.Vector3(p[1], p[2], p[3]);
-        let q = new THREE.Quaternion(p[4], p[5], p[6], p[7]);
-        return new Patch(color, pos, q);
-    });});
-
+    let vars = getUrlVars();
+    if ("rule" in vars) {
+        rule = parseKlossString(vars["rule"]);
+    } else if ("hexRule" in vars) {
+        rule = polycubeRuleToKloss(parseHexRule(vars["hexRule"]));
+    } else if ("decRule" in vars) {
+        rule = polycubeRuleToKloss(parseDecRule(vars["decRule"]));
+    } else {
+        let defaultRule = "[[[1,-1.25,0,0,-0.5,1,0,0],[1,-1,-1,0,-1,0,0,0],[1,0.5,0,0,1,1,-0,0],[1,0,-0.5,0,-1,0,1,0],[1,0,0.5,0,0,-1,0,1],[1,0,0,-0.5,-0,1,-1,0],[1,0,0,0.5,1,0,0,1]],[[-1,-0.5,0,0,-1,1,0,0]]]";
+        rule = parseKlossString(defaultRule);
+    }
 
     system = new KlossSystem(rule, scene, 100);
     orbit.target = system.centerOfMass;

@@ -152,39 +152,6 @@ class KlossSystem {
         render();
     }
 
-    resetFromPolycubeRule(rule) {
-        let sphereRule = [];
-        rule.forEach(species=>{
-            let sphereSpecies = [];
-            species.forEach((patch,i)=>{
-                if (patch.color !== 0) {
-                    let p = new Patch(
-                        patch.color,
-                        ruleOrder[i].clone().multiplyScalar(0.5),
-                        new THREE.Quaternion()
-                    );
-
-                    p.q.copy(rotateVectorsSimultaneously(
-                        p.alignDir, p.dir,
-                        patch.alignDir, ruleOrder[i]
-                    ));
-
-                    console.assert(
-                        ruleOrder[i].distanceTo(p.dir) < 1e-4,
-                        `Misdirected polycube rule: ${ruleOrder[i].toArray()} !== ${p.dir.toArray()}`
-                    );
-                    console.assert(
-                        patch.alignDir.distanceTo(p.alignDir) < 1e-4,
-                        `Misaligned polycube rule: ${patch.alignDir.toArray()} !== ${p.alignDir.toArray()}`
-                    );
-                    sphereSpecies.push(p);
-                }
-            });
-            sphereRule.push(sphereSpecies);
-        });
-        this.resetRule(sphereRule);
-    }
-
     resetRandom(maxS=4, maxP=4, maxC=4) {
         let fr = (max, min=0) => Math.random()*(max-min)+min;
         let r = (max, min=0) => Math.round(fr(max,min));

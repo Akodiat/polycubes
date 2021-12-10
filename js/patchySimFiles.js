@@ -4,7 +4,8 @@ function generateInputFile(
     patchesFileName = 'patches.txt',
     particlesFileName = 'particles.txt',
     topFileName = 'init.top',
-    temperature="[template]"
+    temperature="[template]",
+    narrow_type="0"
 ) {
     return `
 ##############################
@@ -17,7 +18,7 @@ seed = 10
 ensemble = NVT
 delta_translation = 0.1
 delta_rotation = 0.1
-narrow_type = 0
+narrow_type = ${narrow_type}
 ##############################
 ####    SIM PARAMETERS    ####
 ##############################
@@ -137,9 +138,10 @@ function generateTopAndConfig(rule, assemblyMode='seeded') {
 }
 
 function getPatchySimFiles(rule, nAssemblies=1, name='sim',
-    oxDNA_dir = '/users/joakim/repo/oxDNA_torsion2',
-    temperatures = ['[template]'],
-    confDensity = 0.2
+    oxDNA_dir = '/users/joakim/repo/oxDNA_torsion',
+    temperatures = ['0.01'],
+    confDensity = 0.2,
+    narrow_types=['0']
 ) {
     let zip = new JSZip();
     let getPatchStr = (id, color, i, a2, strength=1)=>{
@@ -207,35 +209,38 @@ function getPatchySimFiles(rule, nAssemblies=1, name='sim',
     const inputFileName = 'input';
     let confGenStr = `${oxDNA_dir}/build/bin/confGenerator ${inputFileName} ${confDensity}`;
 
-    for (const temperature of temperatures) {
-        let folder = zip.folder(`T_${temperature}`);
+    for (const narrow_type of narrow_types) {
+        let ntfolder = zip.folder(`nt${narrow_type}`);
+        for (const temperature of temperatures) {
+            let folder = ntfolder.folder(`T_${temperature}`);
 
-        let inputStr = generateInputFile(rule.length, patchCounter, oxDNA_dir, patchesFileName,
-            particlesFileName, topFileName, temperature
-        );
+            let inputStr = generateInputFile(rule.length, patchCounter, oxDNA_dir, patchesFileName,
+                particlesFileName, topFileName, temperature
+            );
 
-        let simulateStr = `addqueue -c "${name} T=${temperature} - 1 week" ${oxDNA_dir}/build/bin/oxDNA ${inputFileName}`;
+            let simulateStr = `addqueue -c "${name} T=${temperature} nt${narrow_type} - 1 week" ${oxDNA_dir}/build/bin/oxDNA ${inputFileName}`;
 
-        folder.file(particlesFileName, particlesStr);
-        folder.file(patchesFileName, patchesStr);
-        folder.file(topFileName, topStr);
-        folder.file(inputFileName, inputStr);
-        folder.file('generateConf.sh', confGenStr);
-        folder.file('simulate.sh', simulateStr);
+            folder.file(particlesFileName, particlesStr);
+            folder.file(patchesFileName, patchesStr);
+            folder.file(topFileName, topStr);
+            folder.file(inputFileName, inputStr);
+            folder.file('generateConf.sh', confGenStr);
+            folder.file('simulate.sh', simulateStr);
 
-        if (confStr) {
-            folder.file(confFileName, confStr);
+            if (confStr) {
+                folder.file(confFileName, confStr);
+            }
         }
     }
 
     zip.file(
         'simulateAll.sh', `
-for var in T_*
+for var in nt*/T_*
 do
     cd $var
     bash generateConf.sh
     bash simulate.sh
-    cd ..
+    cd ../..
 done`
     );
 

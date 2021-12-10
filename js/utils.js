@@ -131,6 +131,48 @@ function ruleToHex(rule) {
     return ruleStr;
 }
 
+function parseKlossString(ruleStr) {
+    return JSON.parse(ruleStr).map(patches => patches.map(function(p) {
+        let color = p[0];
+        let pos = new THREE.Vector3(p[1], p[2], p[3]);
+        let q = new THREE.Quaternion(p[4], p[5], p[6], p[7]);
+        return new Patch(color, pos, q);
+    }));
+}
+
+function polycubeRuleToKloss(cubeRule) {
+    let klossRule = [];
+    cubeRule.forEach(species=>{
+        let klossSpecies = [];
+        species.forEach((patch,i)=>{
+            if (patch.color !== 0) {
+                let p = new Patch(
+                    patch.color,
+                    ruleOrder[i].clone().multiplyScalar(0.5),
+                    new THREE.Quaternion()
+                );
+
+                p.q.copy(rotateVectorsSimultaneously(
+                    p.alignDir, p.dir,
+                    patch.alignDir, ruleOrder[i]
+                ));
+
+                console.assert(
+                    ruleOrder[i].distanceTo(p.dir) < 1e-4,
+                    `Misdirected polycube rule: ${ruleOrder[i].toArray()} !== ${p.dir.toArray()}`
+                );
+                console.assert(
+                    patch.alignDir.distanceTo(p.alignDir) < 1e-4,
+                    `Misaligned polycube rule: ${patch.alignDir.toArray()} !== ${p.alignDir.toArray()}`
+                );
+                klossSpecies.push(p);
+            }
+        });
+        klossRule.push(klossSpecies);
+    });
+    return klossRule;
+}
+
 function getSignedAngle(v1, v2, axis) {
     let s = v1.clone().cross(v2);
     let c = v1.clone().dot(v2);
