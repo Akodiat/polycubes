@@ -12,7 +12,9 @@ At this time, the available method for converting a caDNAno design into the oxDN
 
 Still, since caDNAno structures are drawn on a lattice, where all helices have to be parallel to each other, the resulting oxDNA configurations often had unnaturally extended backbone bonds, requiring time-consuming relaxation.
 
-During a secondment within the {\v{S}}ulc group at Arizona State University in 2019, I was able to contribute to their development of a web-based oxDNA viewer called oxView \cite{poppleton2020design, bohlin2021design}. Among the main early features that I added to oxView was a cluster-level rigid-body dynamics option (detailed in Section~\ref{sec:rigid-body_dynamics}) that in many cases speed up the relaxation by orders of magnitude compared to oxDNA relaxation alone. Since then, I have collaborated with the {\v{S}}ulc group to add more features and to make the tool more accessible as a visualiser and editor. 
+During a secondment within the {\v{S}}ulc group at Arizona State University in 2019, I was able to contribute to their development of a web-based oxDNA viewer called oxView \cite{poppleton2020design, bohlin2021design}. This tool can now be accessed at {\large\url{www.oxview.org}}.
+
+Among the main early features that I added to oxView was a cluster-level rigid-body dynamics option (detailed in Section~\ref{sec:rigid-body_dynamics}) that in many cases speed up the relaxation by orders of magnitude compared to oxDNA relaxation alone. Since then, I have collaborated with the {\v{S}}ulc group to add more features and to make the tool more accessible as a visualiser and editor. 
 
 For our second oxView publication \cite{bohlin2021design}, I rewrote the main parts of the taxoxDNA codebase into TypeScript, resulting in the \emph{taxoxdna.js} library (\url{https://github.com/Akodiat/tacoxdna.js}) which oxView now uses to import various standard design formats (including caDNAno) automatically. More on this in Section~\ref{sec:importing_designs}.
 

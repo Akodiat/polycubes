@@ -10,9 +10,9 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    version="1.1"
    class="marks"
-   width="490.97278"
-   height="262.26071"
-   viewBox="0 0 490.97278 262.26071"
+   width="849.90326"
+   height="562.53503"
+   viewBox="0 0 849.90326 562.53503"
    id="svg1002"
    sodipodi:docname="2rect.svg"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
@@ -48,8 +48,8 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="0.90076336"
-     inkscape:cx="333.19312"
-     inkscape:cy="131.26071"
+     inkscape:cx="408.47956"
+     inkscape:cy="311.9471"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
@@ -58,12 +58,12 @@
      width="320"
      height="262"
      id="rect2"
-     x="170.97278"
-     y="0"
+     x="469.40329"
+     y="115.14725"
      style="fill:#ffffff" />
   <g
      stroke-miterlimit="10"
-     transform="translate(210.97278,22)"
+     transform="translate(574.90329,182.6642)"
      id="g1000"
      style="fill:none;stroke-miterlimit:10">
     <g
@@ -1698,7 +1698,7 @@
                     <path
                        class="background"
                        aria-hidden="true"
-                       d="M 0,0 V 0 Z"
+                       d="M 0,0 Z"
                        pointer-events="none"
                        id="path676"
                        inkscape:connector-curvature="0" />
@@ -1906,7 +1906,7 @@
                     <path
                        class="background"
                        aria-hidden="true"
-                       d="M 0,0 V 0 Z"
+                       d="M 0,0 Z"
                        pointer-events="none"
                        id="path750"
                        inkscape:connector-curvature="0" />
@@ -2186,7 +2186,7 @@
               <path
                  class="background"
                  aria-hidden="true"
-                 d="M 0,0 V 0 Z"
+                 d="M 0,0 Z"
                  pointer-events="none"
                  id="path854"
                  inkscape:connector-curvature="0" />
@@ -2230,7 +2230,7 @@
               <path
                  class="background"
                  aria-hidden="true"
-                 d="M 0,0 V 0 Z"
+                 d="M 0,0 Z"
                  pointer-events="none"
                  id="path868"
                  inkscape:connector-curvature="0" />
@@ -2423,7 +2423,7 @@
               <path
                  class="background"
                  aria-hidden="true"
-                 d="M 0,0 V 0 Z"
+                 d="M 0,0 Z"
                  pointer-events="none"
                  id="path930"
                  inkscape:connector-curvature="0" />
@@ -2617,95 +2617,3450 @@
     </g>
   </g>
   <image
-     y="1.6058837e-14"
-     x="-262.26071"
+     y="-157.54472"
+     x="-358.32996"
      id="image1823"
-     xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAvgAAAHJCAYAAADw7E12AAAABHNCSVQICAgIfAhkiAAAEhtJREFU
-eJzt3E+MnPV9x/Gv42W3pjgsshpqlAZTISQUT/1nrEigSiynXttIqNqtInArZAU1EsVSjnE5FKkX
-lEMPWZl018mhx0Ylh0g91JXQOql37NmEihQJ4V6CesCY2K4TYDM9gE0NSWyvn2efmc++XpKFZwXf
-5yvx25n3zj6720aj0agAAIAIn+l6AQAAoDkCHwAAggh8AAAIIvABACCIwAcAgCACHwAAggh8AAAI
-IvABACCIwAcAgCACHwAAggh8AAAIIvABACCIwAcAgCACHwAAggh8AAAIIvABACCIwAcAgCACHwAA
-ggh8AAAIIvABACCIwAcAgCACHwAAgkxt1oUGg8FmXap1q6urXa+w6R599NGqqur1eh1v8rHBYLAl
-/18kefTRR8fqTAFAgm2j0WjU9kUGg0EdOXKk7cvQot27d1/7+9Ugm5+f7zTOFhcX6/jx451dn9t3
-9Vz1er164YUXOt4GADK4RYdb9pOf/OTaH2iC8wQAzRH4AAAQROADAEAQgQ8AAEEEPgAABBH4AAAQ
-ROADAEAQgQ8AAEEEPgAABBH4AAAQROADAEAQgQ8AAEEEPgAABBH4AAAQROADAEAQgQ8AAEEEPgAA
-BBH4AAAQROADAEAQgQ8AAEEEPgAABJnqegEmxxOnfn7d44cvrdTZ4ysdbVN17r9OV93X2eUBAMaS
-wOem/cHb71/3+MLJMx1t8pHd3V4eAGAcuUUHAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi
-8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACC
-CHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCA
-IAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEA
-IIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwA
-AAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIf
-AACCCHwAAAgi8AEAIIjABwCAIAIfAACCTHW9AJPj1EM7rnvc6/Vq7969HW1Tdc/rg6rXT3d2fQCA
-cSTwuWmnHrrzusd7vvylemBhoaNtqu5eXBf4AACf4BYdAAAIIvABACCIwAcAgCACHwAAggh8AAAI
-IvABACCIwAcAgCACHwAAggh8AAAIIvABACCIwAcAgCACHwAAggh8AAAIIvABACCIwAcAgCACHwAA
-ggh8AAAIIvABACCIwAcAgCACHwAAgkx1vQCTp9fr1d69e6vX63W9CiGcJQBozrbRaDTajAsNBoPW
-Zr9z8kyde/7brc2fJLM1Uw/UZ689Hh17orbNffG25/b7/due0TRnavM8UJ+t2Zpp7DxdNY7nCgAm
-3aa9g9/mC/mbL5+t7RfdbVRVNVufqQO14+MP9PtV/eaCbJy0eabeubittl9cam3+pDlQO2q2ZqLP
-EwCkUMUAABBE4AMAQBCBDwAAQQQ+AAAEEfgAABBE4AMAQBCBDwAAQQQ+AAAEEfgAABBE4AMAQBCB
-DwAAQQQ+AAAEEfgAABBE4AMAQBCBDwAAQQQ+AAAEEfgAABBE4AMAQBCBDwAAQQQ+AAAEEfgAABBE
-4AMAQBCBDwAAQQQ+AAAEEfgAABBE4AMAQBCBDwAAQQQ+AAAEEfgAABBE4AMAQBCBDwAAQQQ+AAAE
-EfgAABBE4AMAQJCpri48HA7r7Nmzjcy6Z22t7m5kUpbh7Hs1XD5Rozcfbnz2zMxM9Xq96vV6jc/e
-qKWlpcZm7Xl31NisJMstnaeqqsOHD7cyF8bFcDjsegVuw/79+7te4VOcqcnW5pnaNhqNWi+Z4XBY
-q6urVVW1trbW+IHcc+FXdf8FQXbVu7O/U8PZ9xuduWPHjqr6MOyvmp+fr4WFhUavcyuunqs2zlRV
-1WPn1hufOanuqZn63p4PGp+7Y8eOmpqaqu3bt9cLL7wwVl8wQtPm5ua6XoHb8OSTT47dGxEPPvhg
-ff7zn+96DTZo//799dRTT7US+pvyDv76+np961vfam3+azNVr93b2vgJ9F7VlWYnzs7ONjuwAT/6
-0Y/q+PHjrc3/gTP1/zR/pqrG81xBGwaDQV26dKnrNbgNP/zhD8cu8K9cuVJvvfVW7dy5s+tV2IBX
-XnmlXnnller3+7W4uNjobPfgAwBAEIEPAABBBD4AAAQR+AAAEETgAwBMmJWVla5XYIwJfAAACCLw
-AQAgiMAHAIAgAh8AAIIIfAAACCLwAQAgiMAHAIAgAh8AAIIIfAAACCLwAQAgiMAHAIAgAh8AAIII
-fAAACCLwAQAgiMAHAICOHDx4sPGZU41PBAAI8/7JH9fFx7/e9RrX9Krqqxc/V9+963+7XoUxJPAB
-AG7gcn1QPz15qus1rvMndVd9d7fA59MEPgDATbhU612vADfFPfgAABBE4AMAQBCBDwAAQQQ+AAAE
-EfgAABBE4AMAQBCBDwAAQQQ+AAAEEfhAJ6anp7teAWDizczMdL0CY0jgAwBAEIEPAABBBD4AAAQR
-+AAAEETgAwBAEIEPAABBBD4AAAQR+AAAEETgAwBAEIEPAABBBD4AAAQR+AAAEETgAwBAEIEPAABB
-BD4AAAQR+AAAEETgAwBAEIEPAABBBD4AAAQR+AAAEETgAwBAEIEPAABBBD4AAAQR+AAAN/CHFyUT
-k8NpBQCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwA
-AAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIf
-AACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AGgZaurq12vAGwhAh8AAIIIfAAACCLwAQAg
-iMAHAIAgU10vAAAwCWbnDna9wnVOrax0vQJjSuADANzAnmN/WQeOHOl6jWtWVlbq757459pVu7pe
-hTHkFh0AAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAjhw6dKjxmQIfGAu9Xq/rFQAg
-gsAHAJgwp06d6noFxpjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjA
-BwCAIAKfDZmfn69er9f1GgAAfILA55bMz8/X/Px8LSwsCHwa0ev16uWXX+56DYCJcvTo0a5XYIxN
-db0Ak+Nq2ENTnCmAjXvuuefqxIkTXa/BGNqUwO/3+7W6utra/Df/9qU69/w/tjZ/kszWTB2o3/v4
-A/92rGrui90t1KJDhw7VoUOHWpn9zskzde75b7cyexJdPVOjY0/UtgbPU7/fb2wWjLMbPVedOXNm
-w7MvnNz4f5todu5gK3Pber25HUePHq1XX321pqenG53705Onqqrq92vmN/47b+wcNXpNmuUdfCZW
-m3H4zsVttf3iUmvzJ02/dnz0l35VP/MLRmhTv99v7Tnr7ON/LfI/Mjt3sA4s/kPXa2yqpaXmX6v+
-/vE/r5mT/1n76o7GZ0+qx0crXa9wS9yDDwAAQQQ+AAAEEfgAABBE4AMAQBCBDwAAQQQ+AAAEEfgA
-AFzn3t/yO/AZfwIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACC
-CHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCCHwAAAgi8AEAIIjABwCA
-IAIfAACCCHwAAAgi8AEAIIjABwCAIAIfAACCTHV58aWlpVpbW6vhcHhbcx47t15zzawUZ3n5RA2/
-917jc2dmZmrv3r31la98pfHZGzUcDuvs2bO1trZ227P2XBjVvgZ2SrO8fKJGbz7cyuzDhw+3MhfG
-xe2+1gHcrE4Cf2lpqU6cONHFpbeM5fsvf/jPc//R+Ozp6emamZmpffvGJ4GbPlMXLvxK4H/C8v2X
-PzxPLZypO++8U+AT79lnn21l7rF/b/5NnEk1HJ6tv5mba3zuk08+OXbPUW221O61n9UXamcrsydV
-05+/+/bta/VMbWrgt3kYz81ua2XupJmtbbV29+Va3nO58dlXw36cDIfDWl5e9s5Yy5bvb+dMVX0Y
-99u3b29lNowLz1GTrYnvDDft/Pnzrc2+cveOqgutjZ9ITX8OD4fDOnDgQO3fv7/RuVdtSuAPBoP6
-2te+1tr8f72vqu5rbfyE+cWHfxp+Q+euu+4au7h/6aWXWvuC8Y2dVd/4Y9H5sZ9XrTc/defOneIe
-btPJ+30OtW1cv0B7++23a9euXY3PvbDnnvrvdy/VL2rrvnm658Ko9Ws8++yz9c1vfrOVyN+0d/Df
-e8+3ECfZuMV9VdXp06frypUrXa/BBk1PT4t7tozV1dXWnq9+cG8rYydXSy8Li4uLdeTIkXaGb9D5
-8+dr5852bqX5l4enq6r9yJ0YLXXsM888UysrK43P7fSHbAFgK1hfX6/19Ra+DcaW5w3UyTcYDKrf
-7zc606/JBACAIAIfAACCCHwAAAgi8AEAIIjABwC4gUOHDnW9Atw0gQ8AAEEEPgAABBH4AAAQROAD
-AEAQgQ8AAEEEPgAABBH4AAAQROADAEAQgQ8AAEEEPgAABBH4AAAQROADAECQqa4XYPL86evr9Wev
-/6rq+9+p83/xnU255h1zf/Spj73/sx9X7dyUywMATAyBzy25Fveb7P2TP/70Bx/a9DUA2KJ+/vjX
-6/zFO7pe45rDVfXifV1vwbgS+Ny0b3z/QlVVvdHxHlddrg+6XgEAOvPVi5+r7+3uegvGkcDnpl2q
-9a5XAIBO/E/9st6o97pe4zpf+OUdVbX531Vn/Al8AIAbuFQf1KUx+90kl+qD8vtS+HWcCgAACCLw
-AQCgI/1+v/GZAh8AAIIIfAAACCLwAQAgiMAHAIAgAh8AAIIIfAAACCLwAQAgiMAHAIAgAh8AAIII
-fAAACCLwAQAgiMAHAIAgAh8AAIIIfAAACCLwAQAgiMAHAIAgAh8AAIIIfAAACCLwAQAgiMAHAIAg
-Ah8AYAK9NvOLrldgTAl8AAAIIvABACCIwAcAgCACHwAAggh8AAAIIvABACCIwAcAgCACHwAAggh8
-AAAIIvABACCIwAcAgCACHwAAggh8AAAIIvABACCIwAcAgCACHwAAggh8AAAIIvABACCIwAeAlp05
-c6brFYAtROADAEAQgQ8AAEEEPgAABBH4AAAQROADAEAQgQ8AMIGmp2e6XoExJfABACCIwAcAgCAC
-HwAAggh8AAAIIvABACCIwAcAgCACHwAAggh8AAAIIvABACCIwAcAgCACHwAAggh8AAAIIvABACCI
-wAcAgCACHwAAggh8AAAIMtX1AkyOUw/tuO5xr9ervXv3drRNVf3TYnfXBgAYUwKfm3bqoTuve7zn
-y1+qBxYWOtqmavat01WDQWfXB2Dr2HPsr2rPxW1dr3HNiy++WG/MjKrqd7tehTEk8AEAbuCeuYP1
-QL/f9RrXvPXqD+q1waB2CXx+DffgAwBAEIEPAABBBD4AAAQR+AAAEETgAwBAEIEPAABBBD4AAAQR
-+AAAEETgAwBAEIEPAABBBD4AAAQR+AAAEETgAwBAB/r9fitzBT4AAAQR+AAAEETgs2G9Xq/rFQAA
-+ASBz4bMz88LfBrjLAFAcwQ+t2x+fr4WFha6XoMg8/PzXa8A8Fu19cOQG/XII490vQJjTOBzS8Q9
-TfPdIABolsDnpol7mtbr9ZwpgA04evRo1yswxqY24yL9fr+efvrpzbhUVVWdOXNm0661VTz22GNC
-jMa5NQdg45577rk6ceJE12swhjYl8Kuqjhw5slmXYotYXFzseoWJMBgMul7hN3JrDlvFwYMHu15h
-LI3z8xNMsm2j0WjU9RIAAHTDF1rdauMHuAU+AAAE8UO2AAAQROADAEAQgQ8AAEEEPgAABBH4AAAQ
-ROADAEAQgQ8AAEEEPgAABBH4AAAQROADAEAQgQ8AAEEEPgAABBH4AAAQROADAEAQgQ8AAEEEPgAA
-BBH4AAAQROADAECQ/wMeKWk538x8JAAAAABJRU5ErkJggg==
-"
+     xlink:href="data:image/png;base64,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 "
      preserveAspectRatio="none"
      height="157.54472"
      width="262"
-     transform="rotate(-90)" />
+     transform="scale(-1)" />
+  <g
+     style="fill:none;stroke-miterlimit:10"
+     stroke-miterlimit="10"
+     transform="translate(73.6,202.74694)"
+     id="g1208">
+    <g
+       class="mark-group role-frame root"
+       role="graphics-object"
+       aria-roledescription="group mark container"
+       id="g1206">
+      <g
+         id="g1204">
+        <path
+           inkscape:connector-curvature="0"
+           class="background"
+           aria-hidden="true"
+           d="M 0,0 Z"
+           id="path4-6" />
+        <g
+           id="g1200">
+          <g
+             class="mark-group role-row-header row_header"
+             role="graphics-object"
+             aria-roledescription="group mark container"
+             id="g142">
+            <g
+               transform="translate(-3)"
+               id="g72">
+              <path
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="m 0,0 v 0 150 0 z"
+                 id="path6-7" />
+              <g
+                 id="g68">
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="Y-axis titled 'Complete clusters' for a linear scale with values from 0% to 100%"
+                   id="g52">
+                  <g
+                     transform="translate(0.5,0.5)"
+                     id="g50">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path8" />
+                    <g
+                       id="g46">
+                      <g
+                         class="mark-rule role-axis-tick"
+                         pointer-events="none"
+                         id="g22">
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,150)"
+                           x2="-5"
+                           y2="0"
+                           id="line10" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,120)"
+                           x2="-5"
+                           y2="0"
+                           id="line12" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,90)"
+                           x2="-5"
+                           y2="0"
+                           id="line14" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,60)"
+                           x2="-5"
+                           y2="0"
+                           id="line16" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,30)"
+                           x2="-5"
+                           y2="0"
+                           id="line18" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           x2="-5"
+                           y2="0"
+                           id="line20" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-label"
+                         pointer-events="none"
+                         id="g36">
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,153)"
+                           font-size="10px"
+                           id="text24">0%</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,123)"
+                           font-size="10px"
+                           id="text26">20%</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,93)"
+                           font-size="10px"
+                           id="text28">40%</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,63)"
+                           font-size="10px"
+                           id="text30">60%</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,33)"
+                           font-size="10px"
+                           id="text32">80%</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,3)"
+                           font-size="10px"
+                           id="text34">100%</text>
+                      </g>
+                      <g
+                         class="mark-rule role-axis-domain"
+                         pointer-events="none"
+                         id="g40">
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,150)"
+                           x2="0"
+                           y2="-150"
+                           id="line38" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-title"
+                         pointer-events="none"
+                         id="g44">
+                        <text
+                           style="font-weight:bold;font-size:11px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="rotate(-90,16.7,58.3)"
+                           font-size="11px"
+                           font-weight="bold"
+                           id="text42">Complete clusters</text>
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path48" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-title"
+                   id="g66">
+                  <g
+                     transform="translate(-70.6,75)"
+                     id="g64">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path54-5" />
+                    <g
+                       id="g60">
+                      <g
+                         class="mark-text role-title-text"
+                         role="graphics-symbol"
+                         aria-roledescription="title"
+                         aria-label="Title text 'full'"
+                         pointer-events="none"
+                         id="g58">
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="rotate(-90,4,-4)"
+                           font-size="10px"
+                           id="text56">full</text>
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path62-3" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path70-5" />
+            </g>
+            <g
+               transform="translate(-3,174)"
+               id="g140">
+              <path
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="m 0,0 v 0 150 0 z"
+                 id="path74-6" />
+              <g
+                 id="g136">
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="Y-axis titled 'Complete clusters' for a linear scale with values from 0% to 100%"
+                   id="g120">
+                  <g
+                     transform="translate(0.5,0.5)"
+                     id="g118">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path76" />
+                    <g
+                       id="g114">
+                      <g
+                         class="mark-rule role-axis-tick"
+                         pointer-events="none"
+                         id="g90">
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,150)"
+                           x2="-5"
+                           y2="0"
+                           id="line78" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,120)"
+                           x2="-5"
+                           y2="0"
+                           id="line80" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,90)"
+                           x2="-5"
+                           y2="0"
+                           id="line82" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,60)"
+                           x2="-5"
+                           y2="0"
+                           id="line84" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,30)"
+                           x2="-5"
+                           y2="0"
+                           id="line86" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           x2="-5"
+                           y2="0"
+                           id="line88" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-label"
+                         pointer-events="none"
+                         id="g104">
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,153)"
+                           font-size="10px"
+                           id="text92">0%</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,123)"
+                           font-size="10px"
+                           id="text94">20%</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,93)"
+                           font-size="10px"
+                           id="text96">40%</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,63)"
+                           font-size="10px"
+                           id="text98">60%</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,33)"
+                           font-size="10px"
+                           id="text100">80%</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000"
+                           transform="translate(-7,3)"
+                           font-size="10px"
+                           id="text102">100%</text>
+                      </g>
+                      <g
+                         class="mark-rule role-axis-domain"
+                         pointer-events="none"
+                         id="g108">
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,150)"
+                           x2="0"
+                           y2="-150"
+                           id="line106" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-title"
+                         pointer-events="none"
+                         id="g112">
+                        <text
+                           style="font-weight:bold;font-size:11px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="rotate(-90,16.7,58.3)"
+                           font-size="11px"
+                           font-weight="bold"
+                           id="text110">Complete clusters</text>
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path116" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-title"
+                   id="g134">
+                  <g
+                     transform="translate(-70.6,75)"
+                     id="g132">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path122-2" />
+                    <g
+                       id="g128">
+                      <g
+                         class="mark-text role-title-text"
+                         role="graphics-symbol"
+                         aria-roledescription="title"
+                         aria-label="Title text 'minimal'"
+                         pointer-events="none"
+                         id="g126">
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="rotate(-90,4,-4)"
+                           font-size="10px"
+                           id="text124">minimal</text>
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path130-9" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path138-1" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-column-header column_header"
+             role="graphics-object"
+             aria-roledescription="group mark container"
+             id="g188">
+            <g
+               transform="translate(0,-3)"
+               id="g164">
+              <path
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="M 0,0 H 150 V 0 Z"
+                 id="path144" />
+              <g
+                 id="g160">
+                <g
+                   class="mark-group role-title"
+                   id="g158">
+                  <g
+                     transform="translate(75,-20)"
+                     id="g156">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path146-2" />
+                    <g
+                       id="g152">
+                      <g
+                         class="mark-text role-title-text"
+                         role="graphics-symbol"
+                         aria-roledescription="title"
+                         aria-label="Title text '4-mer'"
+                         pointer-events="none"
+                         id="g150">
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="translate(0,8)"
+                           font-size="10px"
+                           id="text148">4-mer</text>
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path154-7" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path162-0" />
+            </g>
+            <g
+               transform="translate(176,-3)"
+               id="g186">
+              <path
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="M 0,0 H 150 V 0 Z"
+                 id="path166-9" />
+              <g
+                 id="g182">
+                <g
+                   class="mark-group role-title"
+                   id="g180">
+                  <g
+                     transform="translate(75,-20)"
+                     id="g178">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path168" />
+                    <g
+                       id="g174">
+                      <g
+                         class="mark-text role-title-text"
+                         role="graphics-symbol"
+                         aria-roledescription="title"
+                         aria-label="Title text '6-mer'"
+                         pointer-events="none"
+                         id="g172">
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="translate(0,8)"
+                           font-size="10px"
+                           id="text170">6-mer</text>
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path176" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path184" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-column-footer column_footer"
+             role="graphics-object"
+             aria-roledescription="group mark container"
+             id="g298">
+            <g
+               transform="translate(0,327)"
+               id="g242">
+              <path
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="M 0,0 H 150 V 0 Z"
+                 id="path190-3" />
+              <g
+                 id="g238">
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="X-axis titled 'timestep' for a linear scale with values from 0 to 5,000"
+                   id="g236">
+                  <g
+                     transform="translate(0.5,0.5)"
+                     id="g234">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path192" />
+                    <g
+                       id="g230">
+                      <g
+                         class="mark-rule role-axis-tick"
+                         pointer-events="none"
+                         id="g206">
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           x2="0"
+                           y2="5"
+                           id="line194" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(30)"
+                           x2="0"
+                           y2="5"
+                           id="line196" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(60)"
+                           x2="0"
+                           y2="5"
+                           id="line198" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(90)"
+                           x2="0"
+                           y2="5"
+                           id="line200" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(120)"
+                           x2="0"
+                           y2="5"
+                           id="line202" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(150)"
+                           x2="0"
+                           y2="5"
+                           id="line204" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-label"
+                         pointer-events="none"
+                         id="g220">
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                           transform="translate(0,15)"
+                           font-size="10px"
+                           id="text208">0</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000"
+                           transform="translate(30,15)"
+                           font-size="10px"
+                           id="text210">1,000</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="translate(60,15)"
+                           font-size="10px"
+                           id="text212">2,000</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000"
+                           transform="translate(90,15)"
+                           font-size="10px"
+                           id="text214">3,000</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="translate(120,15)"
+                           font-size="10px"
+                           id="text216">4,000</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:0;fill:#000000"
+                           transform="translate(150,15)"
+                           font-size="10px"
+                           id="text218">5,000</text>
+                      </g>
+                      <g
+                         class="mark-rule role-axis-domain"
+                         pointer-events="none"
+                         id="g224">
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           x2="150"
+                           y2="0"
+                           id="line222" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-title"
+                         pointer-events="none"
+                         id="g228">
+                        <text
+                           style="font-weight:bold;font-size:11px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="translate(75,30)"
+                           font-size="11px"
+                           font-weight="bold"
+                           id="text226">timestep</text>
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path232" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path240" />
+            </g>
+            <g
+               transform="translate(176,327)"
+               id="g296">
+              <path
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="M 0,0 H 150 V 0 Z"
+                 id="path244" />
+              <g
+                 id="g292">
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="X-axis titled 'timestep' for a linear scale with values from 0 to 5,000"
+                   id="g290">
+                  <g
+                     transform="translate(0.5,0.5)"
+                     id="g288">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path246-6" />
+                    <g
+                       id="g284">
+                      <g
+                         class="mark-rule role-axis-tick"
+                         pointer-events="none"
+                         id="g260">
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           x2="0"
+                           y2="5"
+                           id="line248" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(30)"
+                           x2="0"
+                           y2="5"
+                           id="line250" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(60)"
+                           x2="0"
+                           y2="5"
+                           id="line252" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(90)"
+                           x2="0"
+                           y2="5"
+                           id="line254" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(120)"
+                           x2="0"
+                           y2="5"
+                           id="line256" />
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(150)"
+                           x2="0"
+                           y2="5"
+                           id="line258" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-label"
+                         pointer-events="none"
+                         id="g274">
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                           transform="translate(0,15)"
+                           font-size="10px"
+                           id="text262">0</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000"
+                           transform="translate(30,15)"
+                           font-size="10px"
+                           id="text264">1,000</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="translate(60,15)"
+                           font-size="10px"
+                           id="text266">2,000</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:0;fill:#000000"
+                           transform="translate(90,15)"
+                           font-size="10px"
+                           id="text268">3,000</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="translate(120,15)"
+                           font-size="10px"
+                           id="text270">4,000</text>
+                        <text
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:0;fill:#000000"
+                           transform="translate(150,15)"
+                           font-size="10px"
+                           id="text272">5,000</text>
+                      </g>
+                      <g
+                         class="mark-rule role-axis-domain"
+                         pointer-events="none"
+                         id="g278">
+                        <line
+                           style="opacity:1;stroke:#888888;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           x2="150"
+                           y2="0"
+                           id="line276" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-title"
+                         pointer-events="none"
+                         id="g282">
+                        <text
+                           style="font-weight:bold;font-size:11px;font-family:sans-serif;text-anchor:middle;opacity:1;fill:#000000"
+                           transform="translate(75,30)"
+                           font-size="11px"
+                           font-weight="bold"
+                           id="text280">timestep</text>
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path286-0" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path294-6" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-scope cell"
+             role="graphics-object"
+             aria-roledescription="group mark container"
+             id="g1012">
+            <g
+               id="g476">
+              <path
+                 style="stroke:#dddddd"
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="m 0.5,0.5 h 150 v 150 H 0.5 Z"
+                 id="path300" />
+              <g
+                 id="g472">
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="X-axis for a linear scale with values from 0 to 5,000"
+                   id="g324">
+                  <g
+                     transform="translate(0.5,150.5)"
+                     id="g322">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path302-2" />
+                    <g
+                       id="g318">
+                      <g
+                         class="mark-rule role-axis-grid"
+                         pointer-events="none"
+                         id="g316">
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line304" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(30,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line306" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(60,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line308" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(90,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line310" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(120,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line312" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(150,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line314" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path320" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="Y-axis for a linear scale with values from 0.0 to 1.0"
+                   id="g348">
+                  <g
+                     transform="translate(0.5,0.5)"
+                     id="g346">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path326-6" />
+                    <g
+                       id="g342">
+                      <g
+                         class="mark-rule role-axis-grid"
+                         pointer-events="none"
+                         id="g340">
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,150)"
+                           x2="150"
+                           y2="0"
+                           id="line328" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,120)"
+                           x2="150"
+                           y2="0"
+                           id="line330" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,90)"
+                           x2="150"
+                           y2="0"
+                           id="line332" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,60)"
+                           x2="150"
+                           y2="0"
+                           id="line334" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,30)"
+                           x2="150"
+                           y2="0"
+                           id="line336" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           x2="150"
+                           y2="0"
+                           id="line338" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path344-1" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-scope child_pathgroup"
+                   role="graphics-object"
+                   aria-roledescription="group mark container"
+                   id="g470">
+                  <g
+                     id="g360">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path350" />
+                    <g
+                       id="g356">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g354">
+                        <path
+                           style="stroke:#140b35;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,99 3,90 4.5,87 6,84 H 7.5 9 10.5 12 13.5 15 16.5 18 19.5 21 22.5 24 25.5 27 28.5 30 31.5 33 34.5 L 36,81 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path352-8" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path358" />
+                  </g>
+                  <g
+                     id="g372">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path362" />
+                    <g
+                       id="g368">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g366">
+                        <path
+                           style="stroke:#3a0a63;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,87 3,72 4.5,69 6,66 H 7.5 9 10.5 12 13.5 15 16.5 18 19.5 21 22.5 24 25.5 27 28.5 30 31.5 33 34.5 36 37.5 39 40.5 42 43.5 45 46.5 48 49.5 51 52.5 54 55.5 57 58.5 60 61.5 63 64.5 66 67.5 69 70.5 72 73.5 75 76.5 78 79.5 81 82.5 84 85.5 87 88.5 90"
+                           id="path364-7" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path370" />
+                  </g>
+                  <g
+                     id="g384">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path374" />
+                    <g
+                       id="g380">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g378">
+                        <path
+                           style="stroke:#60136e;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,81 3,72 4.5,69 H 6 7.5 L 9,66 10.5,63 H 12 13.5 15 16.5 18 19.5 21 22.5 24 25.5 27 28.5 30 31.5 33 34.5 36 37.5 39 40.5 42 43.5 45 46.5 48 49.5 51 52.5 54 55.5 57 58.5 60 61.5 63 64.5 66 67.5 69 70.5 72 73.5 75 76.5 78 79.5 81 82.5 84 85.5 87 88.5 90 91.5 93 94.5 96 97.5 99"
+                           id="path376-9" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path382" />
+                  </g>
+                  <g
+                     id="g396">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path386" />
+                    <g
+                       id="g392">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g390">
+                        <path
+                           style="stroke:#85216b;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,90 3,78 H 4.5 6 L 7.5,75 H 9 l 1.5,-3 H 12 13.5 15 16.5 18 19.5 21 22.5 24 25.5 27 28.5 30 31.5 33 34.5 36 37.5 39 40.5 42 43.5 45 46.5 L 48,69 h 1.5 L 51,66 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 L 63,63 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 l 1.5,-3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path388-2" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path394" />
+                  </g>
+                  <g
+                     id="g408">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path398" />
+                    <g
+                       id="g404">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g402">
+                        <path
+                           style="stroke:#a92e5e;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,63 3,60 4.5,48 H 6 L 7.5,45 9,39 10.5,33 H 12 13.5 L 15,30 h 1.5 L 18,27 19.5,24 H 21 L 22.5,21 24,18 25.5,15 27,12 H 28.5 30 L 31.5,9 H 33 34.5 36 37.5 39 L 40.5,6 H 42 L 43.5,3 H 45 46.5 48 L 49.5,0 H 51 52.5 54 55.5 57 58.5 60 61.5 63 64.5 66 67.5 69 70.5 72 73.5 75 76.5 78 79.5 81 82.5 84 85.5 87 88.5 90 91.5 93 94.5 96 97.5 99"
+                           id="path400-0" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path406" />
+                  </g>
+                  <g
+                     id="g420">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path410" />
+                    <g
+                       id="g416">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g414">
+                        <path
+                           style="stroke:#cb4149;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,69 3,39 4.5,33 6,24 7.5,18 H 9 L 10.5,15 12,12 13.5,9 H 15 16.5 18 l 1.5,3 H 21 L 22.5,9 H 24 25.5 27 28.5 30 31.5 33 34.5 36 37.5 39 40.5 42 43.5 45 L 46.5,6 H 48 49.5 51 L 52.5,3 H 54 55.5 57 58.5 60 61.5 63 64.5 66 67.5 69 70.5 72 73.5 75 76.5 78 79.5 81 82.5 84 85.5 87 88.5 90 91.5 93 94.5 96 97.5 99"
+                           id="path412-2" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path418" />
+                  </g>
+                  <g
+                     id="g432">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path422" />
+                    <g
+                       id="g428">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g426">
+                        <path
+                           style="stroke:#e75d2f;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,78 3,66 4.5,57 6,63 7.5,54 9,48 h 1.5 l 1.5,3 1.5,3 h 1.5 1.5 1.5 1.5 l 1.5,-3 1.5,-6 1.5,3 1.5,6 1.5,-3 1.5,12 1.5,12 1.5,-6 1.5,-15 h 1.5 l 1.5,3 1.5,-6 1.5,3 1.5,12 1.5,-15 1.5,3 1.5,-3 h 1.5 L 48,48 h 1.5 l 1.5,-9 1.5,6 h 1.5 1.5 l 1.5,6 1.5,-6 h 1.5 1.5 l 1.5,-9 1.5,9 H 66 l 1.5,12 1.5,3 h 1.5 l 1.5,-3 1.5,-3 1.5,-3 1.5,3 H 78 79.5 L 81,63 82.5,51 H 84 l 1.5,6 1.5,9 1.5,-6 1.5,-3 1.5,-3 1.5,3 1.5,-6 h 1.5 1.5 l 1.5,6 1.5,-3 1.5,6 1.5,6 1.5,-12 1.5,-3 1.5,-3 1.5,6 1.5,-9 1.5,6 1.5,-3 1.5,6"
+                           id="path424-3" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path430" />
+                  </g>
+                  <g
+                     id="g444">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path434" />
+                    <g
+                       id="g440">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g438">
+                        <path
+                           style="stroke:#f78211;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="m 0,150 1.5,-12 1.5,3 1.5,-6 1.5,3 1.5,3 H 9 10.5 l 1.5,-6 1.5,6 H 15 l 1.5,-6 1.5,6 1.5,3 1.5,-9 1.5,6 1.5,-3 1.5,6 H 27 l 1.5,3 1.5,-18 1.5,6 1.5,6 1.5,9 1.5,-15 1.5,6 1.5,3 1.5,-3 1.5,-12 1.5,9 1.5,3 1.5,3 1.5,3 1.5,3 1.5,-6 1.5,-3 1.5,-3 1.5,3 H 57 l 1.5,-6 1.5,12 1.5,3 1.5,-6 1.5,-9 H 66 l 1.5,12 1.5,-9 h 1.5 l 1.5,-12 1.5,15 1.5,-3 h 1.5 l 1.5,3 1.5,-9 1.5,6 1.5,9 1.5,-9 1.5,-3 1.5,3 1.5,3 1.5,-6 1.5,6 h 1.5 1.5 1.5 1.5 l 1.5,-9 1.5,9 1.5,6 1.5,-9 1.5,9 1.5,-12 h 1.5 l 1.5,3 1.5,-12 1.5,15 1.5,-3 1.5,-3 1.5,9 1.5,-9 1.5,3 h 1.5 l 1.5,3 1.5,3 1.5,-12 1.5,18 h 1.5 l 1.5,-3 1.5,-3 1.5,-3 1.5,-3 1.5,6 1.5,-6 1.5,3 1.5,3 1.5,-3 1.5,3 h 1.5 l 1.5,-12 1.5,6 1.5,6"
+                           id="path436-7" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path442" />
+                  </g>
+                  <g
+                     id="g456">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path446" />
+                    <g
+                       id="g452">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g450">
+                        <path
+                           style="stroke:#fcae12;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 10.5 12 13.5 15 l 1.5,-3 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 l 1.5,-3 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path448-5" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path454" />
+                  </g>
+                  <g
+                     id="g468">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path458" />
+                    <g
+                       id="g464">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g462">
+                        <path
+                           style="stroke:#f5da4d;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path460-9" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path466" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path474" />
+            </g>
+            <g
+               transform="translate(176)"
+               id="g654">
+              <path
+                 style="stroke:#dddddd"
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="m 0.5,0.5 h 150 v 150 H 0.5 Z"
+                 id="path478" />
+              <g
+                 id="g650">
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="X-axis for a linear scale with values from 0 to 5,000"
+                   id="g502">
+                  <g
+                     transform="translate(0.5,150.5)"
+                     id="g500">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path480-2" />
+                    <g
+                       id="g496">
+                      <g
+                         class="mark-rule role-axis-grid"
+                         pointer-events="none"
+                         id="g494">
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line482" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(30,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line484" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(60,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line486" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(90,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line488" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(120,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line490" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(150,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line492" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path498" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="Y-axis for a linear scale with values from 0.0 to 1.0"
+                   id="g526">
+                  <g
+                     transform="translate(0.5,0.5)"
+                     id="g524">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path504-2" />
+                    <g
+                       id="g520">
+                      <g
+                         class="mark-rule role-axis-grid"
+                         pointer-events="none"
+                         id="g518">
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,150)"
+                           x2="150"
+                           y2="0"
+                           id="line506" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,120)"
+                           x2="150"
+                           y2="0"
+                           id="line508" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,90)"
+                           x2="150"
+                           y2="0"
+                           id="line510" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,60)"
+                           x2="150"
+                           y2="0"
+                           id="line512" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,30)"
+                           x2="150"
+                           y2="0"
+                           id="line514" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           x2="150"
+                           y2="0"
+                           id="line516" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path522" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-scope child_pathgroup"
+                   role="graphics-object"
+                   aria-roledescription="group mark container"
+                   id="g648">
+                  <g
+                     id="g538">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path528-8" />
+                    <g
+                       id="g534">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g532">
+                        <path
+                           style="stroke:#140b35;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,144 3,141 H 4.5 6 7.5 9 10.5 12 13.5 15 16.5 18 l 1.5,-3 H 21 22.5 24 25.5 27 28.5 30 31.5 33 34.5 36 37.5 39 40.5 42 43.5 45 l 1.5,-3 H 48 49.5 51 52.5 54 55.5 57 58.5 60 61.5 63 64.5 66 67.5 69 70.5 72 73.5 75 76.5 78 79.5 81 82.5 84 85.5 87 88.5 90 91.5 93"
+                           id="path530" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path536-9" />
+                  </g>
+                  <g
+                     id="g550">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path540-7" />
+                    <g
+                       id="g546">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g544">
+                        <path
+                           style="stroke:#3a0a63;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 L 3,141 4.5,138 H 6 7.5 9 10.5 12 13.5 15 16.5 18 19.5 21 22.5 24 25.5 27 l 1.5,-3 H 30 31.5 33 34.5 36 37.5 39 40.5 42 43.5 45 46.5 48 49.5 51 52.5 54 55.5 57 58.5 60 61.5 63 64.5 66 67.5 69 70.5 72 73.5 75 76.5 78 79.5 81 82.5 84 85.5 87 88.5 90"
+                           id="path542" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path548-3" />
+                  </g>
+                  <g
+                     id="g562">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path552-6" />
+                    <g
+                       id="g558">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g556">
+                        <path
+                           style="stroke:#60136e;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,147 3,141 H 4.5 L 6,138 H 7.5 9 l 1.5,-3 H 12 l 1.5,-3 1.5,-3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 l 1.5,-3 H 36 37.5 39 40.5 42 43.5 45 46.5 48 49.5 51 52.5 54 l 1.5,-3 H 57 58.5 60 61.5 63 64.5 66 67.5 69 70.5 72 73.5 75 76.5 78 79.5 81 82.5 84 85.5 87 88.5 90 91.5 93 94.5 96 97.5 99"
+                           id="path554" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path560-1" />
+                  </g>
+                  <g
+                     id="g574">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path564-2" />
+                    <g
+                       id="g570">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g568">
+                        <path
+                           style="stroke:#85216b;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="m 0,150 1.5,-9 1.5,-6 1.5,-6 1.5,-3 1.5,-3 H 9 10.5 l 1.5,3 h 1.5 1.5 1.5 l 1.5,6 h 1.5 l 1.5,-3 1.5,-3 1.5,3 1.5,6 h 1.5 1.5 1.5 1.5 l 1.5,3 1.5,-3 1.5,-3 h 1.5 l 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 l 1.5,-9 1.5,3 1.5,3 H 54 55.5 57 l 1.5,3 1.5,-6 1.5,3 H 63 l 1.5,3 1.5,-3 h 1.5 1.5 1.5 1.5 l 1.5,6 h 1.5 1.5 l 1.5,-6 h 1.5 1.5 1.5 l 1.5,3 h 1.5 1.5 1.5 l 1.5,-3 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path566" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path572-9" />
+                  </g>
+                  <g
+                     id="g586">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path576-3" />
+                    <g
+                       id="g582">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g580">
+                        <path
+                           style="stroke:#a92e5e;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 10.5 12 13.5 15 16.5 18 19.5 21 22.5 24 l 1.5,-3 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path578" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path584-1" />
+                  </g>
+                  <g
+                     id="g598">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path588-9" />
+                    <g
+                       id="g594">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g592">
+                        <path
+                           style="stroke:#cb4149;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 10.5 12 13.5 15 16.5 18 19.5 21 22.5 24 25.5 27 28.5 30 31.5 33 34.5 36 37.5 39 40.5 42 43.5 45 46.5 48 49.5 51 52.5 54 55.5 57 58.5 60 61.5 63 64.5 66 67.5 69 70.5 72 73.5 75 76.5 78 79.5 81 82.5 84 85.5 87 88.5 90 91.5 93 94.5 96 97.5 99"
+                           id="path590" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path596-4" />
+                  </g>
+                  <g
+                     id="g610">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path600-7" />
+                    <g
+                       id="g606">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g604">
+                        <path
+                           style="stroke:#e75d2f;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path602" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path608-8" />
+                  </g>
+                  <g
+                     id="g622">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path612-4" />
+                    <g
+                       id="g618">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g616">
+                        <path
+                           style="stroke:#f78211;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path614" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path620-5" />
+                  </g>
+                  <g
+                     id="g634">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path624-0" />
+                    <g
+                       id="g630">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g628">
+                        <path
+                           style="stroke:#fcae12;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path626" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path632-3" />
+                  </g>
+                  <g
+                     id="g646">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path636-6" />
+                    <g
+                       id="g642">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g640">
+                        <path
+                           style="stroke:#f5da4d;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path638" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path644-1" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path652-0" />
+            </g>
+            <g
+               transform="translate(0,174)"
+               id="g832-6">
+              <path
+                 style="stroke:#dddddd"
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="m 0.5,0.5 h 150 v 150 H 0.5 Z"
+                 id="path656-3" />
+              <g
+                 id="g828">
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="X-axis for a linear scale with values from 0 to 5,000"
+                   id="g680">
+                  <g
+                     transform="translate(0.5,150.5)"
+                     id="g678">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path658" />
+                    <g
+                       id="g674">
+                      <g
+                         class="mark-rule role-axis-grid"
+                         pointer-events="none"
+                         id="g672-2">
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line660" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(30,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line662" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(60,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line664" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(90,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line666" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(120,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line668" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(150,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line670" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path676-0" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="Y-axis for a linear scale with values from 0.0 to 1.0"
+                   id="g704-6">
+                  <g
+                     transform="translate(0.5,0.5)"
+                     id="g702-1">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path682" />
+                    <g
+                       id="g698-5">
+                      <g
+                         class="mark-rule role-axis-grid"
+                         pointer-events="none"
+                         id="g696">
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,150)"
+                           x2="150"
+                           y2="0"
+                           id="line684" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,120)"
+                           x2="150"
+                           y2="0"
+                           id="line686" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,90)"
+                           x2="150"
+                           y2="0"
+                           id="line688" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,60)"
+                           x2="150"
+                           y2="0"
+                           id="line690" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,30)"
+                           x2="150"
+                           y2="0"
+                           id="line692" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           x2="150"
+                           y2="0"
+                           id="line694" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path700" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-scope child_pathgroup"
+                   role="graphics-object"
+                   aria-roledescription="group mark container"
+                   id="g826-5">
+                  <g
+                     id="g716">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path706-4" />
+                    <g
+                       id="g712">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g710">
+                        <path
+                           style="stroke:#140b35;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="m 0,150 1.5,-45 1.5,3 1.5,6 1.5,-3 h 1.5 l 1.5,3 h 1.5 1.5 l 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path708" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path714" />
+                  </g>
+                  <g
+                     id="g728-7">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path718" />
+                    <g
+                       id="g724-6">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g722">
+                        <path
+                           style="stroke:#3a0a63;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,96 3,102 H 4.5 6 7.5 9 10.5 12 l 1.5,6 H 15 16.5 18 19.5 21 22.5 24 25.5 27 l 1.5,3 H 30 31.5 33 34.5 36 37.5 39 l 1.5,3 h 1.5 1.5 1.5 1.5 l 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path720" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path726" />
+                  </g>
+                  <g
+                     id="g740-5">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path730-6" />
+                    <g
+                       id="g736">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g734-9">
+                        <path
+                           style="stroke:#60136e;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="m 0,150 1.5,-42 1.5,9 1.5,3 1.5,3 H 7.5 9 10.5 12 13.5 15 16.5 18 19.5 21 22.5 24 25.5 27 28.5 30 31.5 33 34.5 36 37.5 39 40.5 42 43.5 45 46.5 48 49.5 51 52.5 54 55.5 57 58.5 60 61.5 63"
+                           id="path732" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path738" />
+                  </g>
+                  <g
+                     id="g752">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path742-3" />
+                    <g
+                       id="g748">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g746-7">
+                        <path
+                           style="stroke:#85216b;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,102 3,99 4.5,102 6,108 H 7.5 9 10.5 12 13.5 15 l 1.5,3 H 18 19.5 21 22.5 24 l 1.5,6 h 1.5 1.5 1.5 1.5 l 1.5,-3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 l 1.5,3 H 57 l 1.5,3 h 1.5 1.5"
+                           id="path744" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path750-4" />
+                  </g>
+                  <g
+                     id="g764">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path754-5" />
+                    <g
+                       id="g760-2">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g758">
+                        <path
+                           style="stroke:#a92e5e;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="m 0,150 1.5,-24 1.5,-3 1.5,-3 1.5,3 1.5,-9 1.5,6 1.5,-9 1.5,6 h 1.5 l 1.5,3 1.5,6 1.5,-3 h 1.5 1.5 l 1.5,3 1.5,3 h 1.5 l 1.5,-3 h 1.5 l 1.5,-9 1.5,6 1.5,-6 1.5,3 1.5,3 1.5,6 H 39 l 1.5,-3 H 42 l 1.5,3 1.5,6 1.5,-3 1.5,-3 1.5,-3 1.5,3 1.5,-9 1.5,9 h 1.5 l 1.5,-3 h 1.5 l 1.5,-3 1.5,-9 1.5,3 h 1.5"
+                           id="path756" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path762" />
+                  </g>
+                  <g
+                     id="g776-5">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path766" />
+                    <g
+                       id="g772-4">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g770">
+                        <path
+                           style="stroke:#cb4149;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,111 3,132 4.5,126 6,129 H 7.5 L 9,126 h 1.5 l 1.5,3 1.5,-3 h 1.5 1.5 l 1.5,3 1.5,3 1.5,6 1.5,-6 H 24 l 1.5,6 1.5,-3 h 1.5 1.5 l 1.5,3 1.5,-9 1.5,3 1.5,6 1.5,-3 1.5,-3 1.5,6 1.5,-12 1.5,9 1.5,-6 1.5,3 1.5,6 1.5,-3 1.5,3 1.5,-6 1.5,-9 h 1.5 l 1.5,9 h 1.5 l 1.5,-9 1.5,12 1.5,-3 1.5,3 H 66"
+                           id="path768-7" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path774" />
+                  </g>
+                  <g
+                     id="g788-4">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path778" />
+                    <g
+                       id="g784">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g782-4">
+                        <path
+                           style="stroke:#e75d2f;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,135 H 3 l 1.5,6 1.5,-15 1.5,6 1.5,-6 1.5,3 1.5,-3 1.5,-3 H 15 l 1.5,6 1.5,-3 1.5,-9 1.5,3 h 1.5 l 1.5,-12 1.5,12 H 27 l 1.5,-9 1.5,-6 1.5,21 h 1.5 1.5 l 1.5,-6 1.5,6 1.5,-6 1.5,-3 1.5,3 1.5,-3 H 45 l 1.5,3 1.5,-9 1.5,3 1.5,-9 1.5,3 H 54 l 1.5,3 H 57 l 1.5,-3 1.5,6 1.5,-3 1.5,6 h 1.5 l 1.5,-3 1.5,-3 1.5,3 1.5,-6 1.5,9 h 1.5 l 1.5,3 1.5,-6 1.5,6 h 1.5 l 1.5,3 1.5,3 h 1.5 1.5 l 1.5,-3 h 1.5 l 1.5,3"
+                           id="path780-3" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path786-0" />
+                  </g>
+                  <g
+                     id="g800">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path790" />
+                    <g
+                       id="g796">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g794-7">
+                        <path
+                           style="stroke:#f78211;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="m 0,150 1.5,-9 H 3 4.5 l 1.5,6 h 1.5 l 1.5,-6 1.5,-6 1.5,9 1.5,3 1.5,-6 1.5,3 1.5,3 1.5,-3 H 21 l 1.5,3 1.5,-3 1.5,3 1.5,-6 1.5,-3 1.5,9 h 1.5 1.5 1.5 1.5 1.5 l 1.5,-9 1.5,9 H 42 l 1.5,-3 1.5,-3 1.5,9 H 48 l 1.5,-6 1.5,3 1.5,-6 H 54 l 1.5,9 1.5,-6 h 1.5 l 1.5,3 1.5,-6 1.5,-6 1.5,9 h 1.5 1.5 l 1.5,-3 1.5,3 1.5,-3 1.5,6 1.5,-3 1.5,-3 1.5,3 1.5,3 1.5,-6 1.5,-3 1.5,6 1.5,-3 1.5,6 h 1.5 l 1.5,-3 h 1.5 1.5 l 1.5,-3 1.5,6 h 1.5 l 1.5,-3 1.5,3 1.5,-3 1.5,3 1.5,-6 1.5,3 h 1.5 l 1.5,6 1.5,-3 1.5,3 1.5,-9 1.5,-3 h 1.5"
+                           id="path792" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path798" />
+                  </g>
+                  <g
+                     id="g812">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path802-8" />
+                    <g
+                       id="g808-6">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g806">
+                        <path
+                           style="stroke:#fcae12;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 10.5 12 13.5 15 16.5 18 19.5 21 22.5 24 25.5 27 28.5 30 31.5 33 34.5 36 37.5 l 1.5,-3 1.5,3 h 1.5 1.5 l 1.5,-3 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 l 1.5,-3 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 l 1.5,-3 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path804" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path810" />
+                  </g>
+                  <g
+                     id="g824-8">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path814" />
+                    <g
+                       id="g820-8">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g818">
+                        <path
+                           style="stroke:#f5da4d;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path816-4" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path822" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path830" />
+            </g>
+            <g
+               transform="translate(176,174)"
+               id="g1010">
+              <path
+                 style="stroke:#dddddd"
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="m 0.5,0.5 h 150 v 150 H 0.5 Z"
+                 id="path834" />
+              <g
+                 id="g1006">
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="X-axis for a linear scale with values from 0 to 5,000"
+                   id="g858-3">
+                  <g
+                     transform="translate(0.5,150.5)"
+                     id="g856">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path836-1" />
+                    <g
+                       id="g852-4">
+                      <g
+                         class="mark-rule role-axis-grid"
+                         pointer-events="none"
+                         id="g850-9">
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line838" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(30,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line840" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(60,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line842" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(90,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line844" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(120,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line846" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(150,-150)"
+                           x2="0"
+                           y2="150"
+                           id="line848" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path854-2" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="Y-axis for a linear scale with values from 0.0 to 1.0"
+                   id="g882">
+                  <g
+                     transform="translate(0.5,0.5)"
+                     id="g880">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path860" />
+                    <g
+                       id="g876">
+                      <g
+                         class="mark-rule role-axis-grid"
+                         pointer-events="none"
+                         id="g874">
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,150)"
+                           x2="150"
+                           y2="0"
+                           id="line862" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,120)"
+                           x2="150"
+                           y2="0"
+                           id="line864" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,90)"
+                           x2="150"
+                           y2="0"
+                           id="line866" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,60)"
+                           x2="150"
+                           y2="0"
+                           id="line868" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           transform="translate(0,30)"
+                           x2="150"
+                           y2="0"
+                           id="line870-0" />
+                        <line
+                           style="opacity:1;stroke:#dddddd;stroke-width:1"
+                           y1="0"
+                           x1="0"
+                           x2="150"
+                           y2="0"
+                           id="line872-6" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path878" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-scope child_pathgroup"
+                   role="graphics-object"
+                   aria-roledescription="group mark container"
+                   id="g1004">
+                  <g
+                     id="g894">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path884" />
+                    <g
+                       id="g890-8">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g888">
+                        <path
+                           style="stroke:#140b35;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,129 3,111 4.5,114 H 6 7.5 L 9,111 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 l 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path886" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path892" />
+                  </g>
+                  <g
+                     id="g906">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path896" />
+                    <g
+                       id="g902">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g900">
+                        <path
+                           style="stroke:#3a0a63;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,132 3,120 4.5,123 H 6 7.5 9 10.5 12 13.5 15 16.5 18 19.5 21 22.5 24 25.5 27 28.5 30 31.5 33 34.5 36 37.5 39 40.5 42 43.5 45 46.5 48 49.5 51 52.5 54 55.5 57 58.5 60 61.5 63 64.5"
+                           id="path898" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path904" />
+                  </g>
+                  <g
+                     id="g918">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path908" />
+                    <g
+                       id="g914">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g912-9">
+                        <path
+                           style="stroke:#60136e;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="m 0,150 1.5,-27 1.5,-9 1.5,3 H 6 7.5 9 10.5 12 l 1.5,-3 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path910" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path916" />
+                  </g>
+                  <g
+                     id="g930">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path920" />
+                    <g
+                       id="g926-2">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g924">
+                        <path
+                           style="stroke:#85216b;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="m 0,150 1.5,-21 1.5,3 1.5,3 1.5,-3 H 7.5 9 10.5 12 13.5 l 1.5,-3 1.5,3 H 18 19.5 21 22.5 24 l 1.5,-3 h 1.5 1.5 1.5 1.5 l 1.5,-3 h 1.5 l 1.5,-3 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 l 1.5,-3 1.5,-3 h 1.5 1.5 l 1.5,3 H 57 l 1.5,3 h 1.5 1.5"
+                           id="path922" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path928" />
+                  </g>
+                  <g
+                     id="g942">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path932" />
+                    <g
+                       id="g938">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g936">
+                        <path
+                           style="stroke:#a92e5e;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,123 H 3 l 1.5,-6 H 6 l 1.5,6 H 9 l 1.5,-3 1.5,6 1.5,3 1.5,9 1.5,-15 1.5,3 1.5,-3 1.5,3 1.5,-3 1.5,3 1.5,-3 1.5,3 1.5,-6 1.5,-3 1.5,9 H 33 l 1.5,-3 1.5,-3 1.5,-3 1.5,6 1.5,-3 H 42 l 1.5,3 1.5,3 1.5,-3 1.5,3 1.5,-3 h 1.5 1.5 l 1.5,3 h 1.5 l 1.5,-9 1.5,3 1.5,-9 h 1.5 l 1.5,-3 1.5,9"
+                           id="path934" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path940" />
+                  </g>
+                  <g
+                     id="g954">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path944" />
+                    <g
+                       id="g950">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g948">
+                        <path
+                           style="stroke:#cb4149;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 1.5,138 3,123 4.5,126 6,120 h 1.5 l 1.5,6 1.5,-6 1.5,-3 1.5,-6 1.5,-3 1.5,-3 1.5,3 1.5,-9 H 21 l 1.5,6 1.5,-3 1.5,-3 1.5,-3 h 1.5 l 1.5,-3 1.5,-3 1.5,3 h 1.5 1.5 l 1.5,3 h 1.5 1.5 1.5 1.5 1.5 1.5 l 1.5,3 h 1.5 l 1.5,3 h 1.5 l 1.5,3 1.5,6 1.5,-3 1.5,-3 1.5,-6 1.5,3 1.5,-6 1.5,3 1.5,3"
+                           id="path946" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path952" />
+                  </g>
+                  <g
+                     id="g966">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path956" />
+                    <g
+                       id="g962">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g960">
+                        <path
+                           style="stroke:#e75d2f;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="m 0,150 1.5,-3 H 3 l 1.5,3 1.5,-3 1.5,3 1.5,-3 1.5,-3 1.5,6 1.5,-6 1.5,6 h 1.5 l 1.5,-3 1.5,3 1.5,-3 1.5,3 H 24 l 1.5,-6 1.5,6 h 1.5 1.5 l 1.5,-3 h 1.5 1.5 l 1.5,3 h 1.5 1.5 1.5 l 1.5,-3 h 1.5 1.5 l 1.5,3 h 1.5 1.5 l 1.5,-3 1.5,3 1.5,-3 1.5,3 H 57 l 1.5,-9 1.5,9 1.5,-3 H 63 l 1.5,-3 1.5,6 h 1.5 l 1.5,-3 h 1.5 l 1.5,-3 h 1.5 l 1.5,6 h 1.5 1.5 l 1.5,-3 1.5,3 1.5,-6 1.5,6 h 1.5 l 1.5,-3 h 1.5 l 1.5,3"
+                           id="path958" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path964" />
+                  </g>
+                  <g
+                     id="g978-6">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path968" />
+                    <g
+                       id="g974-6">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g972">
+                        <path
+                           style="stroke:#f78211;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path970" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path976" />
+                  </g>
+                  <g
+                     id="g990-4">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path980" />
+                    <g
+                       id="g986">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g984-9">
+                        <path
+                           style="stroke:#fcae12;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path982" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path988" />
+                  </g>
+                  <g
+                     id="g1002">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 150 V 150 H 0 Z"
+                       id="path992" />
+                    <g
+                       id="g998-5">
+                      <g
+                         class="mark-line role-mark child_marks"
+                         role="graphics-symbol"
+                         aria-roledescription="line mark container"
+                         id="g996-0">
+                        <path
+                           style="stroke:#f5da4d;stroke-width:2"
+                           inkscape:connector-curvature="0"
+                           d="M 0,150 H 1.5 3 4.5 6 7.5 9 h 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5 1.5"
+                           id="path994-4" />
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       display="none"
+                       id="path1000" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path1008" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-legend"
+             role="graphics-symbol"
+             aria-roledescription="legend"
+             aria-label="Symbol legend titled 'temp' for stroke color with 10 values: 0.01, 0.02, 0.03, 0.04, 0.05, ending with 0.1"
+             id="g1198">
+            <g
+               transform="translate(347)"
+               id="g1196">
+              <path
+                 inkscape:connector-curvature="0"
+                 class="background"
+                 aria-hidden="true"
+                 d="M 0,0 H 39 V 144 H 0 Z"
+                 pointer-events="none"
+                 id="path1014" />
+              <g
+                 id="g1192">
+                <g
+                   class="mark-group role-legend-entry"
+                   id="g1186">
+                  <g
+                     transform="translate(0,16)"
+                     id="g1184">
+                    <path
+                       inkscape:connector-curvature="0"
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path1016" />
+                    <g
+                       id="g1180">
+                      <g
+                         class="mark-group role-scope"
+                         role="graphics-object"
+                         aria-roledescription="group mark container"
+                         id="g1178">
+                        <g
+                           id="g1032">
+                          <path
+                             style="opacity:1"
+                             inkscape:connector-curvature="0"
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 38.283333 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path1018" />
+                          <g
+                             id="g1028">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1022">
+                              <path
+                                 style="opacity:1;stroke:#140b35;stroke-width:1.5"
+                                 inkscape:connector-curvature="0"
+                                 transform="translate(6,6)"
+                                 d="M -5,0 H 5"
+                                 id="path1020" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1026">
+                              <text
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text1024">0.01</text>
+                            </g>
+                          </g>
+                          <path
+                             style="display:none"
+                             inkscape:connector-curvature="0"
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1030" />
+                        </g>
+                        <g
+                           transform="translate(0,13)"
+                           id="g1048">
+                          <path
+                             style="opacity:1"
+                             inkscape:connector-curvature="0"
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 38.283333 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path1034" />
+                          <g
+                             id="g1044">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1038">
+                              <path
+                                 style="opacity:1;stroke:#3a0a63;stroke-width:1.5"
+                                 inkscape:connector-curvature="0"
+                                 transform="translate(6,6)"
+                                 d="M -5,0 H 5"
+                                 id="path1036" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1042">
+                              <text
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text1040">0.02</text>
+                            </g>
+                          </g>
+                          <path
+                             style="display:none"
+                             inkscape:connector-curvature="0"
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1046" />
+                        </g>
+                        <g
+                           transform="translate(0,26)"
+                           id="g1064">
+                          <path
+                             style="opacity:1"
+                             inkscape:connector-curvature="0"
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 38.283333 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path1050" />
+                          <g
+                             id="g1060">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1054">
+                              <path
+                                 style="opacity:1;stroke:#60136e;stroke-width:1.5"
+                                 inkscape:connector-curvature="0"
+                                 transform="translate(6,6)"
+                                 d="M -5,0 H 5"
+                                 id="path1052" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1058">
+                              <text
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text1056">0.03</text>
+                            </g>
+                          </g>
+                          <path
+                             style="display:none"
+                             inkscape:connector-curvature="0"
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1062" />
+                        </g>
+                        <g
+                           transform="translate(0,39)"
+                           id="g1080">
+                          <path
+                             style="opacity:1"
+                             inkscape:connector-curvature="0"
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 38.283333 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path1066" />
+                          <g
+                             id="g1076">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1070">
+                              <path
+                                 style="opacity:1;stroke:#85216b;stroke-width:1.5"
+                                 inkscape:connector-curvature="0"
+                                 transform="translate(6,6)"
+                                 d="M -5,0 H 5"
+                                 id="path1068" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1074">
+                              <text
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text1072">0.04</text>
+                            </g>
+                          </g>
+                          <path
+                             style="display:none"
+                             inkscape:connector-curvature="0"
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1078" />
+                        </g>
+                        <g
+                           transform="translate(0,52)"
+                           id="g1096">
+                          <path
+                             style="opacity:1"
+                             inkscape:connector-curvature="0"
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 38.283333 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path1082" />
+                          <g
+                             id="g1092">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1086">
+                              <path
+                                 style="opacity:1;stroke:#a92e5e;stroke-width:1.5"
+                                 inkscape:connector-curvature="0"
+                                 transform="translate(6,6)"
+                                 d="M -5,0 H 5"
+                                 id="path1084" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1090">
+                              <text
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text1088">0.05</text>
+                            </g>
+                          </g>
+                          <path
+                             style="display:none"
+                             inkscape:connector-curvature="0"
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1094" />
+                        </g>
+                        <g
+                           transform="translate(0,65)"
+                           id="g1112">
+                          <path
+                             style="opacity:1"
+                             inkscape:connector-curvature="0"
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 38.283333 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path1098" />
+                          <g
+                             id="g1108">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1102">
+                              <path
+                                 style="opacity:1;stroke:#cb4149;stroke-width:1.5"
+                                 inkscape:connector-curvature="0"
+                                 transform="translate(6,6)"
+                                 d="M -5,0 H 5"
+                                 id="path1100" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1106">
+                              <text
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text1104">0.06</text>
+                            </g>
+                          </g>
+                          <path
+                             style="display:none"
+                             inkscape:connector-curvature="0"
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1110" />
+                        </g>
+                        <g
+                           transform="translate(0,78)"
+                           id="g1128">
+                          <path
+                             style="opacity:1"
+                             inkscape:connector-curvature="0"
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 38.283333 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path1114" />
+                          <g
+                             id="g1124">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1118">
+                              <path
+                                 style="opacity:1;stroke:#e75d2f;stroke-width:1.5"
+                                 inkscape:connector-curvature="0"
+                                 transform="translate(6,6)"
+                                 d="M -5,0 H 5"
+                                 id="path1116" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1122">
+                              <text
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text1120">0.07</text>
+                            </g>
+                          </g>
+                          <path
+                             style="display:none"
+                             inkscape:connector-curvature="0"
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1126" />
+                        </g>
+                        <g
+                           transform="translate(0,91)"
+                           id="g1144">
+                          <path
+                             style="opacity:1"
+                             inkscape:connector-curvature="0"
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 38.283333 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path1130" />
+                          <g
+                             id="g1140">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1134">
+                              <path
+                                 style="opacity:1;stroke:#f78211;stroke-width:1.5"
+                                 inkscape:connector-curvature="0"
+                                 transform="translate(6,6)"
+                                 d="M -5,0 H 5"
+                                 id="path1132" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1138">
+                              <text
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text1136">0.08</text>
+                            </g>
+                          </g>
+                          <path
+                             style="display:none"
+                             inkscape:connector-curvature="0"
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1142" />
+                        </g>
+                        <g
+                           transform="translate(0,104)"
+                           id="g1160">
+                          <path
+                             style="opacity:1"
+                             inkscape:connector-curvature="0"
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 38.283333 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path1146" />
+                          <g
+                             id="g1156">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1150">
+                              <path
+                                 style="opacity:1;stroke:#fcae12;stroke-width:1.5"
+                                 inkscape:connector-curvature="0"
+                                 transform="translate(6,6)"
+                                 d="M -5,0 H 5"
+                                 id="path1148" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1154">
+                              <text
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text1152">0.09</text>
+                            </g>
+                          </g>
+                          <path
+                             style="display:none"
+                             inkscape:connector-curvature="0"
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1158" />
+                        </g>
+                        <g
+                           transform="translate(0,117)"
+                           id="g1176">
+                          <path
+                             style="opacity:1"
+                             inkscape:connector-curvature="0"
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 38.283333 V 11 H 0 Z"
+                             pointer-events="none"
+                             id="path1162" />
+                          <g
+                             id="g1172">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1166">
+                              <path
+                                 style="opacity:1;stroke:#f5da4d;stroke-width:1.5"
+                                 inkscape:connector-curvature="0"
+                                 transform="translate(6,6)"
+                                 d="M -5,0 H 5"
+                                 id="path1164" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1170">
+                              <text
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                                 transform="translate(16,9)"
+                                 font-size="10px"
+                                 id="text1168">0.1</text>
+                            </g>
+                          </g>
+                          <path
+                             style="display:none"
+                             inkscape:connector-curvature="0"
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1174" />
+                        </g>
+                      </g>
+                    </g>
+                    <path
+                       style="display:none"
+                       inkscape:connector-curvature="0"
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path1182" />
+                  </g>
+                </g>
+                <g
+                   class="mark-text role-legend-title"
+                   pointer-events="none"
+                   id="g1190">
+                  <text
+                     style="font-weight:bold;font-size:11px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000"
+                     transform="translate(0,9)"
+                     font-size="11px"
+                     font-weight="bold"
+                     id="text1188">temp</text>
+                </g>
+              </g>
+              <path
+                 style="display:none"
+                 inkscape:connector-curvature="0"
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path1194" />
+            </g>
+          </g>
+        </g>
+        <path
+           style="display:none"
+           inkscape:connector-curvature="0"
+           class="foreground"
+           aria-hidden="true"
+           d=""
+           display="none"
+           id="path1202" />
+      </g>
+    </g>
+  </g>
 </svg>
