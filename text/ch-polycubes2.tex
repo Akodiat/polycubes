@@ -25,7 +25,7 @@ Meanwhile, the empty red region in Figure~\ref{fig:addressable}.b) shows combina
     \label{fig:addressable}
 \end{figure}
 
-So, how do we find these alternative and simpler input rules for a shape? Surely, there must exist a better method than sampling the space of all rules (as done in Chapter~\ref{ch:polycubes1})? This chapter presents an approach where \emph{satisfiability solving} is used to determine if a shape can be assembled from a given number of colours and species, thus automatically filling in solution landscapes such as the one shown in Figure~\ref{fig:addressable}. Furthermore, a complementary approach of substituting similar species is also described, in Section~\ref{sec:substitution_solving}.
+So, how do we find these alternative and simpler input rules for a shape? Surely, there must exist a better method than sampling the space of all rules (as done in Chapter~\ref{ch:polycubes1})? This chapter presents an approach where \emph{satisfiability solving} is used to determine if a shape can be assembled from a given number of colours and species, thus automatically filling in solution landscapes such as the one shown in Figure~\ref{fig:addressable}. Furthermore, a complementary approach of substituting similar species is also described in Section~\ref{sec:substitution_solving}.
 
 
 \section{Satisfiability solving}
@@ -162,7 +162,7 @@ An alternative and complementary approach is to substitute species that are simi
 \label{sec:example_solves}
 This section presents a set of different shapes solved to demonstrate the SAT solver method described above.
 
-\paragraph{Swan} A more sophicticated version of the ``giraffe duck'' from Figure~\ref{fig:UND}, the Swan shape has a fixed neck length of one intermediate cube, as shown in Figure~\ref{fig:swan}.a). Figure~\ref{fig:swan}.b) shows the solution landscape, where valid deterministic solutions can be found along the upper diagonal. Many of the undefined (UND) configurations still assemble at a high ratio, indicating that these \(\widetilde{K}_s\), \(\widetilde{K}_c\) combinations still could provide useful solutions.
+\paragraph{Swan} A more sophisticated version of the ``giraffe duck'' from Figure~\ref{fig:UND}, the Swan shape has a fixed neck length of one intermediate cube, as shown in Figure~\ref{fig:swan}.a). Figure~\ref{fig:swan}.b) shows the solution landscape, where valid deterministic solutions can be found along the upper diagonal. Many of the undefined (UND) configurations still assemble at a high ratio, indicating that these \(\widetilde{K}_s\), \(\widetilde{K}_c\) combinations still could provide useful solutions.
 
 \begin{figure}[h]
     \centering
@@ -242,11 +242,45 @@ This section presents a set of different shapes solved to demonstrate the SAT so
     \label{fig:solid_cube}
 \end{figure}
 
+\section{Scalability analysis}
 
-\section{Patchy particle simulation}
-While the stochastic assembler works well to test determinism, a more realistic assembly can be achieved through patchy particle simulation, as introduced in Section~\ref{sec:patchy_particles}.
+% Ard: I can think of lots of questions, such as -- how does this method scale?  When does it break down?   For the systems like the 16mers in chapter 3, how does it compare with what you find by random sampling of rules etc...
+% Discuss scaling and when it breaks down. How does it scale with size of the system. Plot number of clauses needed on the grid
 
-The oxDNA patchy particle simulator used is a version with torsional interaction enabled, as detailed in Section~\ref{sec:appendix_patchy}. Since there are different \emph{narrow types} available, corresponding to slightly different patch interaction potential widths, we start by simulating the structure stability for each potential and for a range of different temperatures. As seen in Figure~\ref{fig:narrow_types}, higher temperatures and lower narrow types cause the assembly to fall apart and the potential energy to increase. For narrow type 0, there is still some connectivity for the higher temperatures, with the energy occilating as particles bind and unbind, but for higher narrow types the occilations grow less and the particles remain unbound.
+
+\section{Comparison to random sampling results}
+
+% Ard: Compare ch4 back to previous results. Make grids from random samples, color by frequency.
+
+% 1) Take a high probability structure (e.g. the cube) and see how often different rules are found by random sampling  --- is it roughly ture that P(ruleset) ~ 2^(size)  -- log P(ruleset) ~ size of rulset 
+% 2) I would do this for some of the say 16mers or other 2D structures e.g. in the paper with Iain -- we simply found the K by looking at the shortest code found by sampling.  Question" how good is this in pracice. --  you did this as well in your plots.
+
+
+\section{Assembly in a continuous model}
+While the stochastic assembler works well to test determinism, a more realistic assembly can be achieved through patchy particle simulation.
+
+\subsection{Patchy particle simulation}
+\label{sec:patchy_particles}
+
+Besides discrete tile models, self-assembly can also be modelled using Molecular Dynamics simulations of rigid-body spheres called \emph{patchy particles}. Each particle has a number of patches that bind when they come in contact with another complementary patch.
+
+One such patchy particle simulator is included as part of the oxDNA package \cite{rovigatti2015comparison}. It was, for example, used by Romano et al., as seen in Figure~\ref{fig:patchy_particles}, to verify the patchy interactions designed by their SAT-solver method \cite{romano2020designing}. The same patchy particle model is used here. However, to account for the polycube requirement of patch orientation alignment, the model has been modified to include torsional interactions.
+
+
+\begin{figure}[h]
+  \centering
+  \begin{overpic}[width=\textwidth]{figures/patchy_particles.png}
+    \put(0,310){a)}
+    \put(280,310){b)}
+    \put(650,310){c)}
+  \end{overpic}
+  \caption{Patchy particle simulation, adapted from \cite{romano2020designing}. \textbf{a)} The unit cell of a tetrastack lattice build with patchy particles. \textbf{b)} Simulation snapshot of a forming tetrastack lattice. Note the free-flowing particles that have not yet attached the growing latttice they surround. \textbf{c)} Tetrastack particle energy plotted over simulation time for different temperatures. Sudden drops in energy correspond to nucleation events (where the lattices start forming).}
+  \label{fig:patchy_particles}
+\end{figure}
+
+
+\subsection{Preliminary simulation results}
+Since there are different \emph{narrow types} available, corresponding to slightly different patch interaction potential widths, we start by simulating the structure stability for each potential and for a range of different temperatures. As seen in Figure~\ref{fig:narrow_types}, higher temperatures and lower narrow types cause the assembly to fall apart and the potential energy to increase. For narrow type 0, there is still some connectivity for the higher temperatures, with the energy oscillating as particles bind and unbind, but for higher narrow types the oscillations grow less and the particles remain unbound.
 
 \begin{figure}[h]
     \centering
@@ -261,12 +295,20 @@ The oxDNA patchy particle simulator used is a version with torsional interaction
 
 Next, we then try to simulate and compare the assemblies of the fully addressable and minimal solutions to the shapes introduced in Section~\ref{sec:example_solves}. All the following simulations are run with narrow type 0.
 
-Looking at Figure~\ref{fig:patchy_energy}, there are temperatures for which each of the shapes start to nucleate early on, as a sudden drop in the energy over time corresponds to a nucleation event.
+%Looking at Figure~\ref{fig:patchy_energy}, there are temperatures for which each of the shapes start to nucleate early on, as a sudden drop in the energy over time corresponds to a nucleation event.
+
+%\begin{figure}[h]
+%    \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/patchysim/energy.svg}
+%    \caption{Potential energy over time in patchy particle simulations. The top row shows the fully adressable solution while the bottom row is the minimal solution found. Each simulation is done using the narrow type \(0\) potential at a \(0.1\) particle density.}
+%    \label{fig:patchy_energy}
+%\end{figure}
+
+We can now look at the assembly yield, shown in Figure~\ref{fig:complete_clusters} as the percentage of clusters having the correct number of each species. Despite the aggregation previously discussed, the two cube shapes have a growing number of correct assemblies for certain temperatures. Meanwhile, the other shapes are all approach a high assembly yield for lower temperatures.
 
 \begin{figure}[h]
-    \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/patchysim/energy.svg}
-    \caption{Potential energy over time in patchy particle simulations. The top row shows the fully adressable solution while the bottom row is the minimal solution found. Each simulation is done using the narrow type \(0\) potential at a \(0.1\) particle density.}
-    \label{fig:patchy_energy}
+    \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/patchysim/complete_clusters.svg}
+    \caption{Assembly yield over time for patchy particle simulations. The top row shows the fully adressable solution while the bottom row is the minimal solution found.Each simulation is done using the narrow type \(0\) potential at a \(0.1\) particle density.}
+    \label{fig:complete_clusters}
 \end{figure}
 
 Another measure is the size of the clusters in the system, where a cluster is a set of particles joined through their patches. In Figure~\ref{fig:max_cluster}, we measure the normalised size of the largest cluster found, where 100 per cent is the intended size of the polycube. 
@@ -279,13 +321,7 @@ While the other shapes do not assemble any larger than the intended size, the tw
     \label{fig:max_cluster}
 \end{figure}
 
-We can also look at the assembly yield, shown in Figure~\ref{fig:complete_clusters} as the percentage of clusters having the correct number of each species. Despite the aggregation previously discussed, the two cube shapes have a growing number of correct assemblies for certain temperatures. Meanwhile, the other shapes are all approach a high assembly yield for lower temperatures.
 
-\begin{figure}[h]
-    \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/patchysim/complete_clusters.svg}
-    \caption{Assembly yield over time for patchy particle simulations. The top row shows the fully adressable solution while the bottom row is the minimal solution found.Each simulation is done using the narrow type \(0\) potential at a \(0.1\) particle density.}
-    \label{fig:complete_clusters}
-\end{figure}
 
 A general remark on the simulation results in Figure~\ref{fig:patchy_energy}, \ref{fig:max_cluster}, and~\ref{fig:complete_clusters} is that there is usually not any significant difference between the assembly results for the fully addressable solution (top row) and the minimal solution (bottom row). This means that experimental applications could get away with using significantly fewer unique building blocks, saving both money and time.
 

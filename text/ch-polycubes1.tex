@@ -104,9 +104,7 @@ The polycube assembly model is implemented in two versions: one browser-based im
 Trying all inputs in a brute-force approach is unfeasible for most input spaces. For a 3D polycube space with \(\widetilde{K}_s\) species and \(\widetilde{K}_c\) colours, four possible patch orientations, and six patches per species, we get: 
 \[
 \left\lvert I_{\widetilde{K}_s, \widetilde{K}_c}^{3d}\right\rvert = (4 \times (1+2\widetilde{K}_c))^{6\widetilde{K}_s}
-\]
-
-Even for a relatively small values of \(\widetilde{K}_s=3\) species and \(\widetilde{K}_c=2\) colours, we get \(I_{2, 3}^3 \approx 2.62 \times 10^{23}\).
+\], where \(I_{\widetilde{K}_s, \widetilde{K}_c}^{3d}\) is the set of all inputs. Even for relatively small values of \(\widetilde{K}_s=3\) species and \(\widetilde{K}_c=2\) colours, we get \(I_{2, 3}^3 \approx 2.62 \times 10^{23}\).
 
 For 2D, it is a bit easier since there are only four patches per species and a fixed patch orientation:
 
@@ -114,11 +112,7 @@ For 2D, it is a bit easier since there are only four patches per species and a f
 \left\lvert I_{\widetilde{K}_s, \widetilde{K}_c}^{2d}\right\rvert = (1+2\widetilde{K}_c)^{4\widetilde{K}_s}
 \]
 
-However, even if the space of possible input rules is too large to explore fully, we can still get an idea of how likely it is for an input rule to map to a particular output shape through uniform sampling.
-
-This was done by sampling and assembling a large number of random rules. As described in Section~\ref{sec:stochastic_assembly}, rules growing larger than 100 cubes were discarded as unbounded, while those remaining bounded were re-assembled 100 times to ensure they assembled deterministically. 
-
-Deterministic and bounded output was then grouped by their shapes, counting the number of times each given shape occurs. For each rule found to produce a given shape, three different complexity measures were calculated:
+However, even if the space of possible input rules is too large to explore fully, we can still get an idea of how likely it is for an input rule to map to a particular output shape through uniform sampling. This was done by sampling and assembling a large number of random rules. As described in Section~\ref{sec:stochastic_assembly}, rules growing larger than 100 cubes were discarded as unbounded, while those remaining bounded were re-assembled 100 times to ensure they assembled deterministically. Deterministic and bounded output was then grouped by their shapes, counting the number of times each given shape occurs. For each rule found to produce a given shape, three different complexity measures were calculated:
 \begin{description}
     \item[\(\widetilde{K}_s\)] - The number of species used.
     \item[\(\widetilde{K}_c\)] - The number of colours used.
@@ -146,6 +140,7 @@ Figure~\ref{fig:ref_validity} shows that most of the valid rules assembled into 
     \centering\includesvg[width=\textwidth]{figures/refcalc/geno_size_distribution.svg}
     \caption{Number of input rules per output size. Distribution of polyomino sizes of \(10^9\) sampled rules in \(I_{16,31}^{2d}\).
     }
+    % Ard: The numbering on the x-axis is hard to follow --  I would try to do something like 5, 10, 15 .... Also, there are clear peaks at certain numbers, it is worth mentioning this in the caption or else in the text.
     \label{fig:ref_distr}
 \end{figure}
 
@@ -155,6 +150,7 @@ With the input space investigated, we can also check how much of the output spac
     \centering\includesvg[width=\textwidth]{figures/refcalc/pheno_size_distribution.svg}
     \caption{Number of output polyominoes per output size. Count of unique output polyominoes found sampling \(10^9\) input rules in \(I_{16s,31c}^{2d}\). The red line shows the actual number of polyominoes of each size, obtained from OEIS A000988 \cite{sloane1995encyclopedia, oeisA000988}.
     }
+    % Ard: Here again, like in 3.4 we see spikes for different sizes -- here not in the number of rules giving polyominoes, but rather in the number of polyominoes found. You need to comment on these two trends, and explain the similarities and differences between them as well.
     \label{fig:ref_distr}
 \end{figure}
 
@@ -172,7 +168,7 @@ The main sampling was done to compare results between 2D and 3D, as well as the 
 
 The reason for only using five species per rule is to ensure enough valid output for stochastic 3D, which, as can be seen in Figure~\ref{fig:valid_proportion} is relatively low. 
 
-In general, the seeded assembly mode is expected to generate more valid rules than when the seed is random, as Figure~\ref{fig:valid_proportion} shows . An input rule that depends on the seed can assemble different shapes every time and will be deemed non-deterministic, while the same rule would be considered valid for seeded assembly.  With the third dimension, there is also more orientations and more patches per cube to attach to, leading to the significantly fewer valid 3D rules seen in the figure.
+In general, the seeded assembly mode is expected to generate more valid rules than when the seed is random, as Figure~\ref{fig:valid_proportion} shows. An input rule that depends on the seed can assemble different shapes every time and will be deemed non-deterministic, while the same rule would be considered valid for seeded assembly.  With the third dimension, there are also more orientations and more patches per cube to attach to, leading to the significantly fewer valid 3D rules seen in the figure.
 
 \begin{figure}[h]
     \centering\includesvg[width=\textwidth]{figures/valid_proportion.svg}
@@ -181,6 +177,8 @@ In general, the seeded assembly mode is expected to generate more valid rules th
 \end{figure}
 
 Figure~\ref{fig:main_distr} shows the distribution of output sizes for the main samplings. Once again, we can see that the number of shapes found initially follow the same order of magnitude as the total number of existing shapes for each size. Here we can also see even more clearly how shapes of certain sizes show up much more than their neighbours. For example, \(1528\) 36-mers were found in the seeded 3D sampling, while only \(30\) 35-mers and \(58\) 37-mers were found. Such spikes are found for 24-mers, 28-mers, 32-mers, 36-mers, 40-mers, 44-mers, and 48-mers, possibly showing common symmetrical structures growing by four cubes at a time.
+
+% Ard: think we can do better for explanations. It's probably easier to make certain even structures because a single tile can make a dimer, for example.
 
 
 \begin{figure}[h]
@@ -241,6 +239,7 @@ With the sampling details and the analysis methods explained, we will now move o
 \end{figure}
 
 Similarly, Figure~\ref{fig:8-mer_3d_zoo} shows a gallery of the 8-mer polycubes found when sampling \(I_{5,31}^{3d}\). Here, the difference in frequency between the shapes was so significant that they instead had to be scaled proportional to the \emph{natural logarithm} of their frequency in order to be visible in the same figure. 
+% Ard: Surely the reason for this is that you got a much wider range of structures than for 16mers. -- I'd point out that there are 13,079,255 16mers, but you only find a small number of them -- 
 
 Note how the most common shapes seem to be relatively simple, symmetrical or modular, concepts that will be explored further in coming sections.
 
@@ -274,7 +273,7 @@ The sharp decrease among the highest-ranking shapes, however, once again shows h
 \subsection{Frequency and complexity}
 % Simple shapes are more frequent.
 
-Let us return to the complexity bias presented in Section~\ref{sec:polyomino}. Can we show such a trend for the current model as well? Keeping the parameters similar, we start by examining the results of the reference sampling described in Section~\ref{sec:refcalc}. As can be seen in Figure~\ref{fig:freq_vs_compl_refcalc}, there is a log-linear relationship between the probability of finding a rule that assembles into a particular structure and the information needed to specify the structure, as predicted in \cite{dingle2018input, dingle2020generic}.
+Let us return to the complexity bias presented in Section~\ref{sec:polyomino_evolve}. Can we show such a trend for the current model as well? Keeping the parameters similar, we start by examining the results of the reference sampling described in Section~\ref{sec:refcalc}. As can be seen in Figure~\ref{fig:freq_vs_compl_refcalc}, there is a log-linear relationship between the probability of finding a rule that assembles into a particular structure and the information needed to specify the structure, as predicted in \cite{dingle2018input, dingle2020generic}.
 
 \begin{figure}[h]
     \centering
