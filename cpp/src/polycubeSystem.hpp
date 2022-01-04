@@ -119,6 +119,10 @@ public:
         return true;
     }
 
+    void setTorsion(bool torsion) {
+        this->torsion = torsion;
+    }
+
     bool equals(PolycubeSystem *other);
     bool equals(Eigen::Matrix3Xf m2);
 
@@ -132,6 +136,8 @@ private:
     std::vector<std::string> moveKeys;
     std::map<std::string, bool> cubeMap;
     size_t nMaxCubes;
+
+    bool torsion;
 
     Eigen::Vector3f ruleOrder[ruleSize];
     std::map<std::string, size_t> ruleToOrderIdx;

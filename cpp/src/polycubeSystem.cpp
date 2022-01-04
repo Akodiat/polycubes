@@ -98,6 +98,8 @@ void PolycubeSystem::init(std::vector<Rule> rules, size_t nMaxCubes, AssemblyMod
     this->assemblyMode = assemblyMode;
     this->orderIndex = 0;
 
+    this->torsion = true;
+
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
     this->randomNumGen = std::mt19937(seed);
 
@@ -320,14 +322,26 @@ Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
                     Rule b_faced = this->rotateRuleFromTo(b, 
                         PolycubeSystem::getRuleOrder(j),
                         PolycubeSystem::getRuleOrder(i));
-                    Rule b_oriented = this->rotateRuleAroundAxis(b_faced, 
-                        PolycubeSystem::getRuleOrder(i),
-                        - this->getSignedAngle(
-                            a[i]->getOrientation(),
-                            b_faced[i]->getOrientation(),
-                            PolycubeSystem::getRuleOrder(i)
-                        )
-                    );
+
+                    Rule b_oriented;
+                    if (this->torsion) {
+                        std::cout<<"Using torsion"<<std::endl;
+                        b_oriented = this->rotateRuleAroundAxis(b_faced,
+                            PolycubeSystem::getRuleOrder(i),
+                            - this->getSignedAngle(
+                                a[i]->getOrientation(),
+                                b_faced[i]->getOrientation(),
+                                PolycubeSystem::getRuleOrder(i)
+                            )
+                        );
+                    } else {
+                        std::cout<<"No torsion"<<std::endl;
+                        std::uniform_int_distribution<uint32_t> ruledist(0, 3);
+                        double angle = ruledist(this->randomNumGen) * M_PI_2;
+                        b_oriented = this->rotateRuleAroundAxis(b_faced,
+                            PolycubeSystem::getRuleOrder(i), angle
+                        );
+                    }
                     for(size_t i=0; i<ruleSize; i++){
                         delete b_faced[i];
                     }
