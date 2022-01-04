@@ -215,7 +215,7 @@ function getPatchySimFiles(rule, nAssemblies=1, name='sim',
             let folder = ntfolder.folder(`T_${temperature}`);
 
             let inputStr = generateInputFile(rule.length, patchCounter, oxDNA_dir, patchesFileName,
-                particlesFileName, topFileName, temperature
+                particlesFileName, topFileName, temperature, narrow_type
             );
 
             let simulateStr = `addqueue -c "${name} T=${temperature} nt${narrow_type} - 1 week" ${oxDNA_dir}/build/bin/oxDNA ${inputFileName}`;
