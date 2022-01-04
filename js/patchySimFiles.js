@@ -28,14 +28,6 @@ thermostat = john
 sim_type = MD
 dt = 0.001
 verlet_skin = 0.05
-#sim_type = MC2
-move_1 = {
-  type = MCMovePatchyShape
-  delta = 0.1
-  prob = 1
-  delta_translation = 0.1
-  delta_rotation = 0.1
-}
 no_stdout_energy = 0
 restart_step_counter = 1
 energy_file = energy.dat
@@ -84,13 +76,14 @@ trajectory_file = trajectory.dat
 
 #Print out clusters 
 data_output_1 = {
- name = clusters.txt
- print_every = 2e6
- col_1 = {
-   type = PLCluster
-   show_types = 1
- }
-}`
+  name = clusters.txt
+  print_every = 1e7
+  col_1 = {
+    type = PLClusterTopology
+    show_types = 1
+  }
+}
+`
 }
 
 function generateTopAndConfig(rule, assemblyMode='seeded') {
