@@ -167,6 +167,9 @@
             <option value="seeded" selected>Seeded</option>
             <option value="ordered">Ordered</option>
         </select>
+        <span style="display: flex;">
+            <input type="checkbox" id="torsion" checked="True", onchange="system.torsion=this.checked; system.regenerate()">Torsion
+        </span>
         <button onclick="toggleFog()">Toggle fog</button>
         <button onclick="system.toggleLineView()">Toggle line view</button>
         <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>

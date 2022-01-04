@@ -1,12 +1,13 @@
 class PolycubeSystem {
 
-    constructor(rule, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded', buildConfmap=true) {
+    constructor(rule, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded', buildConfmap=true, torsion = true) {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
         this.centerOfMass = new THREE.Vector3();
         this.nMaxCubes = nMaxCubes;
         this.maxCoord = maxCoord;
+        this.torsion = torsion;
 
         this.assemblyMode = assemblyMode;
         this.orderIndex = 0;
@@ -196,11 +197,25 @@ class PolycubeSystem {
                             ruleOrder[j],
                             ruleOrder[i]);
                         console.assert(a[i].color == b[i].color);
-                        // ...and the same rotation:
-                        b = rotateSpeciesAroundAxis(b,
-                            ruleOrder[i],
-                           -getSignedAngle(a[i].alignDir, b[i].alignDir,
-                            ruleOrder[i]));
+
+                        if (this.torsion) {
+                            // ...and the same rotation:
+                            b = rotateSpeciesAroundAxis(b,
+                                ruleOrder[i],
+                                -getSignedAngle(
+                                    a[i].alignDir,
+                                    b[i].alignDir,
+                                    ruleOrder[i]
+                                )
+                            );
+                            console.assert(a[i].alignDir == b[i].alignDir);
+                        } else {
+                            // ...and a random rotation:
+                            b = rotateSpeciesAroundAxis(b,
+                                ruleOrder[i],
+                                Math.floor(Math.random() * 4) * Math.PI/2
+                            );
+                        }
                         console.assert(a[i].color == b[i].color);
                         // Return the rotated rule b
                         return b;
