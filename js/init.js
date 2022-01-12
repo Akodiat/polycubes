@@ -61,7 +61,7 @@ function createKlossSystem() {
     system = new KlossSystem(rule, scene, 100);
     orbit.target = system.centerOfMass;
 
-    system.addParticle(new THREE.Vector3(), system.rule[0], 0);
+    system.addParticle(new THREE.Vector3(), new THREE.Quaternion(), system.rule[0], 0);
     system.processMoves();
     render();
 }

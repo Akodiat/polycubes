@@ -332,7 +332,9 @@ function fitCamera(nSteps) {
 
 // Regenerate when there are no more cubes to add
 window.addEventListener('movesProcessed', function(e) {
-    fitCamera();
+    if (!transform || !transform.object) {
+        fitCamera();
+    }
 }, false);
 
 function toggleFog(density=0.08) {
@@ -411,10 +413,14 @@ function render() {
 }
 
 function initScene() {
-    camera = new THREE.PerspectiveCamera(
-        45, window.innerWidth / window.innerHeight,
-        1, 10000);
-    camera.position.set(5, 8, 13);
+    const aspect = window.innerWidth / window.innerHeight;
+    cameraPersp = new THREE.PerspectiveCamera(50, aspect, 0.01, 30000);
+    cameraOrtho = new THREE.OrthographicCamera(-6 * aspect, 6 * aspect, 6, -6, 0.01, 30000);
+    camera = cameraPersp;
+    //camera = new THREE.PerspectiveCamera(
+    //    45, window.innerWidth / window.innerHeight,
+    //    1, 10000);
+    camera.position.set(2, 4, 6);
     camera.lookAt(0, 0, 0);
 
     scene = new THREE.Scene();
@@ -450,7 +456,8 @@ function initScene() {
     orbit.addEventListener('change', render);
 }
 
-let camera, orbit, scene, renderer, canvas;
+let cameraPersp, cameraOrtho, camera;
+let orbit, scene, renderer, canvas;
 let plane;
 let mouse, raycaster;
 let rollOverMesh, rollOverMaterial;

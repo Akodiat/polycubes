@@ -105,6 +105,8 @@ class KlossSystem {
         this.objGroup = new THREE.Group();
         scene.add(this.objGroup);
 
+        this.patchObjects = [];
+
         this.rule = rule;
         let nColors = Math.max.apply(Math, rule.map(x => Math.max.apply(
             Math, x.map(r => Math.abs(r.color))))
@@ -119,7 +121,12 @@ class KlossSystem {
         }
 
         for (let i=0; i<rule.length; i++) {
-            let particleMaterial = new THREE.MeshLambertMaterial({color: selectColor(i)});
+            let particleMaterial = new THREE.MeshLambertMaterial({
+                transparent: true,
+                opacity: 0.5,
+                //side: THREE.DoubleSide,
+                color: selectColor(i)
+            });
             this.particleMaterials.push(particleMaterial);
         }
 
@@ -145,6 +152,7 @@ class KlossSystem {
 
     reset() {
         this.objGroup.children = [];
+        this.patchObjects = [];
         this.moves = [];
         this.particles = [];
         this.matches = 0;
@@ -193,7 +201,7 @@ class KlossSystem {
             this.particleMaterials.push(particleMaterial);
         }
 
-        this.addParticle(new THREE.Vector3(), rule[0], 0);
+        this.addParticle(new THREE.Vector3(), new THREE.Quaternion(), rule[0], 0);
 
         this.processMoves();
         render();
@@ -204,7 +212,7 @@ class KlossSystem {
         if(this.assemblyMode == 'stochastic') {
             i = Math.floor(Math.random() * this.rule.length);
         }
-        this.addParticle(new THREE.Vector3(), this.rule[i], i);
+        this.addParticle(new THREE.Vector3(), new THREE.Quaternion(), this.rule[i], i);
     }
 
     regenerate() {
@@ -216,6 +224,9 @@ class KlossSystem {
             render();
             let argstr = "?assemblyMode="+this.assemblyMode + (this.rule.length > 0 ? "&rule="+this.getRuleStr() : "");
             window.history.pushState(null, null, argstr);
+            if (transform) {
+                transform.detach();
+            }
         }
     }
 
@@ -349,7 +360,7 @@ class KlossSystem {
 
                     // Avoid collision
                     if(!this.particles.find(p=>{return p.pos.distanceTo(newPos) < 0.9})){
-                        this.addParticle(newPos, rotatedSpecies, ruleIdxs[r], fit.i);
+                        this.addParticle(newPos, fit.q, species, ruleIdxs[r], fit.i);
                     }
 
                     if (this.particles.length >= this.maxParticles) {
@@ -373,14 +384,15 @@ class KlossSystem {
     }
 
     //Need both rule and ruleIdx to determine color as the rule might be rotated
-    addParticle(position, species, ruleIdx, boundAtIdx=undefined) {
+    addParticle(position, q, species, ruleIdx, boundAtIdx=undefined) {
         // Go through all non-zero parts of the rule and add potential moves
-        for (let i=0; i<species.length; i++) {
+        let rotatedSpecies = this.rotatePatches(species, q);
+        for (let i=0; i<rotatedSpecies.length; i++) {
             if (boundAtIdx !== undefined && i == boundAtIdx) {
                 // This patch is already bound
                 continue;
             }
-            let patch = species[i];
+            let patch = rotatedSpecies[i];
             if (patch.color == 0) {
                 // Zero patches doesn't bind
                 continue;
@@ -406,7 +418,7 @@ class KlossSystem {
             this.moves.push(move);
         }
 
-        this.drawParticle(position, species, ruleIdx);
+        this.drawParticle(position, q, species, ruleIdx);
 
         this.centerOfMass.multiplyScalar(this.particles.length);
         this.centerOfMass.add(position);
@@ -416,15 +428,14 @@ class KlossSystem {
         render();
     }
 
-    drawParticle(position, species, ruleIdx) {
+    drawParticle(position, q, species, ruleIdx) {
         let particle = new THREE.Group();
-        //let centerCube = new THREE.Mesh(this.sphereGeo, this.particleMaterials[ruleIdx]);
-        //particle.add(centerCube);
-        const lineMaterial = new THREE.LineBasicMaterial({color: this.particleMaterials[ruleIdx].color, linewidth: 10});
         const linePoints = [new THREE.Vector3];
 
-        species.forEach(patch=>{
+        species.forEach((patch,i)=>{
             if (patch.color != 0) {
+                let patchGroup = new THREE.Group();
+
                 let material = this.colorMaterials[Math.abs(patch.color) - 1].clone();
                 if (patch.color >= 0) {
                     material.emissive = material.color.clone().addScalar(-0.5);
@@ -432,12 +443,17 @@ class KlossSystem {
                 let connector = new THREE.Mesh(
                     this.connectorGeo, material
                 );
-
                 connector.lookAt(patch.dirBase);
-                connector.applyQuaternion(patch.q);
 
-                connector.position.copy(patch.pos);
-                connector.position.sub(patch.dir.clone().multiplyScalar(0.1));
+                patchGroup.add(connector);
+
+                let connectorPointer = new THREE.Mesh(
+                    this.connectorPointerGeo, material
+                );
+                connectorPointer.lookAt(patch.alignBase);
+                connectorPointer.position.add(patch.alignBase.clone().multiplyScalar(0.1));
+
+                patchGroup.add(connectorPointer);
 
                 const nPoints = 4;
                 for (let i=0; i<nPoints; i++) {
@@ -448,29 +464,25 @@ class KlossSystem {
                     );
                 }
 
-                let connectorPointer = new THREE.Mesh(
-                    this.connectorPointerGeo, material
-                );
+                patchGroup.children.forEach(c=>{
+                    c.position.sub(patch.dirBase.clone().multiplyScalar(0.1));
+                });
 
-                connectorPointer.lookAt(patch.alignBase);
-                connectorPointer.applyQuaternion(patch.q);
-                //connectorPointer.lookAt(patch.alignDir);
-                connectorPointer.position.copy(connector.position);
-                connectorPointer.position.add(patch.alignDir.clone().multiplyScalar(0.1));
+                patchGroup.applyQuaternion(patch.q);
+                patchGroup.position.copy(patch.pos);
+                this.patchObjects.push(patchGroup);
+                patchGroup['patch'] = this.rule[ruleIdx][i];
 
-                particle.add(connectorPointer);
-                particle.add(connector);
+                particle.add(patchGroup);
             }
         });
-        //linePoints.push(centerCube.position.clone());
 
         let particleGeometry = new ConvexGeometry(linePoints);
         let particleObject = new THREE.Mesh(particleGeometry, this.particleMaterials[ruleIdx]);
-        //particleObject.scale.multiplyScalar(0.8);
-        particle.add(particleObject);
-        //const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(linePoints), lineMaterial);
-        //particle.add(line);
 
+        particle.add(particleObject);
+
+        particle.applyQuaternion(q);
         particle.position.copy(position);
         particle.name = "Particle";
         this.objGroup.add(particle);

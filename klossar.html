@@ -15,7 +15,11 @@
             overflow: hidden;
         }
 
-        canvas {
+        #patchView {
+            position: relative; width: 100%; height: 300px;
+        }
+
+        #threeCanvas {
             position: fixed;
             height: 100%;
         }
@@ -151,7 +155,7 @@
             <button class="primary" onclick="addSpecies()">Add species</button>
             <span style="display: flex;">
                 <button onclick="system.regenerate()">Update</button>
-                <input type="checkbox" id="autoUpdate" checked="True", onchange="system.regenerate()">Auto update    
+                <input type="checkbox" id="autoUpdate" checked="True", onchange="system.regenerate()">Auto update
             </span>
             <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>
         </fieldset>
@@ -165,6 +169,7 @@
     <script src="js/libs/WebGL.js"></script>
     <script src="js/libs/GLTFExporter.js"></script>
     <script src="js/controls/OrbitControls.js"></script>
+    <script src="js/controls/TransformControls.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/klossSystem.js"></script>
     <script src="js/view.js"></script>
@@ -173,6 +178,7 @@
         createKlossSystem();
     </script>
     <script src="js/edit.js"></script>
+    <script src="js/patchEdit.js"></script>
 
 </body>
 
