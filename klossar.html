@@ -160,7 +160,7 @@
             <button id="hideToggle" onclick="toggleRuleSet()">Hide</button>
         </fieldset>
     </div>
-    <canvas id="threeCanvas" tabindex="-1"></canvas>
+    <canvas id="threeCanvas" tabindex="-1" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);"></canvas>
 
     <script src="js/libs/three.min.js"></script>
     <script src="js/libs/math/ConvexHull.js"></script>
@@ -179,6 +179,77 @@
     </script>
     <script src="js/edit.js"></script>
     <script src="js/patchEdit.js"></script>
+    <script>
+        function dropHandler(ev) {
+            console.log('File(s) dropped');
+
+            // Prevent default behavior (Prevent file from being opened)
+            ev.preventDefault();
+
+            let patchFile;
+            let particleFile;
+
+            if (ev.dataTransfer.items) {
+                // Use DataTransferItemList interface to access the file(s)
+                for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+                // If dropped items aren't files, reject them
+                if (ev.dataTransfer.items[i].kind === 'file') {
+                    var file = ev.dataTransfer.items[i].getAsFile();
+                    if (file.name.includes('particle')) {
+                        particleFile = file;
+                        console.log("Found a particle file")
+                    } else if (file.name.includes('patch')) {
+                        console.log("Found a patch file")
+                        patchFile = file;
+                    }
+                }
+                }
+            } else {
+                // Use DataTransfer interface to access the file(s)
+                for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+                    if (file.name.includes('particle')) {
+                        console.log("Found a particle file")
+                        particleFile = file;
+                    } else if (file.name.includes('patch')) {
+                        console.log("Found a patch file")
+                        patchFile = file;
+                    }
+                }
+            }
+
+            if (patchFile && particleFile) {
+                readPatchy(particleFile, patchFile)
+            } else {
+                alert("Sorry, I don't know how to handle those files");
+            }
+        }
+        function dragOverHandler(ev) {
+            console.log('File(s) in drop zone');
+
+            // Prevent default behavior (Prevent file from being opened)
+            ev.preventDefault();
+        }
+
+        function readPatchy(particleFile, patchFile) {
+            const particlesReader = new FileReader();
+
+            particlesReader.addEventListener("load", () => {
+                const patchesReader = new FileReader();
+                patchesReader.addEventListener("load", () => {
+                    system.resetRule(patchySpecToKloss(
+                        particlesReader.result,
+                        patchesReader.result
+                    ));
+                    clearRules();
+                }, false);
+                patchesReader.readAsText(patchFile);
+            }, false);
+            particlesReader.readAsText(particleFile);
+
+        }
+
+
+    </script>
 
 </body>
 

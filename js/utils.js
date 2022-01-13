@@ -140,6 +140,96 @@ function parseKlossString(ruleStr) {
     }));
 }
 
+function patchySpecToKloss(particlesStr, patchesStr) {
+    // Remove whitespace
+    particlesStr = particlesStr.replaceAll(' ', '');
+    patchesStr = patchesStr.replaceAll(' ', '');
+
+    getScalar = (name, s) => {
+        m = s.match(new RegExp(`${name}=(-?\\d+)`));
+        if (m) {
+            return parseFloat(m[1]);
+        }
+        return false
+    }
+    getArray = (name, s) => {
+        m = s.match(new RegExp(`${name}=([\\,,\\d,\\.,-]+)`));
+        if (m) {
+            return m[1].split(',').map(v=>parseFloat(v));
+        }
+        return false
+    }
+    let particles = [];
+    let currentParticle;
+    for (const line of particlesStr.split('\n')) {
+        const particleID = line.match(/particle_(\d+)/)
+        if (particleID) {
+            if (currentParticle) {
+                particles.push(currentParticle);
+            }
+            currentParticle = {'id': parseInt(particleID[1])}
+        }
+        const type = getScalar('type', line);
+        if (type !== false) {
+            currentParticle['type'] = type
+        }
+        const patches = getArray('patches', line);
+        if (patches !== false) {
+            currentParticle['patches'] = patches;
+        }
+    }
+    particles.push(currentParticle);
+
+    let patches = new Map();
+
+    let currentId;
+    for (const line of patchesStr.split('\n')) {
+
+        console.log(line)
+        const patchID = line.match(/patch_(\d+)/)
+        if (patchID) {
+            currentId = parseInt(patchID[1]);
+            patches.set(currentId, {});
+        }
+        const color = getScalar('color', line);
+        if (color !== false) {
+            if (Math.abs(color) <= 20) {
+                console.error("Cannot handle self-interactive patches yet, sorry!");
+                return;
+            }
+            patches.get(currentId)['color'] = color - Math.sign(color) * 20;
+        }
+        for (const k of ['position', 'a1', 'a2']) {
+            const a = getArray(k, line);
+            if (a) {
+                const v = new THREE.Vector3().fromArray(a);
+                patches.get(currentId)[k] = v;
+            }
+        }
+    }
+
+    for (const particle of particles) {
+        particle['patches'] = particle['patches'].map(id=>patches.get(id));
+    }
+
+    const species = particles.map(particle=>{
+        return particle['patches'].map(patch=>{
+            let p = new Patch(
+                patch.color,
+                patch.position,
+                new THREE.Quaternion()
+            );
+            p.q.copy(rotateVectorsSimultaneously(
+                p.alignDir, p.dir,
+                patch.a2, patch.a1
+            ));
+            return p;
+        })
+    });
+
+    return species
+}
+
 function polycubeRuleToKloss(cubeRule) {
     let klossRule = [];
     cubeRule.forEach(species=>{
