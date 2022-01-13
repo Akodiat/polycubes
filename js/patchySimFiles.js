@@ -14,7 +14,7 @@ function generateInputFile(
 backend = CPU
 backend_precision = double
 #debug = 1
-seed = 10
+#seed = 10
 ensemble = NVT
 delta_translation = 0.1
 delta_rotation = 0.1

@@ -292,6 +292,9 @@ function onWindowResize() {
 
 // From https://github.com/mrdoob/three.js/pull/14526#issuecomment-497254491
 function fitCamera(nSteps) {
+    if (camera.type == "OrthographicCamera") {
+        return
+    }
     nSteps = nSteps || 20;
     const fitOffset = 1.3;
     const box = new THREE.Box3();
@@ -445,7 +448,6 @@ function initScene() {
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setClearColor(0x000000, 0);
-    document.body.appendChild(renderer.domElement);
 
     window.addEventListener('resize', onWindowResize, false);
 

@@ -7,9 +7,8 @@ transform.addEventListener('change', ()=>{
 
 transform.addEventListener('dragging-changed', event=>{
     orbit.enabled = !event.value;
-    if (!event.value) {
+    if (!event.value && transform.object) {
         transform.object.patch.update(undefined, transform.object.position, transform.object.quaternion);
-        system.regenerate();
         clearRules();
     }
 });
@@ -54,7 +53,9 @@ function rayrender() {
 	renderer.render( scene, camera );
 }
 
-window.addEventListener('mousedown', ()=>{
+canvas.addEventListener('mousedown', ()=>{
+    canvas.focus();
+    console.log("Canvas has focus")
     if (orbit.enabled && transform.object) {
         transform.object.children.forEach(c=>{
             c.scale.divideScalar(hoverscale);
@@ -63,9 +64,9 @@ window.addEventListener('mousedown', ()=>{
     }
 }, false)
 
-window.addEventListener( 'mousemove', onMouseMove, false );
+canvas.addEventListener('mousemove', onMouseMove, false);
 
-window.addEventListener('keydown', event=>{
+canvas.addEventListener('keydown', event=>{
 
     console.log(event.key)
 
@@ -142,9 +143,67 @@ window.addEventListener('keydown', event=>{
             transform.reset();
             break;
     }
+
+    const stepAngle = Math.PI/12;
+    switch (event.code) {
+        case 'Numpad0':
+            orbit.reset();
+            break;
+        case 'Numpad1':
+            if (event.ctrlKey || event.metaKey) {
+                orbit.setToAxis(new THREE.Vector3(-1, 0, 0));
+                break;
+            }
+            else {
+                orbit.setToAxis(new THREE.Vector3(1, 0, 0));
+                break;
+            }
+        case 'Numpad2':
+            orbit.stepAroundAxis(new THREE.Vector3(-1, 0, 0), stepAngle);
+            break;
+        case 'Numpad3':
+            if (event.ctrlKey || event.metaKey) {
+                orbit.setToAxis(new THREE.Vector3(0, -1, 0));
+                break;
+            }
+            else {
+                orbit.setToAxis(new THREE.Vector3(0, 1, 0));
+                break;
+            }
+        case 'Numpad4':
+            orbit.stepAroundAxis(new THREE.Vector3(0, 1, 0), stepAngle);
+            break;
+        case 'Numpad5':
+            api.switchCamera();
+            break;
+        case 'Numpad6':
+            orbit.stepAroundAxis(new THREE.Vector3(0, -1, 0), stepAngle);
+            break;
+        case 'Numpad7':
+            if (event.ctrlKey || event.metaKey) {
+                orbit.setToAxis(new THREE.Vector3(0, 0, -1));
+                break;
+            }
+            else {
+                orbit.setToAxis(new THREE.Vector3(0, 0, 1));
+                break;
+            }
+        case 'Numpad8':
+            orbit.stepAroundAxis(new THREE.Vector3(1, 0, 0), stepAngle);
+            break;
+        case 'Numpad9':
+            if (event.ctrlKey || event.metaKey) {
+                orbit.setToAxis(new THREE.Vector3(0, 0, 1));
+                break;
+            }
+            else {
+                orbit.setToAxis(new THREE.Vector3(0, 0, -1));
+                break;
+            }
+    }
 });
 
-window.addEventListener('keyup', event=>{
+canvas.addEventListener('keyup', event=>{
     if (event.shiftKey) {
         transform.setTranslationSnap(null);
         transform.setRotationSnap(null);

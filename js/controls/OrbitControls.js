@@ -240,6 +240,44 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	};
 
+	this.setToAxis = function(axis, steps) {
+		steps = steps || 10;
+
+		scope.target.copy(scope.target0);
+
+		let l = scope.object.position.length()
+		axis.setLength(l);
+
+		if (steps > 1) {
+			scope.object.position.lerp(axis, 1/steps);
+			scope.object.position.setLength(l);
+		} else {
+			this.object.position.lerp(axis, 0.999);
+		}
+
+		scope.object.lookAt(scope.target);
+		scope.dispatchEvent(changeEvent);
+		//lastPosition.copy(scope.object.position);
+
+		if (steps > 1) {
+			requestAnimationFrame(()=>{
+				this.setToAxis(axis, steps-1);
+			});
+		}
+	}
+
+	this.stepAroundAxis = function(axis, stepAngle) {
+		let quaternion = new THREE.Quaternion();
+		axis = scope.object.localToWorld(axis.clone()).sub(scope.object.position).normalize();
+		quaternion.setFromAxisAngle(axis, stepAngle);
+
+		new THREE.Vector3().applyQuaternion(quaternion);
+		scope.object.up.applyQuaternion(quaternion);
+		scope.object.position.applyQuaternion(quaternion);
+		scope.object.lookAt(scope.target);
+		scope.dispatchEvent(changeEvent);
+	}
+
 	//
 	// internals
 	//
