@@ -153,7 +153,7 @@ function patchySpecToKloss(particlesStr, patchesStr) {
         return false
     }
     getArray = (name, s) => {
-        m = s.match(new RegExp(`${name}=([\\,,\\d,\\.,-]+)`));
+        m = s.match(new RegExp(`${name}=([\\,\\d\\.\\-\\+]+)`));
         if (m) {
             return m[1].split(',').map(v=>parseFloat(v));
         }
