@@ -30,7 +30,7 @@ Thanks to the \emph{tacoxdna.js} library, importing designs is now generally str
 \subsubsection{Importing caDNAno files}
 JSON files created using caDNAno (described in Section~\ref{sec:cadnano}) can now be imported directly into oxView. See the import dialog shown in Figure~\ref{fig:cadnano_import}.a). First, select the file to import and make sure to also select \emph{caDNAno} as the file format. Next, choose the correct lattice-type; either \emph{Square} or \emph{Hexagonal}. Optionally, input a sequence to assign to the origami scaffold (which will otherwise be random).
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \begin{center}
     \begin{overpic}[width=0.8\textwidth]{figures/oxview_import/import.eps}
       \put(-30,810){a)}
@@ -75,7 +75,7 @@ For rapid relaxation of imported caDNAno designs, oxView includes so-called rigi
 
 Clusters can be defined manually, or by running an automatic DBSCAN \cite{ester1996density} clustering algorithm. If caDNAno files are imported directly into oxView, they will already have clusters defined. Similarly, copying and pasting structures create separate clusters.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \begin{overpic}[width=\textwidth]{figures/icosahedron.png}
     \put(0,300){a)}
@@ -94,7 +94,7 @@ As seen in Figure~\ref{fig:rigidBody}, the separate clusters will relax into a m
 
 \section{Editing designs}
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \begin{overpic}[width=\textwidth]{figures/tetra.eps}
   \put(0,200){a)}
   \put(200,200){b)}
@@ -116,7 +116,7 @@ Any edit can also be undone and redone, either pressing Ctrl+Z or Ctrl+Z, or by 
 \newcommand{\toolHeight}{1.5em}
 
 
-\begin{table}[h]
+\begin{table}[ht]
 \centering
 
 \begin{tabularx}{\textwidth} { >{\centering\arraybackslash}m{3em} | X }
@@ -202,7 +202,7 @@ It is possible to save an image of the current oxView view by simply clicking th
 
 For cover art and photo-realistic renders, it is also possible to export and load a glTF file into (for example) Blender, as seen in Figure~\ref{fig:image_export}. Note that in current Blender versions (2.9), large structures take a long time to import. So, make sure to disable any components not needed before export.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \begin{overpic}[width=\textwidth]{figures/oxview_image_export/row.png}
     \put(0,280){a)}
@@ -228,7 +228,7 @@ During my secondment at the Andersen lab in Aarhus, I worked with converting RNA
 
 % "The asterisk (*) is used in place of the prime character (') for naming atoms of the sugar group" - https://cdn.rcsb.org/wwpdb/docs/documentation/file-format/PDB_format_1996.pdf
 
-\begin{figure}[h]
+\begin{figure}[ht]
 \begin{center}
 \makebox[\textwidth][c]{a)  
   \centering\includegraphics[align=c,width=\textwidth/3]{figures/oxrna_sims/hairpin.eps} \centering\includegraphics[align=c,width=\textwidth/3]{figures/oxrna_sims/hairpin.png} \centering\includegraphics[align=c,width=\textwidth/3]{figures/oxrna_sims/hairpin_last_conf.png}

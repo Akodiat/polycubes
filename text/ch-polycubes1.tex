@@ -20,9 +20,10 @@ This chapter describes my \emph{polycube} model and details how it can be used t
         \put(720,0){Output polycube}
     \end{overpic}
     %\includesvg[width=\textwidth]{figures/rule.svg} 
-    \caption{Illustration of the polycube model and notation, examplified with the rule \href{https://akodiat.github.io/polycubes?rule=040404040404000000000084}{040404040404\allowbreak000000000084}. Compare this to the polyomino model in Figure~\ref{fig:polyominoes}.  \textbf{a)} 3D representation of the species in the rule.  \textbf{b)} Rule depicted as a list of the patches in each species. The empty patches (colour \(0\)) in the green species are just shown with their orientations. All orientations are \(0\) in this rule, since changing them would not change the output.  \textbf{c)} Hexadecimal representation of the rule, shown decoded in  \textbf{d)}, where every 2-digit hexadecimal number represents a patch. Converted to a 8-bit binary number, first bit encodes the sign, the next five bits the colour (\([0,31]\)), and the final two bits encode the orientation (\([0,3]\)).  \textbf{e)} Fully assembled polycube output. The assembly used one copy of the first species (red) and six copies of the second (green). The assembly finished since no further cubes could be added.
+    \caption{Illustration of the polycube model and notation, exemplified with the rule \href{https://akodiat.github.io/polycubes?rule=040404040404000000000084}{040404040404\allowbreak000000000084}. Compare this to the polyomino model in Figure~\ref{fig:polyominoes}.  \textbf{a)} 3D representation of the species in the rule.  \textbf{b)} Rule depicted as a list of the patches in each species. The empty patches (colour \(0\)) in the green species are just shown with their orientations. All orientations are \(0\) in this rule, since changing them would not change the output.  \textbf{c)} Hexadecimal representation of the rule, shown decoded in  \textbf{d)}, where every 2-digit hexadecimal number represents a patch. Converted to a 8-bit binary number, first bit encodes the sign, the next five bits the colour (\([0,31]\)), and the final two bits encode the orientation (\([0,3]\)).  \textbf{e)} Fully assembled polycube output. The assembly used one copy of the first species (red) and six copies of the second (green). The assembly finished since no further cubes could be added.
     }
-    \label{fig:polycubeRule}\end{figure}
+    \label{fig:polycubeRule}
+\end{figure}
 
 
 A \emph{polycube} consists of multiple equally-sized cubes connected by their neighbouring faces (a three-dimensional analogue to how polyominoes are squares connected by their neighbouring edges). In the model presented here, a polycube is stochastically self-assembled according to a specified \emph{rule}, defining a set of available cube species. Each species describes a type of cube that can be present in the polycube, so cubes belonging to the same species are always identical. See, for example, Figure~\ref{fig:polycubeRule}, where an input rule with two species assembles into a double-cross output polycube with seven cubes.
@@ -116,7 +117,7 @@ However, even if the space of possible input rules is too large to explore fully
 \begin{description}
     \item[\(\widetilde{K}_s\)] - The number of species used.
     \item[\(\widetilde{K}_c\)] - The number of colours used.
-    \item[\(\widetilde{K}_{lz}\)] - The length of the binary rule after Lempel–Ziv compression \cite{lempel-ziv}. 
+    \item[\(\widetilde{K}_{lz}\)] - The length of the binary rule after Lempel-Ziv compression \cite{lempel-ziv}. 
 \end{description}
 
 To more fairly compare them, each rule was simplified before the complexity measure was calculated. This simplification was done by removing all patches without a complementary colour in the same rule, as well as setting the orientation of all empty (zero-coloured) patches to zero. Finally, the colour indices were updated to avoid any gaps in the numbering.
@@ -126,7 +127,7 @@ To more fairly compare them, each rule was simplified before the complexity meas
 % 2D, seeded, 1e9 samples, 16 species, 31 colours
 In order to verify the model against earlier polyomino results \cite{johnston2021}, a large reference sampling of the 2D space was performed. Limiting the input space to 16 species and 31 colours (\(I_{16,31}^{2d}\)), one billion (\(10^9\)) random rules were assembled using the seeded assembly mode.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering\includesvg[width=\textwidth]{figures/refcalc/rule_validity.svg}
     \caption{Proportion of valid rules when sampling \(I_{16,31}^{2d}\). From a total of 1,000,000,000 sampled rules, 44,545,570 were found to be valid, while 871,155,425 were  unbounded and 84,299,005 were non-deterministic}
     \label{fig:ref_validity}
@@ -136,7 +137,7 @@ Let us start by looking at the sampled input space. How much of the input maps t
 
 Figure~\ref{fig:ref_validity} shows that most of the valid rules assembled into smaller shapes, with over 60 per cent (27 million) being 1-mers (note that the y-axis is logarithmic).
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering\includesvg[width=\textwidth]{figures/refcalc/geno_size_distribution.svg}
     \caption{Number of input rules per output size. Distribution of polyomino sizes of \(10^9\) sampled rules in \(I_{16,31}^{2d}\).
     }
@@ -146,7 +147,7 @@ Figure~\ref{fig:ref_validity} shows that most of the valid rules assembled into 
 
 With the input space investigated, we can also check how much of the output space we managed to sample. In Figure~\ref{fig:ref_distr}, the blue bars show how many polyominoes were found of each size, while the red line shows the total number of polyominoes that exist of that size (obtained from the On-line Encyclopedia of Integer Sequences \cite{sloane1995encyclopedia, oeisA000988}). The sampled input space \(I_{16s,31c}^{2d}\) should allow for all 16-mers to be assembled, since there are enough species and colours for fully addressable assemblies (assigning each cube its own species and each connection its own colour). Thus, the blue bars would follow the red line until size 16 if the complete input space was enumerated. Figure~\ref{fig:ref_distr} shows that we find at least the correct order of magnitude up until about 10-mers, after which polyominoes of larger sizes are found in decreasing numbers. Note how some polyomino sizes have a much higher count than their neighbours, indicating a bias for shapes of that size.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering\includesvg[width=\textwidth]{figures/refcalc/pheno_size_distribution.svg}
     \caption{Number of output polyominoes per output size. Count of unique output polyominoes found sampling \(10^9\) input rules in \(I_{16s,31c}^{2d}\). The red line shows the actual number of polyominoes of each size, obtained from OEIS A000988 \cite{sloane1995encyclopedia, oeisA000988}.
     }
@@ -170,7 +171,7 @@ The reason for only using five species per rule is to ensure enough valid output
 
 In general, the seeded assembly mode is expected to generate more valid rules than when the seed is random, as Figure~\ref{fig:valid_proportion} shows. An input rule that depends on the seed can assemble different shapes every time and will be deemed non-deterministic, while the same rule would be considered valid for seeded assembly.  With the third dimension, there are also more orientations and more patches per cube to attach to, leading to the significantly fewer valid 3D rules seen in the figure.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering\includesvg[width=\textwidth]{figures/valid_proportion.svg}
     \caption{Proportion of valid rules when sampling \(I_{5s,31c}\) for seeded and unseeded assembly in both 2D and 3D.}
     \label{fig:valid_proportion}
@@ -181,7 +182,7 @@ Figure~\ref{fig:main_distr} shows the distribution of output sizes for the main 
 % Ard: think we can do better for explanations. It's probably easier to make certain even structures because a single tile can make a dimer, for example.
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/maincalc/distrs.svg}
     \caption{Distribution of output sizes when sampling \(I_{5s,31c}\) for seeded and stochastic in both 2D and 3D. The red line shows the actual number of polyominoes of each size, obtained from OEIS A000988 and A000162 \cite{sloane1995encyclopedia, oeisA000988} respectively.}
     \label{fig:main_distr}
@@ -231,7 +232,7 @@ In the simplified context of these lattice shapes, we assign 2D symmetry groups 
 
 With the sampling details and the analysis methods explained, we will now move on to the main results. Let us start by looking at the different shapes found. Figure~\ref{fig:16-mer_2d_zoo} shows a gallery of the 16-mer polyominoes most commonly found when sampling \(I_{16,31}^{2d}\). Each shape is scaled proportional to the frequency at which it was found, showing that, even within a given size, some shapes are much more common than others.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/16-mers_2d.png}
     \caption{The 50 most common 2-dimensional 16-mers, scaled proportional to their frequency. Found while sampling the \(I_{16,31}^{2d}\) input space.}
@@ -243,7 +244,7 @@ Similarly, Figure~\ref{fig:8-mer_3d_zoo} shows a gallery of the 8-mer polycubes 
 
 Note how the most common shapes seem to be relatively simple, symmetrical or modular, concepts that will be explored further in coming sections.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{figures/8-mers_3d.jpg}
     \caption{The 50 most common three-dimensional 8-mers, scaled proportional to the natural logarithm of their frequency.}
@@ -253,7 +254,7 @@ Note how the most common shapes seem to be relatively simple, symmetrical or mod
 \subsection{Frequency and rank}
 If we plot the frequency of the shapes against their relative rank (with rank 1 being the most frequent, 2 being the second-most frequent, et cetera.), the scaling is quite significant, as seen in Figure~\ref{fig:freq_vs_rank}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \begin{overpic}[width=\textwidth]{figures/maincalc/freq_vs_rank.png}
         \put(230,300){\large{2D}}
@@ -275,7 +276,7 @@ The sharp decrease among the highest-ranking shapes, however, once again shows h
 
 Let us return to the complexity bias presented in Section~\ref{sec:polyomino_evolve}. Can we show such a trend for the current model as well? Keeping the parameters similar, we start by examining the results of the reference sampling described in Section~\ref{sec:refcalc}. As can be seen in Figure~\ref{fig:freq_vs_compl_refcalc}, there is a log-linear relationship between the probability of finding a rule that assembles into a particular structure and the information needed to specify the structure, as predicted in \cite{dingle2018input, dingle2020generic}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includesvg[width=\textwidth, inkscapelatex=false]{figures/refcalc/complexity_vs_freq_16_nc.svg}
     \caption{Frequency vs complexity (\(\widetilde{K}_c\)) of 16-mers found when sampling \(I_{16,31}^{2d}\). Each point represents a unique polyomino shapes, some of which are visualised.}
@@ -286,7 +287,7 @@ Comparing Figure~\ref{fig:freq_vs_compl_refcalc} with Figure~\ref{fig:polyomino_
 
 Extending our result into three dimensions, as well as using both seeded and unseeded assembly, let us now look at the results from the main sampling, introduced in Section~\ref{sec:maincalc}.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \begin{overpic}[width=0.9\textwidth]{figures/maincalc/freq_vs_compl.png}
         \put(80,-10){Complexity (\(\widetilde{K}_s\))}
@@ -310,16 +311,16 @@ Extending our result into three dimensions, as well as using both seeded and uns
     \label{fig:freq_vs_compl}
 \end{figure}
 
-As seen in Figure~\ref{fig:freq_vs_compl}, the simplicity bias is still present for 3D polycubes, even using alternative measures of the complexity. The measures provide different resolution, but  all still show the frequency of a shape bounded by its complexity. 
+As seen in Figure~\ref{fig:freq_vs_compl}, the simplicity bias is still present for 3D polycubes, even using alternative measures of the complexity. The measures provide different resolutions, but all still show the frequency of a shape bounded by its complexity. 
 
 One apparent break from the trend shown is the mostly constant \(\widetilde{K}_s\) values for unseeded samplings (Figure~\ref{fig:freq_vs_compl}.a) and~\ref{fig:freq_vs_compl}.b)); almost all the output shapes use the maximum number of species. This can be explained as a consequence of the determinism check. A seeded rule can afford to have a few non-binding species that are simplified away and not counted, as long as none of them are the seed. But with unseeded assembly, any species can be the seed; so such a rule would be deemed non-deterministic and not included. Thus, for the unseeded results, we have to rely on the other two complexity measures.
 
 
 \subsection{Modularity}
 
-Besides symmetry and complexity, we can also look at how the modularity of a shape can limit its frequency. We use a simple \emph{modularity index}, defined as the polycube size divided by the number of needed species (\(\widetilde{K}_s\)). Basically, a modular shape is one where modules are reused many times. For the reasons detailed above, it only makes sense to look at the modularity of seeded assemblies, since \(\widetilde{K}_s\) is otherwise mostly constant.
+Besides symmetry and complexity, we can also look at how the modularity of a shape can limit its frequency. We use a simple \emph{modularity index}, defined as the polycube size divided by the number of needed species (\(\widetilde{K}_s\)). Basically, a modular shape is one where modules are reused many times. For the reasons detailed above, it only makes sense to look at the modularity of seeded assemblies since \(\widetilde{K}_s\) is otherwise primarily constant.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \begin{overpic}[width=\textwidth]{figures/modularity/modularity_6-10.eps}
     \end{overpic}

@@ -10,7 +10,7 @@ A trivial solution would be to use \emph{fully addressable assembly}: simply ass
 
 Meanwhile, the empty red region in Figure~\ref{fig:addressable}.b) shows combinations of \(\widetilde{K}_s\) and \(\widetilde{K}_c\) for which a solution is not possible. For example, if you use a single species, you cannot use more than one colour.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \begin{overpic}[width=\textwidth]{figures/solve/adressable.eps}
         \put(-10,480){a)}
@@ -61,7 +61,7 @@ For the polycube problem, we introduce the following variables:
     \item[\(x_{l,s,r}^{P}\)] (position \(l\) is occupied by species \(s\) rotated by \(r\))] 
 \end{description}
 
-We then formulate clauses to constrain the problem, seen in Table~\ref{tab:sat_clauses}. Clauses (i)-(vii) are the same as in \cite{romano2020designing} while the remaining are added, together with variables \(x^D\), \(x^A\) and \(x^O\) abpve, to include \emph{torsional restrictions}, meaning that patches need to bind at a compatible orientation (compared to being allowed to rotate freely).
+We then formulate clauses to constrain the problem, seen in Table~\ref{tab:sat_clauses}. Clauses (i)-(vii) are the same as in \cite{romano2020designing} while the remaining are added, together with variables \(x^D\), \(x^A\) and \(x^O\) above, to include \emph{torsional restrictions}, meaning that patches need to bind at a compatible orientation (compared to being allowed to rotate freely).
 
 \begin{table}[h!]
     \centering
@@ -93,7 +93,7 @@ It would certainly be possible to use the solver without any constraints on the 
 
 More importantly, the assembly should benefit from torsional patch interaction (for 2D polyominoes, this corresponds to the requirement that tiles can be rotated in the plane but not flipped). Figure~\ref{fig:torsion} shows two versions of a simple rule, the only difference being the orientation of a single patch. While co-operative binding might, in such a case, benefit the desired square assembly, the self-limiting ability would be significantly improved if the patches were torsionally rigid.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \begin{overpic}[width=\textwidth]{figures/torsion.png}
         \put(0,470){a)}
@@ -124,7 +124,7 @@ The topology of the shape is enforced by clause (iv), \(\left(\lnot x_{l_1, p_1,
 
 % Figure of topology graph?
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering\includesvg[width=.5\textwidth, inkscapelatex=false]{figures/sat_boundary.svg}
     \caption{Bounded shape topology for satisfiability solving. Patches at the boundary of the shape (white) are constrained to only bind to ``empty''. 3D shapes are specified the same way, but with six patches per species.}
     \label{fig:sat_boundary}
@@ -143,7 +143,7 @@ Because of this, we once again use the stochastic assembler to verify that the r
 
 \section{Finding the minimal assembly rule}
 
-By iteratively ruling out lower values of \(\widetilde{K}_s\) and \(\widetilde{K}_c\), a minimal solution can be found, as detailed in Figure~\ref{fig:sat_alg}. It is also possible to generate and compare alternative solutions of varying complexity. While forbidding an undefined solution and retrying couldm in principle, continue until the computer runs out of memory (or the solution is disproven or valid), the results presented below used a limit of 100 retries before moving on.
+By iteratively ruling out lower values of \(\widetilde{K}_s\) and \(\widetilde{K}_c\), a minimal solution can be found, as detailed in Figure~\ref{fig:sat_alg}. It is also possible to generate and compare alternative solutions of varying complexity. While forbidding an undefined solution and retrying could in principle, continue until the computer runs out of memory (or the solution is disproven or valid), the results presented below used a limit of 100 retries before moving on.
 
 The exploration of the solution landscape can also be done in parallel, with each combination of \(\widetilde{K}_s\) and \(\widetilde{K}_c\) explored concurrently.
 
@@ -164,7 +164,7 @@ This section presents a set of different shapes solved to demonstrate the SAT so
 
 \paragraph{Swan} A more sophisticated version of the ``giraffe duck'' from Figure~\ref{fig:UND}, the Swan shape has a fixed neck length of one intermediate cube, as shown in Figure~\ref{fig:swan}.a). Figure~\ref{fig:swan}.b) shows the solution landscape, where valid deterministic solutions can be found along the upper diagonal. Many of the undefined (UND) configurations still assemble at a high ratio, indicating that these \(\widetilde{K}_s\), \(\widetilde{K}_c\) combinations still could provide useful solutions.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     %\includesvg[width=0.6\textwidth, inkscapelatex=false]{figures/solve/swan.svg}
     \begin{overpic}[width=\textwidth]{figures/solve/swan.eps}
@@ -178,9 +178,9 @@ This section presents a set of different shapes solved to demonstrate the SAT so
     \label{fig:swan}
 \end{figure}
 
-\paragraph{Polyomino J} With the 2D option enabled, the solver requires fewer clauses as it only needs to check four patches and four rotations per particle. Here this is used to expore the solution landscape for a polyomino shaped as the letter \textbf{J}, shown in Figure~\ref{fig:letter_J}.a). Figure~\ref{fig:letter_J}.b) shows the resulting solution landscape, where the minimal solution is just one species less than the fully adressable one. This can be explained by the lack of symmetry and modularity in the shape, where only the species used for the ``endpoints'' can be reused. 
+\paragraph{Polyomino J} With the 2D option enabled, the solver requires fewer clauses as it only needs to check four patches and four rotations per particle. Here this is used to explore the solution landscape for a polyomino shaped like a letter \textbf{J}, shown in Figure~\ref{fig:letter_J}.a). Figure~\ref{fig:letter_J}.b) shows the resulting solution landscape, where the minimal solution is just one species less than the fully addressable one. This can be explained by the lack of symmetry and modularity in the shape, where only the species used for the ``endpoints'' can be reused. 
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     %\includesvg[width=0.6\textwidth, inkscapelatex=false]{figures/solve/letter_J.svg}
     \begin{overpic}[width=\textwidth]{figures/solve/letter_J.eps}
@@ -196,7 +196,7 @@ This section presents a set of different shapes solved to demonstrate the SAT so
 
 \paragraph{Robot} The ``robot'' shape seen in Figure~\ref{fig:robot}.a) consists of more cubes than the previous examples, thereby resulting in the larger assembly landscape seen in Figure~\ref{fig:robot}.b). Once again, the valid solutions clearly follow the border region between the blue UND region of solutions with varying assembly ratio and the red region where no solution is possible.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     %\includesvg[width=0.8\textwidth, inkscapelatex=true]{figures/solve/robot.svg}
     \begin{overpic}[width=\textwidth]{figures/solve/robot.eps}
@@ -210,9 +210,9 @@ This section presents a set of different shapes solved to demonstrate the SAT so
     \label{fig:robot}
 \end{figure}
 
-\paragraph{Hollow cube} The hollow \(3 \times 3 \times 3\) cube (Figure~\ref{fig:hollow_cube}.a) is a good example of a larger structure (20 cubes) that still has a very low complexity solution, as seen in Figure~\ref{fig:hollow_cube},b). This can be explained by the large amount of symmetry found in the shape, needing just a single species for the vertices and another species for the edges.
+\paragraph{Hollow cube} The hollow \(3 \times 3 \times 3\) cube (Figure~\ref{fig:hollow_cube}.a) is a good example of a larger structure (20 cubes) that still has a very low complexity solution, as seen in Figure~\ref{fig:hollow_cube},b). This low complexity can be explained by the large amount of symmetry found in the shape, needing just a single species for the vertices and another species for the edges.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     %\includesvg[width=\textwidth, inkscapelatex=false]{figures/solve/cube.svg}
     \begin{overpic}[width=\textwidth]{figures/solve/cube.eps}
@@ -226,9 +226,9 @@ This section presents a set of different shapes solved to demonstrate the SAT so
     \label{fig:hollow_cube}
 \end{figure}
 
-\paragraph{Solid cube} Figure~\ref{fig:solid_cube} shows the solution landscape for a solid \(3 \times 3 \times 3\) cube. While it is visible also for the hollow cube, the sharp border of valid solutions along the diagonal seen in previous solutions is now less clear. This could be due to an increasing number of altarnative solutions available for a given \(\widetilde{K}_s\), \(\widetilde{K}_c\) position, leading to some positions getting classified as UND while a valid solution could be found through further retries.
+\paragraph{Solid cube} Figure~\ref{fig:solid_cube} shows the solution landscape for a solid \(3 \times 3 \times 3\) cube. While it is visible also for the hollow cube, the sharp border of valid solutions along the diagonal seen in previous solutions is now less clear. This could be due to an increasing number of alternative solutions available for a given \(\widetilde{K}_s\), \(\widetilde{K}_c\) position, leading to some positions getting classified as UND while a valid solution could be found through further retries.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     %\includesvg[width=\textwidth, inkscapelatex=false]{figures/solve/filled_cube.svg}
     \begin{overpic}[width=\textwidth]{figures/solve/filled_cube.eps}
@@ -244,16 +244,16 @@ This section presents a set of different shapes solved to demonstrate the SAT so
 
 \section{Scalability analysis}
 
-% Ard: I can think of lots of questions, such as -- how does this method scale?  When does it break down?   For the systems like the 16mers in chapter 3, how does it compare with what you find by random sampling of rules etc...
+% Ard: I can think of lots of questions, such as -- how does this method scale? When does it break down? For the systems like the 16mers in chapter 3, how does it compare with what you find by random sampling of rules etc...
 % Discuss scaling and when it breaks down. How does it scale with size of the system. Plot number of clauses needed on the grid
 
 
 \section{Comparison to random sampling results}
 
-% Ard: Compare ch4 back to previous results. Make grids from random samples, color by frequency.
+% Ard: Compare ch4 back to previous results. Make grids from random samples, colour by frequency.
 
-% 1) Take a high probability structure (e.g. the cube) and see how often different rules are found by random sampling  --- is it roughly ture that P(ruleset) ~ 2^(size)  -- log P(ruleset) ~ size of rulset 
-% 2) I would do this for some of the say 16mers or other 2D structures e.g. in the paper with Iain -- we simply found the K by looking at the shortest code found by sampling.  Question" how good is this in pracice. --  you did this as well in your plots.
+% 1) Take a high probability structure (e.g. the cube) and see how often different rules are found by random sampling  --- is it roughly ture that P(ruleset) ~ 2^(size)  -- log P(ruleset) ~ size of ruleset 
+% 2) I would do this for some of the say 16mers or other 2D structures e.g. in the paper with Iain -- we simply found the K by looking at the shortest code found by sampling. Question" how good is this in practice. --  you did this as well in your plots.
 
 
 \section{Assembly in a continuous model}
@@ -262,12 +262,14 @@ While the stochastic assembler works well to test determinism, a more realistic 
 \subsection{Patchy particle simulation}
 \label{sec:patchy_particles}
 
+% Andrew: Describe! Diffusion, in position and orientation. Hence need to constrain interactions tightly to ensure good mapping to more abstract models.
+
 Besides discrete tile models, self-assembly can also be modelled using Molecular Dynamics simulations of rigid-body spheres called \emph{patchy particles}. Each particle has a number of patches that bind when they come in contact with another complementary patch.
 
 One such patchy particle simulator is included as part of the oxDNA package \cite{rovigatti2015comparison}. It was, for example, used by Romano et al., as seen in Figure~\ref{fig:patchy_particles}, to verify the patchy interactions designed by their SAT-solver method \cite{romano2020designing}. The same patchy particle model is used here. However, to account for the polycube requirement of patch orientation alignment, the model has been modified to include torsional interactions.
 
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \begin{overpic}[width=\textwidth]{figures/patchy_particles.png}
     \put(0,310){a)}
@@ -280,9 +282,9 @@ One such patchy particle simulator is included as part of the oxDNA package \cit
 
 
 \subsection{Preliminary simulation results}
-Since there are different \emph{narrow types} available, corresponding to slightly different patch interaction potential widths, we start by simulating the structure stability for each potential and for a range of different temperatures. As seen in Figure~\ref{fig:narrow_types}, higher temperatures and lower narrow types cause the assembly to fall apart and the potential energy to increase. For narrow type 0, there is still some connectivity for the higher temperatures, with the energy oscillating as particles bind and unbind, but for higher narrow types the oscillations grow less and the particles remain unbound.
+Since there are different \emph{narrow types} available, corresponding to slightly different patch interaction potential widths, we start by simulating the structure stability for each potential and for a range of different temperatures. As seen in Figure~\ref{fig:narrow_types}, higher temperatures and lower narrow types cause the assembly to fall apart and the potential energy to increase. For narrow type 0, there is still some connectivity for the higher temperatures, with the energy oscillating as particles bind and unbind, but for higher narrow types, the oscillations grow less, and the particles remain unbound.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \begin{overpic}[width=\textwidth]{figures/patchysim/narrow_types.eps}
         \put(-10,210){a)}
@@ -297,17 +299,17 @@ Next, we then try to simulate and compare the assemblies of the fully addressabl
 
 %Looking at Figure~\ref{fig:patchy_energy}, there are temperatures for which each of the shapes start to nucleate early on, as a sudden drop in the energy over time corresponds to a nucleation event.
 
-%\begin{figure}[h]
+%\begin{figure}[ht]
 %    \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/patchysim/energy.svg}
-%    \caption{Potential energy over time in patchy particle simulations. The top row shows the fully adressable solution while the bottom row is the minimal solution found. Each simulation is done using the narrow type \(0\) potential at a \(0.1\) particle density.}
+%    \caption{Potential energy over time in patchy particle simulations. The top row shows the fully addressable solution while the bottom row is the minimal solution found. Each simulation is done using the narrow type \(0\) potential at a \(0.1\) particle density.}
 %    \label{fig:patchy_energy}
 %\end{figure}
 
 We can now look at the assembly yield, shown in Figure~\ref{fig:complete_clusters} as the percentage of clusters having the correct number of each species. Despite the aggregation previously discussed, the two cube shapes have a growing number of correct assemblies for certain temperatures. Meanwhile, the other shapes are all approach a high assembly yield for lower temperatures.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/patchysim/complete_clusters.svg}
-    \caption{Assembly yield over time for patchy particle simulations. The top row shows the fully adressable solution while the bottom row is the minimal solution found.Each simulation is done using the narrow type \(0\) potential at a \(0.1\) particle density.}
+    \caption{Assembly yield over time for patchy particle simulations. The top row shows the fully addressable solution while the bottom row is the minimal solution found.Each simulation is done using the narrow type \(0\) potential at a \(0.1\) particle density.}
     \label{fig:complete_clusters}
 \end{figure}
 
@@ -315,9 +317,9 @@ Another measure is the size of the clusters in the system, where a cluster is a 
 
 While the other shapes do not assemble any larger than the intended size, the two cubes aggregate into clusters many times larger than intended. \emph{This happens because these shapes are self-limiting through their geometry, which works less well on flexible patchy particles compared to the rigid lattice of the stochastic assembler}. In contrast, the other shapes are self-limiting through their topology, with no loops in their connectivity graphs.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/patchysim/largest_cluster_size.svg}
-    \caption{Largest cluster size over time for patchy particle simulations. The top row shows the fully adressable solution while the bottom row is the minimal solution found. Each simulation is done using the narrow type \(0\) potential at a \(0.1\) particle density.}
+    \caption{Largest cluster size over time for patchy particle simulations. The top row shows the fully addressable solution while the bottom row is the minimal solution found. Each simulation is done using the narrow type \(0\) potential at a \(0.1\) particle density.}
     \label{fig:max_cluster}
 \end{figure}
 
@@ -329,10 +331,10 @@ A general remark on the simulation results in Figure~\ref{fig:patchy_energy}, \r
 
 Another feature with the SAT solver approach is the ability to design \emph{multifarious} assemblies, that is, rules that can assemble into more than one shape. This is simply done by defining multiple distinct shapes next to each other as input to the solver.
 
-Figure~\ref{fig:multifarious_rectangles} shows a solution landscape for two different rectangle shapes. The fully adressable solution (in the upper-right corner) has no shared species between the two shapes, while a simpler solution, such as: \href{https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=0d01860000000501860000000905020000008d0102880000}{0d0186000000\allowbreak050186000000\allowbreak090502000000\allowbreak8d0102880000}
+Figure~\ref{fig:multifarious_rectangles} shows a solution landscape for two different rectangle shapes. The fully addressable solution (in the upper-right corner) has no shared species between the two shapes, while a simpler solution, such as: \href{https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=0d01860000000501860000000905020000008d0102880000}{0d0186000000\allowbreak050186000000\allowbreak090502000000\allowbreak8d0102880000}
 with \(\widetilde{K}_s=4\), \(\widetilde{K}_c=3\), share three out of four species.
 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/solve/2rect.svg}
     \caption{Multifarious assembly of rectangles. Solution landscape (right) for the assembly of two different rectangular shapes (left).}
     \label{fig:multifarious_rectangles}
