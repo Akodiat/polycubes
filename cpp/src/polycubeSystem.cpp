@@ -325,7 +325,7 @@ Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
 
                     Rule b_oriented;
                     if (this->torsion) {
-                        std::cout<<"Using torsion"<<std::endl;
+                        //std::cout<<"Using torsion"<<std::endl;
                         b_oriented = this->rotateRuleAroundAxis(b_faced,
                             PolycubeSystem::getRuleOrder(i),
                             - this->getSignedAngle(
@@ -335,7 +335,7 @@ Rule* PolycubeSystem::ruleFits(Rule a, Rule b) {
                             )
                         );
                     } else {
-                        std::cout<<"No torsion"<<std::endl;
+                        //std::cout<<"No torsion"<<std::endl;
                         std::uniform_int_distribution<uint32_t> ruledist(0, 3);
                         double angle = ruledist(this->randomNumGen) * M_PI_2;
                         b_oriented = this->rotateRuleAroundAxis(b_faced,
