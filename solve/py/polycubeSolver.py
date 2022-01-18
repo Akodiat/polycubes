@@ -429,12 +429,12 @@ class polysat:
         return constraints
 
 
-    def output_cnf(self,constraints,out=None):
+    def output_cnf(self,out=None):
         """ Outputs a CNF formula """
         num_vars = max(self.variables.values())
-        num_constraints = len(constraints)
+        num_constraints = len(self.basic_sat_clauses)
         outstr = "p cnf %s %s\n" % (num_vars, num_constraints)
-        for c in constraints:
+        for c in self.basic_sat_clauses:
             outstr += ' '.join([str(v) for v in c]) + ' 0\n'
         if (out is not None):
             out.write(outstr)
@@ -563,12 +563,12 @@ class polysat:
         self.generate_constraints()
 
     def dump_cnf_to_file(self,fname):
-        parameters  = self.output_cnf(self.basic_sat_clauses)
+        parameters  = self.output_cnf()
         with open(fname,'w') as outf:
             outf.write(parameters)
 
     def solve(self, timeout=None):
-        formula = CNF(from_string = self.output_cnf(self.basic_sat_clauses))
+        formula = CNF(from_string = self.output_cnf())
         with Glucose4(bootstrap_with=formula.clauses) as m:
             if timeout:
                 timer = Timer(timeout, interrupt, [m])
@@ -635,7 +635,7 @@ class polysat:
         tempfilename = '/tmp/temp_for_relsat.%s.cls' % (os.getpid())
         tempout = tempfilename+'.sol'
         temp = open(tempfilename,'w')
-        self.output_cnf(self.basic_sat_clauses,temp)
+        self.output_cnf(temp)
         #temp.write(parameters)
         temp.close()
         #here we execute

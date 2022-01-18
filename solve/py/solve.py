@@ -380,7 +380,7 @@ def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=100):
             decRule = ruleToDec(rule)
             ratiosum = 0
             for shape in shapes:
-                ratio = libpolycubes.assembleRatio(shape, decRule, isHexString=False)
+                ratio = libpolycubes.assembleRatio(shape, decRule, isHexString=False, torsion=solveSpec['torsion'])
                 if ratio == 0:
                     print("Shape {}never assembled".format((("{} ").format(shape) if len(shapes)>1 else '')))
                     ratiosum = 0
