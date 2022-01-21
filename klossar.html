@@ -237,6 +237,13 @@
             particlesReader.addEventListener("load", () => {
                 const patchesReader = new FileReader();
                 patchesReader.addEventListener("load", () => {
+                    system.compatibleColors = (c1, c2) => {
+                        if (c1 > 20 && c2 > 20) {
+                            return c1 == -c2;
+                        } else {
+                            return c1 == c2;
+                        }
+                    }
                     system.resetRule(patchySpecToKloss(
                         particlesReader.result,
                         patchesReader.result

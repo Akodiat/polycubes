@@ -111,7 +111,7 @@ class KlossSystem {
         let nColors = Math.max.apply(Math, rule.map(x => Math.max.apply(
             Math, x.map(r => Math.abs(r.color))))
         );
-        nColors = Math.max(nColors, 2) //Avoid getting only red colors
+        //nColors = Math.max(nColors, 2) //Avoid getting only red colors
 
         for (let i=0; i<nColors; i++) {
             let colorMaterial = new THREE.MeshLambertMaterial({
@@ -267,12 +267,11 @@ class KlossSystem {
     }
 
     ruleFits(patch, species) {
-        let la = patch.length;
         let length = species.length;
         // Traverse rule patches in random order
         let r = this.randOrdering(length);
         // Make sure patch is not empty
-        if (patch.color != 0) {
+        //if (patch.color != 0) {
             let facingDir = patch.dir.clone().negate();
             // Check each patch in species
             for (let rib=0; rib<length; rib++) {
@@ -303,7 +302,7 @@ class KlossSystem {
                     };
                 }
             }
-        }
+        //}
         // Return false if we didn't find any matching faces
         return false;
     }
@@ -393,10 +392,12 @@ class KlossSystem {
                 continue;
             }
             let patch = rotatedSpecies[i];
+            /*
             if (patch.color == 0) {
                 // Zero patches doesn't bind
                 continue;
             }
+            */
             let patchPos = position.clone().add(patch.pos);
 
             if (Math.abs(patchPos.x)>this.maxCoord ||
@@ -433,48 +434,46 @@ class KlossSystem {
         const linePoints = [new THREE.Vector3];
 
         species.forEach((patch,i)=>{
-            if (patch.color != 0) {
-                let patchGroup = new THREE.Group();
+            let patchGroup = new THREE.Group();
 
-                let material = this.colorMaterials[Math.abs(patch.color) - 1].clone();
-                if (patch.color >= 0) {
-                    material.emissive = material.color.clone().addScalar(-0.5);
-                }
-                let connector = new THREE.Mesh(
-                    this.connectorGeo, material
-                );
-                connector.lookAt(patch.dirBase);
-
-                patchGroup.add(connector);
-
-                let connectorPointer = new THREE.Mesh(
-                    this.connectorPointerGeo, material
-                );
-                connectorPointer.lookAt(patch.alignBase);
-                connectorPointer.position.add(patch.alignBase.clone().multiplyScalar(0.1));
-
-                patchGroup.add(connectorPointer);
-
-                const nPoints = 4;
-                for (let i=0; i<nPoints; i++) {
-                    let diff = patch.alignDir.clone().multiplyScalar(0.25);
-                    diff.applyAxisAngle(patch.dir, i * 2*Math.PI/nPoints);
-                    linePoints.push(
-                        patch.pos.clone().sub(patch.dir.clone().multiplyScalar(0.2)).add(diff)
-                    );
-                }
-
-                patchGroup.children.forEach(c=>{
-                    c.position.sub(patch.dirBase.clone().multiplyScalar(0.1));
-                });
-
-                patchGroup.applyQuaternion(patch.q);
-                patchGroup.position.copy(patch.pos);
-                this.patchObjects.push(patchGroup);
-                patchGroup['patch'] = this.rule[ruleIdx][i];
-
-                particle.add(patchGroup);
+            let material = this.colorMaterials[Math.abs(patch.color)].clone();
+            if (patch.color >= 0) {
+                material.emissive = material.color.clone().addScalar(-0.5);
             }
+            let connector = new THREE.Mesh(
+                this.connectorGeo, material
+            );
+            connector.lookAt(patch.dirBase);
+
+            patchGroup.add(connector);
+
+            let connectorPointer = new THREE.Mesh(
+                this.connectorPointerGeo, material
+            );
+            connectorPointer.lookAt(patch.alignBase);
+            connectorPointer.position.add(patch.alignBase.clone().multiplyScalar(0.1));
+
+            patchGroup.add(connectorPointer);
+
+            const nPoints = 4;
+            for (let i=0; i<nPoints; i++) {
+                let diff = patch.alignDir.clone().multiplyScalar(0.25);
+                diff.applyAxisAngle(patch.dir, i * 2*Math.PI/nPoints);
+                linePoints.push(
+                    patch.pos.clone().sub(patch.dir.clone().multiplyScalar(0.2)).add(diff)
+                );
+            }
+
+            patchGroup.children.forEach(c=>{
+                c.position.sub(patch.dirBase.clone().multiplyScalar(0.1));
+            });
+
+            patchGroup.applyQuaternion(patch.q);
+            patchGroup.position.copy(patch.pos);
+            this.patchObjects.push(patchGroup);
+            patchGroup['patch'] = this.rule[ruleIdx][i];
+
+            particle.add(patchGroup);
         });
 
         let particleGeometry = new ConvexGeometry(linePoints);

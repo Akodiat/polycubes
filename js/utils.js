@@ -194,10 +194,10 @@ function patchySpecToKloss(particlesStr, patchesStr) {
         const color = getScalar('color', line);
         if (color !== false) {
             if (Math.abs(color) <= 20) {
-                console.error("Cannot handle self-interactive patches yet, sorry!");
-                return;
+                console.warn("Self-interactive patches!");
             }
-            patches.get(currentId)['color'] = color - Math.sign(color) * 20;
+            //patches.get(currentId)['color'] = color - Math.sign(color) * 20;
+            patches.get(currentId)['color'] = color;
         }
         for (const k of ['position', 'a1', 'a2']) {
             const a = getArray(k, line);
