@@ -25,7 +25,7 @@ The following sections will cover a selection of practical design and simulation
 %The following sections cover my results over the last year, investigating methods for converting designs into the oxDNA/RNA format and for visualising and analysing the simulation results.
 
 \section{Design tools for DNA origami}\label{sec:design_tools}
-Designing a DNA origami structure by hand would be very laborious for anything but the most simple design. As such, a host of computer-aided design tools have been introduced over the years to make things easier. This section will cover some of the more common examples.
+Designing a DNA origami structure by hand would be very laborious for anything but the most simple design. A host of computer-aided design tools have been introduced over the years to make things easier. This section will cover some of the more common examples.
 
 \subsection{Lattice-based design tools}
 The caDNAno design tool \cite{cadnano} and the web-based scadnano \cite{scadnano} it inspired, allows the user to design DNA origami structures on a lattice of parallel helices.
@@ -48,7 +48,7 @@ Finally, caDNAno is also available as a plugin to the Autodesk Maya software, wh
 Scadnano \cite{scadnano} (short for \emph{scriptable caDNAno}) is a relatively new design tool, independent from but inspired by caDNAno version 2. The main difference is that Scadnano is entirely web-based (thus not requiring any installation). The python code base is also designed to make it easier to write scripts generating DNA designs. Scadnano can be found at \url{https://scadnano.org/}.
 
 \subsection{Top-down shape converters}
-While tools like caDNAno simplify bottoms-up design, where the user builds structures from individual strands and nucleotides, a top-down tool can take a polyhedral target shape as input and provide a suitable origami design as output. 
+While tools like caDNAno simplify bottom-up design, where the user builds structures from individual strands and nucleotides, a top-down tool can take a polyhedral target shape as input and provide a suitable origami design as output. 
 
 % Mention DNA bricks software?
 
@@ -173,6 +173,9 @@ Simulation tools such as NAMD \cite{NAMDphillips2005scalable}, use force fields 
 
 \subsection{oxDNA/RNA}
 \label{sec:oxDNA}
+
+% Andrew: More needed. How is it calibrated, relaxation, simulation...
+
 In 2010, a coarse-grained simulation software called oxDNA was introduced by Thomas Ouldridge \cite{ouldridge2010dna}. It runs molecular Dynamics (MD) and Monte Carlo (MC) simulations of DNA at the level of nucleotides and can model complex origami devices with a generally good agreement with experimental data \cite{sharma2017characterizing}.
 
 Since its creation, both the model and the software running it has been extended and improved \cite{ouldridge2011structural, rovigatti2015comparison, sulc2012Sequence, ouldridge2013optimizing, snodin2015introducing}. In 2014, the model was extended to include RNA by Petr {\v{S}}ulc \cite{vsulc2014nucleotide}, showing its ability to model a set of common RNA motifs. In 2021, the model was further extended to include protein-DNA/RNA hybrids by Jonah Procyk \cite{procyk2021coarse}.
@@ -209,11 +212,13 @@ I did, based on this, also create a rudimentary interactive editor interface to 
   \end{center}
 \end{figure}
 
+% This section would make sense to someone skilled in origami, but is too cryptic for either of your examiners.
+
 A selection of the DNA designs I have relaxed are shown in Figure~\ref{fig:oxDNA_sims}. The first two examples, from \cite{gerling2015dynamic} and \cite{zadegan2012smallbox} and illustrated in Figure~\ref{fig:oxDNA_sims}.a) and~\ref{fig:oxDNA_sims}.b), are both quite straightforward to relax in oxDNA, although the relaxation is much faster using mrDNA.
 
 The tensegrity kite structure, from \cite{liedl2010_kite} is harder to relax since, as seen in the first image in Figure~\ref{fig:oxDNA_sims}.c, the two helix bundles are drawn parallel to each other in caDNAno. Given enough time to relax, they should still become orthogonal, but a much more efficient way is to write a mrdna script to rotate one helix bundle so that it is orthogonal from the start, as seen in the middle image of~\ref{fig:oxDNA_sims}.c. The remaining overstretched bonds are then quickly relaxed using mrdna.
 
-Finally, the Möbius strip, from \cite{han2010moebius}, is particularly tricky to relax, since the caDNAno design have all helices drawn in the same plane, with bonds from each end stretching through the whole structure and intersecting at a single point, as can be seen in the first image of Figure~\ref{fig:oxDNA_sims}.d. With some help from Chris Maffeo, however, I was able to use a mrdna script to edit the structure into a configuration much easier to relax, as seen in the second image of Figure~\ref{fig:oxDNA_sims}.d. Since the caDNAno design does not make it clear if the Möbius strip should be left-handed or right-handed, this is also decided in the script; changing the rotational direction will produce a mirrored version of the structure, as seen in the third image of Figure~\ref{fig:oxDNA_sims}.d.
+Finally, the Möbius strip, from \cite{han2010moebius}, is particularly tricky to relax, since the caDNAno design have all helices drawn in the same plane, with bonds from each end stretching through the whole structure and intersecting at a single point, as can be seen in the first image of Figure~\ref{fig:oxDNA_sims}.d. With some help from Chris Maffeo, however, I was able to use a mrdna script to edit the structure into a configuration much easier to relax, as seen in the second image of Figure~\ref{fig:oxDNA_sims}.d. Since the caDNAno design does not make it clear whether the Möbius strip should be left-handed or right-handed, this is also decided in the script; changing the rotational direction will produce a mirrored version of the structure, as seen in the third image of Figure~\ref{fig:oxDNA_sims}.d.
 
 \begin{figure}
   \centering
@@ -225,7 +230,7 @@ Finally, the Möbius strip, from \cite{han2010moebius}, is particularly tricky t
   \end{overpic}
   \caption{Relaxation results for various DNA designs. Each row depicts a new design, with the left-hand side showing the structure as it was drawn in caDNAno (and parsed by mrdna), while the right-hand side is the relaxed structure in oxDNA. Intermediate images are edits done in mrdna. While the switch design \cite{gerling2015dynamic} in  \textbf{a)} 
   and the small DNA origami box \cite{zadegan2012smallbox} in  \textbf{b)} relaxed without any required editing, the tensegrity kite structure \cite{liedl2010_kite} in  \textbf{c)} and the Möbius strip \cite{han2010moebius} in  \textbf{d)} benefited greatly from moving selected helices to a position off the lattice before starting the simulation.}
-  \label{fig:mrdna}
+  \label{fig:oxDNA_sims}
 \end{figure}
 
 \subsection{Cando}
