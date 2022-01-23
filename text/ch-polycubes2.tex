@@ -2,11 +2,13 @@
 
 \minitoc
 
-In the previous chapter, we saw how to map an input rule into an output polycube shape. However, the reverse problem is just as significant; given a target shape, how do you find a rule that assembles it?  
+In the previous chapter, we used random input rules to explore properties of the corresponding distributions of output polycube shapes. However, the reverse problem is just as significant; given a target shape, how do you find a rule that assembles it?  
 
 % Fully addressable is the easy solution.
 
-A trivial solution would be to use \emph{fully addressable assembly}: simply assign a unique species to each cube and a unique colour to each pair of adjacent patches. This is similar to what was done for DNA bricks (Section~\ref{sec:dna_tiles_bricks}), where every brick tile is unique. However, as was seen in Chapter~\ref{ch:polycubes1}, many shapes have alternative solutions requiring significantly fewer unique components. See Figure~\ref{fig:addressable}, where a square tetromino is shown to have a variety of inputs assembling it, from the minimal solution with just a single species and one colour, up to the fully addressable solution with four species and four colours (\(\widetilde{K}_s = \widetilde{K}_c = 4\)). The intermediate solutions are not necessarily deterministic in terms of which position gets which species, but they will always assemble into the same shape.
+A trivial solution would be to use \emph{fully addressable assembly}: simply assign a unique species to each cube and a unique colour to each pair of adjacent patches. This is similar to the design principle underlying DNA bricks (Section~\ref{sec:dna_tiles_bricks}), where every brick tile is unique. However, as was seen in Chapter~\ref{ch:polycubes1}, many shapes have alternative solutions requiring widely different numbers of unique components. See Figure~\ref{fig:addressable}, where a square tetromino is shown to have a variety of inputs assembling it, from the minimal solution with just a single species and one colour, up to the fully addressable solution with four species and four colours (\(\widetilde{K}_s = \widetilde{K}_c = 4\)). The intermediate solutions are not necessarily deterministic in terms of which position gets which species, but they will always assemble into the same shape.
+
+% Andrew: Explain the significance of mismatched colours.
 
 Meanwhile, the empty red region in Figure~\ref{fig:addressable}.b) shows combinations of \(\widetilde{K}_s\) and \(\widetilde{K}_c\) for which a solution is not possible. For example, if you use a single species, you cannot use more than one colour.
 
@@ -21,16 +23,16 @@ Meanwhile, the empty red region in Figure~\ref{fig:addressable}.b) shows combina
     \end{overpic}
     \vspace{1em}
     %\includesvg[width=\textwidth, inkscapelatex=false]{figures/solve/adressable.svg}
-    \caption{\(2 \times 2\) square polyomino assembled with different levels of complexity. \textbf{a)} Scematic of the input shape, consisting of four connected tiles. \textbf{b)} The green region shows possible assembly solutions, from the \emph{minimal solution} using a single species and a single colour (bottom left), to the \emph{fully addressable solution} using four species and colours (top right). The red region lacks solutions. }
+    \caption{\(2 \times 2\) square polyomino assembled with different levels of complexity. \textbf{a)} Schematic of the input shape, consisting of four connected tiles. \textbf{b)} The green region shows possible assembly solutions, from the \emph{minimal solution} using a single species and a single colour (bottom left), to the \emph{fully addressable solution} using four species and colours (top right). The red region lacks solutions. }
     \label{fig:addressable}
 \end{figure}
 
-So, how do we find these alternative and simpler input rules for a shape? Surely, there must exist a better method than sampling the space of all rules (as done in Chapter~\ref{ch:polycubes1})? This chapter presents an approach where \emph{satisfiability solving} is used to determine if a shape can be assembled from a given number of colours and species, thus automatically filling in solution landscapes such as the one shown in Figure~\ref{fig:addressable}. Furthermore, a complementary approach of substituting similar species is also described in Section~\ref{sec:substitution_solving}.
+So, how do we find alternative and simpler input rules for a shape? Surely, there must exist a better method than sampling the space of all rules (as done in Chapter~\ref{ch:polycubes1})? This chapter presents an approach where \emph{satisfiability solving} is used to determine if a shape can be assembled from a given number of colours and species, thus automatically filling in solution landscapes such as the one shown in Figure~\ref{fig:addressable}. A complementary approach substituting similar species is also described in Section~\ref{sec:substitution_solving}.
 
 
 \section{Satisfiability solving}
 
-Building upon a method for determining patchy particle interactions for unbounded structures \cite{romano2020designing}, it is possible to formulate and solve satisfiability problems for the bounded polycube structures.
+Building upon a published method for determining patchy particle interactions for unbounded structures \cite{romano2020designing}, it is possible to formulate and solve satisfiability problems that map onto assembly rules for the bounded polycube structures.
 
 In essence, we formulate a boolean expression that, if true, means it is possible to assemble a given polycube topology using a given number of colours and species. We can then use a satisfiability solver to check if that expression is indeed solvable and, if it is, extract an assembly rule from the solution.
 
@@ -44,9 +46,9 @@ The boolean expression is written in conjunctive normal form (CNF), where variab
     (\lnot x_{rainbow} \lor x_{sunny})
 \]
 
-The first clause is \({true}\) for all values except when \(x_{rain}={true}\), \(x_{umbrella}={false}\) and \(x_{walk}=true\); so the solution of taking a walk in the rain without an umbrella is forbidden (allthough I would personally prefer a good coat). This could also be written as an \emph{implication}: \(x_{rain} \land x_{walk} \implies x_{umbrella}\).
+The first clause is \({true}\) for all values except when \(x_{rain}={true}\), \(x_{umbrella}={false}\) and \(x_{walk}=true\); so the solution of taking a walk in the rain without an umbrella is forbidden. This could also be written as an \emph{implication}: \(x_{rain} \land x_{walk} \implies x_{umbrella}\).
 
-The following two clauses in the example above are the CNF form of another implication: \(x_{rainbow} \implies  x_{rain} \land x_{sunshine}\), stating that a rainbow implies that we have both rain and sunshine (we cannot have a rainbow without rain or without sunshine). The full expression is satisfiable, for example, if we set \(x_{sun}=true\), \(x_{rain}=false\), \(x_{walk}=false\), \(x_{umbrella}=false\), and \(x_{rainbow}=false\); ignoring the sunshine walk and remaining inside to work.
+The following two clauses in the example above are the CNF form of another implication: \(x_{rainbow} \implies  x_{rain} \land x_{sunshine}\), stating that a rainbow implies that we have both rain and sunshine (we cannot have a rainbow without rain or without sunshine). The full expression is satisfiable, for example, if we set \(x_{sun}=true\), \(x_{rain}=false\), \(x_{walk}=false\), \(x_{umbrella}=false\), and \(x_{rainbow}=false\); ignoring the walk in the sunshine and remaining inside to work.
 
 \subsection{Polycube formulation}
 
@@ -80,11 +82,12 @@ We then formulate clauses to constrain the problem, seen in Table~\ref{tab:sat_c
         (iix) &  \(C^{O}_{s,p,o_k,o_l}\) & \(\neg x_{s, p, o_k}^{O} \lor \neg x_{s, p, o_l}^{O}\) \\ % Each patch is assigned exactly one orientation
         (ix) & \(C^{DA}_{l_i,p_i,c_i,l_j,p_j,c_j}\) & \(\left(x_{l_i,p_i,c_i}^{A} \land x_{l_j,p_j,c_j}^{A} \right) \Rightarrow x_{p_i,c_i,p_j,c_j}^{D}\) \\ % Orientation of patches that interact in the target lattice must be compatible
         (x) & \(C^{rotO}_{l,s,r,p,o}\) & \(x_{l,s,r}^{P} \Rightarrow \left(x_{l,p,o}^{A} \Leftrightarrow x_{s, \phi_r(p), o}^{O}\right)\) \\ % The patches at a lattice position is set to have the orientations of the rotated occupying species.
-        
         \hline
     \end{tabular}
     \caption{SAT clauses. (i) Each colour is compatible with \textit{exactly one} colour. (ii) Each patch has \textit{exactly one} colour. (iii) Each lattice position contains a single species with an assigned rotation. (iv) Adjacent patches in the lattice must have compatible colours. (v) Patches at a lattice position are coloured according to the (rotated) occupying species. (vi) All \(\widetilde{K}_s\) species are required in the solution. (vii) All \(\widetilde{K}_c\) patch colours are required in the solution. (iix) Each patch is assigned \textit{exactly one} orientation. (ix) Adjacent patches in the target lattice must have the same orientation. (v)  Patches at a lattice position are oriented according to the (rotated) occupying species.}
     \label{tab:sat_clauses}
+
+    % Andrew: I would make a full-page table with the English statement as an additional column.
     \end{table}
 
 \subsection{On the importance of torsional interactions}
@@ -105,7 +108,7 @@ More importantly, the assembly should benefit from torsional patch interaction (
 
 
 \subsection{Bounded structures}
-Besides the torsional patches, another important difference to \cite{romano2020designing} is that the method presented here allows for bounded structures. This is achieved by adding species of type ``empty'' as a "shell" around the shape to ensure that empty patches remain unbound. Adding a clause \(x_{0,1}^{B}\) ensures that colour 0 always binds to 1. 
+Besides the torsional patches, another important difference to \cite{romano2020designing} is that the method presented here allows for bounded structures. This is achieved by adding species of type ``empty'' as a "shell" around the shape to ensure that empty patches remain unbound. Adding a clause \(x_{0,1}^{B}\) ensures that colour 0 (on the shell) always binds to 1 (on the boundary). 
 
 We then add clauses \(x_{l,p,1}^{F}\) to constrain every boundary patch \(p\) at lattice position \(l\) to have the colour \(1\) and thereby not bind anything else. For example, in Figure~\ref{fig:sat_boundary}, where these boundary patches are seen coloured white (and bordering an empty square), we get the following 12 clauses:
 
@@ -162,7 +165,7 @@ An alternative and complementary approach is to substitute species that are simi
 \label{sec:example_solves}
 This section presents a set of different shapes solved to demonstrate the SAT solver method described above.
 
-\paragraph{Swan} A more sophisticated version of the ``giraffe duck'' from Figure~\ref{fig:UND}, the Swan shape has a fixed neck length of one intermediate cube, as shown in Figure~\ref{fig:swan}.a). Figure~\ref{fig:swan}.b) shows the solution landscape, where valid deterministic solutions can be found along the upper diagonal. Many of the undefined (UND) configurations still assemble at a high ratio, indicating that these \(\widetilde{K}_s\), \(\widetilde{K}_c\) combinations still could provide useful solutions.
+\paragraph{Swan} A more sophisticated version of the ``giraffe duck'' from Figure~\ref{fig:UND}, the Swan shape has a fixed neck length of one intermediate cube, as shown in Figure~\ref{fig:swan}.a). Figure~\ref{fig:swan}.b) shows the solution landscape, where valid deterministic solutions can be found along the upper diagonal. Many of the configurations classified as undefined (UND) because they are not fully deterministic, still assemble at a high ratio. This indicates that these \(\widetilde{K}_s\), \(\widetilde{K}_c\) combinations still could provide useful solutions.
 
 \begin{figure}[ht]
     \centering
@@ -210,7 +213,7 @@ This section presents a set of different shapes solved to demonstrate the SAT so
     \label{fig:robot}
 \end{figure}
 
-\paragraph{Hollow cube} The hollow \(3 \times 3 \times 3\) cube (Figure~\ref{fig:hollow_cube}.a) is a good example of a larger structure (20 cubes) that still has a very low complexity solution, as seen in Figure~\ref{fig:hollow_cube},b). This low complexity can be explained by the large amount of symmetry found in the shape, needing just a single species for the vertices and another species for the edges.
+\paragraph{Hollow cube} The hollow \(3 \times 3 \times 3\) cube (Figure~\ref{fig:hollow_cube}.a) is a good example of a larger structure (20 cubes) that still has a very low complexity solution, as seen in Figure~\ref{fig:hollow_cube},b). This low complexity can be explained by the high symmetry of the shape, needing just a single species for the vertices and another species for the edges.
 
 \begin{figure}[ht]
     \centering
@@ -325,7 +328,7 @@ While the other shapes do not assemble any larger than the intended size, the tw
 
 
 
-A general remark on the simulation results in Figure~\ref{fig:patchy_energy}, \ref{fig:max_cluster}, and~\ref{fig:complete_clusters} is that there is usually not any significant difference between the assembly results for the fully addressable solution (top row) and the minimal solution (bottom row). This means that experimental applications could get away with using significantly fewer unique building blocks, saving both money and time.
+A general remark on the simulation results in Figure~\ref{fig:patchy_energy}, \ref{fig:max_cluster}, and~\ref{fig:complete_clusters} is that there is usually not any significant difference between the assembly yields for the fully addressable solution (top row) and the minimal solution (bottom row). This means that experimental applications could use significantly fewer unique building blocks without the loss of money and time.
 
 \section{Multifarious assemblies}
 
