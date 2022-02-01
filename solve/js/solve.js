@@ -75,14 +75,28 @@ function loadSolveSpec(solveSpec) {
     document.getElementById("stopAtFirstSol").checked = solveSpec.stopAtFirst;
 
     let coordMap = new Map();
-    for (const [i, dPi, j, dPj] of solveSpec.bindings) {
-        console.assert(ruleOrder[dPi].clone().negate().equals(ruleOrder[dPj]), "Odd binding");
-        let iPos = coordMap.setdefault(i, new THREE.Vector3());
-        let jPos = iPos.clone().add(ruleOrder[dPi]);
-        if (coordMap.has(j)) {
-            console.assert(jPos.equals(coordMap.get(j)), "Non-eucledian bindings!");
-        } else {
-            coordMap.set(j, jPos);
+    coordMap.set(0, new THREE.Vector3());
+    let processedBindings = new Set();
+    while (processedBindings.size < solveSpec.bindings.length) {
+        for (const [i, dPi, j, dPj] of solveSpec.bindings) {
+            const key = `${i}.${j}`;
+            if (!processedBindings.has(key)) {
+                console.assert(ruleOrder[dPi].clone().negate().equals(ruleOrder[dPj]), "Odd binding");
+                if(coordMap.has(i) && coordMap.has(j)) {
+                    console.assert(
+                        coordMap.get(i).clone().add(ruleOrder[dPi]).equals(coordMap.get(i)),
+                        "Non-eucledian bindings!"
+                    );
+                } else if (coordMap.has(i)) {
+                    coordMap.set(j, coordMap.get(i).clone().add(ruleOrder[dPi]))
+                } else if (coordMap.has(j)) {
+                    coordMap.set(i, coordMap.get(j).clone().sub(ruleOrder[dPi]))
+                } else {
+                    console.log("should only print once");
+                    continue;
+                }
+                processedBindings.add(key);
+            }
         }
     }
     let center = new THREE.Vector3();
