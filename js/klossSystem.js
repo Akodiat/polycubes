@@ -97,7 +97,6 @@ class KlossSystem {
         this.maxParticles = maxParticles;
         this.maxCoord = maxCoord;
 
-        this.colorMaterials = [];
         this.particleMaterials = [];
         this.matches = 0;
         this.mismatches = 0;
@@ -108,17 +107,6 @@ class KlossSystem {
         this.patchObjects = [];
 
         this.rule = rule;
-        let nColors = Math.max.apply(Math, rule.map(x => Math.max.apply(
-            Math, x.map(r => Math.abs(r.color))))
-        );
-        //nColors = Math.max(nColors, 2) //Avoid getting only red colors
-
-        for (let i=0; i<nColors; i++) {
-            let colorMaterial = new THREE.MeshLambertMaterial({
-                color: selectColor(i)
-            });
-            this.colorMaterials.push(colorMaterial);
-        }
 
         for (let i=0; i<rule.length; i++) {
             let particleMaterial = new THREE.MeshLambertMaterial({
@@ -436,10 +424,13 @@ class KlossSystem {
         species.forEach((patch,i)=>{
             let patchGroup = new THREE.Group();
 
-            let material = this.colorMaterials[Math.abs(patch.color)].clone();
+            let material = new THREE.MeshLambertMaterial({
+                color: selectColor(Math.abs(patch.color) - 1)
+            });
             if (patch.color >= 0) {
                 material.emissive = material.color.clone().addScalar(-0.5);
             }
+
             let connector = new THREE.Mesh(
                 this.connectorGeo, material
             );

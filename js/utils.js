@@ -145,14 +145,14 @@ function patchySpecToKloss(particlesStr, patchesStr) {
     particlesStr = particlesStr.replaceAll(' ', '');
     patchesStr = patchesStr.replaceAll(' ', '');
 
-    getScalar = (name, s) => {
-        m = s.match(new RegExp(`${name}=(-?\\d+)`));
+    let getScalar = (name, s) => {
+        let m = s.match(new RegExp(`${name}=(-?\\d+)`));
         if (m) {
             return parseFloat(m[1]);
         }
         return false
     }
-    getArray = (name, s) => {
+    let getArray = (name, s) => {
         m = s.match(new RegExp(`${name}=([\\,\\d\\.\\-\\+]+)`));
         if (m) {
             return m[1].split(',').map(v=>parseFloat(v));
