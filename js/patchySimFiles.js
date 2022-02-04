@@ -134,7 +134,8 @@ function getPatchySimFiles(rule, nAssemblies=1, name='sim',
     oxDNA_dir = '/users/joakim/repo/oxDNA_torsion',
     temperatures = ['0.01'],
     confDensity = 0.2,
-    narrow_types=['0']
+    narrow_types=['0'],
+    duplicates = 1,
 ) {
     let zip = new JSZip();
     let getPatchStr = (id, color, i, a2, strength=1)=>{
@@ -202,26 +203,29 @@ function getPatchySimFiles(rule, nAssemblies=1, name='sim',
     const inputFileName = 'input';
     let confGenStr = `${oxDNA_dir}/build/bin/confGenerator ${inputFileName} ${confDensity}`;
 
-    for (const narrow_type of narrow_types) {
-        let ntfolder = zip.folder(`nt${narrow_type}`);
-        for (const temperature of temperatures) {
-            let folder = ntfolder.folder(`T_${temperature}`);
+    for (let dup = 0; dup < duplicates; dup++) {
+        let dupfolder = zip.folder(`duplicate_${dup}`);
+        for (const narrow_type of narrow_types) {
+            let ntfolder = dupfolder.folder(`nt${narrow_type}`);
+            for (const temperature of temperatures) {
+                let folder = ntfolder.folder(`T_${temperature}`);
 
-            let inputStr = generateInputFile(rule.length, patchCounter, oxDNA_dir, patchesFileName,
-                particlesFileName, topFileName, temperature, narrow_type
-            );
+                let inputStr = generateInputFile(rule.length, patchCounter, oxDNA_dir, patchesFileName,
+                    particlesFileName, topFileName, temperature, narrow_type
+                );
 
-            let simulateStr = `addqueue -c "${name} T=${temperature} nt${narrow_type} - 1 week" ${oxDNA_dir}/build/bin/oxDNA ${inputFileName}`;
+                let simulateStr = `addqueue -c "${name} T=${temperature} nt${narrow_type} - 1 week" ${oxDNA_dir}/build/bin/oxDNA ${inputFileName}`;
 
-            folder.file(particlesFileName, particlesStr);
-            folder.file(patchesFileName, patchesStr);
-            folder.file(topFileName, topStr);
-            folder.file(inputFileName, inputStr);
-            folder.file('generateConf.sh', confGenStr);
-            folder.file('simulate.sh', simulateStr);
+                folder.file(particlesFileName, particlesStr);
+                folder.file(patchesFileName, patchesStr);
+                folder.file(topFileName, topStr);
+                folder.file(inputFileName, inputStr);
+                folder.file('generateConf.sh', confGenStr);
+                folder.file('simulate.sh', simulateStr);
 
-            if (confStr) {
-                folder.file(confFileName, confStr);
+                if (confStr) {
+                    folder.file(confFileName, confStr);
+                }
             }
         }
     }

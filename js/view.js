@@ -459,7 +459,7 @@ function initScene() {
 }
 
 let cameraPersp, cameraOrtho, camera;
-let orbit, scene, renderer, canvas;
+let orbit, scene, renderer, canvas, transform;
 let plane;
 let mouse, raycaster;
 let rollOverMesh, rollOverMaterial;

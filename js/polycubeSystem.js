@@ -208,7 +208,7 @@ class PolycubeSystem {
                                     ruleOrder[i]
                                 )
                             );
-                            console.assert(a[i].alignDir == b[i].alignDir);
+                            console.assert(a[i].alignDir.distanceTo(b[i].alignDir) < 1e-5);
                         } else {
                             // ...and a random rotation:
                             b = rotateSpeciesAroundAxis(b,
