@@ -1,20 +1,20 @@
 function createPolycubeSystem() {
-    let rules = {};
+    let rule = {};
 
     // Parse rule
     let vars = getUrlVars();
     if ("rule" in vars) {
-        rules = parseHexRule(vars["rule"]);
+        rule = parseHexRule(vars["rule"]);
     } else if ("hexRule" in vars) {
-        rules = parseHexRule(vars["hexRule"]);
+        rule = parseHexRule(vars["hexRule"]);
     } else if ("decRule" in vars) {
-        rules = parseDecRule(vars["decRule"]);
+        rule = parseDecRule(vars["decRule"]);
     } else {
         defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
-        rules = JSON.parse(getUrlParam("rules",defaultRule));
+        rule = JSON.parse(getUrlParam("rules",defaultRule));
 
         // Replace rotation number with vector
-        rules = rules.map(function(rule) {return rule.map(function(face, i) {
+        rule = rule.map(function(species) {return species.map(function(face, i) {
             let r = faceRotations[i].clone();
             if(typeof face == "number") {
                 return {'color':face, 'alignDir':r};
@@ -36,7 +36,7 @@ function createPolycubeSystem() {
     nMaxCubes = parseInt(getUrlParam("nMaxCubes", 100));
     maxCoord = parseInt(getUrlParam("maxCoord", 100));
 
-    system = new PolycubeSystem(rules, scene, nMaxCubes, maxCoord, assemblyMode);
+    system = new PolycubeSystem(rule, scene, nMaxCubes, maxCoord, assemblyMode);
 
     orbit.target = system.centerOfMass;
 

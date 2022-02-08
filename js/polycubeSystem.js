@@ -176,6 +176,10 @@ class PolycubeSystem {
         return ruleToHex(this.rule);
     }
 
+    compatibleColors(c1, c2) {
+        return c1 == -c2;
+    }
+
     ruleFits(a,b) {
         let l = a.length;
         // Traverse rule faces in random order
@@ -190,13 +194,13 @@ class PolycubeSystem {
                 for (let rib=0; rib<l; rib++) {
                     let j = rb[rib];
                     // If we find an equal color
-                    if (a[i].color == b[j].color) {
+                    if (this.compatibleColors(a[i].color, b[j].color)) {
                         // Rotate rule b so that the matching face has
                         // the same direction:
                         b = rotateSpeciesFromTo(b,
                             ruleOrder[j],
                             ruleOrder[i]);
-                        console.assert(a[i].color == b[i].color);
+                        console.assert(this.compatibleColors(a[i].color, b[i].color));
 
                         if (this.torsion) {
                             // ...and the same rotation:
@@ -216,7 +220,7 @@ class PolycubeSystem {
                                 Math.floor(Math.random() * 4) * Math.PI/2
                             );
                         }
-                        console.assert(a[i].color == b[i].color);
+                        console.assert(this.compatibleColors(a[i].color, b[i].color));
                         // Return the rotated rule b
                         return b;
                     }
@@ -334,11 +338,11 @@ class PolycubeSystem {
     }
 
     //Need both rule and ruleIdx to determine color as the rule might be rotated
-    addParticle(position, rule, ruleIdx) {
+    addParticle(position, species, ruleIdx) {
         // Go through all non-zero parts of the rule and add potential moves
         let potentialMoves = [];
-        for (let i=0; i<rule.length; i++) {
-            if (rule[i].color == 0) {
+        for (let i=0; i<species.length; i++) {
+            if (species[i].color == 0) {
                 continue;
             }
             let movePos = position.clone().add(ruleOrder[i])
@@ -353,7 +357,7 @@ class PolycubeSystem {
             if (this.cubeMap.has(key)) {
                 // There is already a cube at pos,
                 // no need to add this neigbour to moves
-                continue
+                continue;
             }
 
             if (!(key in this.moves)) {
@@ -372,19 +376,18 @@ class PolycubeSystem {
                 return;
             }
 
-
             potentialMoves.push({
                 'key': key,
                 'dirIdx': dirIdx,
-                'color': rule[i].color*-1,
-                'alignDir': rule[i].alignDir
+                'color': species[i].color,
+                'alignDir': species[i].alignDir
             });
         }
         potentialMoves.forEach(i => {
             this.moves[i.key].rule[i.dirIdx] = {'color': i.color, 'alignDir': i.alignDir};
         });
 
-        this.drawCube(position, rule, ruleIdx);
+        this.drawCube(position, species, ruleIdx);
 
         this.centerOfMass.multiplyScalar(this.cubeMap.size);
         this.centerOfMass.add(position);
@@ -394,7 +397,7 @@ class PolycubeSystem {
         this.cubeTypeCount[ruleIdx]++;
 
         if(this.confMap) {
-            this.confMap.set(vecToStr(position), {'ruleIdx': ruleIdx, 'q': getRotationFromSpecies(this.rule[ruleIdx], rule)});
+            this.confMap.set(vecToStr(position), {'ruleIdx': ruleIdx, 'q': getRotationFromSpecies(this.rule[ruleIdx], species)});
         }
 
         if (!this.background) {
@@ -445,15 +448,15 @@ class PolycubeSystem {
         fitCamera();
     }
 
-    drawCube(position, rule, ruleIdx) {
+    drawCube(position, species, ruleIdx) {
         let cube = new THREE.Group();
         let centerCube = new THREE.Mesh(
             this.centerCubeGeo, this.particleMaterials[ruleIdx]);
         cube.add(centerCube);
-        for (let j=0; j<rule.length; j++) {
-            if (rule[j].color != 0) {
-                let material = this.colorMaterials[Math.abs(rule[j].color) - 1].clone();
-                if (rule[j].color >= 0) {
+        for (let j=0; j<species.length; j++) {
+            if (species[j].color != 0) {
+                let material = this.colorMaterials[Math.abs(species[j].color) - 1].clone();
+                if (species[j].color >= 0) {
                     material.emissive = material.color.clone().addScalar(-0.5);
                 } else {
                     material.color.addScalar(-0.1);
@@ -474,7 +477,7 @@ class PolycubeSystem {
                 );
                 connectorPointer.scale.copy(connectorCube.scale);
                 connectorPointer.position.copy(connectorCube.position);
-                connectorPointer.position.add(rule[j].alignDir.clone().multiplyScalar(0.2));
+                connectorPointer.position.add(species[j].alignDir.clone().multiplyScalar(0.2));
                 cube.add(connectorCube);
                 cube.add(connectorPointer);
             }

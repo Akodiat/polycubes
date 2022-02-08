@@ -123,7 +123,7 @@ function addSpecies(patches) {
 
             removePatch.onclick = ()=>{
                 patches.splice(i, 1);
-                clearRules();
+                clearRule();
             };
             face.appendChild(removePatch);
         }
@@ -136,7 +136,7 @@ function addSpecies(patches) {
         add.style.margin = "0px";
         add.onclick = ()=>{
             patches.push(new Patch(0, new THREE.Vector3(1,0,0), new THREE.Quaternion()));
-            clearRules();
+            clearRule();
         }
         ruleField.appendChild(add);
     }
@@ -199,17 +199,17 @@ function simplifyRule() {
     let newRuleset = simplify(system.rule);
     system.resetRule(newRuleset);
     system.regenerate();
-    clearRules();
+    clearRule();
 }
 
 function simplifyRule2() {
     let newRuleset = simplify2(system.rule);
     system.resetRule(newRuleset);
     system.regenerate();
-    clearRules();
+    clearRule();
 }
 
-function clearRules() {
+function clearRule() {
     document.getElementById("ruleset").innerText = "";
     system.rule.forEach(addSpecies);
     if(document.getElementById("autoUpdate").checked) {
