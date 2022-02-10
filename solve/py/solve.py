@@ -364,6 +364,10 @@ def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=100):
         solveSpec['torsion']
     )
 
+    nVars = max(mysat.variables.values())
+    nClauses = len(mysat.basic_sat_clauses)
+    print("Using {} variables and {} clauses".format(nVars, nClauses))
+
     shapes = utils.calcCoordsFromTop(solveSpec['bindings'])
 
     if len(shapes) > 1:
@@ -403,9 +407,13 @@ def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=100):
     return maxRatio
 
 if __name__ == '__main__':
+    import time
+    start = time.time()
     if len(sys.argv) > 3:
         print(newSolve(sys.argv[1], int(sys.argv[2]), int(sys.argv[3])))
     elif len(sys.argv) > 1:
         solve(sys.argv[1]);
     else:
         print("Need to provide path to a shape json file [shapePath, nCubeTypes, nColors]")
+    end = time.time()
+    print("Finished in {} seconds".format(end-start))
