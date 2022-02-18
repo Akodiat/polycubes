@@ -216,12 +216,24 @@ function getPatchySimFiles(rule, nAssemblies=1, name='sim',
 
                 let simulateStr = `addqueue -c "${name} T=${temperature} nt${narrow_type} - 1 week" ${oxDNA_dir}/build/bin/oxDNA ${inputFileName}`;
 
+                let submit_slurmStr = `#!/bin/bash
+#SBATCH -p sulccpu1
+#SBATCH -q wildfire
+#SBATCH -n 1                    # number of cores
+#SBATCH -t 8-00:00              # wall time (D-HH:MM)
+#SBATCH --job-name="${name}_T${temperature}_nt${narrow_type}"
+
+module add gcc/8.4.0                                        # and the required C compiler \ lib
+
+${oxDNA_dir}/build/bin/oxDNA ${inputFileName}`
+
                 folder.file(particlesFileName, particlesStr);
                 folder.file(patchesFileName, patchesStr);
                 folder.file(topFileName, topStr);
                 folder.file(inputFileName, inputStr);
                 folder.file('generateConf.sh', confGenStr);
                 folder.file('simulate.sh', simulateStr);
+                folder.file('submit_slurm.sh', submit_slurmStr);
 
                 if (confStr) {
                     folder.file(confFileName, confStr);
@@ -232,12 +244,12 @@ function getPatchySimFiles(rule, nAssemblies=1, name='sim',
 
     zip.file(
         'simulateAll.sh', `
-for var in nt*/T_*
+for var in */nt*/T_*
 do
     cd $var
     bash generateConf.sh
     bash simulate.sh
-    cd ../..
+    cd ../../..
 done`
     );
 
