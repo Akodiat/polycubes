@@ -29,5 +29,5 @@ for f in $(python -c "import solve; [print('{}:{}'.format(nt,nc)) for nt, nc in 
     printf -v paddedNT "%0$(echo -n $maxNT | wc -m)d" $nT
     printf -v paddedNC "%0$(echo -n $maxNC | wc -m)d" $nC
 
-    addqueue -s -g $n -o "$n/${paddedNT}t_${paddedNC}c-%j.out" -c "SAT $n ${nT}t ${nC}c-" -n 1 -m 4 /users/joakim/miniconda3/bin/python solve.py "$1 $nT $nC"
+    addqueue -s -g $n -o "$n/${paddedNT}t_${paddedNC}c-%j.out" -c "SAT $n ${nT}t ${nC}c (1 hour)" -n 1 -m 16 /users/joakim/miniconda3/bin/python solve.py "$1 $nT $nC"
 done
