@@ -1,5 +1,5 @@
 
-async function generateOxViewFile(rule, name='polycube', assemblyMode='seeded', scale = 40, debugColors=false) {
+async function generateOxViewFile({rule, name='polycube', assemblyMode='seeded', scale = 40, debugColors=false, allowMismatches=true}={}) {
     if (rule === undefined) {
         rule = system.rule;
     }
