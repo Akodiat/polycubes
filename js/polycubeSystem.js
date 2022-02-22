@@ -238,7 +238,7 @@ class PolycubeSystem {
             for (let i=0; i<rule.length; i++) {
                 let neigb = this.moves[movekey].rule[i]
                 if (neigb != null) {
-                    if (neigb.color == rule[i].color && neigb.alignDir.equals(rule[i].alignDir)) {
+                    if (this.compatibleColors(neigb.color, rule[i].color) && neigb.alignDir.equals(rule[i].alignDir)) {
                         this.matches++;
                         this.connections.push([
                             this.moves[movekey].pos.clone(),
