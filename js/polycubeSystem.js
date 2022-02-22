@@ -1,6 +1,6 @@
 class PolycubeSystem {
 
-    constructor(rule, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded', buildConfmap=true, torsion = true) {
+    constructor(rule, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded', buildConfmap=true, torsion = true, allowMismatches = true) {
         this.moves = {};
         this.moveKeys = [];
         this.cubeMap = new Map();
@@ -8,6 +8,7 @@ class PolycubeSystem {
         this.nMaxCubes = nMaxCubes;
         this.maxCoord = maxCoord;
         this.torsion = torsion;
+        this.allowMismatches = allowMismatches;
 
         this.assemblyMode = assemblyMode;
         this.orderIndex = 0;
@@ -220,6 +221,7 @@ class PolycubeSystem {
                                 Math.floor(Math.random() * 4) * Math.PI/2
                             );
                         }
+
                         console.assert(this.compatibleColors(a[i].color, b[i].color));
                         // Return the rotated rule b
                         return b;
@@ -246,7 +248,11 @@ class PolycubeSystem {
                             Math.abs(neigb.color)
                         ])
                     } else {
-                        this.mismatches++;
+                        if (this.allowMismatches) {
+                            this.mismatches++;
+                        } else {
+                            return false;
+                        }
                     }
                 }
             }

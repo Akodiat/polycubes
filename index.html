@@ -169,6 +169,7 @@
         </select>
         <span style="display: flex;">
             <input type="checkbox" id="torsion" checked="True", onchange="system.torsion=this.checked; system.regenerate()">Torsion
+            <input type="checkbox" id="mismatches" checked="True", onchange="system.allowMismatches=this.checked; system.regenerate()" title="Allow mismatches">Mismatches
         </span>
         <button onclick="toggleFog()">Toggle fog</button>
         <button onclick="system.toggleLineView()">Toggle line view</button>

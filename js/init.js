@@ -33,10 +33,13 @@ function createPolycubeSystem() {
     }
 
 
-    nMaxCubes = parseInt(getUrlParam("nMaxCubes", 100));
-    maxCoord = parseInt(getUrlParam("maxCoord", 100));
+    let nMaxCubes = parseInt(getUrlParam("nMaxCubes", 100));
+    let maxCoord = parseInt(getUrlParam("maxCoord", 100));
 
-    system = new PolycubeSystem(rule, scene, nMaxCubes, maxCoord, assemblyMode);
+    let torsion = document.getElementById('torsion').checked;
+    let allowMismatches = document.getElementById('mismatches').checked;
+
+    system = new PolycubeSystem(rule, scene, nMaxCubes, maxCoord, assemblyMode, undefined, torsion, allowMismatches);
 
     orbit.target = system.centerOfMass;
 
