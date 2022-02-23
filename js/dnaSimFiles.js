@@ -3,7 +3,7 @@ async function generateOxViewFile({rule, name='polycube', assemblyMode='seeded',
     if (rule === undefined) {
         rule = system.rule;
     }
-    let sys = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode, true);
+    let sys = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode, true, undefined, allowMismatches);
     sys.seed();
     let processed = false;
     while (!processed) {

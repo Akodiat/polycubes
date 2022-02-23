@@ -360,18 +360,26 @@ function getCoords(rule, assemblyMode='seeded') {
     return [...system.cubeMap.values()];
 }
 
-function getCubeTypeCount(rule, assemblyMode='seeded') {
-    let sys = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode);
-    sys.seed();
-    let processed = false;
-    while (!processed) {
-        processed = sys.processMoves();
-        if (processed == 'oub') {
-            console.warn("Getting cube type count for unbounded rule");
-            break;
+function getCubeTypeCount(rule, assemblyMode='seeded', nTries=1) {
+    let count = [];
+    for (let i=0; i<nTries; i++) {
+        let sys = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode);
+        sys.seed();
+        let processed = false;
+        while (!processed) {
+            processed = sys.processMoves();
+            if (processed == 'oub') {
+                console.warn("Getting cube type count for unbounded rule");
+                break;
+            }
+        }
+        if (count.length == 0) {
+            count = sys.cubeTypeCount;
+        } else {
+            sys.cubeTypeCount.forEach((c,i)=>count[i]+=c);
         }
     }
-    return sys.cubeTypeCount;
+    return count.map(c=>Math.ceil(c/nTries));
 }
 
 function isBoundedAndDeterministic(rule, nTries=15, assemblyMode='seeded') {

@@ -134,7 +134,8 @@ function getPatchySimFiles(rule, nAssemblies=1, name='sim',
     oxDNA_dir = '/users/joakim/repo/oxDNA_torsion',
     temperatures = ['0.01'],
     confDensity = 0.2,
-    narrow_types=['0']
+    narrow_types=['0'],
+    multifarious = false
 ) {
     let zip = new JSZip();
     let getPatchStr = (id, color, i, a2, strength=1)=>{
@@ -178,7 +179,7 @@ function getPatchySimFiles(rule, nAssemblies=1, name='sim',
     const particlesFileName = 'particles.txt'
     const patchesFileName = 'patches.txt'
 
-    const cubeTypeCount = getCubeTypeCount(rule);
+    const cubeTypeCount = multifarious ? getCubeTypeCount(rule, 'stochastic', 1000) : getCubeTypeCount(rule);
 
     let topStr, confStr;
     const topFileName = 'init.top';
