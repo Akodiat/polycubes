@@ -70,9 +70,14 @@ def nameConv(name):
 
 def analyse(clusterPath, shapeDir, cutoff, nSamplePoints, clusterPrintEvery = 2e6):
     clusterPath = str(Path(clusterPath).absolute())
-    shape, duplStr, potential, tempStr, clusterFile = clusterPath.split('/')[-5:]
+    if 'duplicate' in clusterPath:
+        shape, duplStr, potential, tempStr, clusterFile = clusterPath.split('/')[-5:]
+        duplicate = float(duplStr.strip('duplicate_'))
+    else:
+        shape, potential, tempStr, clusterFile = clusterPath.split('/')[-4:]
+        duplicate = 0
+
     temp = float(tempStr.strip('T_'))
-    duplicate = float(duplStr.strip('duplicate_'))
     
     t = shape.rsplit('_', 1)
     
@@ -85,8 +90,8 @@ def analyse(clusterPath, shapeDir, cutoff, nSamplePoints, clusterPrintEvery = 2e
     clusters = readClusters(
         clusterPath,
         shapeDir+'/{}.json'.format(shape),
-        float(sys.argv[3]),
-        int(sys.argv[4])
+        cutoff,
+        nSamplePoints
     )
     
     data = []
@@ -112,7 +117,7 @@ if __name__ == '__main__':
         print("Incorrect number of arguments (need 4 not {}):".format(len(sys.argv)-1))
         print(sys.argv[0]+ " clusterPath shapeDir cutoff nSamplePoints")
     else:
-        analyse(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], clusterPrintEvery = 2e6)
+        analyse(sys.argv[1], sys.argv[2], float(sys.argv[3]), int(sys.argv[4]), clusterPrintEvery = 2e6)
 """
     clusterPrintEvery = 2e6
 
