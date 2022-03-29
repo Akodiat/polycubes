@@ -284,6 +284,84 @@ One such patchy particle simulator is included as part of the oxDNA package \cit
 \end{figure}
 
 
+\begin{eqnarray*}
+ \mathbf{p}_1 &=& R \left( 0,1,0\right)\\
+ \mathbf{p}_2 &=& R \left( 0,-1,0 \right)  \\
+ \mathbf{p}_3 &=& R \left( 0,0,1 \right)\\
+ \mathbf{p}_4 &=& R \left(  0, 0, -1 \right)  \\
+ \mathbf{p}_5 &=& R \left( 1,0,0 \right)\\
+ \mathbf{p}_6 &=& R \left( -1, 0, 0 \right)  ,
+\end{eqnarray*}
+
+\begin{equation}
+V_{\rm patch}(\mathbf{r}_{ij},\mathbf{\Omega}_{ij}) = \delta_{ab} V_{\rm pdist}(r_p) V_{\rm angle}(\theta_a, \theta_b, \theta_3), 
+\end{equation}
+
+\begin{eqnarray*}
+\cos \theta_a &=&  \mathbf{\hat{r}}_{ij} \cdot \mathbf{\hat{p}}_a \\
+\cos \theta_b &=&  \mathbf{-\hat{r}}_{ij} \cdot \mathbf{\hat{p}}_b \\
+\cos \theta_3 &=&  \mathbf{o}_{a} \cdot \mathbf{o}_b  \\
+\end{eqnarray*}
+
+\begin{equation}
+    V_{\rm angle}(\theta_a, \theta_b, \theta_3) = V_{\rm agmod}(\theta_a) V_{\rm agmod}(\theta_b)
+    V_{\rm agmod}(\theta_3) ,
+\end{equation}
+
+\begin{equation}
+V_{\rm angmod}(\theta) = \begin{cases}
+	V_{\rm mod}(\theta, a, \theta^0)  & \text{if $ \theta^0 - \Delta < \theta < \theta^0 + \Delta  $},\\
+	V_{\rm smooth} (\theta, b, \theta^0 - \Delta^c) & \text{if $\theta^0 - \Delta^c < \theta < \theta^0-\Delta $},\\
+	V_{\rm smooth} (\theta, b, \theta^0 + \Delta^c) & \text{if $\theta^0 + \Delta < \theta < \theta^0+\Delta^c$},\\
+	0 & \text{otherwise}.
+	\end{cases} 
+\end{equation}
+
+\begin{equation}
+\label{eq:smooth}
+V_{\rm smooth} (x, b, x^c) = b(x^c - x)^2, 
+\end{equation}
+and
+\begin{equation}
+V_{\rm mod} (\theta, a, \theta^0) = 1 - a (\theta-\theta^0)^2.
+\end{equation}
+
+\begin{equation}
+    \label{eq_patch}
+    V_{\rm pdist}(r_p) =  \begin{cases} 
+                          %-1.001 \delta_{ij} e^{- \left( \frac{r_p}{\alpha} \right)^{10}} - C & \text{if $r_p \leq r_{\rm pmax}  $}\\
+                          -1.001  \exp{\left[- \left( \frac{r_p}{\alpha} \right)^{10}\right]} - C & \text{if $r_p \leq r_{\rm pmax}  $} \\
+                          0 & \text{otherwise}
+                        \end{cases}
+    %e^{ -\left( \frac{r - \delta}{\sigma} \right)^2} 
+\end{equation}
+
+\begin{equation}
+    f_{\rm exc}(r,\epsilon,\sigma,r^{\star}) = \begin{cases}
+	V_{\rm LJ}(r, \epsilon, \sigma) & \text{if $r < r^{\star} $},\\
+	\epsilon V_{\rm smooth} (r, b, r^c) & \text{if $r^{\star} < r < r^c$},\\
+	0 & \text{otherwise}.
+	\end{cases} 
+\end{equation}
+
+\begin{equation} 
+V_{\rm LJ}(r,  \sigma) = 8 \left[ \left(\frac{\sigma}{r}\right) ^{12} - \left(\frac{\sigma}{r}\right) ^{6} \right].
+\end{equation}
+%that is truncated using a quadratic smoothening function from Eq. \eqref{eq:smooth}.
+
+\subsection{Yield calculation}
+The patchy particle simulation yields are calculated using edge-induced subgraph isomorphism. 
+
+We annotate \(\sigma(G,H) == \text{True}\) if the graph \(G\) is an edge-induced subgraph of the graph \(G\), meaning that
+
+The connectivity graph \(G_i\) for each assembled particle cluster is compared to the graph for the intended shape \(G_{correct}\). If \(G_i\) is a large enough edge-induced subgraph of \(G_{correct}\), it contributes to the yield with its fraction of correctly assembled particles:
+\begin{equation}
+    Y_{c} = \sum_{G_i \in c} \begin{cases} 
+           \frac{\left|N(G_i)\right|}{\left|N(G_{correct})\right|} & \text{if}  \\
+                          0 & \text{otherwise}
+                        \end{cases}
+\end{equation}
+
 \subsection{Preliminary simulation results}
 Since there are different \emph{narrow types} available, corresponding to slightly different patch interaction potential widths, we start by simulating the structure stability for each potential and for a range of different temperatures. As seen in Figure~\ref{fig:narrow_types}, higher temperatures and lower narrow types cause the assembly to fall apart and the potential energy to increase. For narrow type 0, there is still some connectivity for the higher temperatures, with the energy oscillating as particles bind and unbind, but for higher narrow types, the oscillations grow less, and the particles remain unbound.
 
