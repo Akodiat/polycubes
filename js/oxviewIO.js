@@ -29,7 +29,7 @@ class OxViewSystem {
         );
     }
 
-    addFromJSON(data, position, orientation, uuid, color) {
+    addFromJSON(data, position, orientation, uuid, color, randSeq = false) {
         const cluster = this.clusterCounter++;
         const idMap = new Map();
         let newStrands = [];
@@ -68,9 +68,9 @@ class OxViewSystem {
 
                     // Resize box
                     this.box = Math.max(this.box,
-                        Math.abs(4*p.x),
-                        Math.abs(4*p.y),
-                        Math.abs(4*p.z)
+                        Math.abs(3*p.x),
+                        Math.abs(3*p.y),
+                        Math.abs(3*p.z)
                     );
 
                     newStrand.monomers.push(monomer);
@@ -93,6 +93,11 @@ class OxViewSystem {
             });
         });
 
+        const randomChoice = (l)=>{
+            var index = Math.floor(Math.random() * l.length);
+            return l[index];
+        }
+
         newStrands.forEach(strand=>{
             strand.monomers.forEach(monomer=>{
                 if (monomer.bp !== undefined) {
@@ -104,6 +109,20 @@ class OxViewSystem {
 
         // Save id map to use in ligation
         this.idMaps.set(uuid, idMap);
+
+
+        if (randSeq) {
+            newStrands.forEach(s=>{s.monomers.forEach(monomer=>{
+                let [rndType, rndBpType] = randomChoice([
+                    ['A', 'T'], ['T', 'A'],
+                    ['G', 'C'], ['C', 'G']
+                ]);
+                monomer.type = rndType;
+                if (monomer.bp !== undefined) {
+                    this.findById(monomer.bp)[1].type = rndBpType;
+                }
+            })});
+        }
     }
 
     findById(id) {
@@ -147,14 +166,24 @@ class OxViewSystem {
         return e;
     }
 
-    ligate(id5, id3) {
-        let [strand5, end5] = this.findById(id5);
-        let [strand3, end3] = this.findById(id3);
+    ligate(idA, idB) {
+        let [strandA, a] = this.findById(idA);
+        let [strandB, b] = this.findById(idB);
 
-        console.assert(end5.n5 == undefined && end3.n3 == undefined,
-            "Select one nucleotide with an available 3' connection and one with an available 5'"+
-            `\n${end5.id}.n5 == ${end5.n5}, ${end3.id}.n3 == ${end3.n3}`
-        );
+        // Find out which is the 5' end and which is 3'
+        let end5, end3, strand5, strand3;
+        if (!a.n5 && !b.n3) {
+            end5 = a; strand5 = strandA;
+            end3 = b; strand3 = strandB;
+        }
+        else if (!a.n3 && !b.n5) {
+            end5 = b; strand5 = strandB;
+            end3 = a; strand3 = strandA;
+        } else {
+            console.error("Select one nucleotide with an available 3' connection and one with an available 5'"+
+            `\n${end5.id}.n5 == ${end5.n5}, ${end3.id}.n3 == ${end3.n3}`)
+            return;
+        }
 
         // strand3 will be merged into strand5
 
@@ -173,6 +202,31 @@ class OxViewSystem {
             // Remove strand3
             this.strands = this.strands.filter(s => s !== strand3);
         }
+    }
+
+    nick(id) {
+        let [strand, e] = this.findById(id);
+        const idx = strand.monomers.indexOf(e);
+        if (e.n3 === undefined) {
+            console.warn('Nucleotide already nicked');
+            return;
+        }
+
+        // Assuming the monomers are in 5' to 3' order
+        let newStrand = {
+            'id': this.strandIdCounter++,
+            'monomers': strand.monomers.slice(idx+1),
+            'end5': e.n3,
+            'end3': strand.end3,
+            'class': strand.class
+        };
+        strand.end3 = e.id;
+        strand.monomers = strand.monomers.slice(0, idx+1);
+
+        newStrand.monomers[0].n5 = undefined;
+        e.n3 = undefined;
+
+        this.strands.push(newStrand);
     }
 
     getSequence() {
