@@ -454,6 +454,11 @@ class PolycubeSystem {
         fitCamera();
     }
 
+    changeToSpheres() {
+        this.centerCubeGeo = new THREE.SphereGeometry(this.cubeSize/2 * 1.2, 16, 16);
+        this.regenerate()
+    }
+
     drawCube(position, species, ruleIdx) {
         let cube = new THREE.Group();
         let centerCube = new THREE.Mesh(
