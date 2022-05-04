@@ -103,8 +103,8 @@ function generateTopAndConfig(rule, assemblyMode='seeded') {
     let max = new THREE.Vector3();
     let min = new THREE.Vector3();
     let mean = new THREE.Vector3();
-    for (const [key, c] of system.confMap) {
-        const p = system.cubeMap.get(key);
+    for (const [key, c] of sys.confMap) {
+        const p = sys.cubeMap.get(key);
         for (let i=0; i<3; i++) {
             max.setComponent(i, Math.max(max.getComponent(i), p.getComponent(i)));
             min.setComponent(i, Math.min(min.getComponent(i), p.getComponent(i)));
@@ -115,8 +115,8 @@ function generateTopAndConfig(rule, assemblyMode='seeded') {
     let box = max.clone().sub(min).multiplyScalar(3);
     mean.divideScalar(nParticles);
 
-    for (const [key, c] of system.confMap) {
-        const p = system.cubeMap.get(key).sub(mean).add(box.clone().divideScalar(2));
+    for (const [key, c] of sys.confMap) {
+        const p = sys.cubeMap.get(key).sub(mean).add(box.clone().divideScalar(2));
         const a1 = new THREE.Vector3(1, 0, 0).applyQuaternion(c.q);
         const a3 = new THREE.Vector3(0, 0, 1).applyQuaternion(c.q);
         const vF = (v) => v.toArray().map(
