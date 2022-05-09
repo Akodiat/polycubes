@@ -174,6 +174,63 @@ function handleDragOver(ev) {
     ev.preventDefault();
 }
 
+function drawSolidCube(side, origin = new THREE.Vector3()) {
+    coords = []
+    for (x of range(side)) {
+        for (y of range (side)) {
+            for (z of range (side)) {
+                coords.push(new THREE.Vector3(x,y,z))
+            }
+        }
+    }
+    drawFromCoords(coords, origin);
+}
+
+function drawFromCoords(coords, origin = new THREE.Vector3()) {
+    let neigbourDirs = getRuleOrder(3);
+
+    for (x of coords) {
+        let voxel = new THREE.Mesh(cubeGeo, cubeMaterial);
+        voxel.position.copy(x).add(origin);
+        voxel.name = "voxel";
+        let existing = false;
+        for (const v of voxels) {
+            if (v.position.equals(voxel.position)) {
+                console.log("Position already set");
+                voxel = v;
+                existing = true;
+                break;
+            }
+        }
+        if (!existing) {
+            scene.add(voxel);
+            console.log(voxel.position.toArray());
+            voxels.add(voxel);
+        }
+
+        // Enumerate von Neumann neighborhood
+        for (dP of neigbourDirs) {
+            let neigbourPos = voxel.position.clone().add(dP);
+            // Check if curerent neighbor is among the positions
+            for (other of coords) {
+                if (neigbourPos.equals(other)) {
+                    let c1 = voxel.position;
+                    let c2 = neigbourPos;
+                    let cs = connectionToString(c1, c2);
+                    if (!connectors.has(cs)) {
+                        let connector = new THREE.Mesh(connectorGeo, connectoryMaterial);
+                        connector.position.copy(c1.clone().add(c2).divideScalar(2));
+                        connector.lookAt(c2);
+                        scene.add(connector);
+                        connectors.set(cs, connector);
+                    }
+                }
+            }
+        }
+    }
+    render();
+}
+
 
 function getFullyAdressableRule() {
     let rule = [];
