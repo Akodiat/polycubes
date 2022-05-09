@@ -175,10 +175,14 @@ function handleDragOver(ev) {
 }
 
 function drawSolidCube(side, origin = new THREE.Vector3()) {
+    drawSolidBlock(side, side, side, origin)
+}
+
+function drawSolidBlock(xSide, ySize, zSide, origin = new THREE.Vector3()) {
     coords = []
-    for (x of range(side)) {
-        for (y of range (side)) {
-            for (z of range (side)) {
+    for (x of range(xSide)) {
+        for (y of range (ySize)) {
+            for (z of range (zSide)) {
                 coords.push(new THREE.Vector3(x,y,z))
             }
         }
@@ -213,7 +217,7 @@ function drawFromCoords(coords, origin = new THREE.Vector3()) {
             let neigbourPos = voxel.position.clone().add(dP);
             // Check if curerent neighbor is among the positions
             for (other of coords) {
-                if (neigbourPos.equals(other)) {
+                if (neigbourPos.equals(other.clone().add(origin))) {
                     let c1 = voxel.position;
                     let c2 = neigbourPos;
                     let cs = connectionToString(c1, c2);
