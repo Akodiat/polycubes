@@ -814,13 +814,17 @@ function readSolution(sol) {
         let o = Number(m[3]);
         //console.log("Patch {} on species {} has orientation {}".format(p, s, o))
         hasOrientation = true;
-        ruleMap.get(s).get(p).orientation = o;
+        let r = faceRotations[p].clone();
+        r.applyAxisAngle(ruleOrder[p], o*Math.PI/2).round();
+        ruleMap.get(s).get(p).alignDir = r;
     }
     if (!hasOrientation) {
         console.log("Found no orientation values")
         for (const patches of ruleMap.values()) {
             for (const [i, p] of patches) {
-                p.orientation = getFlatFaceRot()[Number(i)];
+                let r = faceRotations[p].clone();
+                r.applyAxisAngle(ruleOrder[p], getFlatFaceRot()[Number(i)]*Math.PI/2).round();
+                p.alignDir = r;
             }
         }
     }
@@ -835,7 +839,7 @@ let minSol = false;
 function find_solution(topology, empty, nCubeTypes, nColors, nDim=3, tortionalPatches=true) {
     // Initiate solver
     let mysat = new polysat(topology, empty, nCubeTypes, nColors, nDim, tortionalPatches);
-    let nMaxTries = 10;
+    let nMaxTries = 25;
     let status;
     let decRule;
     while (nMaxTries--) {

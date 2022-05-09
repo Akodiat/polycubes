@@ -264,7 +264,7 @@ function getFullyAdressableRule() {
     let minCount = Math.min(...dimCount);
     let minDim = dims.find((d,i)=>dimCount[i]===minCount);
 
-    // Initialise empty cube typess
+    // Initialise empty species
     coords.forEach((p,iCube) => {
         let cubeType = [];
         faceRotations.forEach((d,i)=>{
@@ -732,7 +732,7 @@ function startNewWorker(nDim=3, torsionalPatches=true) {
                 if (w.nCubeTypes + w.nColors > globalBest) {
                     updateStatus({status:'↛'}, w.nCubeTypes, w.nColors);
                     w.terminate();
-                    console.log(`Skipping ${nColors} colors and ${nCubeTypes} cube types`)
+                    console.log(`Skipping ${nColors} colors and ${nCubeTypes} species`)
                 }
             });
             filterInPlace(workers, w=>(w.nCubeTypes + w.nColors <= globalBest));
@@ -743,7 +743,7 @@ function startNewWorker(nDim=3, torsionalPatches=true) {
         }
         myWorker.terminate();
         filterInPlace(workers, w=>w!=myWorker); // Remove from workers
-        console.log(`${nColors} colors and ${nCubeTypes} cube types completed. ${queue.length} in queue`);
+        console.log(`${nColors} colors and ${nCubeTypes} species completed. ${queue.length} in queue`);
     }
     myWorker.postMessage([topology, empty, nCubeTypes, nColors, nDim, torsionalPatches]);
 }
@@ -764,10 +764,10 @@ function filterInPlace(a, condition) {
 
 function updateStatus(result, nCubeTypes, nColors) {
     let captions = {
-        '✓': `Satisfiable for ${nCubeTypes} cube types and ${nColors} colors`,
-        '∞': `Satisfiable for ${nCubeTypes} cube types and ${nColors} colors, but will also assemble into unbounded shapes`,
-        '?': `Satisfiable for ${nCubeTypes} cube types and ${nColors} colors, but will also assemble into other shapes`,
-        '×': `Not satisfiable for ${nCubeTypes} cube types and ${nColors} colors`,
+        '✓': `Satisfiable for ${nCubeTypes} species and ${nColors} colors`,
+        '∞': `Satisfiable for ${nCubeTypes} species and ${nColors} colors, but will also assemble into unbounded shapes`,
+        '?': `Satisfiable for ${nCubeTypes} species and ${nColors} colors, but will also assemble into other shapes`,
+        '×': `Not satisfiable for ${nCubeTypes} species and ${nColors} colors`,
         '...': `Working on it...`,
         '↛': 'Skipped'
     }
@@ -794,7 +794,7 @@ function updateStatus(result, nCubeTypes, nColors) {
     if (row.cells.length == 0) {
         let c = document.createElement("th");
         row.appendChild(c);
-        c.innerHTML = 'N<sub>t</sub>='+nCubeTypes;
+        c.innerHTML = 'N<sub>s</sub>='+nCubeTypes;
     }
     while (row.cells.length < nColors+1) {
         row.insertCell();
