@@ -154,22 +154,28 @@ def calcEmptyFromTop(top):
                 empty.append((i,dPi))
     return empty
 
-def calcCoordsFromTop(top, nDim=3):
-    posmaps = []
-    origin = np.array([0,0,0])
-    posmap = {0: origin}
-    dirs = getRuleOrder(nDim)
-    for i, dPi, j, dPj in sorted(top):
-        if i in posmap:
-            posmap[j] = posmap[i] + dirs[dPi]
-        elif j in posmap:
-            posmap[i] = posmap[j] + dirs[dPj]
-        else:
-            posmaps.append(posmap)
-            posmap = {i: origin, j: dirs[dPi]}
-    posmaps.append(posmap)
+def merge(i, j, pmaps, dPi):
+    others = [m for mi, m in enumerate(pmaps) if not mi in [i,j]]
+    jMoved = {k: v+dPi for k,v in pmaps[j].items()}
+    merged = {**jMoved, **pmaps[i]}
+    return others + [merged]
 
-    return [np.array([v for v in posmap.values()]).T for posmap in posmaps]
+def calcCoordmapFromTop(top, nDim=3):
+    dirs = getRuleOrder(nDim)
+    indices = set(v for i,_,j,__ in top for v in [i, j])
+    pmaps = [{i: np.array([0, 0, 0])} for i in indices]
+
+    for i, dPi, j, dPj in top:
+        iIdx = [i in m.keys() for m in pmaps].index(True)
+        jIdx = [j in m.keys() for m in pmaps].index(True)
+        pmaps = merge(iIdx,jIdx, pmaps, pmaps[iIdx][i] + dirs[dPi] - pmaps[jIdx][j])
+        print(pmaps)
+
+    return pmaps
+
+def calcCoordsFromTop(top, nDim=3):
+    pmaps = calcCoordmapFromTop(top, nDim=3)
+    return [np.array([v for v in posmap.values()]).T for posmap in pmaps]
 
 def countParticlesAndBindings(topology):
     pidsa = [x[0] for x in topology]
