@@ -68,7 +68,7 @@ The oxDNA software already includes relaxation procedures for such structures \c
 
 As discussed in Section~\ref{sec:mrdna} and shown in Figure~\ref{fig:mrdna}, the mrDNA simulation model \cite{maffeo2019mrdna} can help in such cases. However, the easiest option now tend to be using oxViews editing and rigid-body dynamics capabilities.
 
-\section{Rigid-body and dynamics}
+\section{Rigid-body dynamics}
 \label{sec:rigid-body_dynamics}
 
 For rapid relaxation of imported caDNAno designs, oxView includes so-called rigid-body dynamics. When the dynamics are active, clusters of nucleotides are treated as rigid-bodies in a simple physics simulation, using the method described in \cite{baraff1997introduction} and running locally in the web browser.
@@ -91,6 +91,8 @@ where \(c_{spr}\) is a spring constant, \(l\) is the current bond length and \(l
 \(f_{\rm rep} = max\left(c_{rep}\left(1-\frac{d}{r_a+r_b}\right),0\right)\) is added between the centre of each group, where \(c_{rep}\) is a repulsion constant, \(d\) is the distance between the two centres of mass, and \(r_a+r_b\) is the sum of the group radii (the greatest distance they can be while still overlapping).
 
 As seen in Figure~\ref{fig:rigidBody}, the separate clusters will relax into a more natural shape, prepared for oxDNA simulation or further design. In some cases, however, simply moving the clusters manually (rigid-body manipulation) might be an even easier solution, which brings us to the section on editing.
+
+Another option for oxView dynamics is to use oxServe, an server developed mainly by Michael Matthies that connects oxView to an oxDNA instance using websockets. By first relaxing the clusters and then using oxServe to relax the structure on a nucleotide level, users can interactively perform the full relaxation process from oxView.
 
 \section{Editing designs}
 

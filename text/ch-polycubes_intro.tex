@@ -39,14 +39,18 @@ By designing sequences with complementary domains corresponding to intended dupl
 
 %% Add more here
 
-Another breakthrough in the field was the DNA origami technique \cite{rothemund2006folding}, a now popular and proven method for creating larger irregular structures using DNA. The principle behind it, as illustrated in Figure~\ref{fig:dnaOrigami}, is to use short staple strands, each with one or more domans that are complementary to domains on a viral scaffold strand. As the staple strands bind to the scaffold, it folds into the desired structure. Using design software, it has become relatively easy to design structures of any given form. See Section~\ref{sec:design_tools} for an introduction to such tools.
+Another breakthrough in the field was the DNA origami technique \cite{rothemund2006folding}, a now popular and proven method for creating larger irregular structures using DNA. The principle behind it, as illustrated in Figure~\ref{fig:dnaOrigami}, is to use short staple strands, each with one or more domans that are complementary to domains on a viral scaffold strand. As the temperature is gradually lowered, the staples bind to the scaffold as seen in Figure~\ref{fig:dnaOrigami}. If done correctly, this ``folds'' the scaffold into the desired structure, hence the name ``origami''. However, care must be taken to how the scaffold should be routed through the design to avoid kinetic traps where the folding cannot be completed.
+
+With improved design software, it is becoming easier to design DNA origami structures of any given form. See Section~\ref{sec:design_tools} for an introduction to such tools.
 
 % Andrew: I suggest a more extensive discussion of the basis of origami design to accompany an improved/alternate fig:{dnaOrigami}
+
+% Some more added
 
 \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{figures/dna_origami.png}
-    \caption{Illustration of DNA origami \cite{rothemund2006folding}, adapted from \cite{dey2021dna}. A long scaffold strand, obtained from a virus, is folded into the desired nanostructure by multiple short staple strands binding to complementary domains of the scaffold.
+    \caption{Illustration of \emph{DNA origami} \cite{rothemund2006folding}, adapted from \cite{dey2021dna}. A long scaffold strand, obtained from a virus, is folded into the desired nanostructure by multiple short staple strands binding to complementary domains of the scaffold.
     }
     \label{fig:dnaOrigami}
 \end{figure}
@@ -323,7 +327,6 @@ The constants \(a\) and \(b\) depend on the input-output map used (but are indep
 \subsection{Evolving polyominoes}
 \label{sec:polyomino_evolve}
 
-% Andrew: Evolutionary runs? -- explain
 Evolutionary runs of polyominoes, where a genetic algorithm mutates a genotype population and selects surviving shapes depending on their size, showed a clear bias toward structures with low complexity and high symmetry \cite{johnston2021}. See Figure~\ref{fig:polyomino_symmetries}, where the frequency of protein complexes and polyominoes are compared to their complexity. The number of interface types required (number of patch colours in the polyomino case) is used as a proxy measure for the Komologrov complexity of the structure (see Section~\ref{sec:AIT}).
 
 The evolutionary fitness of the polyominoes only depended on their size (16-mers had the highest fitness), so the simplicity was not selected for but is instead a property of the mapping. This finding is in line with the Algorithmic Information Theory arguments made by Dingle et al. \cite{dingle2018input}, who showed the same simplicity bias for a set of various input-output maps.

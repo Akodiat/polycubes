@@ -39,7 +39,7 @@ For each of the patches, facing left \(\left[-1, 0, 0\right]\), right \(\left[1,
 
 A patch can bind to another patch if and only if they have the opposite colour and the same (global) orientation. In Figure~\ref{fig:polycubeRule}, the patch color \(1\) is shown as bright red while the complementary \(-1\) is a darker red colour.  If the patch colour is zero, the patch is shown as empty and will not bind to anything.
 
-The model can be expanded to more complicated colour interaction matrices or changed to pair odd integers with each subsequent integer as in the polyomino model \cite{ahnert2010self,johnston2011evolutionary} described in Section~\ref{sec:polyomino}.
+The model could be expanded to more complicated colour interaction matrices or changed to pair odd integers with each subsequent integer as in the polyomino model \cite{ahnert2010self,johnston2011evolutionary} described in Section~\ref{sec:polyomino}.
 
 By constraining the input space not to use the back and front patches, while orienting the remaining patches to point towards the front, the output space will instead be 2D polyominoes.
 
@@ -59,7 +59,7 @@ Moves are then processed until the list of moves is empty, or the polycube grows
 
 While the list of moves is not empty, a random move is chosen at each step. The input rule is then randomly searched for a species fitting the move. Cubes can be rotated to fit, and if a fitting species is found, the corresponding cube is added to the assembly. If there is no fit to be found, the move is discarded.
  
-The assembly is repeated \(n_{times}\) times (default 100), and the outputs are compared for equality (allowing rotation) in order to determine if the rule is \emph{deterministic}. Note that this method is not rigourous, but it is enoguh to quickly detect a large part of the undeterministic assemblies. Figure~\ref{fig:UND}.b) shows a non-deterministic structure, where the blue ``neck'' species can bind to itself. Thus, the output depends on how many cubes from the blue species bind before a green species cube stops the growth. Both species are as likely to bind, so the probability of assembling a neck with \(l\) blue cubes is \(2^{-l}\).
+The assembly is repeated \(n_{times}\) times (default 100), and the outputs are compared for equality (allowing rotation) in order to determine if the rule is \emph{deterministic}. Note that this method is not rigourous, but it is enough to quickly detect a large part of the undeterministic assemblies. Figure~\ref{fig:UND}.b) shows a non-deterministic structure, where the blue ``neck'' species can bind to itself. Thus, the output depends on how many cubes from the blue species bind before a green species cube stops the growth. Both species are equally likely to bind, so the probability of assembling a neck with \(l\) blue cubes is \(2^{-l}\).
 
 Unbounded or non-deterministic structures are considered \emph{undefined} and are not included in the sampling result. This is in line with the earlier polyomino model and comparable to how unbounded protein complexes are highly deleterious \cite{johnston2021}.
 
@@ -97,7 +97,7 @@ For an illustration of the model, let us return to Figure~\ref{fig:polycubeRule}
 
 \subsection{Implementation}
 
-The polycube assembly model is implemented in two versions: one browser-based implementation in JavaScript (\url{https://akodiat.github.io/polycubes}) for outreach activities and accessible visualisation and one C++ implementation for fast rule evaluation. The C++ code also includes a Python binding for simplified analysis. More details on the code can be found in Appendix~\ref{ch:appendix_polycubes}.
+The polycube assembly model is implemented in two versions: one browser-based implementation in JavaScript (\url{https://akodiat.github.io/polycubes}) for outreach activities and accessible visualisation, and one C++ implementation for fast rule evaluation. The C++ code also includes a Python binding for simplified analysis. More details on the code can be found in Appendix~\ref{ch:appendix_polycubes}.
 
 %Using the C++ implementation, large sets of random rules have been evaluated, and the resulting polycubes examined and categorised. This has also been repeated for different values of rule size and colour limits.
 
@@ -107,18 +107,18 @@ The polycube assembly model is implemented in two versions: one browser-based im
 %I have already implemented a fast version of the code that can generate random rules with a certain max amount of ``colours'' and tile types. The next step is to determine what (deterministic) structures are more common. (Rules creating non-deterministic structures are disregarded, but their percentage of the total is still noted). Plotting the probability of each structure, from a random rule, against a measure of its complexity, do we get a power-law distribution (as in Iain Johnston's polyomino paper)?
 
 \section{Sampling the space of assembly rules}
-Trying all inputs in a brute-force approach is unfeasible for most input spaces. For a 3D polycube space with \(\widetilde{K}_s\) species and \(\widetilde{K}_c\) colours, four possible patch orientations, and six patches per species, we get the following input space size, where \(I_{\widetilde{K}_s, \widetilde{K}_c}^{3d}\) is the set of all inputs:
+Having now understood the assembly model, let us use it to explore how the space of input rules map onto the output shapes. First of all, trying every input in a brute-force approach would unfeasible for most input spaces. For a 3D polycube space with \(\widetilde{K}_s\) species and \(\widetilde{K}_c\) colours, four possible patch orientations, and six patches per species, we get the following input space size, where \(I_{\widetilde{K}_s, \widetilde{K}_c}^{3D}\) is the set of all inputs:
 \[
-\left\lvert I_{\widetilde{K}_s, \widetilde{K}_c}^{3d}\right\rvert = (4 \times (1+2\widetilde{K}_c))^{6\widetilde{K}_s}
+\left\lvert I_{\widetilde{K}_s, \widetilde{K}_c}^{3D}\right\rvert = (4 \times (1+2\widetilde{K}_c))^{6\widetilde{K}_s}
 \] Even for relatively small values of \(\widetilde{K}_s=3\) species and \(\widetilde{K}_c=2\) colours, we get \(I_{2, 3}^3 \approx 2.62 \times 10^{23}\). Both \(\widetilde{K}\) measures here can be seen as proxies for Kolmogorov complexity, as discussed in Section \ref{sec:AIT}.
 
 For 2D, it is a bit easier since there are only four patches per species and a fixed patch orientation:
 
 \[
-\left\lvert I_{\widetilde{K}_s, \widetilde{K}_c}^{2d}\right\rvert = (1+2\widetilde{K}_c)^{4\widetilde{K}_s}
+\left\lvert I_{\widetilde{K}_s, \widetilde{K}_c}^{2D}\right\rvert = (1+2\widetilde{K}_c)^{4\widetilde{K}_s}
 \]
 
-However, even if the space of possible input rules is too large to explore fully, we can still get an idea of how likely it is for an input rule to map to a particular output shape through uniform sampling. This was done by sampling and assembling a large number of random rules. As described in Section~\ref{sec:stochastic_assembly}, rules growing larger than 100 cubes were discarded as unbounded, while those remaining bounded were re-assembled 100 times in an effort to remove undeterministic rules. Deterministic and bounded output was then grouped by their shapes, counting the number of times each given shape occurs. For each rule found to produce a given shape, three different complexity measures were recorded:
+However, even if the space of possible input rules is too large to explore fully, we can still get an idea of how likely it is for an input rule to map to a particular output shape through uniform sampling and assembly of a large number of random rules. The results of these samplings will be covered in the following sub-sections. As described in Section~\ref{sec:stochastic_assembly}, rules growing larger than 100 cubes were discarded as unbounded, while those remaining bounded were re-assembled 100 times in an effort to remove undeterministic rules. Deterministic and bounded output was then grouped by their shapes, counting the number of times each given shape occurs. For each rule found to produce a given shape, three different complexity measures were recorded:
 \begin{description}
     \item[\(\widetilde{K}_s\)] - The number of species used.
     \item[\(\widetilde{K}_c\)] - The number of colours used.
@@ -136,40 +136,62 @@ The Lempel-Ziv compression measure was choosen for its use in previous litteratu
 
 To more fairly compare them, each rule was simplified before the complexity measures were calculated. This simplification was done by removing all patches without a complementary colour in the same rule, as well as setting the orientation of all empty (zero-coloured) patches to zero. Finally, the colour indices were updated to avoid any gaps in the numbering.
 
+Different samplings were done to explore how the input space parameters affect the output shape space. Table~\ref{tab:polycubeSamplings} lists the samplings and their properties.
+
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|r||p{2cm}|c|c|c|c|}
+        \hline
+                                & Polyomino reference sampling & \multicolumn{4}{|c|}{Polycube samplings} \\ \hline\hline
+        Input space             & \(I_{16_s,31_c}^{2D}\) & \multicolumn{2}{|c|}{\(I_{5_s,31_c}^{2D}\)} & \multicolumn{2}{|c|}{\(I_{5_s,31_c}^{3D}\)} \\ \hline
+        Assembly type           & Seeded & Seeded & Unseeded & Seeded & Unseeded \\ \hline
+        Dimensionality          & 2D & \multicolumn{2}{|c|}{2D} & \multicolumn{2}{|c|}{3D} \\ \hline
+        Number of samples       & \(10^9\) & \multicolumn{4}{|c|}{\(10^6\)} \\ \hline
+        Max number of species   & \(16\) & \multicolumn{4}{|c|}{\(5\)} \\ \hline
+        Max number of colours   & \(31\) & \multicolumn{4}{|c|}{\(31\)}\\ \hline
+    \end{tabular}
+    \caption{Polycube rule space samplings.}
+    \label{tab:polycubeSamplings}
+\end{table}
+
 \subsection{Polyomino reference sampling}
 \label{sec:refcalc}
 % 2D, seeded, 1e9 samples, 16 species, 31 colours
-In order to verify the model against earlier polyomino results \cite{johnston2021}, a large reference sampling of the 2D space was performed. Limiting the input space to 16 species and 31 colours (\(I_{16,31}^{2d}\)), one billion (\(10^9\)) random rules were assembled using the seeded assembly mode.
-
-\begin{figure}[ht]
-    \centering\includesvg[width=\textwidth]{figures/refcalc/rule_validity.svg}
-    \caption{Proportion of valid rules when sampling \(I_{16,31}^{2d}\). From a total of 1,000,000,000 sampled rules, 44,545,570 were found to be valid, while 871,155,425 were  unbounded and 84,299,005 were non-deterministic}
-    \label{fig:ref_validity}
-\end{figure}
+In order to verify the model against earlier polyomino results \cite{johnston2021}, a large reference sampling of the 2D space was performed. Limiting the input space to 16 species and 31 colours (\(I_{16,31}^{2D}\)), one billion (\(10^9\)) random rules were assembled using the seeded assembly mode (Table~\ref{tab:polycubeSamplings}).
 
 Let us start by looking at the sampled input space. How much of the input maps to valid output? As can be seen in Figure~\ref{fig:ref_validity}, a large number of the sampled rules were either unbounded or not assembling deterministically. The boundary between unbounded and non-deterministic assemblies is not clear, since some input also can be both (but is classified as either one or the other depending on what it assembled as first).
 
-Figure~\ref{fig:ref_distr} shows that most of the valid rules assembled into smaller shapes, with over 60 per cent (27 million) being 1-mers (note that the y-axis is logarithmic).
-
 \begin{figure}[ht]
+    \centering\includesvg[width=\textwidth]{figures/refcalc/rule_validity.svg}
+    \caption{Proportion of valid rules when sampling \(I_{16_s,31_c}^{2D}\). From a total of 1,000,000,000 sampled rules, 44,545,570 were found to be valid, while 871,155,425 were  unbounded and 84,299,005 were non-deterministic}
+    \label{fig:ref_validity}
+\end{figure}
+
+With the input space investigated, we can also check how much of the output space we managed to sample. Figure~\ref{fig:ref_inputdistr} shows that most of the valid rules assembled into smaller shapes, with over 60 per cent (27 million) being 1-mers (note that the y-axis is logarithmic).
+
+Note how some polyomino sizes that are multiples of four have a much higher count than their neighbours, indicating a bias for shapes of those sizes. Given the polycube patch interaction rules, it is much easier to make certain even structures. A single species rule cannot make a 2-mer or a 3-mer, but can easily form a valid 4-mer by making a square. The square can then easily be made into an 8-mer ``Catherine wheel'' by introducing a second species attachable to the first (and a 12-mer with a third species, et cetera). Since these shape sizes can be made using fewer species than others, the probability for a random rule to contain such species is higher. This will be later seen in Figure~\ref{fig:16-mer_2d_zoo}, where the most common shapes are seen composed of blocks of four identical clusters. This mechanism is similar to what has been seen for evolutionary runs of polyomino shapes \cite{johnston2011evolutionary}, where 16-mers evolved through intermediate shapes increasing with four cubes at a time.
+
+\begin{figure}[h]
     \centering\includesvg[width=\textwidth]{figures/refcalc/geno_size_distribution.svg}
-    \caption{Number of input rules per output size. Distribution of polyomino sizes of \(10^9\) sampled rules in \(I_{16,31}^{2d}\).
+    \caption{Number of input rules per output size. Distribution of polyomino sizes of \(10^9\) sampled rules in \(I_{16_s,31_c}^{2D}\).
     }
     % Ard: The numbering on the x-axis is hard to follow --  I would try to do something like 5, 10, 15 .... Also, there are clear peaks at certain numbers, it is worth mentioning this in the caption or else in the text.
     % Andrew: Label axes consistently
-    \label{fig:ref_distr}
+    \label{fig:ref_inputdistr}
 \end{figure}
 
-With the input space investigated, we can also check how much of the output space we managed to sample. In Figure~\ref{fig:ref_distr}, the blue bars show how many polyominoes were found of each size, while the red line shows the total number of polyominoes that exist of that size (obtained from the On-line Encyclopedia of Integer Sequences \cite{sloane1995encyclopedia, oeisA000988}). The sampled input space \(I_{16s,31c}^{2d}\) should allow for all 16-mers to be assembled, since there are enough species and colours for fully addressable assemblies (assigning each cube its own species and each connection its own colour). Thus, the blue bars would follow the red line until size 16 if the complete input space was enumerated. Figure~\ref{fig:ref_distr} shows that we find at least the correct order of magnitude up until about 10-mers, after which polyominoes of larger sizes are found in decreasing numbers. Note how some polyomino sizes have a much higher count than their neighbours, indicating a bias for shapes of that size.
+In Figure~\ref{fig:ref_outputdistr}, the blue bars show how many polyominoes were found of each size, while the red line shows the total number of polyominoes that exist of that size (obtained from the On-line Encyclopedia of Integer Sequences \cite{sloane1995encyclopedia, oeisA000988}). The sampled input space \(I_{16_s,31_c}^{2D}\) should allow for all 16-mers to be assembled, since there are enough species and colours for fully addressable assemblies (assigning each cube its own species and each connection its own colour). Thus, the blue bars would follow the red line until size 16 if the complete input space was enumerated. Figure~\ref{fig:ref_outputdistr} shows that we find at least the correct order of magnitude up until about 10-mers, after which polyominoes of larger sizes are found in decreasing numbers.
 
-% Andrew: Every 4 - why?
+For the larger sizes, we again see the bias toward shapes with a multiple of four tiles. This shows that not only do some polyomino sizes have more input rules assembling them, but there is also larger number of unique polyomino shapes found for those sizes. The OEIS (On-line Encyclopedia of Integer Sequences) data shows no such bias in the actual size counts. Following the earlier argument, that few additional species are required to extend a shape with a multiple of four tiles, those tiles can be placed in different (still symmetric) configurations and create different shapes. Larger shapes leave room for more such permutations, leading to the increasing bias seen in the figure.
 
-\begin{figure}[ht]
+
+\begin{figure}[h]
     \centering\includesvg[width=\textwidth]{figures/refcalc/pheno_size_distribution.svg}
-    \caption{Number of output polyominoes per output size. Count of unique output polyominoes found sampling \(10^9\) input rules in \(I_{16s,31c}^{2d}\). The red line shows the actual number of polyominoes of each size, obtained from OEIS A000988 \cite{sloane1995encyclopedia, oeisA000988}.
+    \caption{Number of output polyominoes per output size. Count of unique output polyominoes found sampling \(10^9\) input rules in \(I_{16_s,31_c}^{2D}\). The red line shows the actual number of polyominoes of each size, obtained from OEIS A000988 \cite{sloane1995encyclopedia, oeisA000988}.
     }
     % Ard: Here again, like in 3.4 we see spikes for different sizes -- here not in the number of rules giving polyominoes, but rather in the number of polyominoes found. You need to comment on these two trends, and explain the similarities and differences between them as well.
-    \label{fig:ref_distr}
+    \label{fig:ref_outputdistr}
 \end{figure}
 
 
@@ -205,15 +227,58 @@ Figure~\ref{fig:main_distr} shows the distribution of output sizes for the main 
 
 \begin{figure}[ht]
     \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/maincalc/distrs.svg}
-    \caption{Distribution of output sizes when sampling \(I_{5s,31c}\) for seeded and stochastic in both 2D and 3D. The red line shows the actual number of polyominoes of each size, obtained from OEIS A000988 and A000162 \cite{sloane1995encyclopedia, oeisA000988} respectively.}
-    % Andrew: Use consistent axis lengths (seeded = unseeded, /2D != 3D)
+    \caption{Distribution of output sizes when sampling \(I_{5s,31c}\) for seeded and unseeded assembly in both 2D and 3D. The red line shows the actual number of polyominoes of each size, obtained from OEIS A000988 and A000162 \cite{sloane1995encyclopedia, oeisA000988} respectively.}
     \label{fig:main_distr}
 \end{figure}
 
+
+\section{Results}
+
+With the sampling details and the analysis methods explained, we will now move on to the main results. Let us start by looking at the different shapes found. Figure~\ref{fig:16-mer_2d_zoo} shows a gallery of the 16-mer polyominoes most commonly found when sampling \(I_{16,31}^{2D}\). Each shape is scaled in proportion to the frequency at which it was found, showing that, even within a given size, some shapes are much more common than others.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/16-mers_2d.png}
+    \caption{The 50 most common 2-dimensional 16-mers, scaled proportional to their frequency. Found while sampling the \(I_{16,31}^{2D}\) input space.}
+    \label{fig:16-mer_2d_zoo}
+\end{figure}
+
+Similarly, Figure~\ref{fig:8-mer_3d_zoo} shows a gallery of the 8-mer polycubes found when sampling \(I_{5,31}^{3D}\). Here, the difference in frequency between the shapes was so significant that they instead had to be scaled in proportion to the \emph{natural logarithm} of their frequency in order to be visible in the same figure. 
+% Ard: Surely the reason for this is that you got a much wider range of structures than for 16mers. -- I'd point out that there are 13,079,255 16mers, but you only find a small number of them -- 
+
+Note how the most common shapes seem to be relatively simple, symmetrical or modular, concepts that will be explored further in coming sections.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{figures/8-mers_3d.jpg}
+    \caption{The 50 most common three-dimensional 8-mers, scaled proportional to the natural logarithm of their frequency.}
+    \label{fig:8-mer_3d_zoo}
+\end{figure}
+
+\subsection{Frequency and rank}
+
+\begin{figure}[ht]
+    \centering
+    \begin{overpic}[width=\textwidth]{figures/maincalc/freq_vs_rank.png}
+        \put(230,300){\large{2D}}
+        \put(730,300){\large{3D}}
+        \put(10,260){a)}
+        \put(480,260){b)}
+        \put(950,260){\(\widetilde{K}_{lz}\)}
+    \end{overpic}
+    \caption{Frequency vs rank for \(10^8\) samples of \(I_{8s,31c}\) in both 2D (a) and 3D (b). Note that the frequency axis is logaritmic. Each point is a unique shape, coloured by its complexity (\(\widetilde{K}_{lz}\)).}
+    \label{fig:freq_vs_rank}
+\end{figure}
+
+Figure~\ref{fig:freq_vs_rank} shows the frequency of the shapes against their relative rank (with rank 1 being the most frequent, 2 being the second-most frequent, et cetera.). The sharp decrease for the lowest-ranking shapes is a sampling artefact. With a sample size of \(10^8\), a frequency of less than \(10^{-7}\) means that the shape was found fewer than 10 times. Some rare shapes can be found a few times through random chance, giving them a much higher frequency than they would have during a larger sampling.
+% AndrewÖ I don't understand this. I would understand increased noise, but not a cut-off.
+
+The sharp decrease among the highest-ranking shapes, however, once again shows how some shapes are much more common than others. Let us see if we can find any features of these shapes that stand out.
+
 \section{Symmetry}
 
-For polycube and polyomino symmetry, we care about rotation and reflection symmetry on the lattice.
-% Andrew: Shapes have reflection symmetry - but cubes do not?? Explain significance.
+Noting that frequent shapes look more symmetrical, we quantify this by calculating the rotation and reflection symmetries on the lattice for 2D polyominoes on the lattice. Corresponding symmetries could also be calculated for 3D polycubes, but we focus on polyominoes as their symmetry groups are fewer and since this will enable us to compare the results to those of Johnston et al \cite{johnston2021} seen in Figure~\ref{fig:polyomino_symmetries}.
+
 A 2D polyomino has four possible rotations, corresponding to the matrices $\big(\begin{smallmatrix}
     1 & 0 & 0\\
     0 & 1 & 0\\
@@ -252,49 +317,6 @@ In the simplified context of these lattice shapes, we assign 2D symmetry groups 
 
 %Freq vs rank coloured by symmetries
 
-\section{Results}
-
-With the sampling details and the analysis methods explained, we will now move on to the main results. Let us start by looking at the different shapes found. Figure~\ref{fig:16-mer_2d_zoo} shows a gallery of the 16-mer polyominoes most commonly found when sampling \(I_{16,31}^{2d}\). Each shape is scaled in proportion to the frequency at which it was found, showing that, even within a given size, some shapes are much more common than others.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/16-mers_2d.png}
-    \caption{The 50 most common 2-dimensional 16-mers, scaled proportional to their frequency. Found while sampling the \(I_{16,31}^{2d}\) input space.}
-    \label{fig:16-mer_2d_zoo}
-\end{figure}
-
-Similarly, Figure~\ref{fig:8-mer_3d_zoo} shows a gallery of the 8-mer polycubes found when sampling \(I_{5,31}^{3d}\). Here, the difference in frequency between the shapes was so significant that they instead had to be scaled in proportion to the \emph{natural logarithm} of their frequency in order to be visible in the same figure. 
-% Ard: Surely the reason for this is that you got a much wider range of structures than for 16mers. -- I'd point out that there are 13,079,255 16mers, but you only find a small number of them -- 
-
-Note how the most common shapes seem to be relatively simple, symmetrical or modular, concepts that will be explored further in coming sections.
-
-\begin{figure}[ht]
-    \centering
-    \includegraphics[width=\textwidth]{figures/8-mers_3d.jpg}
-    \caption{The 50 most common three-dimensional 8-mers, scaled proportional to the natural logarithm of their frequency.}
-    \label{fig:8-mer_3d_zoo}
-\end{figure}
-
-\subsection{Frequency and rank}
-
-\begin{figure}[ht]
-    \centering
-    \begin{overpic}[width=\textwidth]{figures/maincalc/freq_vs_rank.png}
-        \put(230,300){\large{2D}}
-        \put(730,300){\large{3D}}
-        \put(10,260){a)}
-        \put(480,260){b)}
-        \put(950,260){\(\widetilde{K}_{lz}\)}
-    \end{overpic}
-    \caption{Frequency vs rank for \(10^8\) samples of \(I_{8s,31c}\) in both 2D (a) and 3D (b). Note that the frequency axis is logaritmic. Each point is a unique shape, coloured by its complexity (\(\widetilde{K}_{lz}\)).}
-    \label{fig:freq_vs_rank}
-\end{figure}
-
-Figure~\ref{fig:freq_vs_rank} shows the frequency of the shapes against their relative rank (with rank 1 being the most frequent, 2 being the second-most frequent, et cetera.). The sharp decrease for the lowest-ranking shapes is a sampling artefact. With a sample size of \(10^8\), a frequency of less than \(10^{-7}\) means that the shape was found fewer than 10 times. Some rare shapes can be found a few times through random chance, giving them a much higher frequency than they would have during a larger sampling.
-% AndrewÖ I don't understand this. I would understand increased noise, but not a cut-off.
-
-The sharp decrease among the highest-ranking shapes, however, once again shows how some shapes are much more common than others. Let us see if we can find any features of these shapes that stand out.
-
 \subsection{Frequency and complexity}
 
 % Andrew: This is getting VERY confusing. There are 4? Data sets - Previously published, reference, & 'main' (2D & 3D) with different number of species & colours. Results are being presented in no obvious sequence (3.11 is 'reference'). I thought 'reference' was I_{16,31}^{2D/3D}, & main I_{5,31}^{2D/3D}. Where does I_{8,31}^{2D/3D} (fig 3.10) fit in?
@@ -304,11 +326,11 @@ Let us return to the complexity bias presented in Section~\ref{sec:polyomino_evo
 \begin{figure}[ht]
     \centering
     \includesvg[width=\textwidth, inkscapelatex=false]{figures/refcalc/complexity_vs_freq_16_nc.svg}
-    \caption{Frequency vs complexity (\(\widetilde{K}_c\)) of 16-mers found when sampling \(I_{16,31}^{2d}\). Each point represents a unique polyomino shape, some of which are visualised.}
+    \caption{Frequency vs complexity (\(\widetilde{K}_c\)) of 16-mers found when sampling \(I_{16,31}^{2D}\). Each point represents a unique polyomino shape, some of which are visualised.}
     \label{fig:freq_vs_compl_refcalc}
 \end{figure}
 
-Comparing Figure~\ref{fig:freq_vs_compl_refcalc} with Figure~\ref{fig:polyomino_symmetries}, it is clear that the same simplicity bias is present, reproducing the result from \cite{johnston2021} with the polycube model implementation presented in this thesis. Note how high-frequency low-complexity shapes tend to be more symmetric. The unusually low frequency of the two C2 polyominoes with \(\widetilde{K}_c = 4\) is an example of how the \(\widetilde{K}_c\) measure is an imperfect proxy for Komologrov complexity; both have higher complexity using alternative measures (\(\widetilde{K}_s\)=11 and \(\widetilde{K}_{lz} \approx 211\)). 
+Comparing Figure~\ref{fig:freq_vs_compl_refcalc} with Figure~\ref{fig:polyomino_symmetries}, it is clear that the same simplicity bias is present, reproducing the result from \cite{johnston2021} with the polycube model implementation presented in this thesis. Note again how high-frequency low-complexity shapes tend to be more symmetric. The unusually low frequency of the two C2 polyominoes with \(\widetilde{K}_c = 4\) is an example of how the \(\widetilde{K}_c\) measure is an imperfect proxy for Komologrov complexity; both have higher complexity using alternative measures (\(\widetilde{K}_s\)=11 and \(\widetilde{K}_{lz} \approx 211\)). 
 
 Extending our result into three dimensions, as well as using both seeded and unseeded assembly, let us now look at the results from the main sampling, introduced in Section~\ref{sec:maincalc}.
 
@@ -340,10 +362,7 @@ Extending our result into three dimensions, as well as using both seeded and uns
 
 As seen in Figure~\ref{fig:freq_vs_compl}, the simplicity bias is still present for 3D polycubes, even using alternative measures of the complexity. The measures provide different resolutions, with the largest number of distinct complexity values for \(\widetilde{K}_{lz}\), but all show that the frequency of a shape has an upper bound determined by its complexity.
 
-One apparent break from the trend shown is the mostly constant \(\widetilde{K}_s\) values for unseeded samplings (Figure~\ref{fig:freq_vs_compl}.a) and~\ref{fig:freq_vs_compl}.b)); almost all the output shapes use the maximum number of species. This can be explained as a consequence of the determinism check. A seeded rule can include non-binding species that are simplified away and not counted, as long as none of them is the seed. But with unseeded assembly, any species can be the seed, so such a rule would be deemed non-deterministic and not included. Thus, for the unseeded results, we have to rely on the other two complexity measures.
-
-% Andrew: Does this skew the sampling in ways that matter?
-
+One apparent break from the trend shown is the mostly constant \(\widetilde{K}_s\) values for unseeded samplings (Figure~\ref{fig:freq_vs_compl}.a) and~\ref{fig:freq_vs_compl}.b)); almost all the unseeded output shapes use the maximum number of species. This can be explained as a consequence of the determinism check. A seeded rule can include non-binding species (without any matching colours) that are simplified away and not counted, as long as none of them is the first cube. But with unseeded assembly, any species can be the seed, so when a non-binding species is used as seed the rule would be deemed non-deterministic and not included. A solution would be to remove the non-bindning cubes from the unseeded rules, but then the simplification process would actually affect the assembly result (making non-deterministic rules deterministic), which is something we want to avoid. Thus, for the unseeded results, we have to rely on the other two complexity measures.
 
 \subsection{PK vs K}
 

@@ -367,6 +367,27 @@ Since there are different \emph{narrow types} available, corresponding to slight
 
 \begin{figure}[ht]
     \centering
+    \includegraphics[width=\linewidth]{figures/patchysim/swanKinetics.eps}
+    \caption{Assembly kinetics for different designs of the ``Swan'' shape. The left column shows the  \href{https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=89010204000099099e00a20c0101861000000115920000009501020000000119020000000101021c0000010102000020010102008e00}{fully addressable solution} while the right is the \href{https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=8f0b080b000b0b00000012008791000000000c0005000000000088000000}{minimal solution} found. Solid lines are mean values from 5 duplicate simulations, error bands show the 95\% confidence interval band. Each simulation is done using the narrow type \(0\) potential (patch width = \(2.346\)) at a \(0.1\) particle density. Temperature and time is measured in simulation units.}
+    \label{fig:swanKinetics}
+\end{figure}
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\linewidth]{figures/patchysim/cubePotentials.eps}
+    \caption{Assembly yield for hollow \(3 \times 3 \times 3\) cube designs. The top row shows the \href{https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=00040109020c000089110200001491010218000001018e1c002001259e000000a5290200002ca901b200000001019a30963401010200863801010200ba00013d02400000bd450200b600c5010248ae4c01010200ce00e101d20000000101ca5000000101c254de000159d600a25c010102000000d9610200}{fully addressable solution}, using 20 species and 24 colours. The middle row shows an \href{https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=90000800000600040090000d000000008b8d000011860000}{intermediate solution}, using 4 species and 4 colours. The bottom row shows the \href{https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=070000070500868700000000}{minimal solution}, using 2 species and 1 colour. Columns correspond to different interaction potentials, with the leftmost column showing wide patches without torsion. The remaining columns show torsional patches with decreasing patch width. Solid lines are mean values from 5 duplicate simulations, and error bands show the 95\% confidence interval band. Each simulation has a \(0.1\) particle density.}
+    \label{fig:cubePotentials}
+\end{figure*}
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=\linewidth]{figures/patchysim/solidCubePotentials.eps}
+    \caption{Assembly yield for solid \(3 \times 3 \times 3\) cube designs. The top row shows the \href{https://akodiat.github.io/polycubes/?decRule=|1:0||2:1||3:0_-1:2|4:0||5:1||6:0_|7:0|-2:1|8:1||9:0_|10:0||11:1|-3:2|12:0_-4:2|||13:1||14:0_-7:2|15:0|-5:1|16:1||17:0_-10:2|18:0||19:1|-6:2|20:0_-15:2||-13:1|21:1||22:0_-18:2|||23:1|-14:2|24:0_|25:0|-11:1|26:1|-9:2|27:0_|28:0||29:1|-12:2|_-25:2|30:0|-19:1|31:1|-17:2|32:0_-28:2|33:0||34:1|-20:2|_-30:2||-23:1|35:1|-22:2|36:0_-33:2|||37:1|-24:2|_|38:0|-29:1|39:1|-27:2|_-38:2|40:0|-34:1|41:1|-32:2|_-40:2||-37:1|42:1|-36:2|_|43:0|-8:1|||44:0_-43:2|45:0|-16:1|||46:0_-45:2||-21:1|||47:0_|48:0|-26:1||-44:2|49:0_-48:2|50:0|-31:1||-46:2|51:0_-50:2||-35:1||-47:2|52:0_|53:0|-39:1||-49:2|_-53:2|54:0|-41:1||-51:2|_-54:2||-42:1||-52:2|}{fully addressable solution}, using 27 species and 54 colours. The middle row shows an \href{https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=10101113232391001d1d8c2400a2949495970c00a5001b1a1700009d0a8598008a000400}{intermediate solution}, using 6 species and 9 colours. The bottom row shows the \href{https://akodiat.github.io/polycubes/?assemblyMode=stochastic&rule=0a0a0b0a0908878784868b00060000078e8f000c0c00000e}{minimal solution}, using 4 species and 3 colours. Columns correspond to different interaction potentials, with the leftmost column showing wide patches without torsion. The remaining columns show torsional patches with decreasing patch width. Solid lines are mean values from 5 duplicate simulations, and error bands show the 95\% confidence interval band. Each simulation has a \(0.1\) particle density.}
+    \label{fig:solidCubePotentials}
+\end{figure*}
+
+\begin{figure}[ht]
+    \centering
     \begin{overpic}[width=\textwidth]{figures/patchysim/narrow_types.eps}
         \put(-10,210){a)}
         \put(210,210){b)}
