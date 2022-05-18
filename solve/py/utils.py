@@ -1,7 +1,80 @@
 import numpy as np
 from scipy.spatial.transform import Rotation as R
+import json
+import numpy as np
 
 ## Utility functions
+
+def parseDecRule(decRule):
+    rule = []
+    for s in decRule.split('_'):
+        faces = []
+        for face in s.split('|'):
+            if face != '':
+                color, orientation = [int(v) for v in face.split(':')]
+            else:
+                color = 0
+                orientation = 0
+            faces.append({
+                'color': color,
+                'orientation': orientation
+            })
+        rule.append(faces)
+    return rule
+
+def ruleToDec(ruleset):
+    return '_'.join(
+        '|'.join(
+            "{}:{}".format(
+                f['color'], f['orientation']
+            ) for f in s
+        ) for s in ruleset
+    )
+
+def parseHexRule(hexRule):
+    ruleset = []
+    faces = []
+    for i in range(0, len(hexRule), 2):
+        if i%12 == 0 and i != 0:
+            ruleset.append(faces)
+            faces = []
+        face_hex = hexRule[i:i+2]
+        face_int = int(face_hex, 16)
+        face_bin = bin(face_int)[2:].zfill(8)
+        face = {}
+        sign = int(face_bin[0], 2)
+        face['color'] = int(face_bin[1:6], 2) * (-1 if sign else 1)
+        face['orientation'] = int(face_bin[6:8], 2)
+        faces.append(face)
+    ruleset.append(faces)
+    return ruleset
+
+def ruleToHex(ruleset):
+    hexRule = ''
+    for rule in ruleset:
+        for face in rule:
+            sign = bin(face['color'] < 0)[2:]
+            color = bin(abs(face['color']))[2:].zfill(5)
+            orientation = bin(abs(face['orientation']))[2:].zfill(2)
+            binStr = sign + color + orientation
+            hexStr = hex(int(binStr, 2))[2:].zfill(2)
+            hexRule += hexStr
+    return hexRule
+
+def translateToPolyominoNotation(ruleset):
+    faceOrder = [1,3,0,2]
+    cubes = []
+    for cube in ruleset:
+        faces = []
+        for i in faceOrder:
+            face = cube[i]
+            color = 2*abs(face['color'])
+            if face['color'] < 0:
+                color -= 1
+            faces.append(str(color))
+        cubes.append(" ".join(faces))
+    return " | ".join(cubes)
+
 def patchRotToVec(i, rot):
     """ Get vector indicating patch rotation, given rotation state and face index
 
@@ -169,7 +242,6 @@ def calcCoordmapFromTop(top, nDim=3):
         iIdx = [i in m.keys() for m in pmaps].index(True)
         jIdx = [j in m.keys() for m in pmaps].index(True)
         pmaps = merge(iIdx,jIdx, pmaps, pmaps[iIdx][i] + dirs[dPi] - pmaps[jIdx][j])
-        print(pmaps)
 
     return pmaps
 
@@ -182,3 +254,82 @@ def countParticlesAndBindings(topology):
     pidsb = [x[2] for x in topology]
     particles = pidsa + pidsb
     return max(particles)+1, len(topology)
+
+
+def vectorAbs(v):
+    return np.array([abs(x) for x in v])
+def posToString(pos):
+    return ",".join(str(x) for x in pos)
+def bindingStr(a, b):
+    return "{} {}".format(*sorted([posToString(a), posToString(b)]))
+
+def getFullyAdressableRule(topology):
+    coordMaps = calcCoordmapFromTop(topology)
+    assert len(coordMaps) == 1, "Found {} shapes".format(len(coordMaps))
+    coordMap = coordMaps[0]
+    coords = coordMap.values()
+
+    connectors = list(bindingStr(coordMap[b[0]], coordMap[b[2]]) for b in topology)
+
+    # Find out which dimension has the fewest connectors
+    dimCount = [0,0,0]
+    dims = [
+        np.array([1,0,0]),
+        np.array([0,1,0]),
+        np.array([0,0,1])
+    ]
+
+    for p in coords:
+        for d in getRuleOrder():
+            neigbourPos = p+d
+            if bindingStr(p, neigbourPos) in connectors:
+                for i in range(3):
+                    if np.array_equal(vectorAbs(d), dims[i]):
+                        dimCount[i] += 1
+                        break
+
+    minDim = dims[dimCount.index(min(dimCount))]
+
+    # Initialise empty species
+    rule = []
+    cubePosMap = {}
+    for iCube, p in enumerate(coords):
+        cubeType = []
+        for i, d in enumerate(getFaceRotations()):
+            alignDir = d
+            if not np.array_equal(getRuleOrder()[i], minDim):
+                alignDir = minDim
+            cubeType.append({'color':0, 'alignDir': alignDir})
+        rule.append(cubeType)
+        cubePosMap[posToString(p)] = iCube
+
+    # Set colors and alignment direcitons
+    colorCounter = 1
+    for iCube, p in enumerate(coords):
+        found = False
+        for iFace, d in enumerate(getRuleOrder()):
+            neigbourPos = p+d
+            if bindingStr(p, neigbourPos) in connectors:
+                found = True
+                invDir = -d
+                iFaceNeigh = list(np.array_equal(invDir, v) for v in getRuleOrder()).index(True)
+                iCubeNeigh = cubePosMap[posToString(neigbourPos)]
+
+                rule[iCube][iFace]['color'] = colorCounter
+                rule[iCubeNeigh][iFaceNeigh]['color'] = -colorCounter
+                rule[iCubeNeigh][iFaceNeigh]['alignDir'] = rule[iCube][iFace]['alignDir']
+
+                colorCounter += 1
+        if not found:
+            print("{} not found in connections".format(posToString(p)))
+
+    rule = [[{
+        'color': face['color'],
+        'orientation': round(getSignedAngle(
+            getFaceRotations()[i],
+            face['alignDir'],
+            getRuleOrder()[i]
+        )*(2/np.pi)+4) % 4
+    } for i, face in enumerate(s)] for s in rule]
+
+    return rule

@@ -16,76 +16,6 @@ import json
 import traceback
 import os
 
-def parseDecRule(decRule):
-    rule = []
-    for s in decRule.split('_'):
-        faces = []
-        for face in s.split('|'):
-            if face != '':
-                color, orientation = [int(v) for v in face.split(':')]
-            else:
-                color = 0
-                orientation = 0
-            faces.append({
-                'color': color,
-                'orientation': orientation
-            })
-        rule.append(faces)
-    return rule
-
-def ruleToDec(ruleset):
-    return '_'.join(
-        '|'.join(
-            "{}:{}".format(
-                f['color'], f['orientation']
-            ) for f in s
-        ) for s in ruleset
-    )
-
-def parseHexRule(hexRule):
-    ruleset = []
-    faces = []
-    for i in range(0, len(hexRule), 2):
-        if i%12 == 0 and i != 0:
-            ruleset.append(faces)
-            faces = []
-        face_hex = hexRule[i:i+2]
-        face_int = int(face_hex, 16)
-        face_bin = bin(face_int)[2:].zfill(8)
-        face = {}
-        sign = int(face_bin[0], 2)
-        face['color'] = int(face_bin[1:6], 2) * (-1 if sign else 1)
-        face['orientation'] = int(face_bin[6:8], 2)
-        faces.append(face)
-    ruleset.append(faces)
-    return ruleset
-
-def ruleToHex(ruleset):
-    hexRule = ''
-    for rule in ruleset:
-        for face in rule:
-            sign = bin(face['color'] < 0)[2:]
-            color = bin(abs(face['color']))[2:].zfill(5)
-            orientation = bin(abs(face['orientation']))[2:].zfill(2)
-            binStr = sign + color + orientation
-            hexStr = hex(int(binStr, 2))[2:].zfill(2)
-            hexRule += hexStr
-    return hexRule
-
-def translateToPolyominoNotation(ruleset):
-    faceOrder = [1,3,0,2]
-    cubes = []
-    for cube in ruleset:
-        faces = []
-        for i in faceOrder:
-            face = cube[i]
-            color = 2*abs(face['color'])
-            if face['color'] < 0:
-                color -= 1
-            faces.append(str(color))
-        cubes.append(" ".join(faces))
-    return " | ".join(cubes)
-
 def readSolution(sol):
     colorCounter = 1
     colorMap = {}
@@ -185,7 +115,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
         return (i, rules, log)
     if len(rules) > 0:
         rule = sorted(rules[0], key=patchCount, reverse=True)
-        decRule = ruleToDec(rule)
+        decRule = utils.ruleToDec(rule)
         if libpolycubes.isBoundedAndDeterministic(decRule, isHexString=False):
             return (i, decRule, log)
         else:
@@ -201,7 +131,7 @@ def findRuleFor(top, nCubeTypes, nColors, nSolutions, nDim=3, torsionalPatches=T
 
             if sols == 'TIMEOUT':
                 return (i, sols, log)
-            altrules = set(ruleToDec(sorted(r, key=patchCount)) for r in sols)
+            altrules = set(utils.ruleToDec(sorted(r, key=patchCount)) for r in sols)
             log += '  Trying {} alternative solutions\n'.format(len(altrules))
             for altrule in altrules:
                 if libpolycubes.isBoundedAndDeterministic(altrule, isHexString=False):
@@ -317,12 +247,12 @@ def findRules(topPath, nCubeTypes='auto', nColors='auto', nSolutions='auto', nDi
         if sols == 'TIMEOUT':
             print('Timed out')
             return
-        r = [ruleToDec(rule) for rule in sols]
+        r = [utils.ruleToDec(rule) for rule in sols]
     if len(r) > 0:
         for rule in r:
             print(polyurl.format(rule), flush=True)
             if nDim == 2:
-                print(translateToPolyominoNotation(parseDecRule(rule)))
+                print(utils.translateToPolyominoNotation(utils.parseDecRule(rule)))
         return r
     else:
         print('Sorry, no solution found', flush=True)
@@ -350,7 +280,7 @@ def solve(solveSpecPath, nCubeTypes=None, nColors=None):
             torsionalPatches=solveSpec['torsion']
         )
 
-def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=100):
+def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=1000):
     print("Solving {} for {}s {}c on pid={}".format(solveSpecPath, nCubeTypes, nColors, os.getpid()))
     with open(solveSpecPath, 'r') as f:
         data = f.read()
@@ -381,10 +311,10 @@ def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=100):
             print('Sorry, timed out')
         elif result:
             rule = sorted(readSolution(solution), key=patchCount, reverse=True)
-            decRule = ruleToDec(rule)
+            decRule = utils.ruleToDec(rule)
             ratiosum = 0
             for shape in shapes:
-                ratio = libpolycubes.assembleRatio(shape, decRule, isHexString=False, torsion=solveSpec['torsion'])
+                ratio = libpolycubes.assembleRatio(shape, decRule, isHexString=False, assemblyMode='seeded', torsion=solveSpec['torsion'])
                 if ratio == 0:
                     print("Shape {}never assembled".format((("{} ").format(shape) if len(shapes)>1 else '')))
                     ratiosum = 0
@@ -392,11 +322,11 @@ def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=100):
                 else:
                     ratiosum += ratio
             if ratiosum >= ratioLimit:
-                print("Found solution: https://akodiat.github.io/polycubes/?decRule={} at assembly ratio {}".format(ruleToDec(rule), ratiosum))
-                return ruleToDec(rule)
+                print("Found solution: https://akodiat.github.io/polycubes/?decRule={} at assembly ratio {}".format(utils.ruleToDec(rule), ratiosum))
+                return utils.ruleToDec(rule)
             else:
                 if ratiosum > 0:
-                    print("Solution {} assembles, but only at assembly ratio {}. {} tries left".format(ruleToDec(rule), ratiosum, maxTries-nTries))
+                    print("Solution {} assembles, but only at assembly ratio {}. {} tries left".format(utils.ruleToDec(rule), ratiosum, maxTries-nTries))
                     maxRatio = max(maxRatio, ratiosum)
                 mysat.forbidSolution(solution)
                 nTries += 1
