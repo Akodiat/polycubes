@@ -229,6 +229,68 @@ function exportGLTFs(rules, counts, scaling='linear', name="exported") {
     }, options);
 }
 
+function exportGLTFsGrid(rules, name="exported", padding = 8) {
+    const length = rules.length;
+    const a = Math.ceil(Math.sqrt(length));
+    const b = Math.ceil(length/a);
+    const [xMax, yMax] = [a,b].sort();
+
+    let group = new THREE.Group();
+
+    scene.add(group);
+
+    for (let x=0; x<xMax; x++) {
+        for (let y=0; y<yMax; y++) {
+            const i = y*xMax + x;
+            if (i >= length) {
+                break;
+            }
+            //Assemble rule
+            const rule = rules[i];
+            console.log(`${i} (${Math.round(100*i/rules.length)}%)`);
+            const sys = new PolycubeSystem(parseHexRule(rule), new THREE.Scene(), 100, 100, "seeded");
+            sys.background = true;
+            sys.seed();
+            while (!sys.processMoves());
+
+            sys.objGroup.name = `${i}_${rule}`;
+            sys.objGroup.children.forEach(cube=>cube.position.sub(sys.centerOfMass));
+
+            // Find bounding box
+            let box = new THREE.Box3().expandByObject(sys.objGroup);
+            let size = box.getSize(new THREE.Vector3()) //.add(new THREE.Vector3(0.5, 0.5, 0));
+
+            // Rotate so that thinnest dir faces camera
+            thinnestIdx = size.toArray().findIndex(v=>v==Math.min(...size.toArray()));
+            thinnestDir = new THREE.Vector3().setComponent(thinnestIdx, 1);
+            sys.objGroup.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(
+                thinnestDir, new THREE.Vector3(0,0,1))
+            );
+
+            sys.objGroup.position.x = padding*x;
+            sys.objGroup.position.y = padding*(yMax-y);
+
+            group.add(sys.objGroup);
+
+            render();
+        }
+    }
+
+    // Instantiate an exporter
+    let exporter = new THREE.GLTFExporter();
+    let options = {'forceIndices': true};
+
+    // Parse the input and generate the glTF output
+    exporter.parse(group, function (result) {
+        if (result instanceof ArrayBuffer) {
+            saveArrayBuffer(result, 'scene.glb');
+        } else {
+            let output = JSON.stringify(result, null, 2);
+            saveString(output, `${name}.gltf`);
+        }
+    }, options);
+}
+
 document.addEventListener("keydown", event => {
     if (event.key == 's' && event.ctrlKey) {
         event.preventDefault();
