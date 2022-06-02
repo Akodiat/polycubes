@@ -52,18 +52,17 @@ public:
 std::string assemblyModeToString(AssemblyMode m);
 AssemblyMode parseAssemblyMode(std::string s);
 
-double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex = true, bool torsion = true);
+double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion, size_t nMaxCubes);
 
-Result runTries(std::string rule, int nTries, AssemblyMode assemblyMode);
-Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex);
+Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex = true, size_t nMaxCubes = 100);
 
 Eigen::Vector3f getOrientation(int index, int orientation);
 
 std::vector<Rule> parseDecRule(std::string ruleStr);
 std::vector<Rule> parseRules(std::string ruleStr);
 
-bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMode);
-bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode, bool ruleIsHex = true, bool torsion = true);
+bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMode, bool torsion = true, size_t nMaxCubes = 100);
+bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode, bool ruleIsHex = true, bool torsion = true, size_t nMaxCubes = 100);
 
 // Split string, from https://stackoverflow.com/a/10058725
 std::vector<std::string> splitString(std::string s, char delim);

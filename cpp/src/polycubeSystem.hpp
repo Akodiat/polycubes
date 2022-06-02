@@ -97,9 +97,12 @@ class PolycubeSystem
 {
 public:
     PolycubeSystem(std::vector<Rule> rules);
+    PolycubeSystem(std::vector<Rule> rules, size_t nMaxCubes);
     PolycubeSystem(std::vector<Rule> rules, AssemblyMode assemblyMode);
+    PolycubeSystem(std::vector<Rule> rules, AssemblyMode assemblyMode, size_t nMaxCubes);
     PolycubeSystem(std::string rules);
     PolycubeSystem(std::string rules, size_t nMaxCubes);
+    PolycubeSystem(std::string rules, size_t nMaxCubes, AssemblyMode assemblyMode);
     PolycubeSystem(std::string rules, AssemblyMode assemblyMode);
     ~PolycubeSystem();
 

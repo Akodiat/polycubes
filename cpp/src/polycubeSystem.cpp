@@ -66,8 +66,15 @@ PolycubeSystem::PolycubeSystem(std::vector<Rule> rules) {
     init(rules, 100, AssemblyMode::stochastic);
 }
 
+PolycubeSystem::PolycubeSystem(std::vector<Rule> rules, size_t nMaxCubes) {
+    init(rules, nMaxCubes, AssemblyMode::stochastic);
+}
+
 PolycubeSystem::PolycubeSystem(std::vector<Rule> rules, AssemblyMode assemblyMode) {
     init(rules, 100, assemblyMode);
+}
+PolycubeSystem::PolycubeSystem(std::vector<Rule> rules, AssemblyMode assemblyMode, size_t nMaxCubes) {
+    init(rules, nMaxCubes, assemblyMode);
 }
 
 PolycubeSystem::PolycubeSystem(std::string rules) {
@@ -76,9 +83,13 @@ PolycubeSystem::PolycubeSystem(std::string rules) {
 PolycubeSystem::PolycubeSystem(std::string rules, size_t nMaxCubes) {
     init(parseRules(rules), nMaxCubes, AssemblyMode::stochastic);
 }
+PolycubeSystem::PolycubeSystem(std::string rules, size_t nMaxCubes, AssemblyMode assemblyMode) {
+    init(parseRules(rules), nMaxCubes, assemblyMode);
+}
 PolycubeSystem::PolycubeSystem(std::string rules, AssemblyMode assemblyMode) {
     init(parseRules(rules), 100, assemblyMode);
 }
+
 
 PolycubeSystem::~PolycubeSystem() {
     for(size_t i=0; i<rules.size(); i++) {

@@ -66,7 +66,7 @@ std::vector<Rule> parseRules(std::string ruleStr) {
     return rules;
 }
 
-double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion
+double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion, size_t nMaxCubes
 ) {
     int nEqual = 0;
 
@@ -79,11 +79,7 @@ double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, A
     return double(nEqual)/nTries;
 }
 
-Result runTries(std::string rule, int nTries, AssemblyMode assemblyMode) {
-    return runTries(rule, nTries, assemblyMode, true);
-}
-
-Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex)
+Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex, size_t nMaxCubes)
 {
     int refnCubes = 0;
     Eigen::Matrix3Xf coords;
@@ -93,7 +89,11 @@ Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool
     std::vector<Rule> rule;
 
     while (nTries--) {
-        PolycubeSystem* p = new PolycubeSystem(ruleIsHex ? parseRules(rulestr) : parseDecRule(rulestr), assemblyMode);
+        PolycubeSystem* p = new PolycubeSystem(
+            ruleIsHex ? parseRules(rulestr) : parseDecRule(rulestr),
+            assemblyMode,
+            nMaxCubes
+        );
         p->seed();
         int nCubes = p->processMoves();
 
@@ -122,8 +122,12 @@ Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool
 }
 
 // Check if a rule forms a given polycube shape
-bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion) {
-    PolycubeSystem* p = new PolycubeSystem(ruleIsHex ? parseRules(rule) : parseDecRule(rule), assemblyMode);
+bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion, size_t nMaxCubes) {
+    PolycubeSystem* p = new PolycubeSystem(
+        ruleIsHex ? parseRules(rule) : parseDecRule(rule),
+        assemblyMode,
+        nMaxCubes
+    );
     p->setTorsion(torsion);
     p->seed();
     int nCubes = p->processMoves();
@@ -137,12 +141,14 @@ bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assem
 }
 
 // Compare if the two rules form the same polycube
-bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMode) {
-    PolycubeSystem* p1 = new PolycubeSystem(rule1, assemblyMode);
+bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMode, bool torsion, size_t nMaxCubes) {
+    PolycubeSystem* p1 = new PolycubeSystem(rule1, nMaxCubes, assemblyMode);
+    p1->setTorsion(torsion);
     p1->seed();
     int nCubes1 = p1->processMoves();
 
-    PolycubeSystem* p2 = new PolycubeSystem(rule2, assemblyMode);
+    PolycubeSystem* p2 = new PolycubeSystem(rule2, nMaxCubes, assemblyMode);
+    p2->setTorsion(torsion);
     p2->seed();
     int nCubes2 = p2->processMoves();
 
