@@ -1,0 +1,3144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   class="marks"
+   width="475.7417"
+   height="283.37891"
+   viewBox="0 0 475.7417 283.37891"
+   id="svg1473"
+   sodipodi:docname="cube2.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata1477">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     id="namedview1475"
+     showgrid="false"
+     inkscape:zoom="1.3488164"
+     inkscape:cx="313.34188"
+     inkscape:cy="77.719432"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g882"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="30" />
+  <g
+     stroke-miterlimit="10"
+     transform="translate(240.74171)"
+     id="g1434"
+     style="fill:none;stroke-miterlimit:10">
+    <g
+       class="mark-group role-frame root"
+       role="graphics-object"
+       aria-roledescription="group mark container"
+       id="g1432">
+      <g
+         id="g1430">
+        <path
+           class="background"
+           aria-hidden="true"
+           d="M 0,0 Z"
+           id="path4"
+           inkscape:connector-curvature="0" />
+        <g
+           id="g1426">
+          <g
+             class="mark-group role-scope concat_0_group"
+             role="graphics-object"
+             aria-roledescription="group mark container"
+             id="g966">
+            <g
+               id="g964">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="m 0.5,0.5 h 160 v 240 H 0.5 Z"
+                 id="path6"
+                 inkscape:connector-curvature="0"
+                 style="stroke:#dddddd" />
+              <g
+                 id="g960">
+                <g
+                   class="mark-rect role-mark concat_0_layer_0_marks"
+                   role="graphics-symbol"
+                   aria-roledescription="rect mark container"
+                   id="g368">
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.09"
+                     id="a10">
+                    <path
+                       d="m 140,180 h 20 v 20 h -20 z"
+                       id="path8"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a14">
+                    <path
+                       d="m 0,140 h 20 v 20 H 0 Z"
+                       id="path12"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a18">
+                    <path
+                       d="m 40,80 h 20 v 20 H 40 Z"
+                       id="path16"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-1:1|0:0|-1:1|0:0|1:2|0:0_0:0|-3:1|2:1|0:0|1:1|0:0_1:1|0:0|0:0|-2:2|1:3|0:0_1:0|0:0|0:0|1:2|0:0|3:3"
+                     id="a22">
+                    <path
+                       d="m 60,180 h 20 v 20 H 60 Z"
+                       id="path20"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0:0|-2:0|0:0|-4:0|0:0|-4:0_-3:2|0:0|0:0|-7:0|1:0|0:0_-6:0|0:0|0:0|-3:2|-5:1|0:0_0:0|1:2|8:1|0:0|-7:0|0:0_-1:2|0:0|0:0|6:2|0:0|-1:2_2:0|0:0|5:3|0:0|-8:3|0:0_7:3|0:0|4:3|0:0|0:0|3:3"
+                     id="a26">
+                    <path
+                       d="m 120,80 h 20 v 20 h -20 z"
+                       id="path24"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-1:0|0:0|-1:0|0:0|2:2|0:0_0:0|1:0|0:0|1:0|0:0|-2:2_1:1|0:0|0:0|1:3|0:0|-2:3"
+                     id="a30">
+                    <path
+                       d="m 40,200 h 20 v 20 H 40 Z"
+                       id="path28"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=2:0|0:0|0:0|-2:1|2:2|0:0_0:0|-2:3|0:0|-1:3|0:0|2:2_0:0|-2:3|0:0|1:2|0:0|-2:3_2:1|0:0|2:1|0:0|-2:2|0:0"
+                     id="a34">
+                    <path
+                       d="m 60,200 h 20 v 20 H 60 Z"
+                       id="path32"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a38">
+                    <path
+                       d="m 80,40 h 20 V 60 H 80 Z"
+                       id="path36"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a42">
+                    <path
+                       d="M 20,20 H 40 V 40 H 20 Z"
+                       id="path40"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a46">
+                    <path
+                       d="m 60,80 h 20 v 20 H 60 Z"
+                       id="path44"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a50">
+                    <path
+                       d="M 60,60 H 80 V 80 H 60 Z"
+                       id="path48"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=4:3|0:0|5:1|0:0|-1:3|0:0_5:2|0:0|3:2|0:0|0:0|-6:0_0:0|-4:1|0:0|3:0|0:0|-2:3_-7:0|0:0|0:0|1:0|0:0|6:0_0:0|2:0|3:0|0:0|7:0|0:0_0:0|4:3|0:0|-3:2|4:1|0:0_-3:0|0:0|-5:2|0:0|-4:0|0:0"
+                     id="a54">
+                    <path
+                       d="m 120,100 h 20 v 20 h -20 z"
+                       id="path52"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0:0|1:3|0:0|-6:1|-7:2|0:0_-5:3|0:0|-1:0|0:0|-8:1|0:0_0:0|3:3|-4:2|0:0|0:0|-1:0_-3:3|0:0|5:3|0:0|0:0|-2:0_8:0|0:0|0:0|-2:1|0:0|4:1_6:0|0:0|2:2|0:0|7:3|0:0"
+                     id="a58">
+                    <path
+                       d="m 100,80 h 20 v 20 h -20 z"
+                       id="path56"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=5:2|0:0|-3:0|0:0|-2:1|0:0_4:0|0:0|5:1|0:0|0:0|-1:2_3:0|0:0|2:1|0:0|0:0|-4:3_-5:0|0:0|0:0|1:3|-5:2|0:0"
+                     id="a62">
+                    <path
+                       d="m 60,140 h 20 v 20 H 60 Z"
+                       id="path60"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=7:0|0:0|-5:3|0:0|1:2|0:0_-9:2|0:0|0:0|4:0|0:0|-8:1_0:0|9:0|0:0|1:3|0:0|6:0_-6:3|0:0|0:0|5:3|-2:3|0:0_8:3|0:0|0:0|2:0|7:1|0:0_-3:1|0:0|-4:2|0:0|0:0|-3:3_0:0|-7:2|-1:2|0:0|3:2|0:0"
+                     id="a66">
+                    <path
+                       d="m 120,60 h 20 v 20 h -20 z"
+                       id="path64"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a70">
+                    <path
+                       d="m 120,0 h 20 v 20 h -20 z"
+                       id="path68"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a74">
+                    <path
+                       d="m 80,20 h 20 V 40 H 80 Z"
+                       id="path72"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a78">
+                    <path
+                       d="M 20,60 H 40 V 80 H 20 Z"
+                       id="path76"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=3:0|0:0|2:0|0:0|3:0|0:0_-3:0|0:0|-3:2|0:0|0:0|3:3_0:0|1:2|0:0|-3:0|0:0|3:1_0:0|3:3|-1:3|0:0|3:3|0:0_-3:1|0:0|0:0|-3:3|0:0|-3:1_-2:3|0:0|3:0|0:0|3:0|0:0"
+                     id="a82">
+                    <path
+                       d="m 100,180 h 20 v 20 h -20 z"
+                       id="path80"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=1:0|0:0|-1:3|0:0|-1:3|0:0_1:2|0:0|0:0|1:0|0:0|-1:1_1:2|0:0|0:0|1:0|0:0|1:2_0:0|1:0|0:0|-1:1|-1:1|0:0"
+                     id="a86">
+                    <path
+                       d="m 60,220 h 20 v 20 H 60 Z"
+                       id="path84"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a90">
+                    <path
+                       d="m 0,180 h 20 v 20 H 0 Z"
+                       id="path88"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a94">
+                    <path
+                       d="m 40,140 h 20 v 20 H 40 Z"
+                       id="path92"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=10:1|0:0|3:1|0:0|0:0|-2:0_-4:0|0:0|2:2|0:0|-6:3|0:0_0:0|-1:3|8:1|0:0|-3:0|0:0_11:0|0:0|7:0|0:0|8:0|0:0_9:0|0:0|-10:2|0:0|0:0|-5:2_1:2|0:0|0:0|-9:3|-7:0|0:0_0:0|6:1|0:0|-11:0|0:0|5:1_-8:2|0:0|0:0|-8:2|4:0|0:0"
+                     id="a98">
+                    <path
+                       d="m 140,20 h 20 v 20 h -20 z"
+                       id="path96"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-1:0|0:0|-3:0|0:0|2:0|0:0_3:2|0:0|0:0|-2:2|1:0|0:0_0:0|3:3|0:0|1:1|-2:1|0:0"
+                     id="a102">
+                    <path
+                       d="m 40,180 h 20 v 20 H 40 Z"
+                       id="path100"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a106">
+                    <path
+                       d="M 40,60 H 60 V 80 H 40 Z"
+                       id="path104"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a110">
+                    <path
+                       d="m 40,120 h 20 v 20 H 40 Z"
+                       id="path108"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a114">
+                    <path
+                       d="M 40,0 H 60 V 20 H 40 Z"
+                       id="path112"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a118">
+                    <path
+                       d="m 120,20 h 20 v 20 h -20 z"
+                       id="path116"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=4:2|0:0|0:0|-3:0|0:0|2:0_-5:1|0:0|0:0|-1:2|0:0|-2:3_0:0|-5:3|0:0|-4:1|-4:1|0:0_0:0|4:0|0:0|5:2|1:3|0:0_3:3|0:0|-1:2|0:0|-1:2|0:0"
+                     id="a122">
+                    <path
+                       d="m 80,140 h 20 v 20 H 80 Z"
+                       id="path120"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=5:2|0:0|0:0|-2:3|0:0|-4:3_0:0|2:0|0:0|3:0|4:0|0:0_0:0|6:3|-3:2|0:0|2:3|0:0_-5:0|0:0|1:0|0:0|0:0|-2:2_0:0|-5:2|-6:0|0:0|5:3|0:0_-3:2|0:0|-5:2|0:0|0:0|-1:1"
+                     id="a126">
+                    <path
+                       d="m 100,120 h 20 v 20 h -20 z"
+                       id="path124"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.46"
+                     id="a130">
+                    <path
+                       d="m 140,120 h 20 v 20 h -20 z"
+                       id="path128"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.14"
+                     id="a134">
+                    <path
+                       d="m 100,220 h 20 v 20 h -20 z"
+                       id="path132"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a138">
+                    <path
+                       d="m 100,60 h 20 v 20 h -20 z"
+                       id="path136"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=2:1|0:0|-2:2|0:0|-2:2|0:0_-1:2|0:0|0:0|-2:2|0:0|-1:2_0:0|-2:3|0:0|1:0|0:0|2:2_0:0|2:0|2:2|0:0|1:2|0:0_-2:2|0:0|-2:2|0:0|-2:2|0:0"
+                     id="a142">
+                    <path
+                       d="m 80,200 h 20 v 20 H 80 Z"
+                       id="path140"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.03"
+                     id="a146">
+                    <path
+                       d="m 140,160 h 20 v 20 h -20 z"
+                       id="path144"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a150">
+                    <path
+                       d="m 80,60 h 20 V 80 H 80 Z"
+                       id="path148"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.04"
+                     id="a154">
+                    <path
+                       d="m 140,140 h 20 v 20 h -20 z"
+                       id="path152"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a158">
+                    <path
+                       d="M 60,20 H 80 V 40 H 60 Z"
+                       id="path156"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a162">
+                    <path
+                       d="m 80,100 h 20 v 20 H 80 Z"
+                       id="path160"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.26"
+                     id="a166">
+                    <path
+                       d="m 100,160 h 20 v 20 h -20 z"
+                       id="path164"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a170">
+                    <path
+                       d="M 20,40 H 40 V 60 H 20 Z"
+                       id="path168"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a174">
+                    <path
+                       d="m 40,100 h 20 v 20 H 40 Z"
+                       id="path172"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.04"
+                     id="a178">
+                    <path
+                       d="m 140,220 h 20 v 20 h -20 z"
+                       id="path176"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.03"
+                     id="a182">
+                    <path
+                       d="m 140,200 h 20 v 20 h -20 z"
+                       id="path180"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=1:0|0:0|-1:3|0:0|1:0|0:0_-1:3|0:0|-1:3|0:0|-1:3|0:0"
+                     id="a186">
+                    <path
+                       d="m 20,220 h 20 v 20 H 20 Z"
+                       id="path184"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a190">
+                    <path
+                       d="m 100,0 h 20 v 20 h -20 z"
+                       id="path188"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-1:0|0:0|4:0|0:0|4:0|0:0_-2:1|0:0|1:3|0:0|-4:3|0:0_3:0|0:0|2:1|0:0|0:0|-1:3_0:0|-4:0|0:0|-4:0|0:0|1:0_-4:1|0:0|0:0|1:3|0:0|-3:2"
+                     id="a194">
+                    <path
+                       d="m 80,160 h 20 v 20 H 80 Z"
+                       id="path192"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a198">
+                    <path
+                       d="m 120,40 h 20 v 20 h -20 z"
+                       id="path196"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0:0|-9:1|0:0|-4:0|-7:1|0:0_0:0|1:3|-2:1|0:0|-3:1|0:0_0:0|-12:2|-10:1|0:0|11:2|0:0_-8:0|0:0|9:2|0:0|-1:3|0:0_-5:0|0:0|0:0|-11:0|0:0|4:3_12:0|0:0|3:1|0:0|7:0|0:0_10:0|0:0|2:2|0:0|0:0|6:1_0:0|8:2|5:2|0:0|-6:0|0:0"
+                     id="a202">
+                    <path
+                       d="m 140,0 h 20 v 20 h -20 z"
+                       id="path200"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=3:1|0:0|8:3|0:0|-3:2|0:0_0:0|-6:0|2:1|0:0|5:0|0:0_4:2|0:0|9:0|0:0|0:0|7:3_-7:2|0:0|0:0|-8:3|6:3|0:0_1:0|0:0|0:0|-9:1|-3:3|0:0_-2:2|0:0|0:0|3:0|-8:1|0:0_0:0|3:0|-4:3|0:0|-5:1|0:0_-3:0|0:0|0:0|-1:2|0:0|8:1"
+                     id="a206">
+                    <path
+                       d="m 140,60 h 20 v 20 h -20 z"
+                       id="path204"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a210">
+                    <path
+                       d="m 20,160 h 20 v 20 H 20 Z"
+                       id="path208"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0:0|5:0|0:0|-4:0|-3:2|0:0_0:0|-2:2|0:0|-6:0|1:2|0:0_0:0|3:0|0:0|-5:0|0:0|-1:0_6:1|0:0|2:1|0:0|4:1|0:0"
+                     id="a214">
+                    <path
+                       d="m 60,120 h 20 v 20 H 60 Z"
+                       id="path212"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a218">
+                    <path
+                       d="m 20,120 h 20 v 20 H 20 Z"
+                       id="path216"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a222">
+                    <path
+                       d="m 100,40 h 20 v 20 h -20 z"
+                       id="path220"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a226">
+                    <path
+                       d="m 60,100 h 20 v 20 H 60 Z"
+                       id="path224"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a230">
+                    <path
+                       d="m 20,100 h 20 v 20 H 20 Z"
+                       id="path228"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.24"
+                     id="a234">
+                    <path
+                       d="m 140,80 h 20 v 20 h -20 z"
+                       id="path232"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0:0|2:3|-6:2|0:0|0:0|-5:0_0:0|-6:1|0:0|-4:0|0:0|-1:1_4:0|0:0|5:3|0:0|-6:0|0:0_6:0|0:0|-3:1|0:0|0:0|3:0_0:0|-6:3|1:0|0:0|-2:1|0:0"
+                     id="a238">
+                    <path
+                       d="m 80,120 h 20 v 20 H 80 Z"
+                       id="path236"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a242">
+                    <path
+                       d="M 60,40 H 80 V 60 H 60 Z"
+                       id="path240"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.34"
+                     id="a246">
+                    <path
+                       d="m 140,40 h 20 v 20 h -20 z"
+                       id="path244"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a250">
+                    <path
+                       d="m 100,20 h 20 v 20 h -20 z"
+                       id="path248"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a254">
+                    <path
+                       d="M 40,20 H 60 V 40 H 40 Z"
+                       id="path252"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.11"
+                     id="a258">
+                    <path
+                       d="m 120,220 h 20 v 20 h -20 z"
+                       id="path256"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a262">
+                    <path
+                       d="M 40,40 H 60 V 60 H 40 Z"
+                       id="path260"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a266">
+                    <path
+                       d="m 0,220 h 20 v 20 H 0 Z"
+                       id="path264"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=3:1|0:0|-1:2|0:0|-4:3|0:0_-3:2|0:0|4:0|0:0|2:0|0:0_3:2|0:0|-2:2|0:0|0:0|-2:2_0:0|-3:1|2:1|0:0|1:0|0:0"
+                     id="a270">
+                    <path
+                       d="m 60,160 h 20 v 20 H 60 Z"
+                       id="path268"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=1:0|0:0|3:2|0:0|-3:1|0:0_-4:2|0:0|0:0|-1:3|0:0|-2:0_-1:2|0:0|0:0|2:0|4:0|0:0"
+                     id="a274">
+                    <path
+                       d="m 40,160 h 20 v 20 H 40 Z"
+                       id="path272"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=1:1|0:0|-1:2|0:0|1:1|0:0_0:0|-1:2|0:0|-1:0|-1:0|0:0_0:0|1:0|-1:3|0:0|-1:1|0:0"
+                     id="a278">
+                    <path
+                       d="m 40,220 h 20 v 20 H 40 Z"
+                       id="path276"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a282">
+                    <path
+                       d="M 60,0 H 80 V 20 H 60 Z"
+                       id="path280"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a286">
+                    <path
+                       d="m 0,160 h 20 v 20 H 0 Z"
+                       id="path284"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.08"
+                     id="a290">
+                    <path
+                       d="m 120,160 h 20 v 20 h -20 z"
+                       id="path288"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=2:0|0:0|3:3|0:0|2:0|0:0_0:0|6:3|0:0|-2:0|0:0|-2:0_-6:0|0:0|0:0|4:1|1:3|0:0_-5:3|0:0|2:3|0:0|0:0|4:1_-4:3|0:0|0:0|-4:1|0:0|-3:2_0:0|5:0|-2:0|0:0|-2:2|0:0_-1:1|0:0|-3:0|0:0|-2:3|0:0"
+                     id="a294">
+                    <path
+                       d="m 120,120 h 20 v 20 h -20 z"
+                       id="path292"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=3:2|0:0|3:2|0:0|2:1|0:0_-3:3|0:0|0:0|-3:1|0:0|-3:3_0:0|-1:0|0:0|3:0|3:0|0:0_0:0|-2:0|-2:0|0:0|0:0|1:3_1:0|0:0|-3:0|0:0|0:0|-3:0"
+                     id="a298">
+                    <path
+                       d="m 80,180 h 20 v 20 H 80 Z"
+                       id="path296"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a302">
+                    <path
+                       d="m 0,120 h 20 v 20 H 0 Z"
+                       id="path300"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.02"
+                     id="a306">
+                    <path
+                       d="m 120,180 h 20 v 20 h -20 z"
+                       id="path304"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.03"
+                     id="a310">
+                    <path
+                       d="m 120,200 h 20 v 20 h -20 z"
+                       id="path308"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=1:3|0:0|-1:0|0:0|3:1|0:0_-3:3|0:0|1:2|0:0|0:0|2:1_-2:3|0:0|0:0|1:3|0:0|1:1_0:0|1:2|2:3|0:0|-2:0|0:0_0:0|4:1|0:0|-1:2|5:2|0:0_0:0|-5:0|0:0|-4:3|0:0|-1:1_0:0|-1:1|0:0|-5:0|0:0|5:1"
+                     id="a314">
+                    <path
+                       d="m 120,140 h 20 v 20 h -20 z"
+                       id="path312"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.17"
+                     id="a318">
+                    <path
+                       d="m 140,100 h 20 v 20 h -20 z"
+                       id="path316"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.27"
+                     id="a322">
+                    <path
+                       d="m 100,100 h 20 v 20 h -20 z"
+                       id="path320"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a326">
+                    <path
+                       d="m 0,200 h 20 v 20 H 0 Z"
+                       id="path324"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a330">
+                    <path
+                       d="m 20,80 h 20 v 20 H 20 Z"
+                       id="path328"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a334">
+                    <path
+                       d="m 20,140 h 20 v 20 H 20 Z"
+                       id="path332"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a338">
+                    <path
+                       d="m 80,0 h 20 V 20 H 80 Z"
+                       id="path336"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.3"
+                     id="a342">
+                    <path
+                       d="m 80,220 h 20 v 20 H 80 Z"
+                       id="path340"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-2:0|0:0|-2:0|0:0|-1:0|0:0_0:0|1:2|2:0|0:0|2:2|0:0"
+                     id="a346">
+                    <path
+                       d="m 20,200 h 20 v 20 H 20 Z"
+                       id="path344"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-5:2|0:0|2:1|0:0|2:1|0:0_0:0|-2:0|-3:2|0:0|0:0|4:0_-4:2|0:0|0:0|-3:3|-2:3|0:0_0:0|-1:1|-2:3|0:0|2:0|0:0_0:0|2:3|-2:0|0:0|0:0|1:1_5:3|0:0|0:0|3:3|0:0|-2:0"
+                     id="a350">
+                    <path
+                       d="m 100,140 h 20 v 20 h -20 z"
+                       id="path348"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a354">
+                    <path
+                       d="m 80,80 h 20 v 20 H 80 Z"
+                       id="path352"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.44"
+                     id="a358">
+                    <path
+                       d="m 100,200 h 20 v 20 h -20 z"
+                       id="path356"
+                       inkscape:connector-curvature="0"
+                       style="fill:#377eb8" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-1:0|0:0|3:0|0:0|-2:0|0:0_0:0|-3:1|1:1|0:0|0:0|2:3"
+                     id="a362">
+                    <path
+                       d="m 20,180 h 20 v 20 H 20 Z"
+                       id="path360"
+                       inkscape:connector-curvature="0"
+                       style="fill:#4daf4a" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a366">
+                    <path
+                       d="M 20,0 H 40 V 20 H 20 Z"
+                       id="path364"
+                       inkscape:connector-curvature="0"
+                       style="fill:#e41a1c" />
+                  </a>
+                </g>
+                <g
+                   class="mark-symbol role-mark concat_0_layer_1_marks"
+                   role="graphics-symbol"
+                   aria-roledescription="symbol mark container"
+                   id="g730">
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.09"
+                     id="a372">
+                    <path
+                       transform="translate(150,190)"
+                       d="m 2.85,0 a 2.85,2.85 0 1 1 -5.7,0 2.85,2.85 0 1 1 5.7,0"
+                       id="path370"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a376">
+                    <path
+                       transform="translate(10,150)"
+                       d="M 0,0"
+                       id="path374"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a380">
+                    <path
+                       transform="translate(50,90)"
+                       d="M 0,0"
+                       id="path378"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-1:1|0:0|-1:1|0:0|1:2|0:0_0:0|-3:1|2:1|0:0|1:1|0:0_1:1|0:0|0:0|-2:2|1:3|0:0_1:0|0:0|0:0|1:2|0:0|3:3"
+                     id="a384">
+                    <path
+                       transform="translate(70,190)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path382"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0:0|-2:0|0:0|-4:0|0:0|-4:0_-3:2|0:0|0:0|-7:0|1:0|0:0_-6:0|0:0|0:0|-3:2|-5:1|0:0_0:0|1:2|8:1|0:0|-7:0|0:0_-1:2|0:0|0:0|6:2|0:0|-1:2_2:0|0:0|5:3|0:0|-8:3|0:0_7:3|0:0|4:3|0:0|0:0|3:3"
+                     id="a388">
+                    <path
+                       transform="translate(130,90)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path386"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-1:0|0:0|-1:0|0:0|2:2|0:0_0:0|1:0|0:0|1:0|0:0|-2:2_1:1|0:0|0:0|1:3|0:0|-2:3"
+                     id="a392">
+                    <path
+                       transform="translate(50,210)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path390"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=2:0|0:0|0:0|-2:1|2:2|0:0_0:0|-2:3|0:0|-1:3|0:0|2:2_0:0|-2:3|0:0|1:2|0:0|-2:3_2:1|0:0|2:1|0:0|-2:2|0:0"
+                     id="a396">
+                    <path
+                       transform="translate(70,210)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path394"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a400">
+                    <path
+                       transform="translate(90,50)"
+                       d="M 0,0"
+                       id="path398"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a404">
+                    <path
+                       transform="translate(30,30)"
+                       d="M 0,0"
+                       id="path402"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a408">
+                    <path
+                       transform="translate(70,90)"
+                       d="M 0,0"
+                       id="path406"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a412">
+                    <path
+                       transform="translate(70,70)"
+                       d="M 0,0"
+                       id="path410"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=4:3|0:0|5:1|0:0|-1:3|0:0_5:2|0:0|3:2|0:0|0:0|-6:0_0:0|-4:1|0:0|3:0|0:0|-2:3_-7:0|0:0|0:0|1:0|0:0|6:0_0:0|2:0|3:0|0:0|7:0|0:0_0:0|4:3|0:0|-3:2|4:1|0:0_-3:0|0:0|-5:2|0:0|-4:0|0:0"
+                     id="a416">
+                    <path
+                       transform="translate(130,110)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path414"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0:0|1:3|0:0|-6:1|-7:2|0:0_-5:3|0:0|-1:0|0:0|-8:1|0:0_0:0|3:3|-4:2|0:0|0:0|-1:0_-3:3|0:0|5:3|0:0|0:0|-2:0_8:0|0:0|0:0|-2:1|0:0|4:1_6:0|0:0|2:2|0:0|7:3|0:0"
+                     id="a420">
+                    <path
+                       transform="translate(110,90)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path418"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=5:2|0:0|-3:0|0:0|-2:1|0:0_4:0|0:0|5:1|0:0|0:0|-1:2_3:0|0:0|2:1|0:0|0:0|-4:3_-5:0|0:0|0:0|1:3|-5:2|0:0"
+                     id="a424">
+                    <path
+                       transform="translate(70,150)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path422"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=7:0|0:0|-5:3|0:0|1:2|0:0_-9:2|0:0|0:0|4:0|0:0|-8:1_0:0|9:0|0:0|1:3|0:0|6:0_-6:3|0:0|0:0|5:3|-2:3|0:0_8:3|0:0|0:0|2:0|7:1|0:0_-3:1|0:0|-4:2|0:0|0:0|-3:3_0:0|-7:2|-1:2|0:0|3:2|0:0"
+                     id="a428">
+                    <path
+                       transform="translate(130,70)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path426"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a432">
+                    <path
+                       transform="translate(130,10)"
+                       d="M 0,0"
+                       id="path430"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a436">
+                    <path
+                       transform="translate(90,30)"
+                       d="M 0,0"
+                       id="path434"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a440">
+                    <path
+                       transform="translate(30,70)"
+                       d="M 0,0"
+                       id="path438"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=3:0|0:0|2:0|0:0|3:0|0:0_-3:0|0:0|-3:2|0:0|0:0|3:3_0:0|1:2|0:0|-3:0|0:0|3:1_0:0|3:3|-1:3|0:0|3:3|0:0_-3:1|0:0|0:0|-3:3|0:0|-3:1_-2:3|0:0|3:0|0:0|3:0|0:0"
+                     id="a444">
+                    <path
+                       transform="translate(110,190)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path442"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=1:0|0:0|-1:3|0:0|-1:3|0:0_1:2|0:0|0:0|1:0|0:0|-1:1_1:2|0:0|0:0|1:0|0:0|1:2_0:0|1:0|0:0|-1:1|-1:1|0:0"
+                     id="a448">
+                    <path
+                       transform="translate(70,230)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path446"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a452">
+                    <path
+                       transform="translate(10,190)"
+                       d="M 0,0"
+                       id="path450"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a456">
+                    <path
+                       transform="translate(50,150)"
+                       d="M 0,0"
+                       id="path454"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=10:1|0:0|3:1|0:0|0:0|-2:0_-4:0|0:0|2:2|0:0|-6:3|0:0_0:0|-1:3|8:1|0:0|-3:0|0:0_11:0|0:0|7:0|0:0|8:0|0:0_9:0|0:0|-10:2|0:0|0:0|-5:2_1:2|0:0|0:0|-9:3|-7:0|0:0_0:0|6:1|0:0|-11:0|0:0|5:1_-8:2|0:0|0:0|-8:2|4:0|0:0"
+                     id="a460">
+                    <path
+                       transform="translate(150,30)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path458"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-1:0|0:0|-3:0|0:0|2:0|0:0_3:2|0:0|0:0|-2:2|1:0|0:0_0:0|3:3|0:0|1:1|-2:1|0:0"
+                     id="a464">
+                    <path
+                       transform="translate(50,190)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path462"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a468">
+                    <path
+                       transform="translate(50,70)"
+                       d="M 0,0"
+                       id="path466"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a472">
+                    <path
+                       transform="translate(50,130)"
+                       d="M 0,0"
+                       id="path470"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a476">
+                    <path
+                       transform="translate(50,10)"
+                       d="M 0,0"
+                       id="path474"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a480">
+                    <path
+                       transform="translate(130,30)"
+                       d="M 0,0"
+                       id="path478"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=4:2|0:0|0:0|-3:0|0:0|2:0_-5:1|0:0|0:0|-1:2|0:0|-2:3_0:0|-5:3|0:0|-4:1|-4:1|0:0_0:0|4:0|0:0|5:2|1:3|0:0_3:3|0:0|-1:2|0:0|-1:2|0:0"
+                     id="a484">
+                    <path
+                       transform="translate(90,150)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path482"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=5:2|0:0|0:0|-2:3|0:0|-4:3_0:0|2:0|0:0|3:0|4:0|0:0_0:0|6:3|-3:2|0:0|2:3|0:0_-5:0|0:0|1:0|0:0|0:0|-2:2_0:0|-5:2|-6:0|0:0|5:3|0:0_-3:2|0:0|-5:2|0:0|0:0|-1:1"
+                     id="a488">
+                    <path
+                       transform="translate(110,130)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path486"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.46"
+                     id="a492">
+                    <path
+                       transform="translate(150,130)"
+                       d="M 6.4432135,0 A 6.4432135,6.4432135 0 1 1 -6.4432135,0 6.4432135,6.4432135 0 1 1 6.4432135,0"
+                       id="path490"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.14"
+                     id="a496">
+                    <path
+                       transform="translate(110,230)"
+                       d="m 3.5545745,0 a 3.5545745,3.5545745 0 1 1 -7.109149,0 3.5545745,3.5545745 0 1 1 7.109149,0"
+                       id="path494"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a500">
+                    <path
+                       transform="translate(110,70)"
+                       d="M 0,0"
+                       id="path498"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=2:1|0:0|-2:2|0:0|-2:2|0:0_-1:2|0:0|0:0|-2:2|0:0|-1:2_0:0|-2:3|0:0|1:0|0:0|2:2_0:0|2:0|2:2|0:0|1:2|0:0_-2:2|0:0|-2:2|0:0|-2:2|0:0"
+                     id="a504">
+                    <path
+                       transform="translate(90,210)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path502"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.03"
+                     id="a508">
+                    <path
+                       transform="translate(150,170)"
+                       d="M 1.6454483,0 A 1.6454483,1.6454483 0 1 1 -1.6454483,0 1.6454483,1.6454483 0 1 1 1.6454483,0"
+                       id="path506"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a512">
+                    <path
+                       transform="translate(90,70)"
+                       d="M 0,0"
+                       id="path510"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.04"
+                     id="a516">
+                    <path
+                       transform="translate(150,150)"
+                       d="M 1.9,0 A 1.9,1.9 0 1 1 -1.9,0 1.9,1.9 0 1 1 1.9,0"
+                       id="path514"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a520">
+                    <path
+                       transform="translate(70,30)"
+                       d="M 0,0"
+                       id="path518"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a524">
+                    <path
+                       transform="translate(90,110)"
+                       d="M 0,0"
+                       id="path522"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.26"
+                     id="a528">
+                    <path
+                       transform="translate(110,170)"
+                       d="m 4.8440685,0 a 4.8440685,4.8440685 0 1 1 -9.688137,0 4.8440685,4.8440685 0 1 1 9.688137,0"
+                       id="path526"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a532">
+                    <path
+                       transform="translate(30,50)"
+                       d="M 0,0"
+                       id="path530"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a536">
+                    <path
+                       transform="translate(50,110)"
+                       d="M 0,0"
+                       id="path534"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.04"
+                     id="a540">
+                    <path
+                       transform="translate(150,230)"
+                       d="M 1.9,0 A 1.9,1.9 0 1 1 -1.9,0 1.9,1.9 0 1 1 1.9,0"
+                       id="path538"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.03"
+                     id="a544">
+                    <path
+                       transform="translate(150,210)"
+                       d="M 1.6454483,0 A 1.6454483,1.6454483 0 1 1 -1.6454483,0 1.6454483,1.6454483 0 1 1 1.6454483,0"
+                       id="path542"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=1:0|0:0|-1:3|0:0|1:0|0:0_-1:3|0:0|-1:3|0:0|-1:3|0:0"
+                     id="a548">
+                    <path
+                       transform="translate(30,230)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path546"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a552">
+                    <path
+                       transform="translate(110,10)"
+                       d="M 0,0"
+                       id="path550"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-1:0|0:0|4:0|0:0|4:0|0:0_-2:1|0:0|1:3|0:0|-4:3|0:0_3:0|0:0|2:1|0:0|0:0|-1:3_0:0|-4:0|0:0|-4:0|0:0|1:0_-4:1|0:0|0:0|1:3|0:0|-3:2"
+                     id="a556">
+                    <path
+                       transform="translate(90,170)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path554"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a560">
+                    <path
+                       transform="translate(130,50)"
+                       d="M 0,0"
+                       id="path558"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0:0|-9:1|0:0|-4:0|-7:1|0:0_0:0|1:3|-2:1|0:0|-3:1|0:0_0:0|-12:2|-10:1|0:0|11:2|0:0_-8:0|0:0|9:2|0:0|-1:3|0:0_-5:0|0:0|0:0|-11:0|0:0|4:3_12:0|0:0|3:1|0:0|7:0|0:0_10:0|0:0|2:2|0:0|0:0|6:1_0:0|8:2|5:2|0:0|-6:0|0:0"
+                     id="a564">
+                    <path
+                       transform="translate(150,10)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path562"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=3:1|0:0|8:3|0:0|-3:2|0:0_0:0|-6:0|2:1|0:0|5:0|0:0_4:2|0:0|9:0|0:0|0:0|7:3_-7:2|0:0|0:0|-8:3|6:3|0:0_1:0|0:0|0:0|-9:1|-3:3|0:0_-2:2|0:0|0:0|3:0|-8:1|0:0_0:0|3:0|-4:3|0:0|-5:1|0:0_-3:0|0:0|0:0|-1:2|0:0|8:1"
+                     id="a568">
+                    <path
+                       transform="translate(150,70)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path566"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a572">
+                    <path
+                       transform="translate(30,170)"
+                       d="M 0,0"
+                       id="path570"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0:0|5:0|0:0|-4:0|-3:2|0:0_0:0|-2:2|0:0|-6:0|1:2|0:0_0:0|3:0|0:0|-5:0|0:0|-1:0_6:1|0:0|2:1|0:0|4:1|0:0"
+                     id="a576">
+                    <path
+                       transform="translate(70,130)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path574"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a580">
+                    <path
+                       transform="translate(30,130)"
+                       d="M 0,0"
+                       id="path578"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a584">
+                    <path
+                       transform="translate(110,50)"
+                       d="M 0,0"
+                       id="path582"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a588">
+                    <path
+                       transform="translate(70,110)"
+                       d="M 0,0"
+                       id="path586"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a592">
+                    <path
+                       transform="translate(30,110)"
+                       d="M 0,0"
+                       id="path590"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.24"
+                     id="a596">
+                    <path
+                       transform="translate(150,90)"
+                       d="m 4.6540305,0 a 4.6540305,4.6540305 0 1 1 -9.308061,0 4.6540305,4.6540305 0 1 1 9.308061,0"
+                       id="path594"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0:0|2:3|-6:2|0:0|0:0|-5:0_0:0|-6:1|0:0|-4:0|0:0|-1:1_4:0|0:0|5:3|0:0|-6:0|0:0_6:0|0:0|-3:1|0:0|0:0|3:0_0:0|-6:3|1:0|0:0|-2:1|0:0"
+                     id="a600">
+                    <path
+                       transform="translate(90,130)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path598"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a604">
+                    <path
+                       transform="translate(70,50)"
+                       d="M 0,0"
+                       id="path602"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.34"
+                     id="a608">
+                    <path
+                       transform="translate(150,50)"
+                       d="M 5.5394043,0 A 5.5394043,5.5394043 0 1 1 -5.5394043,0 5.5394043,5.5394043 0 1 1 5.5394043,0"
+                       id="path606"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a612">
+                    <path
+                       transform="translate(110,30)"
+                       d="M 0,0"
+                       id="path610"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a616">
+                    <path
+                       transform="translate(50,30)"
+                       d="M 0,0"
+                       id="path614"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.11"
+                     id="a620">
+                    <path
+                       transform="translate(130,230)"
+                       d="M 3.1507936,0 A 3.1507936,3.1507936 0 1 1 -3.1507936,0 3.1507936,3.1507936 0 1 1 3.1507936,0"
+                       id="path618"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a624">
+                    <path
+                       transform="translate(50,50)"
+                       d="M 0,0"
+                       id="path622"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a628">
+                    <path
+                       transform="translate(10,230)"
+                       d="M 0,0"
+                       id="path626"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=3:1|0:0|-1:2|0:0|-4:3|0:0_-3:2|0:0|4:0|0:0|2:0|0:0_3:2|0:0|-2:2|0:0|0:0|-2:2_0:0|-3:1|2:1|0:0|1:0|0:0"
+                     id="a632">
+                    <path
+                       transform="translate(70,170)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path630"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=1:0|0:0|3:2|0:0|-3:1|0:0_-4:2|0:0|0:0|-1:3|0:0|-2:0_-1:2|0:0|0:0|2:0|4:0|0:0"
+                     id="a636">
+                    <path
+                       transform="translate(50,170)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path634"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=1:1|0:0|-1:2|0:0|1:1|0:0_0:0|-1:2|0:0|-1:0|-1:0|0:0_0:0|1:0|-1:3|0:0|-1:1|0:0"
+                     id="a640">
+                    <path
+                       transform="translate(50,230)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path638"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a644">
+                    <path
+                       transform="translate(70,10)"
+                       d="M 0,0"
+                       id="path642"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a648">
+                    <path
+                       transform="translate(10,170)"
+                       d="M 0,0"
+                       id="path646"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.08"
+                     id="a652">
+                    <path
+                       transform="translate(130,170)"
+                       d="M 2.6870058,0 A 2.6870058,2.6870058 0 1 1 -2.6870058,0 2.6870058,2.6870058 0 1 1 2.6870058,0"
+                       id="path650"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=2:0|0:0|3:3|0:0|2:0|0:0_0:0|6:3|0:0|-2:0|0:0|-2:0_-6:0|0:0|0:0|4:1|1:3|0:0_-5:3|0:0|2:3|0:0|0:0|4:1_-4:3|0:0|0:0|-4:1|0:0|-3:2_0:0|5:0|-2:0|0:0|-2:2|0:0_-1:1|0:0|-3:0|0:0|-2:3|0:0"
+                     id="a656">
+                    <path
+                       transform="translate(130,130)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path654"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=3:2|0:0|3:2|0:0|2:1|0:0_-3:3|0:0|0:0|-3:1|0:0|-3:3_0:0|-1:0|0:0|3:0|3:0|0:0_0:0|-2:0|-2:0|0:0|0:0|1:3_1:0|0:0|-3:0|0:0|0:0|-3:0"
+                     id="a660">
+                    <path
+                       transform="translate(90,190)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path658"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a664">
+                    <path
+                       transform="translate(10,130)"
+                       d="M 0,0"
+                       id="path662"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.02"
+                     id="a668">
+                    <path
+                       transform="translate(130,190)"
+                       d="M 1.3435029,0 A 1.3435029,1.3435029 0 1 1 -1.3435029,0 1.3435029,1.3435029 0 1 1 1.3435029,0"
+                       id="path666"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.03"
+                     id="a672">
+                    <path
+                       transform="translate(130,210)"
+                       d="M 1.6454483,0 A 1.6454483,1.6454483 0 1 1 -1.6454483,0 1.6454483,1.6454483 0 1 1 1.6454483,0"
+                       id="path670"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=1:3|0:0|-1:0|0:0|3:1|0:0_-3:3|0:0|1:2|0:0|0:0|2:1_-2:3|0:0|0:0|1:3|0:0|1:1_0:0|1:2|2:3|0:0|-2:0|0:0_0:0|4:1|0:0|-1:2|5:2|0:0_0:0|-5:0|0:0|-4:3|0:0|-1:1_0:0|-1:1|0:0|-5:0|0:0|5:1"
+                     id="a676">
+                    <path
+                       transform="translate(130,150)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path674"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.17"
+                     id="a680">
+                    <path
+                       transform="translate(150,110)"
+                       d="M 3.9169503,0 A 3.9169503,3.9169503 0 1 1 -3.9169503,0 3.9169503,3.9169503 0 1 1 3.9169503,0"
+                       id="path678"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.27"
+                     id="a684">
+                    <path
+                       transform="translate(110,110)"
+                       d="M 4.9363448,0 A 4.9363448,4.9363448 0 1 1 -4.9363448,0 4.9363448,4.9363448 0 1 1 4.9363448,0"
+                       id="path682"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a688">
+                    <path
+                       transform="translate(10,210)"
+                       d="M 0,0"
+                       id="path686"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a692">
+                    <path
+                       transform="translate(30,90)"
+                       d="M 0,0"
+                       id="path690"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a696">
+                    <path
+                       transform="translate(30,150)"
+                       d="M 0,0"
+                       id="path694"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a700">
+                    <path
+                       transform="translate(90,10)"
+                       d="M 0,0"
+                       id="path698"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.3"
+                     id="a704">
+                    <path
+                       transform="translate(90,230)"
+                       d="M 5.2033643,0 A 5.2033643,5.2033643 0 1 1 -5.2033643,0 5.2033643,5.2033643 0 1 1 5.2033643,0"
+                       id="path702"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-2:0|0:0|-2:0|0:0|-1:0|0:0_0:0|1:2|2:0|0:0|2:2|0:0"
+                     id="a708">
+                    <path
+                       transform="translate(30,210)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path706"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-5:2|0:0|2:1|0:0|2:1|0:0_0:0|-2:0|-3:2|0:0|0:0|4:0_-4:2|0:0|0:0|-3:3|-2:3|0:0_0:0|-1:1|-2:3|0:0|2:0|0:0_0:0|2:3|-2:0|0:0|0:0|1:1_5:3|0:0|0:0|3:3|0:0|-2:0"
+                     id="a712">
+                    <path
+                       transform="translate(110,150)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path710"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a716">
+                    <path
+                       transform="translate(90,90)"
+                       d="M 0,0"
+                       id="path714"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=0.44"
+                     id="a720">
+                    <path
+                       transform="translate(110,210)"
+                       d="M 6.3015871,0 A 6.3015871,6.3015871 0 1 1 -6.3015871,0 6.3015871,6.3015871 0 1 1 6.3015871,0"
+                       id="path718"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=-1:0|0:0|3:0|0:0|-2:0|0:0_0:0|-3:1|1:1|0:0|0:0|2:3"
+                     id="a724">
+                    <path
+                       transform="translate(30,190)"
+                       d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                       id="path722"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                  <a
+                     xlink:href="https://akodiat.github.io/polycubes?rule=None"
+                     id="a728">
+                    <path
+                       transform="translate(30,10)"
+                       d="M 0,0"
+                       id="path726"
+                       inkscape:connector-curvature="0"
+                       style="opacity:0.5;fill:#000000;stroke-width:2" />
+                  </a>
+                </g>
+                <g
+                   class="mark-group role-legend"
+                   role="graphics-symbol"
+                   aria-roledescription="legend"
+                   aria-label="Symbol legend titled 'category' for fill color with 4 values: Solution, None, UND, MEM"
+                   id="g820">
+                  <g
+                     transform="translate(178)"
+                     id="g818">
+                    <path
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 H 57 V 66 H 0 Z"
+                       pointer-events="none"
+                       id="path732"
+                       inkscape:connector-curvature="0" />
+                    <g
+                       id="g814">
+                      <g
+                         class="mark-group role-legend-entry"
+                         id="g808">
+                        <g
+                           transform="translate(0,16)"
+                           id="g806">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 Z"
+                             pointer-events="none"
+                             id="path734"
+                             inkscape:connector-curvature="0" />
+                          <g
+                             id="g802">
+                            <g
+                               class="mark-group role-scope"
+                               role="graphics-object"
+                               aria-roledescription="group mark container"
+                               id="g800">
+                              <g
+                                 id="g750">
+                                <path
+                                   class="background"
+                                   aria-hidden="true"
+                                   d="M 0,0 H 56.733334 V 11 H 0 Z"
+                                   pointer-events="none"
+                                   id="path736"
+                                   inkscape:connector-curvature="0"
+                                   style="opacity:1" />
+                                <g
+                                   id="g746">
+                                <g
+                                   class="mark-symbol role-legend-symbol"
+                                   pointer-events="none"
+                                   id="g740">
+                                <path
+                                   transform="translate(6,6)"
+                                   d="M -5,-5 H 5 V 5 H -5 Z"
+                                   id="path738"
+                                   inkscape:connector-curvature="0"
+                                   style="opacity:1;fill:#4daf4a;stroke-width:1.5" />
+                                </g>
+                                <g
+                                   class="mark-text role-legend-label"
+                                   pointer-events="none"
+                                   id="g744">
+                                <text
+                                   transform="translate(16,9)"
+                                   font-size="10px"
+                                   id="text742"
+                                   style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">Solution</text>
+                                </g>
+                                </g>
+                                <path
+                                   class="foreground"
+                                   aria-hidden="true"
+                                   d=""
+                                   pointer-events="none"
+                                   display="none"
+                                   id="path748"
+                                   inkscape:connector-curvature="0"
+                                   style="display:none" />
+                              </g>
+                              <g
+                                 transform="translate(0,13)"
+                                 id="g766">
+                                <path
+                                   class="background"
+                                   aria-hidden="true"
+                                   d="M 0,0 H 56.733334 V 11 H 0 Z"
+                                   pointer-events="none"
+                                   id="path752"
+                                   inkscape:connector-curvature="0"
+                                   style="opacity:1" />
+                                <g
+                                   id="g762">
+                                <g
+                                   class="mark-symbol role-legend-symbol"
+                                   pointer-events="none"
+                                   id="g756">
+                                <path
+                                   transform="translate(6,6)"
+                                   d="M -5,-5 H 5 V 5 H -5 Z"
+                                   id="path754"
+                                   inkscape:connector-curvature="0"
+                                   style="opacity:1;fill:#e41a1c;stroke-width:1.5" />
+                                </g>
+                                <g
+                                   class="mark-text role-legend-label"
+                                   pointer-events="none"
+                                   id="g760">
+                                <text
+                                   transform="translate(16,9)"
+                                   font-size="10px"
+                                   id="text758"
+                                   style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">None</text>
+                                </g>
+                                </g>
+                                <path
+                                   class="foreground"
+                                   aria-hidden="true"
+                                   d=""
+                                   pointer-events="none"
+                                   display="none"
+                                   id="path764"
+                                   inkscape:connector-curvature="0"
+                                   style="display:none" />
+                              </g>
+                              <g
+                                 transform="translate(0,26)"
+                                 id="g782">
+                                <path
+                                   class="background"
+                                   aria-hidden="true"
+                                   d="M 0,0 H 56.733334 V 11 H 0 Z"
+                                   pointer-events="none"
+                                   id="path768"
+                                   inkscape:connector-curvature="0"
+                                   style="opacity:1" />
+                                <g
+                                   id="g778">
+                                <g
+                                   class="mark-symbol role-legend-symbol"
+                                   pointer-events="none"
+                                   id="g772">
+                                <path
+                                   transform="translate(6,6)"
+                                   d="M -5,-5 H 5 V 5 H -5 Z"
+                                   id="path770"
+                                   inkscape:connector-curvature="0"
+                                   style="opacity:1;fill:#377eb8;stroke-width:1.5" />
+                                </g>
+                                <g
+                                   class="mark-text role-legend-label"
+                                   pointer-events="none"
+                                   id="g776">
+                                <text
+                                   transform="translate(16,9)"
+                                   font-size="10px"
+                                   id="text774"
+                                   style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">UND</text>
+                                </g>
+                                </g>
+                                <path
+                                   class="foreground"
+                                   aria-hidden="true"
+                                   d=""
+                                   pointer-events="none"
+                                   display="none"
+                                   id="path780"
+                                   inkscape:connector-curvature="0"
+                                   style="display:none" />
+                              </g>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path804"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                      </g>
+                      <g
+                         class="mark-text role-legend-title"
+                         pointer-events="none"
+                         id="g812">
+                        <text
+                           transform="translate(0,9)"
+                           font-size="11px"
+                           font-weight="bold"
+                           id="text810"
+                           style="font-weight:bold;font-size:11px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">Category</text>
+                      </g>
+                    </g>
+                    <path
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path816"
+                       inkscape:connector-curvature="0"
+                       style="display:none" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="X-axis titled '# of species' for a discrete scale with 8 values: 1, 2, 3, 4, 5, ending with 8"
+                   id="g888">
+                  <g
+                     transform="translate(0.5,240.5)"
+                     id="g886">
+                    <path
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path836"
+                       inkscape:connector-curvature="0" />
+                    <g
+                       id="g882">
+                      <g
+                         class="mark-rule role-axis-tick"
+                         pointer-events="none"
+                         id="g854">
+                        <line
+                           transform="translate(10)"
+                           x2="0"
+                           y2="5"
+                           id="line838"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(30)"
+                           x2="0"
+                           y2="5"
+                           id="line840"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(50)"
+                           x2="0"
+                           y2="5"
+                           id="line842"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(70)"
+                           x2="0"
+                           y2="5"
+                           id="line844"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(90)"
+                           x2="0"
+                           y2="5"
+                           id="line846"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(110)"
+                           x2="0"
+                           y2="5"
+                           id="line848"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(130)"
+                           x2="0"
+                           y2="5"
+                           id="line850"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(150)"
+                           x2="0"
+                           y2="5"
+                           id="line852"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-label"
+                         pointer-events="none"
+                         id="g872">
+                        <text
+                           transform="rotate(-90,9.75,-2.75)"
+                           font-size="10px"
+                           id="text856"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">1</text>
+                        <text
+                           transform="rotate(-90,19.75,-12.75)"
+                           font-size="10px"
+                           id="text858"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">2</text>
+                        <text
+                           transform="rotate(-90,29.75,-22.75)"
+                           font-size="10px"
+                           id="text860"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">3</text>
+                        <text
+                           transform="rotate(-90,39.75,-32.75)"
+                           font-size="10px"
+                           id="text862"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">4</text>
+                        <text
+                           transform="rotate(-90,49.75,-42.75)"
+                           font-size="10px"
+                           id="text864"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">5</text>
+                        <text
+                           transform="rotate(-90,59.75,-52.75)"
+                           font-size="10px"
+                           id="text866"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">6</text>
+                        <text
+                           transform="rotate(-90,69.75,-62.75)"
+                           font-size="10px"
+                           id="text868"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">7</text>
+                        <text
+                           transform="rotate(-90,79.75,-72.75)"
+                           font-size="10px"
+                           id="text870"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">8</text>
+                      </g>
+                      <g
+                         class="mark-rule role-axis-domain"
+                         pointer-events="none"
+                         id="g876">
+                        <line
+                           x2="160"
+                           y2="0"
+                           id="line874"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                      </g>
+                    </g>
+                    <path
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path884"
+                       inkscape:connector-curvature="0"
+                       style="display:none" />
+                  </g>
+                </g>
+                <g
+                   class="mark-group role-axis"
+                   role="graphics-symbol"
+                   aria-roledescription="axis"
+                   aria-label="Y-axis titled '# of colors' for a discrete scale with 12 values: 12, 11, 10, 9, 8, ending with 1"
+                   id="g958">
+                  <g
+                     transform="translate(0.5,0.5)"
+                     id="g956">
+                    <path
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path890"
+                       inkscape:connector-curvature="0" />
+                    <g
+                       id="g952">
+                      <g
+                         class="mark-rule role-axis-tick"
+                         pointer-events="none"
+                         id="g916">
+                        <line
+                           transform="translate(0,10)"
+                           x2="-5"
+                           y2="0"
+                           id="line892"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,30)"
+                           x2="-5"
+                           y2="0"
+                           id="line894"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,50)"
+                           x2="-5"
+                           y2="0"
+                           id="line896"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,70)"
+                           x2="-5"
+                           y2="0"
+                           id="line898"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,90)"
+                           x2="-5"
+                           y2="0"
+                           id="line900"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,110)"
+                           x2="-5"
+                           y2="0"
+                           id="line902"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,130)"
+                           x2="-5"
+                           y2="0"
+                           id="line904"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,150)"
+                           x2="-5"
+                           y2="0"
+                           id="line906"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,170)"
+                           x2="-5"
+                           y2="0"
+                           id="line908"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,190)"
+                           x2="-5"
+                           y2="0"
+                           id="line910"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,210)"
+                           x2="-5"
+                           y2="0"
+                           id="line912"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                        <line
+                           transform="translate(0,230)"
+                           x2="-5"
+                           y2="0"
+                           id="line914"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                      </g>
+                      <g
+                         class="mark-text role-axis-label"
+                         pointer-events="none"
+                         id="g942">
+                        <text
+                           transform="translate(-7,12.5)"
+                           font-size="10px"
+                           id="text918"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">12</text>
+                        <text
+                           transform="translate(-7,32.5)"
+                           font-size="10px"
+                           id="text920"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">11</text>
+                        <text
+                           transform="translate(-7,52.5)"
+                           font-size="10px"
+                           id="text922"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">10</text>
+                        <text
+                           transform="translate(-7,72.5)"
+                           font-size="10px"
+                           id="text924"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">9</text>
+                        <text
+                           transform="translate(-7,92.5)"
+                           font-size="10px"
+                           id="text926"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">8</text>
+                        <text
+                           transform="translate(-7,112.5)"
+                           font-size="10px"
+                           id="text928"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">7</text>
+                        <text
+                           transform="translate(-7,132.5)"
+                           font-size="10px"
+                           id="text930"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">6</text>
+                        <text
+                           transform="translate(-7,152.5)"
+                           font-size="10px"
+                           id="text932"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">5</text>
+                        <text
+                           transform="translate(-7,172.5)"
+                           font-size="10px"
+                           id="text934"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">4</text>
+                        <text
+                           transform="translate(-7,192.5)"
+                           font-size="10px"
+                           id="text936"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">3</text>
+                        <text
+                           transform="translate(-7,212.5)"
+                           font-size="10px"
+                           id="text938"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">2</text>
+                        <text
+                           transform="translate(-7,232.5)"
+                           font-size="10px"
+                           id="text940"
+                           style="font-size:10px;font-family:sans-serif;text-anchor:end;opacity:1;fill:#000000">1</text>
+                      </g>
+                      <g
+                         class="mark-rule role-axis-domain"
+                         pointer-events="none"
+                         id="g946">
+                        <line
+                           x2="0"
+                           y2="240"
+                           id="line944"
+                           x1="0"
+                           y1="0"
+                           style="opacity:1;stroke:#888888;stroke-width:1" />
+                      </g>
+                    </g>
+                    <path
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path954"
+                       inkscape:connector-curvature="0"
+                       style="display:none" />
+                  </g>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 display="none"
+                 id="path962"
+                 inkscape:connector-curvature="0"
+                 style="display:none" />
+            </g>
+          </g>
+          <g
+             class="mark-group role-legend"
+             role="graphics-symbol"
+             aria-roledescription="legend"
+             aria-label="Symbol legend titled 'ratio' for size with values from 0.0 to 1.0"
+             id="g1424"
+             transform="translate(-427,69.846028)">
+            <g
+               transform="translate(605)"
+               id="g1422">
+              <path
+                 class="background"
+                 aria-hidden="true"
+                 d="M 0,0 H 41 V 114 H 0 Z"
+                 pointer-events="none"
+                 id="path1320"
+                 inkscape:connector-curvature="0" />
+              <g
+                 id="g1418">
+                <g
+                   class="mark-group role-legend-entry"
+                   id="g1412">
+                  <g
+                     transform="translate(0,16)"
+                     id="g1410">
+                    <path
+                       class="background"
+                       aria-hidden="true"
+                       d="M 0,0 Z"
+                       pointer-events="none"
+                       id="path1322"
+                       inkscape:connector-curvature="0" />
+                    <g
+                       id="g1406">
+                      <g
+                         class="mark-group role-scope"
+                         role="graphics-object"
+                         aria-roledescription="group mark container"
+                         id="g1404">
+                        <g
+                           id="g1338">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 40.916667 V 10.748529 H 0 Z"
+                             pointer-events="none"
+                             id="path1324"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g1334">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1328">
+                              <path
+                                 transform="translate(10.5,5)"
+                                 d="M 4.2485292,0 A 4.2485292,4.2485292 0 1 1 -4.2485292,0 4.2485292,4.2485292 0 1 1 4.2485292,0"
+                                 id="path1326"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:0.5;fill:#000000;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1332">
+                              <text
+                                 transform="translate(25,8)"
+                                 font-size="10px"
+                                 id="text1330"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">0.2</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1336"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                        <g
+                           transform="translate(0,14)"
+                           id="g1354">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 40.916667 V 14.508328 H 0 Z"
+                             pointer-events="none"
+                             id="path1340"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g1350">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1344">
+                              <path
+                                 transform="translate(10.5,7)"
+                                 d="M 6.0083276,0 A 6.0083276,6.0083276 0 1 1 -6.0083276,0 6.0083276,6.0083276 0 1 1 6.0083276,0"
+                                 id="path1342"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:0.5;fill:#000000;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1348">
+                              <text
+                                 transform="translate(25,10)"
+                                 font-size="10px"
+                                 id="text1346"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">0.4</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1352"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                        <g
+                           transform="translate(0,32)"
+                           id="g1370">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 40.916667 V 17.358668 H 0 Z"
+                             pointer-events="none"
+                             id="path1356"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g1366">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1360">
+                              <path
+                                 transform="translate(10.5,8.5)"
+                                 d="M 7.3586684,0 A 7.3586684,7.3586684 0 1 1 -7.3586684,0 7.3586684,7.3586684 0 1 1 7.3586684,0"
+                                 id="path1358"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:0.5;fill:#000000;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1364">
+                              <text
+                                 transform="translate(25,11.5)"
+                                 font-size="10px"
+                                 id="text1362"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">0.6</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1368"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                        <g
+                           transform="translate(0,53)"
+                           id="g1386">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 40.916667 V 19.497058 H 0 Z"
+                             pointer-events="none"
+                             id="path1372"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g1382">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1376">
+                              <path
+                                 transform="translate(10.5,9.5)"
+                                 d="M 8.4970583,0 A 8.4970583,8.4970583 0 1 1 -8.4970583,0 8.4970583,8.4970583 0 1 1 8.4970583,0"
+                                 id="path1374"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:0.5;fill:#000000;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1380">
+                              <text
+                                 transform="translate(25,12.5)"
+                                 font-size="10px"
+                                 id="text1378"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">0.8</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1384"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                        <g
+                           transform="translate(0,76)"
+                           id="g1402">
+                          <path
+                             class="background"
+                             aria-hidden="true"
+                             d="M 0,0 H 40.916667 V 21.5 H 0 Z"
+                             pointer-events="none"
+                             id="path1388"
+                             inkscape:connector-curvature="0"
+                             style="opacity:1" />
+                          <g
+                             id="g1398">
+                            <g
+                               class="mark-symbol role-legend-symbol"
+                               pointer-events="none"
+                               id="g1392">
+                              <path
+                                 transform="translate(10.5,10.5)"
+                                 d="m 9.5,0 a 9.5,9.5 0 1 1 -19,0 9.5,9.5 0 1 1 19,0"
+                                 id="path1390"
+                                 inkscape:connector-curvature="0"
+                                 style="opacity:0.5;fill:#000000;stroke-width:1.5" />
+                            </g>
+                            <g
+                               class="mark-text role-legend-label"
+                               pointer-events="none"
+                               id="g1396">
+                              <text
+                                 transform="translate(25,13.5)"
+                                 font-size="10px"
+                                 id="text1394"
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">1.0</text>
+                            </g>
+                          </g>
+                          <path
+                             class="foreground"
+                             aria-hidden="true"
+                             d=""
+                             pointer-events="none"
+                             display="none"
+                             id="path1400"
+                             inkscape:connector-curvature="0"
+                             style="display:none" />
+                        </g>
+                      </g>
+                    </g>
+                    <path
+                       class="foreground"
+                       aria-hidden="true"
+                       d=""
+                       pointer-events="none"
+                       display="none"
+                       id="path1408"
+                       inkscape:connector-curvature="0"
+                       style="display:none" />
+                  </g>
+                </g>
+                <g
+                   class="mark-text role-legend-title"
+                   pointer-events="none"
+                   id="g1416">
+                  <text
+                     transform="translate(0,9)"
+                     font-size="11px"
+                     font-weight="bold"
+                     id="text1414"
+                     style="font-weight:bold;font-size:11px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">Ratio</text>
+                </g>
+              </g>
+              <path
+                 class="foreground"
+                 aria-hidden="true"
+                 d=""
+                 pointer-events="none"
+                 display="none"
+                 id="path1420"
+                 inkscape:connector-curvature="0"
+                 style="display:none" />
+            </g>
+          </g>
+          <image
+             y="24.535767"
+             x="-240.74171"
+             id="image2292"
+             xlink:href="data:image/png;base64,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
+kjYfY8YfLPqSQFcAAAAASUVORK5CYII=
+"
+             preserveAspectRatio="none"
+             height="190.92847"
+             width="185.58034" />
+        </g>
+        <path
+           class="foreground"
+           aria-hidden="true"
+           d=""
+           display="none"
+           id="path1428"
+           inkscape:connector-curvature="0"
+           style="display:none" />
+      </g>
+    </g>
+  </g>
+  <defs
+     id="defs1471">
+    <linearGradient
+       id="gradient_0"
+       x1="0"
+       x2="0"
+       y1="1"
+       y2="0">
+      <stop
+         offset="0"
+         stop-color="rgb(239, 249, 189)"
+         id="stop1436" />
+      <stop
+         offset="0.03830112265700988"
+         stop-color="rgb(231, 246, 186)"
+         id="stop1438" />
+      <stop
+         offset="0.10699036702037049"
+         stop-color="rgb(217, 240, 180)"
+         id="stop1440" />
+      <stop
+         offset="0.1756796113837311"
+         stop-color="rgb(196, 232, 181)"
+         id="stop1442" />
+      <stop
+         offset="0.2443688557470917"
+         stop-color="rgb(171, 222, 183)"
+         id="stop1444" />
+      <stop
+         offset="0.3130581001104523"
+         stop-color="rgb(142, 211, 186)"
+         id="stop1446" />
+      <stop
+         offset="0.3817473444738129"
+         stop-color="rgb(113, 200, 189)"
+         id="stop1448" />
+      <stop
+         offset="0.4504365888371735"
+         stop-color="rgb(87, 188, 192)"
+         id="stop1450" />
+      <stop
+         offset="0.5191258332005342"
+         stop-color="rgb(64, 176, 194)"
+         id="stop1452" />
+      <stop
+         offset="0.5878150775638947"
+         stop-color="rgb(47, 161, 192)"
+         id="stop1454" />
+      <stop
+         offset="0.6565043219272554"
+         stop-color="rgb(38, 142, 187)"
+         id="stop1456" />
+      <stop
+         offset="0.7251935662906159"
+         stop-color="rgb(33, 122, 180)"
+         id="stop1458" />
+      <stop
+         offset="0.7938828106539766"
+         stop-color="rgb(33, 101, 171)"
+         id="stop1460" />
+      <stop
+         offset="0.8625720550173371"
+         stop-color="rgb(34, 81, 161)"
+         id="stop1462" />
+      <stop
+         offset="0.9312612993806978"
+         stop-color="rgb(33, 64, 149)"
+         id="stop1464" />
+      <stop
+         offset="0.9999505437440583"
+         stop-color="rgb(28, 49, 133)"
+         id="stop1466" />
+      <stop
+         offset="1"
+         stop-color="rgb(28, 49, 133)"
+         id="stop1468" />
+    </linearGradient>
+  </defs>
+</svg>

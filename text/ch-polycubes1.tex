@@ -147,7 +147,7 @@ Different samplings were done to explore how the input space parameters affect t
         Input space             & \(I_{16_s,31_c}^{2D}\) & \multicolumn{2}{|c|}{\(I_{5_s,31_c}^{2D}\)} & \multicolumn{2}{|c|}{\(I_{5_s,31_c}^{3D}\)} \\ \hline
         Assembly type           & Seeded & Seeded & Unseeded & Seeded & Unseeded \\ \hline
         Dimensionality          & 2D & \multicolumn{2}{|c|}{2D} & \multicolumn{2}{|c|}{3D} \\ \hline
-        Number of samples       & \(10^9\) & \multicolumn{4}{|c|}{\(10^6\)} \\ \hline
+        Number of samples       & \(10^9\) & \multicolumn{4}{|c|}{\(10^8\)} \\ \hline
         Max number of species   & \(16\) & \multicolumn{4}{|c|}{\(5\)} \\ \hline
         Max number of colours   & \(31\) & \multicolumn{4}{|c|}{\(31\)}\\ \hline
     \end{tabular}
@@ -183,14 +183,12 @@ Note how some polyomino sizes that are multiples of four have a much higher coun
 
 In Figure~\ref{fig:ref_outputdistr}, the blue bars show how many polyominoes were found of each size, while the red line shows the total number of polyominoes that exist of that size (obtained from the On-line Encyclopedia of Integer Sequences \cite{sloane1995encyclopedia, oeisA000988}). The sampled input space \(I_{16_s,31_c}^{2D}\) should allow for all 16-mers to be assembled, since there are enough species and colours for fully addressable assemblies (assigning each cube its own species and each connection its own colour). Thus, the blue bars would follow the red line until size 16 if the complete input space was enumerated. Figure~\ref{fig:ref_outputdistr} shows that we find at least the correct order of magnitude up until about 10-mers, after which polyominoes of larger sizes are found in decreasing numbers.
 
-For the larger sizes, we again see the bias toward shapes with a multiple of four tiles. This shows that not only do some polyomino sizes have more input rules assembling them, but there is also larger number of unique polyomino shapes found for those sizes. The OEIS (On-line Encyclopedia of Integer Sequences) data shows no such bias in the actual size counts. Following the earlier argument, that few additional species are required to extend a shape with a multiple of four tiles, those tiles can be placed in different (still symmetric) configurations and create different shapes. Larger shapes leave room for more such permutations, leading to the increasing bias seen in the figure.
-
+For the larger sizes, we again see the bias toward shapes with a multiple of four tiles. This shows that not only do certain polyomino sizes have more input rules assembling them, but there is also larger number of unique polyomino shapes found for those sizes. The OEIS (On-line Encyclopedia of Integer Sequences) data shows no such bias in the actual size counts. Following the earlier argument that few additional species are required to extend a shape with a multiple of four tiles, those additional tiles can be placed in various (still symmetric) configurations to create different shapes. Larger shapes leave room for more such permutations, leading to the increasing bias seen in the figure.
 
 \begin{figure}[h]
     \centering\includesvg[width=\textwidth]{figures/refcalc/pheno_size_distribution.svg}
     \caption{Number of output polyominoes per output size. Count of unique output polyominoes found sampling \(10^9\) input rules in \(I_{16_s,31_c}^{2D}\). The red line shows the actual number of polyominoes of each size, obtained from OEIS A000988 \cite{sloane1995encyclopedia, oeisA000988}.
     }
-    % Ard: Here again, like in 3.4 we see spikes for different sizes -- here not in the number of rules giving polyominoes, but rather in the number of polyominoes found. You need to comment on these two trends, and explain the similarities and differences between them as well.
     \label{fig:ref_outputdistr}
 \end{figure}
 
@@ -206,11 +204,7 @@ For the larger sizes, we again see the bias toward shapes with a multiple of fou
 % Better to use 210924 since 3D stochastic is undersampled otherwise
 The main sampling was done to compare results between 2D and 3D, as well as the seeded versus unseeded assembly modes. All these samplings were done with \(10^8\) samples each in the \(I_{5s,31c}\) space.
 
-The reason for only using five species per rule is to ensure enough valid output for stochastic 3D, which, as can be seen in Figure~\ref{fig:valid_proportion} is relatively low. 
-
-In general, the seeded assembly mode is expected to generate more valid rules than when the seed is random, as Figure~\ref{fig:valid_proportion} shows. 
-
-An input rule with an undetermined seed can assemble different shapes even if a subset of cubes assembled deterministically and will be deemed non-deterministic, while the same rule would be considered valid for seeded assembly if the seed is chosen from a deterministic subset. With the third dimension, there are more degrees of freedom, i.e. more orientations and more patches per cube to attach to, leading to the significantly lower number of valid 3D rules seen in the figure.
+The reason for only using five species per rule is to ensure enough valid output for stochastic 3D, which, as can be seen in Figure~\ref{fig:valid_proportion} is relatively low. In general, the seeded assembly mode is expected to generate more valid rules than when the seed is random. Different seeds might assemble into multiple different shapes, causing the rule to be deemed non-deterministic (while it might still be deemed deterministic with a fixed seed). Furthermore, with the third dimension there are also more degrees of freedom, that is, more orientations and more patches per cube to attach to, leading to the significantly lower number of valid 3D rules seen in the figure.
 
 \begin{figure}[ht]
     \centering\includesvg[width=\textwidth]{figures/valid_proportion.svg}
@@ -218,12 +212,9 @@ An input rule with an undetermined seed can assemble different shapes even if a 
     \label{fig:valid_proportion}
 \end{figure}
 
-Figure~\ref{fig:main_distr} shows the distribution of output sizes for the main samplings. Once again, we can see that the number of shapes found initially is of the same order of magnitude as the total number of existing shapes for each size. Here we can also see even more clearly how shapes of certain sizes show up much more than their neighbours. For example, \(1528\) 36-mers were found in the seeded 3D sampling, while only \(30\) 35-mers and \(58\) 37-mers were found. Such spikes are found for 24-mers, 28-mers, 32-mers, 36-mers, 40-mers, 44-mers, and 48-mers, possibly showing common symmetrical structures growing by four cubes at a time.
-
-% Ard: think we can do better for explanations. It's probably easier to make certain even structures because a single tile can make a dimer, for example.
-
-% Andrew: Explain more clearly? Can this be tested?
-
+Figure~\ref{fig:main_distr} shows the distribution of output sizes for the main samplings. Once again, we can see that the number of shapes found initially is of the same order of magnitude as the total number of existing shapes for each size. Here we can also see even more clearly how shapes of certain sizes show up much more than their neighbours. 
+%For example, \(1528\) 36-mers were found in the seeded 3D sampling, while only \(30\) 35-mers and \(58\) 37-mers were found. Such spikes are found for 24-mers, 28-mers, 32-mers, 36-mers, 40-mers, 44-mers, and 48-mers, possibly showing common symmetrical structures growing by four cubes at a time.
+As in the reference polyomino sampling, we we can see spikes for shapes with sizes that are multiples of four. For 3D, we can also see spikes for sizes 54 and 66, which are multiples of six rather than four, which makes sense as three-dimensional cubes have six patches each.
 
 \begin{figure}[ht]
     \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/maincalc/distrs.svg}
