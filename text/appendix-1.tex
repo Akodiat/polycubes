@@ -15,6 +15,14 @@ The code used for polycube assembly can be found at \url{https://github.com/akod
 \section{Stochastic assembly code}
 The polycube assembly model was implemented in both C++ and JavaScript. The C++ implementation enables the fast command-line evaluation of input rules required for the sampling performed in Chapter~\ref{ch:polycubes1}. Meanwhile, the JavaScript implementation makes it possible to assemble and visualise polycubes in a web browser, which was useful for both model validation and for public outreach activities.
 
+In order to speedup sampling, the c++ binary can be called multiple times in parallel and merged with the merge python script. For the results covered in Chapter~\ref{ch:polycubes1}, the sampling was done on 100 concurrent nodes and merged.
+
+The largest sampling done, the polyomino reference with 1e9 samples (described in Section~\ref{sec:refcalc}), took a total of 72 hours, 57 minutes, and 58 seconds to sample with 100 copies each performing 1e7 samples in parallel. The merging script then took another 197 hours, 40 minutes, and 24 seconds to run, but it clearly saved a significant amount of time compared to running a single sampling for 100 times longer (which would take almost 7300 hours or 304 days).
+
+Finally the analysis script took another 301 hours, 44 minutes, and 17 seconds to run.
+
+%took 359 hours, 9 minutes, and 44 seconds
+
 \subsection{C++}
 The stochastic assembly C++ code is found in the \texttt{cpp} directory. The Eigen and HDF5 libraries are required to compile the c++ binary. The python binding requires Eigen and the pybind library.
 
@@ -30,7 +38,6 @@ Install dependencies:
 The cmake specification at \texttt{cpp/src/CMakeLists.txt} is configured to search for HDFql at the path \texttt{\textasciitilde/hdfql-2.3.0}, so make sure to update the file if you install another version of HDFql or if it is installed at another path.
 
 Build the polycube binary with cmake:
-
 \begin{lstlisting}[language=bash]
   mkdir build && cd build
   cmake -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ ..
@@ -42,13 +49,30 @@ You should find the binary in the root of this directory (cpp)
 Run ./polycubes --help for more info
 
 \subsection{Python binding}
+The C++ binary is used to sample the input rule space, as done in Chapter~\ref{ch:polycubes1}. However, to evaluate individual rules and access the stochastic assembly model through python, you can compile a pybind11 (\url{https://github.com/pybind/pybind11}) library that can be imported into python. There are build scripts and examples for both the python analysis scripts and the SAT solver code:
+
+\begin{lstlisting}[language=bash]
+  cd py
+  bash build_pybind.sh
+\end{lstlisting}
 
 \begin{lstlisting}[language=bash]
   cd solve/py
   bash build_polycube_pybind.sh
 \end{lstlisting}
 
+This will generate a shared module \texttt{libpolycubes.so}
+
+\begin{lstlisting}[language=python]
+  import libpolycubes as pl
+  pl.getCoords("040087000000")
+\end{lstlisting}
+
+
 \subsection{JavaScript}
+The JavaScript assembler is found in the \texttt{js} directory, with HTML files in the root of the repository. To run, you can either start a local webserver with the repository content or open the \texttt{index.html} file directly. You can also access the GitHub site at \url{https://akodiat.github.io/polycubes}.
+
+The 3D visualisation is done with the help of the Three.js library (\url{https://threejs.org/}).
 
 Use the following script to generate patchy sphere preview images
 \begin{lstlisting}[language=JavaScript]
@@ -79,13 +103,6 @@ system.colorMaterials.forEach(m=>{m.color.offsetHSL(0, 0.5*(Math.random()-0.5), 
   python -m pip install python-sat[pblib,aiger]
 \end{lstlisting}
 
-In order to speedup sampling, the c++ binary can be called multiple times in parallel and merged with the merge python script. For the results covered in Chapter~\ref{ch:polycubes1}, the sampling was done on 100 concurrent nodes and merged.
-
-The largest sampling done, the polyomino reference with 1e9 samples (described in Section~\ref{sec:refcalc}), took a total of 72 hours, 57 minutes and 58 seconds to sample with 100 copies each performing 1e7 samples in parallel. The merging script then took another 197 hours, 40 minutes and 24 seconds to run, but it clearly saved a significant amount of time compared to running a single sampling for 100 times longer (which would take almost 7300 hours, or 304 days).
-
-Finally the analysis script took another 301 hours, 44 minutes and 17 seconds to run.
-
-took 359 hours, 9 minutes and 44 seconds
 
 \subsection{JavaScript}
 
@@ -122,11 +139,11 @@ Simulation files for a given polycube shape can then be generated through the we
 
 \chapter{The oxView codebase}
 
-The code for oxView can be found at \url{https://github.com/sulcgroup/oxdna-viewer}. It is written in TypeScript and compiled into JavaScript. The 3D visualisation is done with the help of the Three.js library, while the graphical user interface uses the Metro 4. 
+The code for oxView can be found at \url{https://github.com/sulcgroup/oxdna-viewer}. It is written in TypeScript and compiled into JavaScript. The 3D visualisation is done with the help of the Three.js library (\url{https://threejs.org/}), while the graphical user interface uses the Metro 4 library (\url{https://metroui.org.ua/}). 
 
-To compile, you need both typescript and Node.js installed. Typing \verb|npm install| should install all required node modules.
+If you make any changes, you need both TypeScript (\url{https://www.typescriptlang.org/}) and Node.js (\url{https://nodejs.org/}) installed to compile. Typing \verb|npm install| in the source directory should install all required node modules. Then type \verb|tsc| to compile the typescript into javascript. 
 
-Type \verb|tsc| to compile. 
+More detailed documentation can be found in the README.md file in the repository: \url{https://github.com/sulcgroup/oxdna-viewer/blob/master/README.md}
 
 \minitoc
 

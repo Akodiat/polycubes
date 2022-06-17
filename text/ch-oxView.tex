@@ -6,19 +6,19 @@ This chapter contains my results on my second project: how to design, simulate a
 
 %It starts with an introductory description of earlier approaches to this problem and will then describe how my contributions to the oxView tool have improved the previous methods and enabled new results.
 
-As I started this DPhil, I was tasked with the issue of converting origami designs created in caDNAno (see Section~\ref{sec:cadnano}) so that they could be correctly simulated in oxDNA (see Section~\ref{sec:oxDNA}). I collaborated with Hannah Fowler from the Doye group at Theoretical Chemistry, who simulated an extensive collection of old DNA designs. This was a good opportunity to investigate why some structures were more problematic to convert and relax than others.
+As I started this DPhil, I was tasked with the issue of converting origami designs created in caDNAno (see Section~\ref{sec:cadnano}) so that they could be correctly simulated in oxDNA (see Section~\ref{sec:oxDNA}). You have seen some of the tools I tried introduced in Chapter \ref{ch:oxview_intro}. I collaborated with Hannah Fowler from the Doye group at Theoretical Chemistry, who simulated an extensive collection of old DNA designs. This was a good opportunity to investigate why some structures were more problematic to convert and relax than others.
 
 At this time, the available method for converting a caDNAno design into the oxDNA format was to use an old python script included in the UTILS directory of the oxDNA repository. However, the script was not easy to use, and it failed for many structures. At the end of 2018, the tacoxDNA webserver \cite{suma2019tacoxdna} was launched, updating the conversion script and making it more accessible.
 
-Still, since caDNAno structures are drawn on a lattice, where all helices have to be parallel to each other, the resulting oxDNA configurations often had unnaturally extended backbone bonds, requiring time-consuming relaxation.
+Still, since caDNAno structures are drawn on a lattice, where all helices have to be parallel to each other (as was shown in Figure~\ref{fig:oxDNA_sims}), the resulting oxDNA configurations often had unnaturally extended backbone bonds, requiring time-consuming relaxation.
 
-During a secondment within the {\v{S}}ulc group at Arizona State University in 2019, I was able to contribute to their development of a web-based oxDNA viewer called oxView \cite{poppleton2020design, bohlin2021design}. This tool can now be accessed at {\large\url{www.oxview.org}}.
+During a secondment within the {\v{S}}ulc group at Arizona State University in 2019, I was able to contribute to their development of a web-based oxDNA viewer called oxView \cite{poppleton2020design, bohlin2022oxview}. This tool can now be accessed at {\large\url{www.oxview.org}}.
 
-Among the main early features that I added to oxView was a cluster-level rigid-body dynamics option (detailed in Section~\ref{sec:rigid-body_dynamics}) that, in many cases, speed up the relaxation by orders of magnitude compared to oxDNA relaxation alone. Since then, I have collaborated with the {\v{S}}ulc group to add more features and to make the tool more accessible as a visualiser and editor. 
+Among the main early features that I added to oxView was a cluster-level rigid-body dynamics option (detailed in Section~\ref{sec:rigid-body_dynamics}) that, in many cases, speeds up the relaxation by orders of magnitude compared to oxDNA relaxation alone. Since then, I have collaborated with the {\v{S}}ulc group to add more features and to make the tool more accessible as a visualiser and editor. 
 
-For our second oxView publication \cite{bohlin2021design}, I rewrote the main parts of the taxoxDNA codebase into TypeScript, resulting in the \emph{taxoxdna.js} library (\url{https://github.com/Akodiat/tacoxdna.js}) which oxView now uses to import various standard design formats (including caDNAno) automatically. This is described in Section~\ref{sec:importing_designs}.
+For our second oxView publication \cite{bohlin2022oxview}, I rewrote the main parts of the taxoxDNA codebase into TypeScript, resulting in the \emph{taxoxdna.js} library (\url{https://github.com/Akodiat/tacoxdna.js}) which oxView now uses to import various standard design formats (including caDNAno) automatically. This is described in Section~\ref{sec:importing_designs}.
 
-This chapter will present my own contributions to oxView \cite{poppleton2020design, bohlin2021design}, unless otherwise stated. However, I wish to acknowledge the work done by Erik Poppleton and Michael Matthies; without them, this tool would not exist. Michael was the original oxView developer and has done great work in supporting live oxDNA relaxations through the \emph{ox-serve} webserver. Erik enabled oxView to render and analyse systems with over a million nucleotides and has created a large set of useful analysis scripts. Aamik Mallya and Jonah Procyk have also made significant contributions to the oxView codebase. 
+This chapter will present my own contributions to oxView \cite{poppleton2020design, bohlin2022oxview} unless otherwise stated. However, I wish to acknowledge the work done by Erik Poppleton and Michael Matthies; without them, this tool would not exist. Michael was the original oxView developer and has done great work in supporting live oxDNA relaxations through the \emph{ox-serve} webserver. Erik enabled oxView to render and analyse systems with over a million nucleotides and has created a large set of useful analysis scripts. Aamik Mallya and Jonah Procyk have also made significant contributions to the oxView codebase. 
 
 \section{Importing designs}
 \label{sec:importing_designs}
@@ -62,16 +62,16 @@ While I did include the DNA PDB to oxDNA converter from Tacoxdna in \emph{tacoxd
 Designs spread across multiple files (or even multiple design tools) can be easily combined in oxView by simply importing them all and using the editing tools to arrange and connect them properly. Figure~\ref{fig:cadnano_import} shows an example of this, where the a slider design (Figure~\ref{fig:cadnano_import}.c) is added and positioned relative to the already imported rail (Figure~\ref{fig:cadnano_import}.b), both structures from \cite{benson2021strategies}.
 
 \subsection{Far-from-physical caDNAno designs}
-Some structures, while converted without failure to the oxDNA format, will have a very far-from-physical configuration due to the way they are drawn in caDNAno. As mentioned in the begining of this chapter, since it is only possible to draw all helices parallel to each other (on a lattice), backbone bonds may be very elongated, creating high energies and/or topological problems.
+As mentioned in Section \ref{sec:mrdna} and at the beginning of this chapter, some structures drawn in caDNAno will have a very far-from-physical configuration. Since it is only possible to draw all helices parallel to each other (on a lattice) in caDNAno, backbone bonds may be very elongated, creating high energies and/or topological problems.
 
 The oxDNA software already includes relaxation procedures for such structures \cite{doye2020oxdna}, bringing them together in a slow and controlled manner using a specified maximum backbone force. However, for large structures, this can take a very long time, even while using GPU simulation.
 
-As discussed in Section~\ref{sec:mrdna} and shown in Figure~\ref{fig:mrdna}, the mrDNA simulation model \cite{maffeo2019mrdna} can help in such cases. However, the easiest option now tend to be using oxViews editing and rigid-body dynamics capabilities.
+As discussed in Section~\ref{sec:mrdna} and shown in Figure~\ref{fig:mrdna}, the mrDNA simulation model \cite{maffeo2019mrdna} can help in such cases. However, the easiest option now tends to be using oxViews editing and rigid-body dynamics capabilities. The following sections will explain how.
 
 \section{Rigid-body dynamics}
 \label{sec:rigid-body_dynamics}
 
-For rapid relaxation of imported caDNAno designs, oxView includes so-called rigid-body dynamics. When the dynamics are active, clusters of nucleotides are treated as rigid-bodies in a simple physics simulation, using the method described in \cite{baraff1997introduction} and running locally in the web browser.
+For rapid relaxation of imported caDNAno designs, oxView includes so-called rigid-body dynamics. When the dynamics are active, clusters of nucleotides are treated as rigid bodies in a simple physics simulation, using the method described in \cite{baraff1997introduction} and running locally in the web browser.
 
 Clusters can be defined manually, or by running an automatic DBSCAN \cite{ester1996density} clustering algorithm. If caDNAno files are imported directly into oxView, they will already have clusters defined. Similarly, copying and pasting structures create separate clusters.
 
@@ -90,11 +90,12 @@ Within the dynamics, clusters are held together with spring forces at each share
 where \(c_{spr}\) is a spring constant, \(l\) is the current bond length and \(l_r\) is the relaxed bond length. To avoid overlaps, a simple linear repulsive force, of magnitude
 \(f_{\rm rep} = max\left(c_{rep}\left(1-\frac{d}{r_a+r_b}\right),0\right)\) is added between the centre of each group, where \(c_{rep}\) is a repulsion constant, \(d\) is the distance between the two centres of mass, and \(r_a+r_b\) is the sum of the group radii (the greatest distance they can be while still overlapping).
 
-As seen in Figure~\ref{fig:rigidBody}, the separate clusters will relax into a more natural shape, prepared for oxDNA simulation or further design. In some cases, however, simply moving the clusters manually (rigid-body manipulation) might be an even easier solution, which brings us to the section on editing.
+As seen in Figure~\ref{fig:rigidBody}, the separate clusters will relax into a more natural shape, prepared for oxDNA simulation or further design. In some cases, however, simply moving the clusters manually (rigid-body manipulation) might be an even easier solution, which is covered in Section~\ref{sec:oxviewEditing}.
 
-Another option for oxView dynamics is to use oxServe, an server developed mainly by Michael Matthies that connects oxView to an oxDNA instance using websockets. By first relaxing the clusters and then using oxServe to relax the structure on a nucleotide level, users can interactively perform the full relaxation process from oxView.
+Another option for oxView dynamics is to use oxServe, a server developed mainly by Michael Matthies that connects oxView to an oxDNA instance using WebSockets. By first relaxing the clusters and then using oxServe to relax the structure on a nucleotide level, users can interactively perform the entire relaxation process from oxView.
 
 \section{Editing designs}
+\label{sec:oxviewEditing}
 
 \begin{figure}[ht]
 \begin{overpic}[width=\textwidth]{figures/tetra.eps}

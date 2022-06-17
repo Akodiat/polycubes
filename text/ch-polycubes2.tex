@@ -6,7 +6,9 @@ In the previous chapter, we used random input rules to explore properties of the
 
 % Fully addressable is the easy solution.
 
-A trivial solution would be to use \emph{fully addressable assembly}: simply assign a unique species to each cube and a unique colour to each pair of adjacent patches. This is similar to the design principle underlying DNA bricks (Section~\ref{sec:dna_tiles_bricks}), where every brick tile is unique. However, as was seen in Chapter~\ref{ch:polycubes1}, many shapes have alternative solutions requiring widely different numbers of unique components. See Figure~\ref{fig:addressable}, where a square tetromino is shown to have a variety of inputs assembling it, from the minimal solution with just a single species and one colour, up to the fully addressable solution with four species and four colours (\(\widetilde{K}_s = \widetilde{K}_c = 4\)). The intermediate solutions are not necessarily deterministic in terms of which position gets which species, but they will always assemble into the same shape. Some solutions may also be able to form with only three bonds if the forth patch pair has mismatched colours. However, such an assembly would be less stable than the ones shown in the figure. Furthermore, it can be argued that the solutions on the bottom row, where \(\widetilde{K}_c=1\), all technically use only one species since all species have identical patches. However, one could imagine an additional property, such as different functionalisation, motivating the distinction. The empty red region in Figure~\ref{fig:addressable}.b) shows combinations of \(\widetilde{K}_s\) and \(\widetilde{K}_c\) for which a solution is not possible. For example, if you use a single species, you cannot use more than one colour.
+A trivial solution would be to use \emph{fully addressable assembly}: simply assign a unique species to each cube and a unique colour to each pair of adjacent patches. This is similar to the design principle underlying DNA bricks (Section~\ref{sec:dna_tiles_bricks}), where every brick tile is unique. However, as was seen in Chapter~\ref{ch:polycubes1}, many shapes have alternative solutions requiring widely different numbers of unique components. See Figure~\ref{fig:addressable}, where a square tetromino is shown to have a variety of inputs assembling it, from the minimal solution with just a single species and one colour, up to the fully addressable solution with four species and four colours (\(\widetilde{K}_s = \widetilde{K}_c = 4\)). The intermediate solutions are not necessarily deterministic in terms of which position gets which species, but they will always assemble into the same shape. Some solutions may also be able to form with only three bonds if the fourth patch pair has mismatched colours. However, such an assembly would be less stable than the ones shown in the figure. 
+
+It can be argued that the solutions on the bottom row, where \(\widetilde{K}_c=1\), all technically use only one species since all species have identical patches. However, one could imagine an additional property, such as different functionalisation, motivating the distinction. The empty red region in Figure~\ref{fig:addressable}.b) shows combinations of \(\widetilde{K}_s\) and \(\widetilde{K}_c\) for which a solution is not possible. For example, if you use a single species, you cannot use more than one colour.
 
 \begin{figure}[ht]
     \centering
@@ -142,7 +144,7 @@ More importantly, the assembly should benefit from torsional patch interaction (
 
 
 \subsection{Bounded structures}
-Besides the torsional patches, another important difference to \cite{romano2020designing} is that the method presented here allows for bounded structures. This is achieved by adding species of type ``empty'' as a "shell" around the shape to ensure that empty patches remain unbound. Adding a clause \(x_{0,1}^{B}\) ensures that colour 0 (on the shell) always binds to 1 (on the boundary). 
+Besides the torsional patches, another important difference to \cite{romano2020designing} is that the method presented here allows for bounded structures. This is achieved by adding species of type ``empty'' as a "shell" around the shape to ensure that empty patches remain unbound. Adding a clause \(x_{0,1}^{B}\) ensures that the colour 0 (on the shell) always binds to 1 (on the boundary). 
 
 \begin{figure}[h]
     \centering\includesvg[width=.5\textwidth, inkscapelatex=false]{figures/sat_boundary.svg}
@@ -198,7 +200,7 @@ The exploration of the solution landscape can be done in parallel, with each com
 \label{sec:example_solves}
 This section presents a set of different shapes solved to demonstrate the SAT solver method described above.
 
-\paragraph{Swan} A more sophisticated version of the ``giraffe duck'' from Figure~\ref{fig:UND}, the Swan shape has a fixed neck length of one intermediate cube, as shown in Figure~\ref{fig:swan}.a). Figure~\ref{fig:swan}.b) shows the solution landscape, where valid deterministic solutions can be found along the upper diagonal. Many of the configurations classified as undefined (UND) because they are not fully deterministic, still assemble at a high ratio. This indicates that these \(\widetilde{K}_s\), \(\widetilde{K}_c\) combinations still could provide useful solutions.
+\paragraph{Swan} A more sophisticated version of the ``giraffe duck'' from Figure~\ref{fig:UND}, the Swan shape has a fixed neck length of one intermediate cube, as shown in Figure~\ref{fig:swan}.a). Figure~\ref{fig:swan}.b) shows the solution landscape, where valid deterministic solutions can be found along the upper diagonal. Many of the configurations that are classified as undefined (UND) because they are not fully deterministic still assemble at a high ratio. This indicates that these \(\widetilde{K}_s\), \(\widetilde{K}_c\) combinations still could provide useful solutions.
 
 \begin{figure}[ht]
     \centering
@@ -214,7 +216,7 @@ This section presents a set of different shapes solved to demonstrate the SAT so
     \label{fig:swan}
 \end{figure}
 
-\paragraph{Polyomino J} With the 2D option enabled, the solver requires fewer clauses as it only needs to check four patches and four rotations per particle. Here this is used to explore the solution landscape for a polyomino shaped like a letter \textbf{J}, shown in Figure~\ref{fig:letter_J}.a). Figure~\ref{fig:letter_J}.b) shows the resulting solution landscape, where the minimal solution is just one species less than the fully addressable one. This can be explained by the lack of symmetry and modularity in the shape, where only the species used for the ``endpoints'' can be reused. 
+\paragraph{Polyomino J} With the 2D option enabled, the solver requires fewer clauses as it only needs to check four patches and four rotations per particle. Here this is used to explore the solution landscape for a polyomino shaped like a letter \textbf{J}, shown in Figure~\ref{fig:letter_J}.a). Figure~\ref{fig:letter_J}.b) shows the resulting solution landscape, where the minimal solution is just one species less than the fully addressable one. This can be explained by a lack of symmetry and modularity in the shape, where only species used for the ``endpoints'' are reusable. 
 
 \begin{figure}[ht]
     \centering
@@ -263,9 +265,9 @@ This section presents a set of different shapes solved to demonstrate the SAT so
 \end{figure}
 
 \section{Scalability analysis}
-To find out how the method scales with the size of the system, we also solve solid, fully connected, cube shapes of size 2, 3, and 4.
+To find out how the method scales with the size of the system, we also solve solid, fully connected cube shapes of sizes 2, 3, and 4.
 
-\paragraph{Size 2 cube} The \(2 \times 2 \times 2\) cube solutions, seen in Figure~\ref{fig:cube2}, highlights an important point with the current design pipeline. The stochastic assembly model verifies that the correct shape is assembled 100\% of the time for the minimal solution using \(\widetilde{K}_s = 2\) species and \(\widetilde{K}_c = 1\) colour, but by inspecting the assembly you can see that all patch pairs are not always connected: \href{https://akodiat.github.io/polycubes/?assemblyMode=seeded&rule=040087000400870087008700}{040087000400870087008700} Since only the coordinates are compared, assemblies with mismatches will still be accepted. This approach was choosen to have the same polycube model as in Chapter~\ref{ch:polycubes1}, and binding cooperativity should provide a bias against the mismatched alternate assemblies. If needed, it should be possible to modify the model to also verify the assembly ratio of a given topology network (or to report mismatches, as is done in the JavaScript code).
+\paragraph{Size 2 cube} The \(2 \times 2 \times 2\) cube solutions, seen in Figure~\ref{fig:cube2}, highlights an important point with the current design pipeline. The stochastic assembly model verifies that the correct shape is assembled 100\% of the time for the minimal solution using \(\widetilde{K}_s = 2\) species and \(\widetilde{K}_c = 1\) colour. However, inspecting the assembly, it is clear that all patch pairs are not always connected: \href{https://akodiat.github.io/polycubes/?assemblyMode=seeded&rule=040087000400870087008700}{040087000400870087008700} Since only the coordinates are compared, assemblies with mismatches will still be accepted. This approach was chosen to have the same polycube model as in Chapter~\ref{ch:polycubes1}, and binding cooperativity should provide a bias against the mismatched alternate assemblies. If needed, it should be possible to modify the model to also verify the assembly ratio of a given topology network (or to report mismatches, as is done in the JavaScript code).
 
 \begin{figure}[h]
     \centering
@@ -330,7 +332,7 @@ To find out how the method scales with the size of the system, we also solve sol
 In Chapter~\ref{ch:polycubes1} we sampled the space of polycube input rules and looked at the resulting distribution of output complexities. Using the SAT solver approach presented in this chapter, we can now also sample the output shapes directly. 
 
 \subsection{All octominoes}
-Using the SAT solver we can calculate the solution landscapes for all 369 possible 8-mer polyominoes. Figure~\ref*{fig:8-mers_grid} shows all of them ordered by the minimum number of species found neccesary for assembly. Note how most of the 8-mers require around six species, while some need eight (one species per position) and others only need two.
+Using the SAT solver, we can calculate the solution landscapes for all 369 possible 8-mer polyominoes. Figure~\ref*{fig:8-mers_grid} shows all of them ordered by the minimum number of species found neccesary for assembly. Note how most of the 8-mers require around six species, while some need eight (one species per position) and others only need two.
 
 \begin{figure}[ht]
     \centering
@@ -348,9 +350,9 @@ Using the SAT solver we can calculate the solution landscapes for all 369 possib
     \label{fig:8-mers_grid}
 \end{figure}
 
-This is more clearly visible in Figure~\ref{fig:8-mer_distribution}, where we can see the complexity distribution of the solved 8-mer shapes compared to the 8-mer polyominoes found when sampling \(I_{16_s,31_c}^{2D}\) in Chapter~\ref{ch:polycubes1}. It is clear to see that the solved shapes generally use much fewer species, as well as fewer colours, compared to the shapes found with random sampling. Most sampled results even use more than 8 species, which is more than any 8-mer should require.
+This is more clearly visible in Figure~\ref{fig:8-mer_distribution}, where we can see the complexity distribution of the solved 8-mer shapes compared to the 8-mer polyominoes found when sampling \(I_{16_s,31_c}^{2D}\) in Chapter~\ref{ch:polycubes1}. It is clear that the solved shapes generally use much fewer species and fewer colours compared to the shapes found with random sampling. Most sampled results even use more than eight species, which is more than any 8-mer should require.
 
-This species redundancy is mainly an artifact of how the sampling was performed. The \(I_{16_s,31_c}^{2D}\) input space uses 16-species by default (so that it would be able to find any 16-mer, see Section~\ref{sec:refcalc}), only removing species that could never bind. If finding minimal input rules is the goal, a non-uniform sampling biased toward fewer species should be more successfull.
+This species redundancy is mainly an artefact of how the sampling was performed. The \(I_{16_s,31_c}^{2D}\) input space uses 16 species by default (so that it would be able to find any 16-mer, see Section~\ref{sec:refcalc}), only removing species that could never bind. If finding minimal input rules is the goal, a non-uniform sampling biased toward fewer species should be more successful.
 
 \begin{figure}[ht]
     \centering
@@ -407,7 +409,7 @@ As a three-dimensional example, let us look at the 112 free 6-mer polycubes.
 
 % Ard: Compare ch4 back to previous results. Make grids from random samples, colour by frequency.
 
-% 1) Take a high probability structure (e.g. the cube) and see how often different rules are found by random sampling  --- is it roughly ture that P(ruleset) ~ 2^(size)  -- log P(ruleset) ~ size of ruleset 
+% 1) Take a high probability structure (e.g. the cube) and see how often different rules are found by random sampling  --- is it roughly true that P(ruleset) ~ 2^(size)  -- log P(ruleset) ~ size of ruleset 
 % 2) I would do this for some of the say 16mers or other 2D structures e.g. in the paper with Iain -- we simply found the K by looking at the shortest code found by sampling. Question" how good is this in practice. --  you did this as well in your plots.
 
 
@@ -419,9 +421,9 @@ While the stochastic assembler works well to test determinism, a more realistic 
 
 % Andrew: Describe! Diffusion, in position and orientation. Hence need to constrain interactions tightly to ensure good mapping to more abstract models.
 
-Besides discrete tile models, self-assembly can also be modelled using Molecular Dynamics simulations of rigid-body spheres called \emph{patchy particles}. Each particle has a number of patches that bind when they come in contact with another complementary patch.
+Besides discrete tile models, self-assembly can also be modelled using simulations of rigid-body spheres called \emph{patchy particles}. The particles diffuse using Molecular Dynamics, updating their positions and orientations according to Newtown's laws of motion. Furthermore, each particle has one or more patches that can interact with and bind to other the patches of other particles.
 
-One such patchy particle simulator is included as part of the oxDNA package \cite{rovigatti2015comparison}. It was, for example, used by Romano et al., as seen in Figure~\ref{fig:patchy_particles}, to verify the patchy interactions designed by their SAT-solver method \cite{romano2020designing}. A derivative of that patchy particle model is used here. However, to account for the polycube requirement of patch orientation alignment, the model has been modified to include torsional interactions.
+The oxDNA package \cite{rovigatti2015comparison} includes such a patchy particle simulator, and it has, for example, been used by Romano et al., as seen in Figure~\ref{fig:patchy_particles}, to verify the patchy interactions designed by their SAT-solver method \cite{romano2020designing}. A derivative of that patchy particle model is used here. However, the model has been modified to include torsional interactions to account for the polycube requirement of patch orientation alignment.
 
 \begin{figure}[ht]
   \centering
@@ -434,7 +436,7 @@ One such patchy particle simulator is included as part of the oxDNA package \cit
   \label{fig:patchy_particles}
 \end{figure}
 
-Each particle is represented by a sphere covered by up to 6 patches at distance $R = 0.5$ distance units (d.u.) from the centre of the sphere. The positions of the patches correspond to the three-dimensional Von Neumann neighborhood around the origin:
+In the model, each particle is represented by a sphere covered by up to 6 patches at distance $R = 0.5$ distance units (d.u.) from the sphere's centre. The positions of the patches correspond to the three-dimensional Von Neumann neighbourhood around the origin:
 $
  \mathbf{p}_1 = R \left( 0,1,0\right),\, \mathbf{p}_2 = R \left( 0,-1,0 \right),\,   %\\
  \mathbf{p}_3 = R \left( 0,0,1 \right),\, \mathbf{p}_4 = R \left(  0, 0, -1 \right),\, % \\
@@ -524,7 +526,7 @@ where $r_p$ is the distances between a pair of patches, and $\alpha = 0.12\, {\r
 	\end{cases} 
 \end{equation}
 where $r$ is the distance between the centers of mass of the patchy particles, and $\sigma$ is set to $2R = 1.0$ distance units, twice the desired radius of the patchy particle.
-The repulsive potential is a piecewise function, consisting of the Lennard-Jones potential function:
+The repulsive potential is a piecewise function consisting of the Lennard-Jones potential function:
 \begin{equation} 
 V_{\rm LJ}(r,  \sigma) = 8 \left[ \left(\frac{\sigma}{r}\right) ^{12} - \left(\frac{\sigma}{r}\right) ^{6} \right].
 \end{equation}
