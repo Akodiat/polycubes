@@ -1,18 +1,10 @@
 \chapter{Discussion}
 \label{ch:conclusion}
 
-In conclusion, the design of self--assembling nanostructures has been investigated on both an abstract and a more detailed level. The presented projects have resulted in tools and methods for creating, simulating, and analysing self--limiting modular structures with minimal complexity, potentially containing building blocks created in different design software.
+There are many exciting avenues of further exploration within both polycube design and oxView development. For polycubes, one perhaps obvious comment is that there is nothing special about cubes in particular, so a more general model of self--assembling patchy shapes could prove a useful tool for many problems. The reason I choose cubes, besides being a natural 3D extension of the polyomino squares, is that they fit well in a cartesian coordinate system. However, that is a minor problem to overcome. With a more general stochastic assembler and with experimental applications such as the ever--larger polyhedral shells presented in Section~\ref{sec:shape-complementary}, we might ask, given a maximum complexity - for example, a limited number of possible colours - what is the largest bounded structure that can deterministically assemble?
 
+Another question for the future is the complexity of polycubes with staged assembly, similar to that done by Demaine et al. \cite{demaine2008staged}. By assembling a polycube through a hierarchy of separate stages, will an increased complexity in the number of stages decrease the number of colours and species required in an interesting way? The optimisation of other assembly parameters, such as modifying the temperature over time or colours with different interaction strengths, could also be explored for patchy particle assembly. A variable interaction matrix can also be allowed in the SAT solver specification to enable, for example, self-complementary colours.
 
-There are many exciting avenues of further exploration for both projects. For polycubes, one perhaps obvious comment is that there is nothing special about cubes in particular, so a more general model of self--assembling patchy shapes could prove a useful tool for many problems. The reason I choose cubes, besides being a natural 3D extension of the polyomino squares, is that they fit well in a cartesian coordinate system. However, that is a minor problem to overcome.
+As for the oxView project, development is continually ongoing, but we have no major additional features planned at the moment. One intriguing (but likely time--consuming) possibility would be to integrate other coarse--grained simulation options, for example, mrDNA, similarly to how oxDNA is connected using oxServe. Another ambitious feature would be to include a 2D strand view such as in caDNAno or Adenita, possibly through a connection to the also web--based scadnano.
 
-% Andrew: There is not enought discussion of this in Chapter 3 
-
-Furthermore, with experimental applications such as the ever--larger polyhedral shells presented in Section~\ref{sec:shape-complementary}, we might ask, given a maximum complexity - for example, a limited number of possible colours - what is the largest bounded structure that can deterministically assemble?
-
-SAT solver re--enable a variable interaction matrix
-
-Another question for the future is the complexity of polycubes with staged assembly, similar to that done by Demaine et al. \cite{demaine2008staged}. By assembling a polycube through a hierarchy of separate stages, will an increased complexity in the number of stages decrease the number of colours and species required in an interesting way?
-
-As for the oxView project, development is continually ongoing, but we have no major additional features planned at the moment. One intriguing (but likely time--consuming) possibility would be to integrate other coarse--grained simulation options, for example, mrDNA, similarly to how oxDNA is connected using oxServe.
-Another ambitious feature would be to include a 2D strand view such as in caDNAno or Adenita, possibly through a connection to the also web--based scadnano.
+In conclusion, the design of self--assembling nanostructures has been investigated on both an abstract and a more detailed level. The presented projects have resulted in valuable tools and methods for creating, simulating, and analysing self--limiting modular structures with minimal complexity, potentially containing building blocks created in different design software.

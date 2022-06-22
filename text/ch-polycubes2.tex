@@ -2,11 +2,13 @@
 
 \minitoc
 
-In the previous chapter, we used random input rules to explore properties of the corresponding distributions of output polycube shapes. However, the reverse problem is just as significant; given a target shape, how do you find a rule that assembles it?  
+In the previous chapter, we used random input rules to explore the properties of the corresponding distributions of output polycube shapes. However, the reverse problem is just as significant; given a target shape, how do you find a rule that assembles it?
+
+This chapter provides a method for systematically enumerating valid solutions and discovering minimal solutions for arbitrary shapes. Section~\ref{sec:SAT} describes how this is done, with the following sections providing examples of designed shapes and their assembly dynamics.
 
 % Fully addressable is the easy solution.
 
-A trivial solution would be to use \emph{fully addressable assembly}: simply assign a unique species to each cube and a unique colour to each pair of adjacent patches. This is similar to the design principle underlying DNA bricks (Section~\ref{sec:dna_tiles_bricks}), where every brick tile is unique. However, as was seen in Chapter~\ref{ch:polycubes1}, many shapes have alternative solutions requiring widely different numbers of unique components. 
+A trivial solution for designing a polycube shape would be to use \emph{fully addressable assembly}: simply assign a unique species to each cube and a unique colour to each pair of adjacent patches. This is similar to the design principle underlying DNA bricks (Section~\ref{sec:dna_tiles_bricks}), where every brick tile is unique. However, as was seen in Chapter~\ref{ch:polycubes1}, many shapes have alternative solutions requiring widely different numbers of unique components. 
 
 \begin{figure}[h]
     \centering
@@ -23,7 +25,7 @@ A trivial solution would be to use \emph{fully addressable assembly}: simply ass
     \label{fig:addressable}
 \end{figure}
 
-See Figure~\ref{fig:addressable}, where a square tetromino is shown to have a variety of inputs assembling it, from the minimal solution with just a single species and one colour, up to the fully addressable solution with four species and four colours (\(\widetilde{K}_s = \widetilde{K}_c = 4\)). The intermediate solutions are not necessarily deterministic in terms of which position gets which species, but they will always assemble into the same shape. Some solutions may also be able to form with only three bonds if the fourth patch pair has mismatched colours. However, such an assembly would be less stable than the ones shown in the figure. 
+Figure~\ref{fig:addressable} shows a square tetromino with a variety of inputs assembling it, from the minimal solution with just a single species and one colour, up to the fully addressable solution with four species and four colours (\(\widetilde{K}_s = \widetilde{K}_c = 4\)). The intermediate solutions are not necessarily deterministic in terms of which position gets which species, but they will always assemble into the same shape. Some solutions may also be able to form with only three bonds if the fourth patch pair has mismatched colours. However, such an assembly would be less stable than the assemblies shown in the figure. 
 
 It can be argued that the solutions on the bottom row, where \(\widetilde{K}_c=1\), all technically use only one species since all species have identical patches. However, one could imagine an additional property, such as different functionalisation, motivating the distinction. The empty red region in Figure~\ref{fig:addressable}.b) shows combinations of \(\widetilde{K}_s\) and \(\widetilde{K}_c\) for which a solution is not possible. For example, if you use a single species, you cannot use more than one colour.
 
@@ -34,6 +36,7 @@ So, how do we find alternative and simpler input rules for a shape? Surely, ther
 
 
 \section{Satisfiability solving}
+\label{sec:SAT}
 
 Building upon a published method for determining patchy particle interactions for unbounded structures \cite{romano2020designing}, it is possible to formulate and solve satisfiability problems that map onto assembly rules for the bounded polycubes.
 
@@ -183,7 +186,7 @@ Even if the SAT solver determines that a solution exists, it is still possible t
 Because of this, we once again use the stochastic assembler to verify that the rule assembles into the correct shape every time. Each potential rule is evaluated a large number of times (by default \(100\)), calculating an assembly ratio. If the ratio is \(1\), the rule is considered bounded and deterministic and, as such, a valid solution.
 
 
-\section{Finding the minimal assembly rule}
+\subsection{Finding the minimal assembly rule}
 
 By iteratively ruling out lower values of \(\widetilde{K}_s\) and \(\widetilde{K}_c\), a minimal solution can be found, as detailed in Figure~\ref{fig:sat_alg}. It is also possible to generate and compare alternative solutions of varying complexity. While forbidding an undefined solution and retrying could in principle, continue until the computer runs out of memory (or the solution is disproven or valid), the results presented below used a limit of 100 retries before moving on. It is thus possible, albeit unlikely, that the actual minimal solutions were missed, but the solutions found can at least be claimed to be minimised. Instead of interatively forbidding solutions, it is possible to use a solver like Relsat\footnote{Found at \url{https://code.google.com/archive/p/relsat}} to obtain multiple solutions at once, but this also has no guarantee of finding all solutions with the memory available.
 
@@ -435,12 +438,13 @@ While the stochastic assembler works well to test determinism, a more realistic 
 
 % Andrew: Describe! Diffusion, in position and orientation. Hence need to constrain interactions tightly to ensure good mapping to more abstract models.
 
-Besides discrete tile models, self--assembly can also be modelled using simulations of rigid--body spheres called \emph{patchy particles}. The particles diffuse using Molecular Dynamics, updating their positions and orientations according to Newtown's laws of motion. Furthermore, each particle has one or more patches that can interact with and bind the patches of other particles. The angles at which two patches are held together can be modulated to allow for wider or more narrow patches, allowing us to study how bond flexibility affects the assembly dynamics. While the full details should not be necceary to interpret the simulation results, they are provided below for the interested reader:
+Besides discrete tile models, self--assembly can also be modelled using simulations of rigid--body spheres called \emph{patchy particles}. The particles diffuse using Molecular Dynamics, updating their positions and orientations according to Newtown's laws of motion. An Andersen--like thermostat~\cite{russo2009reversible} is used to manage the energy in the system (there is no explicit solvent) and to keep a constant, specified temperature. Furthermore, each particle has one or more patches that can interact with and bind the patches of other particles. The angles at which two patches interact can be modulated to allow for wider or more narrow patches, allowing us to study how the bond flexibility affects the assembly dynamics. Further details of the patchy particle model are provided in Appendix~\ref{ch:appendix_patchy}.
 
 The patchy particle simulator included in the oxDNA package \cite{rovigatti2015comparison} has previously been used by Romano et al., as seen in Figure~\ref{fig:patchy_particles}, to verify the patchy interactions designed by their SAT--solver method \cite{romano2020designing}. A derivative of that patchy particle model is used here, modified to include torsional interactions to account for the polycube requirement of patch orientation alignment.
 
 \begin{figure}[h]
   \centering
+  \vspace{1em}
   \begin{overpic}[width=\textwidth]{figures/patchy_particles.png}
     \put(0,310){a)}
     \put(280,310){b)}
@@ -450,108 +454,9 @@ The patchy particle simulator included in the oxDNA package \cite{rovigatti2015c
   \label{fig:patchy_particles}
 \end{figure}
 
-In the model, each particle is represented by a sphere covered by up to 6 patches at distance $R = 0.5$ distance units (d.u.) from the sphere's centre. The positions of the patches correspond to the three--dimensional Von Neumann neighbourhood around the origin:
-$
- \mathbf{p}_1 = R \left( 0,1,0\right),\, \mathbf{p}_2 = R \left( 0,-1,0 \right),\,   %\\
- \mathbf{p}_3 = R \left( 0,0,1 \right),\, \mathbf{p}_4 = R \left(  0, 0, -1 \right),\, % \\
- \mathbf{p}_5 = R \left( 1,0,0 \right),\, \mathbf{p}_6 = R \left( -1, 0, 0 \right),
-$
-Each patch is additionally assigned an orientation $\mathbf{o}$, which is equal to
-$\pm \mathbf{e}_1, \pm \mathbf{e}_2$, or $\pm \mathbf{e}_3$, which are the base vectors (or their negatives) of the orthonormal base of the particle. The orientation  $\mathbf{o}_a$ assigned to each patch $a$ satisfies $\mathbf{p}_a \cdot \mathbf{o}_a = 0$.
-
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.8\linewidth]{figures/pp.eps}
-\caption{Schematic of the patchy particle alignment angles. Note that, while the figure is drawn in 2D, the particles and vectors are in fact three--dimensional and are not restricted to the depicted plane. The angle \(\theta_a\) is measured between the vectors \(\mathbf{\hat{r}_{ij}}\) (pointing from particle \(i\) to particle \(j\)) and \(\mathbf{\hat{p}_a}\) (pointing from from particle \(i\) to its patch \(a\).  \(\theta_b\). Likewise, the angle \(\theta_b\) is measured between the vectors \(-\mathbf{\hat{r}_{ij}}\) (pointing from particle \(j\) to particle \(i\)) and \(\mathbf{\hat{p}_b}\) (pointing from from particle \(j\) to its patch \(n\). Finally the angle \(\theta_t\) is measured between the orientation vectors of the two patches, \(\mathbf{o}_{a}\) and \(\mathbf{o}_{b}\), which are always orthogonal to \(\mathbf{\hat{p}_a}\) and \(\mathbf{\hat{p}_b}\) respectively.
-}
-\label{fig:pp}
-\end{figure}
-
-We model the interaction between patches using point--like patch interaction, where the interaction between two patches $a$ and $b$ on two distinct particles $i$ and $j$ is given by the following interaction potential:
-\begin{equation}
-V_{\rm patch}(\mathbf{r}_{ij},\mathbf{\Omega}_{ij}) = \delta_{ab} V_{\rm pdist}(r_p) V_{\rm angle}(\theta_a, \theta_b, \theta_t), 
-\end{equation}
- where $\delta_{ab}$ is 1 if colours assigned to patch $a$ and $b$ are compatible and 0 otherwise. The patch potential consists of two components: potential $V_{\rm pdist}$ that only depends on distance between the two patches $r_{ab}$, and $V_{\rm angle}(\theta_a, \theta_b, \theta_t)$ which depends on the mutual orientation $\mathbf{\Omega}_{ij}$ of the two particles as given by angles that are calculated as follows:
-\begin{equation}
-\cos \theta_a =  \mathbf{\hat{r}}_{ij} \cdot \mathbf{\hat{p}}_a, \quad \cos \theta_b =  \mathbf{-\hat{r}}_{ij} \cdot \mathbf{\hat{p}}_b, \quad 
-\cos \theta_t =  \mathbf{o}_{a} \cdot \mathbf{o}_b,
-\end{equation}
-where the above vectors are normalised to 1, as indicated by the hat symbol. As seen in Figure~\ref{fig:pp}, angles $\theta_a$ and $\theta_b$ correspond to the angle between the normalised vector between the centres of mass of patchy particle $i$ and $j$ and the normalised vector pointing to patch $a$ or $b$ respectively. Angle $\theta_t$ corresponds to the angle between the orientations associated with the respective patches. The interaction potential is 
-\begin{equation}
-    V_{\rm angle}(\theta_a, \theta_b, \theta_t) = V_{\rm angmod}(\theta_a) V_{\rm agmod}(\theta_b)
-    V_{\rm agmod}(\theta_t) ,
-\end{equation}
-where $V_{\rm agmod}$ is angular modulation function defined to be equal to one if the angle $\theta$ equals to the desired angle $\theta_0$ (which are set to $0$, requiring perfect alignment of the respective vectors), and parameters $a$ and  $\Delta$ then define the width of the potential.
-\begin{equation}
-V_{\rm angmod}(\theta) = \begin{cases}
-	V_{\rm mod}(\theta, a, \theta_0)  & \text{if $ \theta_0 - \Delta < \theta < \theta_0 + \Delta  $},\\
-	V_{\rm smooth} (\theta, b, \theta_0 - \Delta_c) & \text{if $\theta_0 - \Delta_c < \theta < \theta_0-\Delta $},\\
-	V_{\rm smooth} (\theta, b, \theta_0 + \Delta_c) & \text{if $\theta_0 + \Delta < \theta < \theta_0+\Delta_c$},\\
-	0 & \text{otherwise}.
-	\end{cases} 
-\end{equation}
-where the additional parameters $b$ and $\Delta_c$ are set so that the piece--wise function $V_{\rm angmod}(\theta)$ is differentiable (See Figure~\ref{fig:narrow_types}). The potentials used in the definition are 
-\begin{equation}
-\label{eq:smooth}
-V_{\rm smooth} (x, b, x_c) = b(x_c - x)^2, 
-\end{equation}
-and
-\begin{equation}
-V_{\rm mod} (\theta, a, \theta_0) = 1 - a (\theta-\theta_0)^2.
-\end{equation}
-
-Unless otherwise specified, the default narrow type 0 was used, with 
-$a = 0.46$ and $\Delta = 0.7$ for $V_{\rm angmod}$ as seen in Figure~\ref{fig:narrow_types}.
-
-\begin{figure}[h]
-%\centering
-\includegraphics[width=\linewidth]{figures/patchysim/nts.eps}
-\begin{tabular}{|c|l||l|l|l|l|l|}
-    \hline
-    nt & width & \(\theta_0\) & \(\Delta\) & \(\Delta_c\) & \(a\) & \(b\) \\ [0.5ex] 
-    \hline\hline
-    0 & 2.345750 & 0 & 0.7 & 3.105590 & 0.46 & 0.133855 \\
-    1 & 0.954736 & 0 & 0.2555 & 1.304631 & 3 & 0.730604 \\
-    2 & 0.656996 & 0 & 0.2555 & 0.782779 & 5 & 2.42282 \\
-    3 & 0.396613 & 0 & 0.17555 & 0.438183 & 13 & 8.689492 \\
-    4 & 0.336622 & 0 & 0.17555 & 0.322741 & 17.65 & 21.0506 \\
-    \hline
-\end{tabular}
-\caption{Patchy particle narrow types, causing patches of different widths. The table shows the constants used for each narrow type, with the plot showing the different angular modulation potentials as a function of angle in radians. The width is measured between the two points intersecting the dashed line, where \(V_{\text{angmod}}=\frac{1}{2}\). The default narrow type \(0\) is the least narrow. }
-\label{fig:narrow_types}
-\end{figure}
-
-The additional distance--modulation term in the potential between a pair of patches on two distinct particles is 
-\begin{equation}
-    \label{eq_patch}
-    V_{\rm pdist}(r_p) =  \begin{cases} 
-                          %-1.001 \delta_{ij} e^{- \left( \frac{r_p}{\alpha} \right)^{10}} - C & \text{if $r_p \leq r_{\rm pmax}  $}\\
-                          -1.001  \exp{\left[- \left( \frac{r_p}{\alpha} \right)^{10}\right]} + C & \text{if $r_p \leq r_{\rm pmax}  $} \\
-                          0 & \text{otherwise}
-                        \end{cases}
-    %e^{ -\left( \frac{r - \delta}{\sigma} \right)^2} 
-\end{equation}
-where $r_p$ is the distances between a pair of patches, and $\alpha = 0.12\, {\rm d.u.}$ sets the patch width. The constant $C$ is set so that $V_{\rm patch}(r_{\rm pmax}) = 0$ for $r_{\rm pmax} = 0.18\, \rm{d.u.}$. The patchy particles further interact through excluded volume interactions ensuring that two particles do not overlap:
-\begin{equation}
-    f_{\rm exc}(r,\epsilon,\sigma,r^{\star}) = \begin{cases}
-	V_{\rm LJ}(r, \epsilon, \sigma) & \text{if $r < r^{\star} $},\\
-	\epsilon V_{\rm smooth} (r, b, r^c) & \text{if $r^{\star} < r < r^c$},\\
-	0 & \text{otherwise}.
-	\end{cases} 
-\end{equation}
-where $r$ is the distance between the centers of mass of the patchy particles, and $\sigma$ is set to $2R = 1.0$ distance units, twice the desired radius of the patchy particle.
-The repulsive potential is a piecewise function consisting of the Lennard--Jones potential function:
-\begin{equation} 
-V_{\rm LJ}(r,  \sigma) = 8 \left[ \left(\frac{\sigma}{r}\right) ^{12} - \left(\frac{\sigma}{r}\right) ^{6} \right].
-\end{equation}
-that is truncated using a quadratic smoothing function from \eqref{eq:smooth}, with $b$ and $x_c$ set so that the potential is a differentiable function that is equal to $0$ after a specified cutoff distance $r^c = 0.8$.  
-
-The patchy particle system was simulated using rigid--body Molecular Dynamics with an Andersen--like thermostat~\cite{russo2009reversible}. During the simulation, each patch was only able to bind to one other patch at the time, and if the binding energy between a pair of patches, as given by Eq.~\eqref{eq_patch}, is smaller than 0, none of the patches can bind to any other patch until their pair interaction potential is again 0.
-The modified oxDNA implementation used for the patchy particle simulations can be found at \href{https://github.com/Akodiat/oxDNA_torsion}{https://github.com/Akodiat/oxDNA\_torsion}, see Section~\ref{sec:appendix_patchy} for more details.
-
 \subsection{Yield calculation}
 
-The patchy particle simulation yields are calculated using edge-induced subgraph isomorphism \cite{networkx}. 
+The patchy particle simulation yields are  mainly calculated using edge-induced subgraph isomorphism \cite{networkx}. 
 We annotate \(\sigma(G_a,G_b) == \text{True}\) if the graph \(G_a\) is an edge-induced subgraph of the graph \(G_b\).
 The connectivity graph \(G_i\) for each assembled particle cluster is compared to the graph for the intended shape \(G_{correct}\). If \(G_i\) is a large enough edge-induced subgraph of \(G_{\text{correct}}\), meaning that its particles are connected like a large enough subset (the current results use a 75\% size cutoff) of the correct shape, it contributes to the yield with its fraction of correctly assembled particles:
 \begin{equation}

@@ -166,8 +166,111 @@ As an example of custom scripting, it is also possible to extract the CNF clause
  You can also click a button to attempt to solve the shape within the browser. This is, however, usually only feasible for small shapes using SAT, so a substitution simplifier is also employed to work towards a minimal solution by substituting similar species in the fully addressable solution.
 
 
-\subsection{Patchy particle code}
-\label{sec:appendix_patchy}
+\chapter{Patchy particle model}
+\label{ch:appendix_patchy}
+As described in Section~\ref{sec:patchy_particles}, the patchy particle model is used is a derivative of the oxDNA patchy particle model used by Romano et al. \cite{rovigatti2015comparison}, modified to include torsional interactions to account for the polycube requirement of patch orientation alignment.
+
+In the model, each particle is represented by a sphere covered by up to 6 patches at distance $R = 0.5$ distance units (d.u.) from the sphere's centre. The positions of the patches correspond to the three--dimensional Von Neumann neighbourhood around the origin:
+$
+ \mathbf{p}_1 = R \left( 0,1,0\right),\, \mathbf{p}_2 = R \left( 0,-1,0 \right),\,   %\\
+ \mathbf{p}_3 = R \left( 0,0,1 \right),\, \mathbf{p}_4 = R \left(  0, 0, -1 \right),\, % \\
+ \mathbf{p}_5 = R \left( 1,0,0 \right),\, \mathbf{p}_6 = R \left( -1, 0, 0 \right),
+$
+Each patch is additionally assigned an orientation $\mathbf{o}$, which is equal to
+$\pm \mathbf{e}_1, \pm \mathbf{e}_2$, or $\pm \mathbf{e}_3$, which are the base vectors (or their negatives) of the orthonormal base of the particle. The orientation  $\mathbf{o}_a$ assigned to each patch $a$ satisfies $\mathbf{p}_a \cdot \mathbf{o}_a = 0$.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\linewidth]{figures/pp.eps}
+\caption{Schematic of the patchy particle alignment angles. Note that, while the figure is drawn in 2D, the particles and vectors are in fact three--dimensional and are not restricted to the depicted plane. The angle \(\theta_a\) is measured between the vectors \(\mathbf{\hat{r}_{ij}}\) (pointing from particle \(i\) to particle \(j\)) and \(\mathbf{\hat{p}_a}\) (pointing from from particle \(i\) to its patch \(a\).  \(\theta_b\). Likewise, the angle \(\theta_b\) is measured between the vectors \(-\mathbf{\hat{r}_{ij}}\) (pointing from particle \(j\) to particle \(i\)) and \(\mathbf{\hat{p}_b}\) (pointing from from particle \(j\) to its patch \(n\). Finally the angle \(\theta_t\) is measured between the orientation vectors of the two patches, \(\mathbf{o}_{a}\) and \(\mathbf{o}_{b}\), which are always orthogonal to \(\mathbf{\hat{p}_a}\) and \(\mathbf{\hat{p}_b}\) respectively.
+}
+\label{fig:pp}
+\end{figure}
+
+We model the interaction between patches using point--like patch interaction, where the interaction between two patches $a$ and $b$ on two distinct particles $i$ and $j$ is given by the following interaction potential:
+\begin{equation}
+V_{\rm patch}(\mathbf{r}_{ij},\mathbf{\Omega}_{ij}) = \delta_{ab} V_{\rm pdist}(r_p) V_{\rm angle}(\theta_a, \theta_b, \theta_t), 
+\end{equation}
+ where $\delta_{ab}$ is 1 if colours assigned to patch $a$ and $b$ are compatible and 0 otherwise. The patch potential consists of two components: potential $V_{\rm pdist}$ that only depends on distance between the two patches $r_{ab}$, and $V_{\rm angle}(\theta_a, \theta_b, \theta_t)$ which depends on the mutual orientation $\mathbf{\Omega}_{ij}$ of the two particles as given by angles that are calculated as follows:
+\begin{equation}
+\cos \theta_a =  \mathbf{\hat{r}}_{ij} \cdot \mathbf{\hat{p}}_a, \quad \cos \theta_b =  \mathbf{-\hat{r}}_{ij} \cdot \mathbf{\hat{p}}_b, \quad 
+\cos \theta_t =  \mathbf{o}_{a} \cdot \mathbf{o}_b,
+\end{equation}
+where the above vectors are normalised to 1, as indicated by the hat symbol. As seen in Figure~\ref{fig:pp}, angles $\theta_a$ and $\theta_b$ correspond to the angle between the normalised vector between the centres of mass of patchy particle $i$ and $j$ and the normalised vector pointing to patch $a$ or $b$ respectively. Angle $\theta_t$ corresponds to the angle between the orientations associated with the respective patches. The interaction potential is 
+\begin{equation}
+    V_{\rm angle}(\theta_a, \theta_b, \theta_t) = V_{\rm angmod}(\theta_a) V_{\rm agmod}(\theta_b)
+    V_{\rm agmod}(\theta_t) ,
+\end{equation}
+where $V_{\rm agmod}$ is angular modulation function defined to be equal to one if the angle $\theta$ equals to the desired angle $\theta_0$ (which are set to $0$, requiring perfect alignment of the respective vectors), and parameters $a$ and  $\Delta$ then define the width of the potential.
+\begin{equation}
+V_{\rm angmod}(\theta) = \begin{cases}
+	V_{\rm mod}(\theta, a, \theta_0)  & \text{if $ \theta_0 - \Delta < \theta < \theta_0 + \Delta  $},\\
+	V_{\rm smooth} (\theta, b, \theta_0 - \Delta_c) & \text{if $\theta_0 - \Delta_c < \theta < \theta_0-\Delta $},\\
+	V_{\rm smooth} (\theta, b, \theta_0 + \Delta_c) & \text{if $\theta_0 + \Delta < \theta < \theta_0+\Delta_c$},\\
+	0 & \text{otherwise}.
+	\end{cases} 
+\end{equation}
+where the additional parameters $b$ and $\Delta_c$ are set so that the piece--wise function $V_{\rm angmod}(\theta)$ is differentiable (See Figure~\ref{fig:narrow_types}). The potentials used in the definition are 
+\begin{equation}
+\label{eq:smooth}
+V_{\rm smooth} (x, b, x_c) = b(x_c - x)^2, 
+\end{equation}
+and
+\begin{equation}
+V_{\rm mod} (\theta, a, \theta_0) = 1 - a (\theta-\theta_0)^2.
+\end{equation}
+
+Unless otherwise specified, the default narrow type 0 was used, with 
+$a = 0.46$ and $\Delta = 0.7$ for $V_{\rm angmod}$ as seen in Figure~\ref{fig:narrow_types}.
+
+\begin{figure}[h]
+%\centering
+\includegraphics[width=\linewidth]{figures/patchysim/nts.eps}
+\begin{tabular}{|c|l||l|l|l|l|l|}
+    \hline
+    nt & width & \(\theta_0\) & \(\Delta\) & \(\Delta_c\) & \(a\) & \(b\) \\ [0.5ex] 
+    \hline\hline
+    0 & 2.345750 & 0 & 0.7 & 3.105590 & 0.46 & 0.133855 \\
+    1 & 0.954736 & 0 & 0.2555 & 1.304631 & 3 & 0.730604 \\
+    2 & 0.656996 & 0 & 0.2555 & 0.782779 & 5 & 2.42282 \\
+    3 & 0.396613 & 0 & 0.17555 & 0.438183 & 13 & 8.689492 \\
+    4 & 0.336622 & 0 & 0.17555 & 0.322741 & 17.65 & 21.0506 \\
+    \hline
+\end{tabular}
+\caption{Patchy particle narrow types, causing patches of different widths. The table shows the constants used for each narrow type, with the plot showing the different angular modulation potentials as a function of angle in radians. The width is measured between the two points intersecting the dashed line, where \(V_{\text{angmod}}=\frac{1}{2}\). The default narrow type \(0\) is the least narrow. }
+\label{fig:narrow_types}
+\end{figure}
+
+The additional distance--modulation term in the potential between a pair of patches on two distinct particles is 
+\begin{equation}
+    \label{eq_patch}
+    V_{\rm pdist}(r_p) =  \begin{cases} 
+                          %-1.001 \delta_{ij} e^{- \left( \frac{r_p}{\alpha} \right)^{10}} - C & \text{if $r_p \leq r_{\rm pmax}  $}\\
+                          -1.001  \exp{\left[- \left( \frac{r_p}{\alpha} \right)^{10}\right]} + C & \text{if $r_p \leq r_{\rm pmax}  $} \\
+                          0 & \text{otherwise}
+                        \end{cases}
+    %e^{ -\left( \frac{r - \delta}{\sigma} \right)^2} 
+\end{equation}
+where $r_p$ is the distances between a pair of patches, and $\alpha = 0.12\, {\rm d.u.}$ sets the patch width. The constant $C$ is set so that $V_{\rm patch}(r_{\rm pmax}) = 0$ for $r_{\rm pmax} = 0.18\, \rm{d.u.}$. The patchy particles further interact through excluded volume interactions ensuring that two particles do not overlap:
+\begin{equation}
+    f_{\rm exc}(r,\epsilon,\sigma,r^{\star}) = \begin{cases}
+	V_{\rm LJ}(r, \epsilon, \sigma) & \text{if $r < r^{\star} $},\\
+	\epsilon V_{\rm smooth} (r, b, r^c) & \text{if $r^{\star} < r < r^c$},\\
+	0 & \text{otherwise}.
+	\end{cases} 
+\end{equation}
+where $r$ is the distance between the centers of mass of the patchy particles, and $\sigma$ is set to $2R = 1.0$ distance units, twice the desired radius of the patchy particle.
+The repulsive potential is a piecewise function consisting of the Lennard--Jones potential function:
+\begin{equation} 
+V_{\rm LJ}(r,  \sigma) = 8 \left[ \left(\frac{\sigma}{r}\right) ^{12} - \left(\frac{\sigma}{r}\right) ^{6} \right].
+\end{equation}
+that is truncated using a quadratic smoothing function from \eqref{eq:smooth}, with $b$ and $x_c$ set so that the potential is a differentiable function that is equal to $0$ after a specified cutoff distance $r^c = 0.8$.  
+
+The patchy particle system was simulated using rigid--body Molecular Dynamics with an uring the simulation, each patch was only able to bind to one other patch at the time, and if the binding energy between a pair of patches, as given by Eq.~\eqref{eq_patch}, is smaller than 0, none of the patches can bind to any other patch until their pair interaction potential is again 0.
+
+
+\section{Patchy particle code}
+
 The modified version of oxDNA used to simulate torsional patchy particles can be found at \url{https://github.com/Akodiat/oxDNA_torsion}. To download and combile, run:
 
 \begin{lstlisting}[language=bash]
