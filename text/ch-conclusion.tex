@@ -1,30 +1,18 @@
-\chapter{Conclusion}
+\chapter{Discussion}
 \label{ch:conclusion}
 
-In conclusion the design of self-assembling nanostructures has been investigated on both an abstract and a more detailed level. The presented projects have resulted in tools and methods for creating, simulating, and analysing self-limiting modular structures with minimal complexity, potentially containing building blocks created in different design software.
+In conclusion, the design of self--assembling nanostructures has been investigated on both an abstract and a more detailed level. The presented projects have resulted in tools and methods for creating, simulating, and analysing self--limiting modular structures with minimal complexity, potentially containing building blocks created in different design software.
 
 
-\section{Abstract self-assembly and design}
-
-The polycube model provides a simple way to self-assemble and design modular shapes. The stochastic assembler presented in Chapter~\ref{ch:polycubes1} provides a method to quickly evaluate input candidates, ensuring that they give the intended output.
-
-The same chapter also showed how large samples of the input space give valuable insight into the frequency of complex and simple shapes. With low complexity polycubes exponentially more common than their high complexity counterparts (during random sampling), we can imagine how some simplicity in nature is not necessarily an evolutionary adaption but simply a more probable outcome.
-
-While Chapter~\ref{ch:polycubes1} showed how to map input rules into output shapes, Chapter~\ref{ch:polycubes2} showed how to find the input rules that assemble a given shape, making it possible to determine the minimal complexity rule for an intended design. This should facilitate the design of modular experimental structures such as those presented in Chapter~\ref{ch:polycubes_intro}.
-
-\section{Nucleic acid design and simulation}
-
-The oxView online tool presented in Chapter~\ref{ch:oxview} has significantly simplified the setup, visualisation, and analysis of oxDNA simulations and is already helping hundreds of users every week. The software has also grown into a capable design tool on its own, with the oxDNA integration being just one of its many features. The ability to import and combine structures from external tools facilitates the design of modular multi-component structures such as those presented in Chapter~\ref{ch:oxview_intro}.
-
-\section{Future work}
-
-There are many exciting avenues of further exploration for both projects. For polycubes, one perhaps obvious comment is that there is nothing special about cubes in particular, so a more general model of self-assembling patchy shapes could prove a useful tool for many problems. The reason I choose cubes, besides being a natural 3D extension of the polyomino squares, is that they fit well in a cartesian coordinate system. However, that is a minor problem to overcome.
+There are many exciting avenues of further exploration for both projects. For polycubes, one perhaps obvious comment is that there is nothing special about cubes in particular, so a more general model of self--assembling patchy shapes could prove a useful tool for many problems. The reason I choose cubes, besides being a natural 3D extension of the polyomino squares, is that they fit well in a cartesian coordinate system. However, that is a minor problem to overcome.
 
 % Andrew: There is not enought discussion of this in Chapter 3 
 
-Furthermore, with experimental applications such as the ever-larger polyhedral shells presented in Section~\ref{sec:shape-complementary}, we might ask, given a maximum complexity - for example, a limited number of possible colours - what is the largest bounded structure that can deterministically assemble?
+Furthermore, with experimental applications such as the ever--larger polyhedral shells presented in Section~\ref{sec:shape-complementary}, we might ask, given a maximum complexity - for example, a limited number of possible colours - what is the largest bounded structure that can deterministically assemble?
+
+SAT solver re--enable a variable interaction matrix
 
 Another question for the future is the complexity of polycubes with staged assembly, similar to that done by Demaine et al. \cite{demaine2008staged}. By assembling a polycube through a hierarchy of separate stages, will an increased complexity in the number of stages decrease the number of colours and species required in an interesting way?
 
-As for the oxView project, development is continually ongoing, but we have no major additional features planned at the moment. One intriguing (but likely time-consuming) possibility would be to integrate other coarse-grained simulation options, for example, mrDNA, similarly to how oxDNA is connected using oxServe.
-Another ambitious feature would be to include a 2D strand view such as in caDNAno or Adenita, possibly through a connection to the also web-based scadnano.
+As for the oxView project, development is continually ongoing, but we have no major additional features planned at the moment. One intriguing (but likely time--consuming) possibility would be to integrate other coarse--grained simulation options, for example, mrDNA, similarly to how oxDNA is connected using oxServe.
+Another ambitious feature would be to include a 2D strand view such as in caDNAno or Adenita, possibly through a connection to the also web--based scadnano.

@@ -13,9 +13,9 @@
 %%%%% CHOOSE PAGE LAYOUT
 % The most common choices should be below.  You can also do other things, like replacing "a4paper" with "letterpaper", etc.
 
-% This one will format for two-sided binding (ie left and right pages have mirror margins; blank pages inserted where needed):
+% This one will format for two--sided binding (ie left and right pages have mirror margins; blank pages inserted where needed):
 %\documentclass[hidelinks, a4paper, twoside]{ociamthesis}
-% This one will format for one-sided binding (ie left margin > right margin; no extra blank pages):
+% This one will format for one--sided binding (ie left margin > right margin; no extra blank pages):
 \documentclass[a4paper]{ociamthesis}
 % This one will format for PDF output (ie equal margins, no extra blank pages):
 %\documentclass[a4paper,nobind]{ociamthesis} 
@@ -29,6 +29,8 @@
 \usepackage{tikz} 
 
 \usepackage{listings}
+
+\usepackage{placeins} % For use of \FloatBarrier
 
 \lstdefinelanguage{JavaScript}{
   keywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, void, while, with},
@@ -88,7 +90,7 @@
     filecolor=oxfordblue,
 	  citecolor=oxfordblue,
     urlcolor=oxfordblue,
-    pdftitle={Design and modular self-assembly of nanostructures}
+    pdftitle={Design and modular self--assembly of nanostructures}
 }
 
 %%%%% SELECT YOUR DRAFT OPTIONS
@@ -131,7 +133,7 @@
 
 %%%%% THESIS / TITLE PAGE INFORMATION
 % Everybody needs to complete the following:
-\title{Design and modular self-assembly of nanostructures}
+\title{Design and modular self--assembly of nanostructures}
 \author{Joakim Bohlin}
 \college{Balliol College}
 

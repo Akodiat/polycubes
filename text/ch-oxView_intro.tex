@@ -9,7 +9,7 @@
 
 \minitoc
 
-While previous chapters have covered modular self-assembly on a very abstract level, approximating the modules as simple cubes or patchy particles, this chapter will introduce tools and methods for designing and simulating individual structures or modules folded using DNA (or RNA).
+While previous chapters have covered modular self--assembly on a very abstract level, approximating the modules as simple cubes or patchy particles, this chapter will introduce tools and methods for designing and simulating individual structures or modules folded using DNA (or RNA).
 
 The following sections will cover a selection of practical design and simulation tools that have been developed over the years, providing context for the presentation of my contributions to the \emph{oxView} tool in Chapter~\ref{ch:oxview}.
 
@@ -20,15 +20,15 @@ The following sections will cover a selection of practical design and simulation
 
 %This is accomplished as I develop new tools and scripts while learning about the simulation methods and the designs that various laboratories are interested in.
 
-%This chapter describes the currently available tools for simulation and design of individual module structures. DNA and RNA structures can be digitally represented in many different formats, for many different uses, and with different levels of coarse-graining. 
+%This chapter describes the currently available tools for simulation and design of individual module structures. DNA and RNA structures can be digitally represented in many different formats, for many different uses, and with different levels of coarse--graining. 
 
 %The following sections cover my results over the last year, investigating methods for converting designs into the oxDNA/RNA format and for visualising and analysing the simulation results.
 
 \section{Design tools for DNA origami}\label{sec:design_tools}
-Designing a DNA origami structure by hand would be very laborious for anything but the most simple design. A host of computer-aided design tools have been introduced over the years to make things easier. This section will cover some of the more common examples.
+Designing a DNA origami structure by hand would be very laborious for anything but the most simple design. A host of computer--aided design tools have been introduced over the years to make things easier. This section will cover some of the more common examples.
 
-\subsection{Lattice-based design tools}
-The caDNAno design tool \cite{cadnano} and the web-based scadnano \cite{scadnano} it inspired, allow the user to design DNA origami structures on a lattice of parallel helices.
+\subsection{Lattice--based design tools}
+The caDNAno design tool \cite{cadnano} and the web--based scadnano \cite{scadnano} it inspired, allow the user to design DNA origami structures on a lattice of parallel helices.
 
 \subsubsection{caDNAno}
 \label{sec:cadnano}
@@ -45,10 +45,10 @@ Finally, caDNAno is also available as a plugin to the Autodesk Maya software, wh
 \end{figure}
 
 \subsubsection{Scadnano}
-Scadnano \cite{scadnano} (short for \emph{scriptable caDNAno}) is a relatively new design tool, independent from but inspired by caDNAno version 2. The main difference is that Scadnano is entirely web-based (thus not requiring any installation). The python code base is also designed to make it easier to write scripts generating DNA designs. Scadnano can be found at \url{https://scadnano.org/}.
+Scadnano \cite{scadnano} (short for \emph{scriptable caDNAno}) is a relatively new design tool, independent from but inspired by caDNAno version 2. The main difference is that Scadnano is entirely web--based (thus not requiring any installation). The python code base is also designed to make it easier to write scripts generating DNA designs. Scadnano can be found at \url{https://scadnano.org/}.
 
-\subsection{Top-down shape converters}
-While tools like caDNAno simplify bottom-up design, where the user builds structures from individual strands and nucleotides, a top-down tool can take a polyhedral target shape as input and provide a suitable origami design as output. 
+\subsection{Top--down shape converters}
+While tools like caDNAno simplify bottom--up design, where the user builds structures from individual strands and nucleotides, a top--down tool can take a polyhedral target shape as input and provide a suitable origami design as output. 
 
 % Mention DNA bricks software?
 
@@ -56,7 +56,7 @@ While tools like caDNAno simplify bottom-up design, where the user builds struct
 \label{sec:bscor}
 %https://doi.org/10.1038/nature14586
 
-In 2015, Benson et al. published a method for converting arbitrary mesh designs into a DNA origami mesh \cite{vHelix}. Figure~\ref{fig:bscor} shows a set of example polyhedral shapes, with the designed shape in Figure~\ref{fig:bscor}.a), the output DNA design in Figure~\ref{fig:bscor}.b), and microscopy characterisations in Figure~\ref{fig:bscor}.c-d). A follow-up paper in 2016 also introduced the ability to design flat-sheet meshes \cite{benson2016computer}. BSCOR uses single DNA duplex edges, with double edges added whenever topologically necessary.
+In 2015, Benson et al. published a method for converting arbitrary mesh designs into a DNA origami mesh \cite{vHelix}. Figure~\ref{fig:bscor} shows a set of example polyhedral shapes, with the designed shape in Figure~\ref{fig:bscor}.a), the output DNA design in Figure~\ref{fig:bscor}.b), and microscopy characterisations in Figure~\ref{fig:bscor}.c-d). A follow--up paper in 2016 also introduced the ability to design flat--sheet meshes \cite{benson2016computer}. BSCOR uses single DNA duplex edges, with double edges added whenever topologically necessary.
 
 \begin{figure}[ht]
   \centering
@@ -70,7 +70,7 @@ In 2015, Benson et al. published a method for converting arbitrary mesh designs 
     \put(-30,210){c)}
     \put(-30,70){d)}
   \end{overpic}
-  \caption{3D meshes rendered in DNA origami using BSCOR. Adapted from \cite{vHelix} and \cite{vHelixWeb}. \textbf{a)} Automated design process, where a scaffold is routed onto a mesh, each helix is relaxed using spring forces, and staple strands are added. \textbf{b)} Examples of initial meshes. \textbf{b)} Completed DNA designs with strands rendered as tubes. \textbf{c)} Negative-stain dry-state TEM micrographs of each design.}
+  \caption{3D meshes rendered in DNA origami using BSCOR. Adapted from \cite{vHelix} and \cite{vHelixWeb}. \textbf{a)} Automated design process, where a scaffold is routed onto a mesh, each helix is relaxed using spring forces, and staple strands are added. \textbf{b)} Examples of initial meshes. \textbf{b)} Completed DNA designs with strands rendered as tubes. \textbf{c)} Negative--stain dry--state TEM micrographs of each design.}
   \label{fig:bscor}
 \end{figure}
 
@@ -86,7 +86,7 @@ In 2015, Benson et al. published a method for converting arbitrary mesh designs 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=\textwidth]{figures/athena.jpeg}
-    \caption{Automatic wireframe origami shapes using ATHENA. Adapted from \cite{athena}. ATHENA includes the previous design packages PERDIX, METIS DAEDALUS and TALOS for 2D and 3D wireframe design, using double crossover (DX) and six-helix bundle (6HB) edges respectively. }
+    \caption{Automatic wireframe origami shapes using ATHENA. Adapted from \cite{athena}. ATHENA includes the previous design packages PERDIX, METIS DAEDALUS and TALOS for 2D and 3D wireframe design, using double crossover (DX) and six--helix bundle (6HB) edges respectively. }
     \label{fig:athena}
   \end{center}
 \end{figure}
@@ -95,12 +95,12 @@ In 2015, Benson et al. published a method for converting arbitrary mesh designs 
 % M. Matthies
 % https://pubs.acs.org/doi/abs/10.1021/acs.nanolett.6b00381
 
-\subsection{Free-form or hybrid tools}
-The final category of design tools is either free-form, where designs are drawn without a lattice, or hybrid tools combining both lattice and free-form design. 
+\subsection{Free--form or hybrid tools}
+The final category of design tools is either free--form, where designs are drawn without a lattice, or hybrid tools combining both lattice and free--form design. 
 
 \subsubsection{Tiamat}
 \label{sec:tiamat}
-Tiamat is an early free-form design tool (introduced in 2009) \cite{Tiamat} running exclusively on Microsoft Windows. The second version can handle both DNA and RNA designs, either drawing them from scratch or importing them from PDB files. It can also export JSON format for easier conversion to other formats. See Figure~\ref{fig:tiamat} for a screenshot of the user interface of Tiamat 2, where a DNA tetrahedron is loaded.
+Tiamat is an early free--form design tool (introduced in 2009) \cite{Tiamat} running exclusively on Microsoft Windows. The second version can handle both DNA and RNA designs, either drawing them from scratch or importing them from PDB files. It can also export JSON format for easier conversion to other formats. See Figure~\ref{fig:tiamat} for a screenshot of the user interface of Tiamat 2, where a DNA tetrahedron is loaded.
 
 \begin{figure}[ht]
   \begin{center}
@@ -112,19 +112,19 @@ Tiamat is an early free-form design tool (introduced in 2009) \cite{Tiamat} runn
 
 \subsubsection{vHelix}
 \label{sec:vhelix}
-The free-form tool vHelix \cite{vHelix} is a plugin for the commersial Autodesk Maya software and was developed together with the BSCOR toolkit. Users can import the ``rpoly'' wireframe result from BSCOR, create designs from scratch, or import caDNAno files. It is also possible to export oxDNA simulation files. An example of the vHelix interface is shown in Figure~\ref{fig:vhelix}. 
+The free--form tool vHelix \cite{vHelix} is a plugin for the commersial Autodesk Maya software and was developed together with the BSCOR toolkit. Users can import the ``rpoly'' wireframe result from BSCOR, create designs from scratch, or import caDNAno files. It is also possible to export oxDNA simulation files. An example of the vHelix interface is shown in Figure~\ref{fig:vhelix}. 
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=\textwidth]{figures/vhelix.jpg}
-    \caption{Free-form editing in vHelix. Image is from the vHelix website \url{http://www.vhelix.net/} \cite{vHelixWeb}.}
+    \caption{Free--form editing in vHelix. Image is from the vHelix website \url{http://www.vhelix.net/} \cite{vHelixWeb}.}
     \label{fig:vhelix}
   \end{center}
 \end{figure}
 
 
 \subsubsection{Adenita}
-Adenita \cite{miao_tvcg_2018} is a hybrid free-form editing tool developed as a plugin to the commersial SAMSON toolkit. As seen in Figure~\ref{fig:adenita}.a), the design can be visualised and edited at multiple levels of abstraction, from an all-atom representation, through nucleotides and strands to cylinders representing entire helices. Strands can be drawn on a lattice in a 2D view or edited in 3D. Figure~\ref{fig:adenita}.b) shows some of the available editing and visualisation tools. Note, for example, the wireframe creation tool based on the Daedalus algorithm. Adenita can also load caDNAno files and export oxDNA simulation files.
+Adenita \cite{miao_tvcg_2018} is a hybrid free--form editing tool developed as a plugin to the commersial SAMSON toolkit. As seen in Figure~\ref{fig:adenita}.a), the design can be visualised and edited at multiple levels of abstraction, from an all--atom representation, through nucleotides and strands to cylinders representing entire helices. Strands can be drawn on a lattice in a 2D view or edited in 3D. Figure~\ref{fig:adenita}.b) shows some of the available editing and visualisation tools. Note, for example, the wireframe creation tool based on the Daedalus algorithm. Adenita can also load caDNAno files and export oxDNA simulation files.
 
 Like vHelix (Section~\ref{sec:vhelix}), Adenita is tied to the editor for which it is a plugin, requiring multiple installations.
 
@@ -135,30 +135,30 @@ Like vHelix (Section~\ref{sec:vhelix}), Adenita is tied to the editor for which 
       \put(-20,400){a)}
       \put(-20,100){b)}
     \end{overpic}
-    \caption{Adenita, adapted from \cite{miao_tvcg_2018}. \textbf{a)} A DNA double-helix visualised at different abstraction levels, with a purple band highlihghting a specific base-pair at all the four main levels. \textbf{b)} Available editing and visualisation tools in Adenita.}
+    \caption{Adenita, adapted from \cite{miao_tvcg_2018}. \textbf{a)} A DNA double--helix visualised at different abstraction levels, with a purple band highlihghting a specific base--pair at all the four main levels. \textbf{b)} Available editing and visualisation tools in Adenita.}
     \label{fig:adenita}
   \end{center}
 \end{figure}
 
 \subsubsection{MagicDNA}
-MagicDNA \cite{huang2021integrated} is another hybrid design tool using orientable lattices. As seen in Figure~\ref{fig:magicDNA}, it has a computer-aided design workflow where geometry can be specified from helix cross-sections or imported from a part library, then assembled and oriented into an integrated structure (using multiple scaffolds if necessary). MagicDNA is built as an application for the MATLAB software, so (like the previous two tools) installation requires a commersial third-party tool.
+MagicDNA \cite{huang2021integrated} is another hybrid design tool using orientable lattices. As seen in Figure~\ref{fig:magicDNA}, it has a computer--aided design workflow where geometry can be specified from helix cross--sections or imported from a part library, then assembled and oriented into an integrated structure (using multiple scaffolds if necessary). MagicDNA is built as an application for the MATLAB software, so (like the previous two tools) installation requires a commersial third--party tool.
 
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=\textwidth]{figures/magicDNA.jpeg}
-    \caption{MagicDNA design workflow, adapted from \cite{huang2021integrated}. Assemblies can be created from line drawings and helix cross sections or imported from a library of parts. After strand routing and some optional fine-tuning in caDNAno, designs can be exported as sequences for fabrication or oxDNA files for simulation.}
+    \caption{MagicDNA design workflow, adapted from \cite{huang2021integrated}. Assemblies can be created from line drawings and helix cross sections or imported from a library of parts. After strand routing and some optional fine--tuning in caDNAno, designs can be exported as sequences for fabrication or oxDNA files for simulation.}
     \label{fig:magicDNA}
   \end{center}
 \end{figure}
 
 \subsubsection{OxView}
-The oxView application \cite{poppleton2020design, bohlin2022oxview} was developed as part of this thesis project and will be described more in Chapter~\ref{ch:oxview}. Compared to the other design tools introduced here, oxView excels in combining designs from various formats, as well as easily preparing structures for oxDNA simulation (Section~\ref{sec:oxDNA}). Finally, oxView does not require any installation and is immediately available as a web-app at \url{www.oxview.org}.
+The oxView application \cite{poppleton2020design, bohlin2022oxview} was developed as part of this thesis project and will be described more in Chapter~\ref{ch:oxview}. Compared to the other design tools introduced here, oxView excels in combining designs from various formats, as well as easily preparing structures for oxDNA simulation (Section~\ref{sec:oxDNA}). Finally, oxView does not require any installation and is immediately available as a web--app at \url{www.oxview.org}.
 
 \section{Nucleic acid simulation models}
-Simulating a structure can both guide decisions at the design stage and provide insight for understanding experimental results. Coarse-grained models tend to run faster but may lose some accuracy compared to models with more detail. This section covers simulation models at an increasing level of coarse-graining, from individual atoms to cylindrical helices.
+Simulating a structure can both guide decisions at the design stage and provide insight for understanding experimental results. Coarse--grained models tend to run faster but may lose some accuracy compared to models with more detail. This section covers simulation models at an increasing level of coarse--graining, from individual atoms to cylindrical helices.
 
-\subsection{All-atom simulation}
+\subsection{All--atom simulation}
 Simulation tools such as NAMD \cite{NAMDphillips2005scalable}, use force fields such as AMBER \cite{AMBERcornell1996second} and CHARMM \cite{brooks1983charmm} to model interactions between individual atoms. While it is possible to perform atomistic simulations of large DNA origami structures \cite{yoo2013situ} as shown in Figure~\ref{fig:all-atom}, the simulations take a long time to run, and it is unknown how well the models represent DNA thermodynamics \cite{sengar2021primer}.
 
 %Also cite Pointer origami https://academic.oup.com/nar/article/44/7/3013/2467847 ?
@@ -166,7 +166,7 @@ Simulation tools such as NAMD \cite{NAMDphillips2005scalable}, use force fields 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=\textwidth]{figures/all-atom.jpg}
-    \caption{All-atom simulation of three DNA origami structures, adapted from \cite{yoo2013situ}. HC-0$^{\circ}$ is a honeycomb (hexagonal) lattice origami with no programmed curvature, while SQ-0$^{\circ}$ is designed on a square lattice. HC-0$^{\circ}$ has a programmed 90$^{\circ}$ bend. The plots show the root-mean-square deviation from the original atom positions (top) and the fraction of base pairs broken during the simulation (bottom).}
+    \caption{All--atom simulation of three DNA origami structures, adapted from \cite{yoo2013situ}. HC-0$^{\circ}$ is a honeycomb (hexagonal) lattice origami with no programmed curvature, while SQ-0$^{\circ}$ is designed on a square lattice. HC-0$^{\circ}$ has a programmed 90$^{\circ}$ bend. The plots show the root--mean--square deviation from the original atom positions (top) and the fraction of base pairs broken during the simulation (bottom).}
     \label{fig:all-atom}
   \end{center}
 \end{figure}
@@ -174,13 +174,13 @@ Simulation tools such as NAMD \cite{NAMDphillips2005scalable}, use force fields 
 \subsection{oxDNA/RNA}
 \label{sec:oxDNA}
 
-In 2010, a coarse-grained simulation software called oxDNA was introduced by Thomas Ouldridge \cite{ouldridge2010dna}. Rather than using a coarse-grained ``bottoms-up'' definition, the oxDNA model is defined ``top-down'', trying to reproduce experimentally relevant properties instead of inferring behaviour from a more detailed model \cite{sengar2021primer}. The oxDNA model was calibrated to fit the Nearest Neigbour model \cite{santalucia1998unified}, reproducing experimental duplex melting data. This has enabled the model to simulate complex DNA origami devices with a generally good agreement with experimental data \cite{sharma2017characterizing}.
+In 2010, a coarse--grained simulation software called oxDNA was introduced by Thomas Ouldridge \cite{ouldridge2010dna}. Rather than using a coarse--grained ``bottoms--up'' definition, the oxDNA model is defined ``top--down'', trying to reproduce experimentally relevant properties instead of inferring behaviour from a more detailed model \cite{sengar2021primer}. The oxDNA model was calibrated to fit the Nearest Neigbour model \cite{santalucia1998unified}, reproducing experimental duplex melting data. This has enabled the model to simulate complex DNA origami devices with a generally good agreement with experimental data \cite{sharma2017characterizing}.
 
-oxDNA runs both Molecular Dynamics (MD) and Monte Carlo (MC) simulations of DNA modeled at the level of individual nucleotides. The Molecular Dynamics simulations update the positions and orientations of the nucleotides according to Newton's laws of motion. Since there is no explicit solvent (that is, no water particles), the theromstat is used to ensure diffusive motion \cite{sengar2021primer}. If two particles are very close together, the simulation is likely to become numerically unstable. This instability can be mitigated by using a smaller integration time step and a temporary (non-physical) limit on the maximum interaction force. An alternative solution is to use the Monte Carlo dynamics, which instead updates the particles according to random moves sampled from the same Boltzmann distribution \cite{sengar2021primer}.
+oxDNA runs both Molecular Dynamics (MD) and Monte Carlo (MC) simulations of DNA modeled at the level of individual nucleotides. The Molecular Dynamics simulations update the positions and orientations of the nucleotides according to Newton's laws of motion. Since there is no explicit solvent (that is, no water particles), the theromstat is used to ensure diffusive motion \cite{sengar2021primer}. If two particles are very close together, the simulation is likely to become numerically unstable. This instability can be mitigated by using a smaller integration time step and a temporary (non--physical) limit on the maximum interaction force. An alternative solution is to use the Monte Carlo dynamics, which instead updates the particles according to random moves sampled from the same Boltzmann distribution \cite{sengar2021primer}.
 
 Particle overlaps can be removed by first simulating a system using MC dynamics (as the probability of overlaps are zero), thus ``relaxing'' the system in preparation for MD simulation \cite{doye2020oxdna}. Further relaxation can also be done in MD simulation using a maximum backbone force, gently shortening unnaturally extended backbone bonds. 
 
-Since its creation, both the model and the software running it has been extended and improved \cite{ouldridge2011structural, rovigatti2015comparison, sulc2012Sequence, ouldridge2013optimizing, snodin2015introducing}. In 2014, the model was extended to include RNA by Petr {\v{S}}ulc \cite{vsulc2014nucleotide}, showing its ability to model a set of common RNA motifs. In 2021, the model was further extended to include protein-DNA/RNA hybrids by Jonah Procyk \cite{procyk2021coarse}.
+Since its creation, both the model and the software running it has been extended and improved \cite{ouldridge2011structural, rovigatti2015comparison, sulc2012Sequence, ouldridge2013optimizing, snodin2015introducing}. In 2014, the model was extended to include RNA by Petr {\v{S}}ulc \cite{vsulc2014nucleotide}, showing its ability to model a set of common RNA motifs. In 2021, the model was further extended to include protein--DNA/RNA hybrids by Jonah Procyk \cite{procyk2021coarse}.
 
 
 % OxDNA was joined by cogli1 for trajectory visualisation.
@@ -198,27 +198,27 @@ While oxDNA can be very useful for modeling a structure, it has traditionally no
 
 \subsection{mrDNA}
 \label{sec:mrdna}
-The mrDNA simulation model \cite{maffeo2019mrdna} is a multi-resolution model representing a user-defined number of base pairs as a rigid-body bead.
+The mrDNA simulation model \cite{maffeo2019mrdna} is a multi--resolution model representing a user--defined number of base pairs as a rigid--body bead.
 
-Since mrDNA is implemented in Python and has a spline-based helix representation, users can write scripts to edit the structure, translating and rotating parts before starting the simulation. Thus, with some skill, topological issues or over-stretched bonds can be resolved even before starting to simulate.
+Since mrDNA is implemented in Python and has a spline--based helix representation, users can write scripts to edit the structure, translating and rotating parts before starting the simulation. Thus, with some skill, topological issues or over--stretched bonds can be resolved even before starting to simulate.
 
 \begin{figure}[ht]
   \begin{center}
     \includegraphics[width=\textwidth]{figures/mrDNA.jpg}
-    \caption{MrDNA}
+    \caption{Illustration of a design being relaxed through multiple resolutions in the MrDNA model, adapted from \cite{maffeo2019mrdna}. From left to right, a caDNAno file is imported as a low-resolution bead model, then incrementally increased in resolution as more beads are added until one bead exists per base pair. The teal beads then represents the local orientation of the bases. Finally, the structure can be converted to an all-atom (rightmost image), or an oxDNA representation.}
     \label{fig:mrdna}
   \end{center}
 \end{figure}
 
 % Andrew: Ard: ? This section would make sense to someone skilled in origami, but is too cryptic for either of your examiners.
 
-A selection of the DNA designs I have relaxed, using both mrDNA and oxDNA, are shown in Figure~\ref{fig:oxDNA_sims}. The main thing to note here is how the helices (shown as red lines) in the leftmost images are all parallel to each other (because of how they were designed in caDNAno). The mrDNA relaxation then allows the helices to quickly assume lower-energy positions and orientations, saving significant time compared to running oxDNA on the original configurations.
+A selection of the DNA designs I have relaxed, using both mrDNA and oxDNA, are shown in Figure~\ref{fig:oxDNA_sims}. The main thing to note here is how the helices (shown as red lines) in the leftmost images are all parallel to each other (because of how they were designed in caDNAno). The mrDNA relaxation then allows the helices to quickly assume lower--energy positions and orientations, saving significant time compared to running oxDNA on the original configurations.
 
 The first two examples, from \cite{gerling2015dynamic} and \cite{zadegan2012smallbox} and illustrated in Figure~\ref{fig:oxDNA_sims}.a) and~\ref{fig:oxDNA_sims}.b), are both quite straightforward to relax in oxDNA, although the relaxation is much faster using mrDNA.
 
 The tensegrity kite structure, from \cite{liedl2010_kite} is harder to relax since, as seen in the first image in Figure~\ref{fig:oxDNA_sims}.c, the two helix bundles are drawn parallel to each other in caDNAno. Given enough time to relax, they should still become orthogonal, but a much more efficient way is to write a mrdna script to rotate one helix bundle so that it is orthogonal from the start, as seen in the middle image of~\ref{fig:oxDNA_sims}.c. The remaining overstretched bonds are then quickly relaxed using mrdna.
 
-Finally, the Möbius strip, from \cite{han2010moebius}, is particularly tricky to relax, since the caDNAno design have all helices drawn in the same plane, with bonds from each end stretching through the whole structure and intersecting at a single point, as can be seen in the first image of Figure~\ref{fig:oxDNA_sims}.d. With some help from Chris Maffeo, however, I was able to use a mrdna script to edit the structure into a configuration much easier to relax, as seen in the second image of Figure~\ref{fig:oxDNA_sims}.d. Since the caDNAno design does not make it clear whether the Möbius strip should be left-handed or right-handed, this is also decided in the script; changing the rotational direction will produce a mirrored version of the structure, as seen in the third image of Figure~\ref{fig:oxDNA_sims}.d.
+Finally, the Möbius strip, from \cite{han2010moebius}, is particularly tricky to relax, since the caDNAno design have all helices drawn in the same plane, with bonds from each end stretching through the whole structure and intersecting at a single point, as can be seen in the first image of Figure~\ref{fig:oxDNA_sims}.d. With some help from Chris Maffeo, however, I was able to use a mrdna script to edit the structure into a configuration much easier to relax, as seen in the second image of Figure~\ref{fig:oxDNA_sims}.d. Since the caDNAno design does not make it clear whether the Möbius strip should be left--handed or right--handed, this is also decided in the script; changing the rotational direction will produce a mirrored version of the structure, as seen in the third image of Figure~\ref{fig:oxDNA_sims}.d.
 
 Based on the usefulness of scripted transformations, I created a rudimentary interactive editor interface to mrdna to also allow for visual editing. However, it would need significant refinement to be externally usable. More importantly, the oxView editor, described in Chapter~\ref{ch:oxview}, can now quickly resolve relaxation issues such as those exemplified above, both using clustered rigid-body dynamics (Section \ref{sec:rigid-body_dynamics}) and manually (Section \ref{sec:oxviewEditing}).
 
@@ -230,7 +230,7 @@ Based on the usefulness of scripted transformations, I created a rudimentary int
     \put(0,540){c)}
     \put(0,260){d)}
   \end{overpic}
-  \caption{Relaxation results for various DNA designs. Each row depicts a new design, with the left-hand side showing the structure as it was drawn in caDNAno (and parsed by mrdna), while the right-hand side is the relaxed structure in oxDNA. Intermediate images are edits done in mrdna. While the switch design \cite{gerling2015dynamic} in  \textbf{a)} 
+  \caption{Relaxation results for various DNA designs. Each row depicts a new design, with the left--hand side showing the structure as it was drawn in caDNAno (and parsed by mrdna), while the right--hand side is the relaxed structure in oxDNA. Intermediate images are edits done in mrdna. While the switch design \cite{gerling2015dynamic} in  \textbf{a)} 
   and the small DNA origami box \cite{zadegan2012smallbox} in  \textbf{b)} relaxed without any required editing, the tensegrity kite structure \cite{liedl2010_kite} in  \textbf{c)} and the Möbius strip \cite{han2010moebius} in  \textbf{d)} benefited greatly from moving selected helices to a position off the lattice before starting the simulation.}
   \label{fig:oxDNA_sims}
 \end{figure}
@@ -247,7 +247,7 @@ Cando is a finite element modelling framework \cite{castro2011primer, kim2012can
       \put(0,300){c)}
       \put(810,300){d)}
     \end{overpic}
-    \caption{Cando simulation results. Adapted from \cite{castro2011primer}. caDNAno design diagrams, Cando structure and flexibility prediction, and negative-stain TEM micrographs \textbf{a)} 90 degree gear. \textbf{b)} 180 degree gear. \textbf{c)} ``Robot'' design \textbf{d)} 60-helix bundle.}
+    \caption{Cando simulation results. Adapted from \cite{castro2011primer}. caDNAno design diagrams, Cando structure and flexibility prediction, and negative--stain TEM micrographs \textbf{a)} 90 degree gear. \textbf{b)} 180 degree gear. \textbf{c)} ``Robot'' design \textbf{d)} 60-helix bundle.}
     \label{fig:cando}
   \end{center}
 \end{figure}

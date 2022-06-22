@@ -10,15 +10,15 @@ As I started this DPhil, I was tasked with the issue of converting origami desig
 
 At this time, the available method for converting a caDNAno design into the oxDNA format was to use an old python script included in the UTILS directory of the oxDNA repository. However, the script was not easy to use, and it failed for many structures. At the end of 2018, the tacoxDNA webserver \cite{suma2019tacoxdna} was launched, updating the conversion script and making it more accessible.
 
-Still, since caDNAno structures are drawn on a lattice, where all helices have to be parallel to each other (as was shown in Figure~\ref{fig:oxDNA_sims}), the resulting oxDNA configurations often had unnaturally extended backbone bonds, requiring time-consuming relaxation.
+Still, since caDNAno structures are drawn on a lattice, where all helices have to be parallel to each other (as was shown in Figure~\ref{fig:oxDNA_sims}), the resulting oxDNA configurations often had unnaturally extended backbone bonds, requiring time--consuming relaxation.
 
-During a secondment within the {\v{S}}ulc group at Arizona State University in 2019, I was able to contribute to their development of a web-based oxDNA viewer called oxView \cite{poppleton2020design, bohlin2022oxview}. This tool can now be accessed at {\large\url{www.oxview.org}}.
+During a secondment within the {\v{S}}ulc group at Arizona State University in 2019, I was able to contribute to their development of a web--based oxDNA viewer called oxView \cite{poppleton2020design, bohlin2022oxview}. This tool can now be accessed at {\large\url{www.oxview.org}}.
 
-Among the main early features that I added to oxView was a cluster-level rigid-body dynamics option (detailed in Section~\ref{sec:rigid-body_dynamics}) that, in many cases, speeds up the relaxation by orders of magnitude compared to oxDNA relaxation alone. Since then, I have collaborated with the {\v{S}}ulc group to add more features and to make the tool more accessible as a visualiser and editor. 
+Among the main early features that I added to oxView was a cluster--level rigid--body dynamics option (detailed in Section~\ref{sec:rigid-body_dynamics}) that, in many cases, speeds up the relaxation by orders of magnitude compared to oxDNA relaxation alone. Since then, I have collaborated with the {\v{S}}ulc group to add more features and to make the tool more accessible as a visualiser and editor. 
 
 For our second oxView publication \cite{bohlin2022oxview}, I rewrote the main parts of the taxoxDNA codebase into TypeScript, resulting in the \emph{taxoxdna.js} library (\url{https://github.com/Akodiat/tacoxdna.js}) which oxView now uses to import various standard design formats (including caDNAno) automatically. This is described in Section~\ref{sec:importing_designs}.
 
-This chapter will present my own contributions to oxView \cite{poppleton2020design, bohlin2022oxview} unless otherwise stated. However, I wish to acknowledge the work done by Erik Poppleton and Michael Matthies; without them, this tool would not exist. Michael was the original oxView developer and has done great work in supporting live oxDNA relaxations through the \emph{ox-serve} webserver. Erik enabled oxView to render and analyse systems with over a million nucleotides and has created a large set of useful analysis scripts. Aamik Mallya and Jonah Procyk have also made significant contributions to the oxView codebase. 
+This chapter will present my own contributions to oxView \cite{poppleton2020design, bohlin2022oxview} unless otherwise stated. However, I wish to acknowledge the work done by Erik Poppleton and Michael Matthies; without them, this tool would not exist. Michael was the original oxView developer and has done great work in supporting live oxDNA relaxations through the \emph{ox-serve} webserver. Erik enabled oxView to render and analyse systems with over a million nucleotides and has created a large set of useful analysis scripts. Jonah Procyk has also made significant contributions to the oxView codebase by incorporating tools for working with proteins. Likewise, Aamik Mallya has helpfully contributed to helix creation and colouring.
 
 \section{Importing designs}
 \label{sec:importing_designs}
@@ -28,7 +28,7 @@ There are many different formats available for DNA origami design; some of the m
 Thanks to the \emph{tacoxdna.js} library, importing designs is now generally straightforward. An import button in the ``file'' menu allows the user to import caDNAno, rpoly and tiamat (json) files, while oxDNA and PDB files can be directly opened. Some additional formats still require the use of the external Tacoxdna webserver \cite{taco}. Any loaded structure can then be exported for oxDNA simulation, as described in Section~\ref{sec:oxdna_export}.
 
 \subsubsection{Importing caDNAno files}
-JSON files created using caDNAno (described in Section~\ref{sec:cadnano}) can now be imported directly into oxView. See the import dialog shown in Figure~\ref{fig:cadnano_import}.a). First, select the file to import and make sure to also select \emph{caDNAno} as the file format. Next, choose the correct lattice-type; either \emph{Square} or \emph{Hexagonal}. Optionally, input a sequence to assign to the origami scaffold (which will otherwise be random).
+JSON files created using caDNAno (described in Section~\ref{sec:cadnano}) can now be imported directly into oxView. See the import dialog shown in Figure~\ref{fig:cadnano_import}.a). First, select the file to import and make sure to also select \emph{caDNAno} as the file format. Next, choose the correct lattice--type; either \emph{Square} or \emph{Hexagonal}. Optionally, input a sequence to assign to the origami scaffold (which will otherwise be random).
 
 \begin{figure}[ht]
   \begin{center}
@@ -42,36 +42,36 @@ JSON files created using caDNAno (described in Section~\ref{sec:cadnano}) can no
   \end{center}
 \end{figure}
 
-Another option is to use the tacoxdna webservice to convert the caDNAno design into oxDNA files and then load those into oxView. However, designs loaded directly into oxView have the benefit of including correct colouring, clustering and base-pairing information, which would otherwise have been lost.
+Another option is to use the tacoxdna webservice to convert the caDNAno design into oxDNA files and then load those into oxView. However, designs loaded directly into oxView have the benefit of including correct colouring, clustering and base--pairing information, which would otherwise have been lost.
 
 \subsubsection{Importing rpoly files}
 Rpoly files are the output from the BSCOR \cite{vHelix} tool (described in Section~\ref{sec:bscor}) for converting polyhedral meshes into DNA origami.
 Select the rpoly file to import, making sure that \emph{rpoly} is selected as the file format. Optionally, input a sequence to assign to the origami scaffold (which will otherwise be random).
 
 \subsubsection{Importing Tiamat files}
-Tiamat (described in Section~\ref{sec:tiamat}) designs in the \emph{.dnajson} format can also be imported. Select file to import, making sure that \emph{tiamat} is selected as file format. Binary \emph{.dna} Tiamat files need to be reopened in Tiamat and saved to the text-based \emph{.dnajson}. Select Tiamat version (1 or 2), then select the nucleic acid type (DNA or RNA).
+Tiamat (described in Section~\ref{sec:tiamat}) designs in the \emph{.dnajson} format can also be imported. Select file to import, making sure that \emph{tiamat} is selected as file format. Binary \emph{.dna} Tiamat files need to be reopened in Tiamat and saved to the text--based \emph{.dnajson}. Select Tiamat version (1 or 2), then select the nucleic acid type (DNA or RNA).
 
 By default, nucleotides without assigned base types will be given a random type. However, it is also possible to select a fixed default base.
 
 \subsubsection{Importing PDB files}
-While I did include the DNA PDB to oxDNA converter from Tacoxdna in \emph{tacoxdna.js}, a more versatile PDB import was created by Jonah Procyk to support his ANM-oxDNA model \cite{procyk2021coarse}. Simply drag and drop (or load) a PDB file into an oxView window and the DNA, RNA and/or protein it contains will be automatically converted and loaded.
+While I did include the DNA PDB to oxDNA converter from Tacoxdna in \emph{tacoxdna.js}, a more versatile PDB import was created by Jonah Procyk to support his ANM--oxDNA model \cite{procyk2021coarse}. Simply drag and drop (or load) a PDB file into an oxView window and the DNA, RNA and/or protein it contains will be automatically converted and loaded.
 
 %The simplest method is now to use the recently published tacoxDNA web service \cite{suma2019tacoxdna} (whose conversion script is more or less the same as in the oxDNA repository). However, the script can still fail to parse some designs, so a future implementation that uses the native caDNAno library for parsing would be preferable.
 
-\subsection{Multi-component designs}
+\subsection{Multi--component designs}
 Designs spread across multiple files (or even multiple design tools) can be easily combined in oxView by simply importing them all and using the editing tools to arrange and connect them properly. Figure~\ref{fig:cadnano_import} shows an example of this, where the a slider design (Figure~\ref{fig:cadnano_import}.c) is added and positioned relative to the already imported rail (Figure~\ref{fig:cadnano_import}.b), both structures from \cite{benson2021strategies}.
 
-\subsection{Far-from-physical caDNAno designs}
-As mentioned in Section \ref{sec:mrdna} and at the beginning of this chapter, some structures drawn in caDNAno will have a very far-from-physical configuration. Since it is only possible to draw all helices parallel to each other (on a lattice) in caDNAno, backbone bonds may be very elongated, creating high energies and/or topological problems.
+\subsection{Far--from--physical caDNAno designs}
+As mentioned in Section \ref{sec:mrdna} and at the beginning of this chapter, some structures drawn in caDNAno will have a very far--from--physical configuration. Since it is only possible to draw all helices parallel to each other (on a lattice) in caDNAno, backbone bonds may be very elongated, creating high energies and/or topological problems.
 
 The oxDNA software already includes relaxation procedures for such structures \cite{doye2020oxdna}, bringing them together in a slow and controlled manner using a specified maximum backbone force. However, for large structures, this can take a very long time, even while using GPU simulation.
 
-As discussed in Section~\ref{sec:mrdna} and shown in Figure~\ref{fig:mrdna}, the mrDNA simulation model \cite{maffeo2019mrdna} can help in such cases. However, the easiest option now tends to be using oxViews editing and rigid-body dynamics capabilities. The following sections will explain how.
+As discussed in Section~\ref{sec:mrdna} and shown in Figure~\ref{fig:mrdna}, the mrDNA simulation model \cite{maffeo2019mrdna} can help in such cases. However, the easiest option now tends to be using oxViews editing and rigid--body dynamics capabilities. The following sections will explain how.
 
-\section{Rigid-body dynamics}
+\section{Rigid--body dynamics}
 \label{sec:rigid-body_dynamics}
 
-For rapid relaxation of imported caDNAno designs, oxView includes so-called rigid-body dynamics. When the dynamics are active, clusters of nucleotides are treated as rigid bodies in a simple physics simulation, using the method described in \cite{baraff1997introduction} and running locally in the web browser.
+For rapid relaxation of imported caDNAno designs, oxView includes so--called rigid--body dynamics. When the dynamics are active, clusters of nucleotides are treated as rigid bodies in a simple physics simulation, using the method described in \cite{baraff1997introduction} and running locally in the web browser.
 
 Clusters can be defined manually, or by running an automatic DBSCAN \cite{ester1996density} clustering algorithm. If caDNAno files are imported directly into oxView, they will already have clusters defined. Similarly, copying and pasting structures create separate clusters.
 
@@ -82,7 +82,7 @@ Clusters can be defined manually, or by running an automatic DBSCAN \cite{ester1
     \put(240,300){b)}
     \put(620,300){c)}
   \end{overpic} 
-  \caption{Rigid-body dynamics of clusters. Snapshots from the automatic rigid-body relaxation of an icosahedron, starting with the configuration converted from caDNAno \textbf{a)}, through the intermediate  \textbf{b)} where the dynamics are applied, and \textbf{c)} the final resulting relaxed state.}
+  \caption{Rigid--body dynamics of clusters. Snapshots from the automatic rigid--body relaxation of an icosahedron, starting with the configuration converted from caDNAno \textbf{a)}, through the intermediate  \textbf{b)} where the dynamics are applied, and \textbf{c)} the final resulting relaxed state.}
   \label{fig:rigidBody}
 \end{figure}
 
@@ -90,7 +90,7 @@ Within the dynamics, clusters are held together with spring forces at each share
 where \(c_{spr}\) is a spring constant, \(l\) is the current bond length and \(l_r\) is the relaxed bond length. To avoid overlaps, a simple linear repulsive force, of magnitude
 \(f_{\rm rep} = max\left(c_{rep}\left(1-\frac{d}{r_a+r_b}\right),0\right)\) is added between the centre of each group, where \(c_{rep}\) is a repulsion constant, \(d\) is the distance between the two centres of mass, and \(r_a+r_b\) is the sum of the group radii (the greatest distance they can be while still overlapping).
 
-As seen in Figure~\ref{fig:rigidBody}, the separate clusters will relax into a more natural shape, prepared for oxDNA simulation or further design. In some cases, however, simply moving the clusters manually (rigid-body manipulation) might be an even easier solution, which is covered in Section~\ref{sec:oxviewEditing}.
+As seen in Figure~\ref{fig:rigidBody}, the separate clusters will relax into a more natural shape, prepared for oxDNA simulation or further design. In some cases, however, simply moving the clusters manually (rigid--body manipulation) might be an even easier solution, which is covered in Section~\ref{sec:oxviewEditing}.
 
 Another option for oxView dynamics is to use oxServe, a server developed mainly by Michael Matthies that connects oxView to an oxDNA instance using WebSockets. By first relaxing the clusters and then using oxServe to relax the structure on a nucleotide level, users can interactively perform the entire relaxation process from oxView.
 
@@ -104,11 +104,11 @@ Another option for oxView dynamics is to use oxServe, a server developed mainly 
   \put(470,200){c)}
   \put(740,200){d)}
 \end{overpic}
-\caption{Designing the DNA tetrahedron from \cite{goodman2005rapid} using the oxView editing tools. \textbf{a)} An initial 20 base pair helix created. \textbf{b)} Duplicated helices being rotated and translated into place. \textbf{c)} Strands ligated together. \textbf{d)} The resulting 3D tetrahedron shape, as seen after applying rigid-body dynamics.}
+\caption{Designing the DNA tetrahedron from \cite{goodman2005rapid} using the oxView editing tools. \textbf{a)} An initial 20 base pair helix created. \textbf{b)} Duplicated helices being rotated and translated into place. \textbf{c)} Strands ligated together. \textbf{d)} The resulting 3D tetrahedron shape, as seen after applying rigid--body dynamics.}
 \label{fig:design}
 \end{figure}
 
-While oxView started as a visualisation tool, it has since been extended with a number of editing features. One of the earliest was the ability to perform rigid-body manipulation of selected nucleotides by dragging them with the mouse. I contributed by adding transformation gizmos that simplify translation and rotation of selections using on-screen arrows and arcs for the user to manipulate. See Table~\ref{table:edit_tools} for a complete list of the editing tools currently available in oxView.
+While oxView started as a visualisation tool, it has since been extended with a number of editing features. One of the earliest was the ability to perform rigid--body manipulation of selected nucleotides by dragging them with the mouse. I contributed by adding transformation gizmos that simplify translation and rotation of selections using on--screen arrows and arcs for the user to manipulate. See Table~\ref{table:edit_tools} for a complete list of the editing tools currently available in oxView.
 
 With the ability to create, remove, connect, and disconnect nucleotides, oxView users can now design structures from scratch. See, for example, Figure~\ref{fig:design}, where the DNA tetrahedron from \cite{goodman2005rapid} is created. The user first creates an initial helix (Figure~\ref{fig:design}.a) by typing a 20-base sequence and clicking the ``Create'' button \includesvg[height=1em]{figures/tools/create} in the ``Edit'' menu. Note that the ``Duplex mode'' need to be active in order for the complementary strand to be created automatically. Next, the user can copy \includesvg[height=1em]{figures/tools/copy} and paste \includesvg[height=1em]{figures/tools/paste} the helix repeatedly, using the ``Translate'' \includesvg[height=1em]{figures/tools/translate} and ``Rotate'' \includesvg[height=1em]{figures/tools/rotate} tools to position the helices as seen in~\ref{fig:design}.b).
 
@@ -203,7 +203,7 @@ Strand sequences can be exported as standard CSV files using the ``Sequence file
 
 It is possible to save an image of the current oxView view by simply clicking the ``Save image'' button in the ``File'' menu. This is a preferred option over a screenshot for two reasons. First, it is possible to increase the resolution by a scaling factor found in the ``Image size'' dropdown (rescale the browser window to change the aspect ratio of the image). Secondly, the background of the saved image will be transparent, simplifying further editing and composition.
 
-For cover art and photo-realistic renders, it is also possible to export and load a glTF file into (for example) Blender, as seen in Figure~\ref{fig:image_export}. Note that in current Blender versions (2.9), large structures take a long time to import. So, make sure to disable any components not needed before export.
+For cover art and photo--realistic renders, it is also possible to export and load a glTF file into (for example) Blender, as seen in Figure~\ref{fig:image_export}. Note that in current Blender versions (2.9), large structures take a long time to import. So, make sure to disable any components not needed before export.
 
 \begin{figure}[ht]
   \centering
@@ -217,17 +217,17 @@ For cover art and photo-realistic renders, it is also possible to export and loa
 \end{figure}
 
 \subsection{Creating videos}
-One of the earlier features I implemented in oxView was the ability to create videos from oxDNA simulation trajectories. It is also possible to create lemniscate videos of single configurations, where the camera moves around the structure in a lemniscate-shaped loop. The video export uses the \texttt{CCapture.js} library, grabbing the \texttt{Three.js} canvas and outputting either ``webm'' or ``gif'' animations, or each frame as separate ``jpg'' or ``png'' images.
+One of the earlier features I implemented in oxView was the ability to create videos from oxDNA simulation trajectories. It is also possible to create lemniscate videos of single configurations, where the camera moves around the structure in a lemniscate--shaped loop. The video export uses the \texttt{CCapture.js} library, grabbing the \texttt{Three.js} canvas and outputting either ``webm'' or ``gif'' animations, or each frame as separate ``jpg'' or ``png'' images.
 
 Click ``Create video'' in the ``File'' menu, choose video type (trajectory or lemniscate), file format, and frame rate. For lemniscate videos, it is also possible to set a video duration.
 
 For trajectory videos, the camera can be manually moved while the video is being recorded, thus showing the simulation from different angles.
 
-Another option for video creation is to follow the steps described in Section~\ref{sec:image_export}. When the structure is loaded into Blender, the camera can be animated (or the design rotated) using keyframes to render high-quality videos. To render an oxDNA simulation, use the ``traj2blender.py'' script, found at \url{https://github.com/Akodiat/traj2blender}, to automatically load keyframes corresponding to simulation steps.
+Another option for video creation is to follow the steps described in Section~\ref{sec:image_export}. When the structure is loaded into Blender, the camera can be animated (or the design rotated) using keyframes to render high--quality videos. To render an oxDNA simulation, use the ``traj2blender.py'' script, found at \url{https://github.com/Akodiat/traj2blender}, to automatically load keyframes corresponding to simulation steps.
 
 \section{Converting RNA origami designs}
 \label{sec:converting_rna_origami}
-During my secondment at the Andersen lab in Aarhus, I worked with converting RNA structures designed using their ASCII-based blueprint format into oxRNA simulation files. Examples of converted structures are shown in Figure~\ref{fig:oxRNA_sims}. The Andersen lab has scripts for parsing their blueprint files and building the corresponding PDB structures (the first two columns of Figure~\ref{fig:oxRNA_sims}). However, the resulting PDB files are not relaxed and would take a long time to relax using all-atom simulation. During the seconment, I modified the tacoxDNA \cite{suma2019tacoxdna} PDB parser to enable PDB-to-oxRNA conversion, but with the oxView PDB import now fully working, it is simply a matter of dropping the PDB files directly into oxView. The third column of Figure~\ref{fig:oxRNA_sims} shows the structures relaxed and simulated in oxRNA, some significantly different from the previously available PDB models in the second column.
+During my secondment at the Andersen lab in Aarhus, I worked with converting RNA structures designed using their ASCII--based blueprint format into oxRNA simulation files. Examples of converted structures are shown in Figure~\ref{fig:oxRNA_sims}. The Andersen lab has scripts for parsing their blueprint files and building the corresponding PDB structures (the first two columns of Figure~\ref{fig:oxRNA_sims}). However, the resulting PDB files are not relaxed and would take a long time to relax using all--atom simulation. During the seconment, I modified the tacoxDNA \cite{suma2019tacoxdna} PDB parser to enable PDB--to--oxRNA conversion, but with the oxView PDB import now fully working, it is simply a matter of dropping the PDB files directly into oxView. The third column of Figure~\ref{fig:oxRNA_sims} shows the structures relaxed and simulated in oxRNA, some significantly different from the previously available PDB models in the second column.
 
 % "The asterisk (*) is used in place of the prime character (') for naming atoms of the sugar group" - https://cdn.rcsb.org/wwpdb/docs/documentation/file-format/PDB_format_1996.pdf
 
@@ -252,8 +252,11 @@ During my secondment at the Andersen lab in Aarhus, I worked with converting RNA
   \centering\includegraphics[align=c,width=\textwidth/3]{figures/oxrna_sims/6HB-5KL_last_conf.png}
 }
 \end{center}
-\caption{Conversion and simulation of various RNA designs. Each row, from left to right, shows the ASCII blueprint design, the PDB model (visualised using ChimeraX), and a frame from the simulated structure (visualised using oxView).  \textbf{a)} Is a simple hairpin loop.  \textbf{b)} is a two-helix bundle tile used in \cite{geary2014single}.  \textbf{c)} is two helices connected by a double crossover, analysing the flexibility of such a motif.  \textbf{d)} is a possible design for a tensegrity triangle.  \textbf{e)} is a siz-helix bundle.}
+\caption{Conversion and simulation of various RNA designs. Each row, from left to right, shows the ASCII blueprint design, the PDB model (visualised using ChimeraX), and a frame from the simulated structure (visualised using oxView).  \textbf{a)} Is a simple hairpin loop.  \textbf{b)} is a two--helix bundle tile used in \cite{geary2014single}.  \textbf{c)} is two helices connected by a double crossover, analysing the flexibility of such a motif.  \textbf{d)} is a possible design for a tensegrity triangle. \textbf{e)} is a six--helix bundle.}
 \label{fig:oxRNA_sims}\end{figure}
 
 
 
+\section{Conclusion}
+The oxView online tool presented has significantly simplified the setup, visualisation, and analysis of oxDNA simulations and is already helping hundreds of users every week. The software has also grown into a capable design tool on its own, with the oxDNA integration being just one of its many features. The ability to import and combine structures from external tools also facilitates the design of modular multi--component structures such as those presented in Chapter~\ref{ch:oxview_intro}.
+According to website analytics, the oxView tool has over 150 unique weekly users from all around the globe.
