@@ -3,7 +3,7 @@
 \minitoc
 
 The previous chapter introduced a number of experimental projects and theoretical models concerning the design of multi-component objects, but while some coarse-grained tile models exist, there remains a need for methods to quickly explore the assembly of multi-component 3D structures.
-This chapter describes my \emph{polycube} model and details how it can be used to sample a large number of assembly rules, showing that, in line with Algorithmic Information Theory, some polycube shapes are significantly more common than others. The model both supports 3D polycubes and 2D polyominoes, as explained in the following sections. We will start by performing a reference sampling (Section~\ref{sec:refcalc}) to verify that the 2D polyomino model agrees with earlier results. We will then compare 2D and 3D results in Section~\ref{sec:maincalc}.
+This chapter describes my \emph{polycube} model and details how it can be used to sample a large number of assembly rules, showing that, in line with Algorithmic Information Theory, some polycube shapes are significantly more common than others. The model supports both 3D polycubes and 2D polyominoes, as explained in the following sections. We will start by performing a reference sampling (Section~\ref{sec:refcalc}) to verify that the 2D polyomino model agrees with earlier results. We will then compare 2D and 3D results in Section~\ref{sec:maincalc}.
 
 The following chapter (Chapter~\ref{ch:polycubes2}) will then show how to explore the solution landscape of, and obtain the lowest complexity possible assembly rule for, a given shape.
 
@@ -51,13 +51,13 @@ Alternatively, a less compact but more human-readable decimal notation can be us
 \subsection{Stochastic self-assembly}
 \label{sec:stochastic_assembly}
 
-The stochastic self-assembly of a polycube starts by placing a cube from one of the available species as a seed at the origin. If the assembly mode is \emph{seeded}, it will always use the first species in of rule. If the assembly mode is \emph{unseeded}, the seed species is instead chosen at random. Once a cube has been added to the assembly, each of its yet unbound patches will be added to a list of \emph{moves}, where a move represents a position where another cube can be added.
+The stochastic self-assembly of a polycube starts by placing a cube from one of the available species as a seed at the origin. If the assembly mode is \emph{seeded}, it will always use the first species of the rule. If the assembly mode is \emph{unseeded}, the seed species is instead chosen at random. Once a cube has been added to the assembly, each of its yet unbound patches will be added to a list of \emph{moves}, where a move represents a position where another cube can be added.
 
 Moves are then processed until the list of moves is empty, or the polycube grows beyond a specified size, at which point it is considered \emph{unbounded}. Figure~\ref{fig:UND}.a) shows an example of an unbounded structure tiling the plane using two species.
 
 While the list of moves is not empty, a random move is chosen at each step. The input rule is then randomly searched for a species fitting the move. Cubes can be rotated to fit, and if a fitting species is found, the corresponding cube is added to the assembly. If there is no fit to be found, the move is discarded.
  
-The assembly is repeated \(n_{times}\) times (default 100), and the outputs are compared for equality (allowing rotation) in order to determine if the rule is \emph{deterministic}. Note that this method is not rigorous, but it is enough to quickly detect a large part of the nondeterministic assemblies. Figure~\ref{fig:UND}.b) shows a non-deterministic structure, where the blue ``neck'' species can bind to itself. Thus, the output depends on how many cubes from the blue species bind before a green species cube stops the growth. Both species are equally likely to bind, so the probability of assembling a neck with \(l\) blue cubes is \(2^{-l}\).
+The assembly is repeated \(n_{times}\) times (default 100), and the outputs are compared for equality (allowing rotation) in order to determine if the rule is \emph{deterministic}. Note that this method is not rigorous, but it is enough to quickly detect a large fraction of the nondeterministic assemblies. Figure~\ref{fig:UND}.b) shows a non-deterministic structure where the blue ``neck'' species can bind to itself. Thus, the output depends on how many cubes from the blue species bind before a green species cube stops the growth. Both species are equally likely to bind, so the probability of assembling a neck with \(l\) blue cubes is \(2^{-l}\).
 
 Unbounded or non-deterministic structures are considered \emph{undefined} and are not included in the sampling result. This is in line with the earlier polyomino model and comparable to how unbounded protein complexes are highly deleterious \cite{johnston2021}.
 
@@ -136,7 +136,7 @@ As described in Section~\ref{sec:stochastic_assembly}, rules growing larger than
     \item[\(\widetilde{K}_{lz}\)] - The length of the binary rule after Lempel-Ziv compression \cite{lempel-ziv}. 
 \end{description}
 
-The Lempel-Ziv compression measure was choosen for its use in previous litterature \cite{johnston2021, dingle2018input} and because of the connection between Kolmogorov complexity and compression \cite{johnston2021}. It is defined as in \cite{dingle2018input}, where \(N_w(x)\) is the number of patterns (words) in a binary string \(x\) (converted from the hexadecimal string representation described in Section \ref{sec:string_repr}):
+The Lempel-Ziv compression measure was choosen for its use in previous literature \cite{johnston2021, dingle2018input} and because of the connection between Kolmogorov complexity and compression \cite{johnston2021}. It is defined as in \cite{dingle2018input}, where \(N_w(x)\) is the number of patterns (words) in a binary string \(x\) (converted from the hexadecimal string representation described in Section \ref{sec:string_repr}):
 
 \[
     \widetilde{K}_{lz} = \left\{ \begin{array}{cl}
@@ -197,12 +197,12 @@ Note how some polyomino sizes that are multiples of four have a much higher coun
     \centering\includesvg[width=\textwidth]{figures/refcalc/geno_size_distribution.svg}
     \caption{Number of input rules per output size. Distribution of polyomino sizes of \(10^9\) sampled rules in \(I_{16_s,31_c}^{2D}\).
     }
-    % Ard: The numbering on the x-axis is hard to follow --  I would try to do something like 5, 10, 15 .... Also, there are clear peaks at certain numbers, it is worth mentioning this in the caption or else in the text.
-    % Andrew: Label axes consistently
     \label{fig:ref_inputdistr}
 \end{figure}
 
 In Figure~\ref{fig:ref_outputdistr}, the blue bars show how many polyominoes were found of each size, while the red line shows the total number of polyominoes that exist of that size (obtained from the On-line Encyclopedia of Integer Sequences \cite{sloane1995encyclopedia, oeisA000988}). The sampled input space \(I_{16_s,31_c}^{2D}\) should allow for all 16--mers to be assembled (provided enough samples) since there are enough species and colours for fully addressable assemblies (assigning each cube its own species and each connection its own colour). Thus, the blue bars would follow the red line until size 16 if the complete input space was enumerated. Figure~\ref{fig:ref_outputdistr} shows that we find at least the correct order of magnitude up until about 10--mers, after which polyominoes of larger sizes are found in decreasing numbers.
+
+% Andrew I may be being slow, but it is not clear to me whether the increased frequency of 4N otratmers is real or a sampling artefact:
 
 For the larger sizes, we again see the bias toward shapes with a multiple of four tiles. This shows that not only do these polyomino sizes have more input rules assembling them, but that a larger number of unique polyomino shapes are also found for them. The OEIS (On-line Encyclopedia of Integer Sequences) data shows no such bias in the actual size counts. Following the earlier argument that few additional species are required to extend a shape with a multiple of four tiles, those additional tiles can be placed in various (still symmetric) configurations to create different shapes. Larger shapes leave room for more such permutations, leading to the increasing bias seen in the figure.
 
@@ -333,7 +333,7 @@ Figure~\ref{fig:8-mer_3d_zoo} shows a gallery of the 8--mer polycubes found when
 %\end{figure}
 
 %Figure~\ref{fig:freq_vs_rank} shows the frequency of the shapes against their relative rank (with rank 1 being the most frequent, 2 being the second-most frequent, et cetera.). The sharp decrease for the lowest-ranking shapes is a sampling artefact. With a sample size of \(10^8\), a frequency of less than \(10^{-7}\) means that the shape was found fewer than 10 times. Some rare shapes can be found a few times through random chance, giving them a much higher frequency than they would have during a larger sampling.
-% AndrewÖ I don't understand this. I would understand increased noise, but not a cut-off.
+% Andrew: I don't understand this. I would understand increased noise, but not a cut-off.
 
 %The sharp decrease among the highest-ranking shapes, however, once again shows how some shapes are much more common than others. Let us see if we can find any features of these shapes that stand out.
 
@@ -367,7 +367,7 @@ As seen in Figure~\ref{fig:freq_vs_compl}, the simplicity bias is still present 
     \label{fig:freq_vs_compl}
 \end{figure}
 
-One apparent break from the trend shown is the mostly constant \(\widetilde{K}_s\) values for unseeded samplings (Figure~\ref{fig:freq_vs_compl}.a and c); almost all the unseeded output shapes use the maximum number of species. This can be explained as a consequence of the determinism check. A seeded rule can include non-binding species (without any matching colours) that are simplified away and not counted, as long as none of them is the first cube. But with unseeded assembly, any species can be the seed, so when a non-binding species is used as seed the rule would be deemed non-deterministic and not included. A solution would be to remove the non-bindning cubes from the unseeded rules, but then the simplification process would actually affect the assembly result (making non-deterministic rules deterministic), which is something we want to avoid. Thus, for the unseeded results, we have to rely on the other two complexity measures.
+One apparent break from the trend shown is the mostly constant \(\widetilde{K}_s\) values for unseeded samplings (Figure~\ref{fig:freq_vs_compl}.a and c); almost all the unseeded output shapes use the maximum number of species. This can be explained as a consequence of the determinism check. A seeded rule can include non-binding species (without any matching colours) that are simplified away and not counted, as long as none of them is the first cube. But with unseeded assembly, any species can be the seed, so when a non-binding species is used as seed the rule would be deemed non-deterministic and not included. A solution would be to remove the non-binding cubes from the unseeded rules, but then the simplification process would actually affect the assembly result (making non-deterministic rules deterministic), which is something we want to avoid. Thus, for the unseeded results, we have to rely on the other two complexity measures.
 
 %\subsection{PK vs K}
 

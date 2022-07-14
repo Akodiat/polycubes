@@ -39,8 +39,8 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="2560"
-     inkscape:window-height="1376"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
      id="namedview4004"
      showgrid="false"
      fit-margin-top="0"
@@ -48,10 +48,10 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="1.7416974"
-     inkscape:cx="384.77"
-     inkscape:cy="223.79447"
-     inkscape:window-x="0"
-     inkscape:window-y="27"
+     inkscape:cx="681.25435"
+     inkscape:cy="381.74756"
+     inkscape:window-x="280"
+     inkscape:window-y="1440"
      inkscape:window-maximized="1"
      inkscape:current-layer="g3992" />
   <g
@@ -80,15 +80,6 @@
              role="graphics-symbol"
              aria-roledescription="rect mark container"
              id="g1782">
-            <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a8">
-              <path
-                 d="m 340,40 h 20 v 20 h -20 z"
-                 id="path6"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
-            </a>
             <a
                xlink:href="https://akodiat.github.io/polycubes?rule=None"
                id="a12">
@@ -261,15 +252,6 @@
                  style="fill:#377eb8" />
             </a>
             <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a88">
-              <path
-                 d="m 320,0 h 20 v 20 h -20 z"
-                 id="path86"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
-            </a>
-            <a
                xlink:href="https://akodiat.github.io/polycubes?rule=0"
                id="a92">
               <path
@@ -288,15 +270,6 @@
                  style="fill:#377eb8" />
             </a>
             <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a100">
-              <path
-                 d="m 300,40 h 20 v 20 h -20 z"
-                 id="path98"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
-            </a>
-            <a
                xlink:href="https://akodiat.github.io/polycubes?rule=None"
                id="a104">
               <path
@@ -304,15 +277,6 @@
                  id="path102"
                  inkscape:connector-curvature="0"
                  style="fill:#e41a1c" />
-            </a>
-            <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a108">
-              <path
-                 d="m 320,40 h 20 v 20 h -20 z"
-                 id="path106"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
             </a>
             <a
                xlink:href="https://akodiat.github.io/polycubes?rule=0"
@@ -331,15 +295,6 @@
                  id="path114"
                  inkscape:connector-curvature="0"
                  style="fill:#377eb8" />
-            </a>
-            <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a120">
-              <path
-                 d="m 300,60 h 20 v 20 h -20 z"
-                 id="path118"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
             </a>
             <a
                xlink:href="https://akodiat.github.io/polycubes?rule=None"
@@ -826,15 +781,6 @@
                  id="path334"
                  inkscape:connector-curvature="0"
                  style="fill:#377eb8" />
-            </a>
-            <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a340">
-              <path
-                 d="m 340,0 h 20 v 20 h -20 z"
-                 id="path338"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
             </a>
             <a
                xlink:href="https://akodiat.github.io/polycubes?rule=0"
@@ -2574,15 +2520,6 @@
                  style="fill:#e41a1c" />
             </a>
             <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a1116">
-              <path
-                 d="m 360,0 h 20 v 20 h -20 z"
-                 id="path1114"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
-            </a>
-            <a
                xlink:href="https://akodiat.github.io/polycubes?rule=None"
                id="a1120">
               <path
@@ -2626,15 +2563,6 @@
                  id="path1134"
                  inkscape:connector-curvature="0"
                  style="fill:#e41a1c" />
-            </a>
-            <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a1140">
-              <path
-                 d="m 340,60 h 20 v 20 h -20 z"
-                 id="path1138"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
             </a>
             <a
                xlink:href="https://akodiat.github.io/polycubes?rule=0"
@@ -2734,15 +2662,6 @@
                  id="path1182"
                  inkscape:connector-curvature="0"
                  style="fill:#e41a1c" />
-            </a>
-            <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a1188">
-              <path
-                 d="m 300,0 h 20 v 20 h -20 z"
-                 id="path1186"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
             </a>
             <a
                xlink:href="https://akodiat.github.io/polycubes?rule=0"
@@ -2896,15 +2815,6 @@
                  id="path1254"
                  inkscape:connector-curvature="0"
                  style="fill:#e41a1c" />
-            </a>
-            <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a1260">
-              <path
-                 d="m 340,20 h 20 v 20 h -20 z"
-                 id="path1258"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
             </a>
             <a
                xlink:href="https://akodiat.github.io/polycubes?rule=None"
@@ -3285,15 +3195,6 @@
                  style="fill:#377eb8" />
             </a>
             <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a1432">
-              <path
-                 d="m 320,20 h 20 v 20 h -20 z"
-                 id="path1430"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
-            </a>
-            <a
                xlink:href="https://akodiat.github.io/polycubes?rule=None"
                id="a1436">
               <path
@@ -3654,15 +3555,6 @@
                  style="fill:#e41a1c" />
             </a>
             <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a1596">
-              <path
-                 d="m 360,20 h 20 v 20 h -20 z"
-                 id="path1594"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
-            </a>
-            <a
                xlink:href="https://akodiat.github.io/polycubes?rule=None"
                id="a1600">
               <path
@@ -3733,15 +3625,6 @@
                  id="path1626"
                  inkscape:connector-curvature="0"
                  style="fill:#e41a1c" />
-            </a>
-            <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a1632">
-              <path
-                 d="m 320,60 h 20 v 20 h -20 z"
-                 id="path1630"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
             </a>
             <a
                xlink:href="https://akodiat.github.io/polycubes?rule=None"
@@ -4041,15 +3924,6 @@
                  style="fill:#4daf4a" />
             </a>
             <a
-               xlink:href="https://akodiat.github.io/polycubes?rule=Error"
-               id="a1768">
-              <path
-                 d="m 360,40 h 20 v 20 h -20 z"
-                 id="path1766"
-                 inkscape:connector-curvature="0"
-                 style="fill:#170eb8" />
-            </a>
-            <a
                xlink:href="https://akodiat.github.io/polycubes?rule=0.14"
                id="a1772">
               <path
@@ -4073,6 +3947,160 @@
               <path
                  d="m 60,340 h 20 v 20 H 60 Z"
                  id="path1778"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(0,-20)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-3">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-6"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(0,20)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-7">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-5"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(0,40)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-35">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-62"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(20,40)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-9">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-1"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(40,40)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-2">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-7"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(20,20)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-0">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-9"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(20)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-36">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-0"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(20,-20)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-6">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-2"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(40,20)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-61">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-8"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(60,20)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-79">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-20"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(60)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-23">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-75"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(40)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-92">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-28"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(40,-20)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-97">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-3"
+                 inkscape:connector-curvature="0"
+                 style="fill:#e41a1c" />
+            </a>
+            <a
+               transform="translate(60,-20)"
+               style="fill:none;stroke-miterlimit:10"
+               xlink:href="https://akodiat.github.io/polycubes?rule=None"
+               id="a600-612">
+              <path
+                 d="m 300,20 h 20 v 20 h -20 z"
+                 id="path598-93"
                  inkscape:connector-curvature="0"
                  style="fill:#e41a1c" />
             </a>
@@ -8695,51 +8723,6 @@
                              inkscape:connector-curvature="0"
                              style="display:none" />
                         </g>
-                        <g
-                           transform="translate(0,39)"
-                           id="g3628">
-                          <path
-                             class="background"
-                             aria-hidden="true"
-                             d="M 0,0 H 56.733334 V 11 H 0 Z"
-                             pointer-events="none"
-                             id="path3614"
-                             inkscape:connector-curvature="0"
-                             style="opacity:1" />
-                          <g
-                             id="g3624">
-                            <g
-                               class="mark-symbol role-legend-symbol"
-                               pointer-events="none"
-                               id="g3618">
-                              <path
-                                 transform="translate(6,6)"
-                                 d="M -5,-5 H 5 V 5 H -5 Z"
-                                 id="path3616"
-                                 inkscape:connector-curvature="0"
-                                 style="opacity:1;fill:#170eb8;stroke-width:1.5" />
-                            </g>
-                            <g
-                               class="mark-text role-legend-label"
-                               pointer-events="none"
-                               id="g3622">
-                              <text
-                                 transform="translate(16,9)"
-                                 font-size="10px"
-                                 id="text3620"
-                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">Memory</text>
-                            </g>
-                          </g>
-                          <path
-                             class="foreground"
-                             aria-hidden="true"
-                             d=""
-                             pointer-events="none"
-                             display="none"
-                             id="path3626"
-                             inkscape:connector-curvature="0"
-                             style="display:none" />
-                        </g>
                       </g>
                     </g>
                     <path
@@ -8781,7 +8764,8 @@
              role="graphics-symbol"
              aria-roledescription="legend"
              aria-label="Symbol legend titled 'ratio' for size with values from 0.0 to 1.0"
-             id="g3756">
+             id="g3756"
+             transform="translate(0,-14)">
             <g
                transform="translate(418,74)"
                id="g3754">

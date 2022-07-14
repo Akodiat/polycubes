@@ -24,7 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -79,12 +79,12 @@
      fit-margin-right="0"
      fit-margin-bottom="0"
      inkscape:zoom="1.4629795"
-     inkscape:cx="103.32513"
-     inkscape:cy="324.00145"
+     inkscape:cx="-34.065722"
+     inkscape:cy="321.2673"
      inkscape:window-x="0"
      inkscape:window-y="27"
      inkscape:window-maximized="1"
-     inkscape:current-layer="g5603" />
+     inkscape:current-layer="svg1078" />
   <g
      stroke-miterlimit="10"
      transform="matrix(1.4758146,0,0,1.4758146,111.18435,8.3662793)"
@@ -1629,7 +1629,7 @@
                                  transform="translate(16,9)"
                                  font-size="10px"
                                  id="text628"
-                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">UND</text>
+                                 style="font-size:10px;font-family:sans-serif;text-anchor:start;opacity:1;fill:#000000">Undefined</text>
                             </g>
                           </g>
                           <path

@@ -19,9 +19,9 @@ Professor Ned Seeman was inspired to pioneer the field of \emph{structural DNA n
 
 The main building material covered in this thesis is deoxyribonucleic acid (DNA). DNA is a linear polymer more known for encoding the genes of living systems \cite{calladine1997understanding}. Strands of DNA are made up of units called \emph{nucleotides}, consisting of a sugar--phosphate backbone unit, as well as one of four possible bases: \emph{adenine} (\textbf{A}), \emph{thymine} (\textbf{T}) \emph{cytosine} (\textbf{C}), and \emph{guanine} (\textbf{G}). 
 
-Two strands of DNA can bind together to form a helical duplex. Through Watson--Crick base--pairing, the \textbf{A} nucleotide form two hydrogen bonds with \textbf{T}, while \textbf{G} forms three with \textbf{C}, making DNA double--stranded. Each strand has a directionality, conventionally represented as going from the 3' to the 5' end of the strand, making the duplex anti--parallel.
+Two strands of DNA can bind together to form a helical duplex. Through Watson--Crick base--pairing, the \textbf{A} nucleotide form two hydrogen bonds with \textbf{T}, while \textbf{G} forms three with \textbf{C}. Each strand has a directionality, conventionally represented as going from the 3' to the 5' end of the strand (corresponding to the conventional labelling of carbon atom of the backbone sugar), making the duplex anti--parallel.
 
-The base part of the nucleotide is hydrophobic, while the sugar--phosphate backbone is hydrophilic, which means that the bases ``hide'' on the inside of the duplex to avoid contact with water molecules. However, the length of a backbone unit is about 6~Å (0.6~nm), while the bases would need to be at a distance of 3.3~Å (the Van der Waals contact separation) to stack stably (without any room for water) \cite{calladine1997understanding}. To reconcile this inequality, the DNA duplex forms a double--helical structure with a radius of about 9~Å.
+The base part of the nucleotide is hydrophobic, while the sugar--phosphate backbone is hydrophilic, which means that the bases ``hide'' on the inside of the duplex to avoid contact with water molecules. However, the length of a backbone unit is about 6~Å (0.6~nm), while the bases would need to be at a distance of about 3.4~Å (the Van der Waals contact separation) to stack stably (without any room for water) \cite{calladine1997understanding}. To reconcile this inequality, the DNA duplex forms a double--helical structure with a radius of about 9~Å.
 
 While an unbranched double--helix is the most natural confirmation, it is still possible for duplicates to branch into multiple junctions. For example, the Holliday junction is a junction between four double--helical arms, shown in Figure~\ref{fig:holliday} in one of its possible configurations.
 
@@ -39,7 +39,7 @@ By designing sequences with complementary domains corresponding to intended dupl
 
 %% Add more here
 
-Another breakthrough in the field was the DNA origami technique \cite{rothemund2006folding}, a now popular and proven method for creating larger irregular structures using DNA. The principle behind it, as illustrated in Figure~\ref{fig:dnaOrigami}, is to use short staple strands, each with one or more domans that are complementary to domains on a viral scaffold strand. As the temperature is gradually lowered, the staples bind to the scaffold as seen in Figure~\ref{fig:dnaOrigami}. If done correctly, this ``folds'' the scaffold into the desired structure, hence the name ``origami''. However, care must be taken to how the scaffold should be routed through the design to avoid kinetic traps where the folding cannot be completed.
+Another breakthrough in the field was the DNA origami technique \cite{rothemund2006folding}, a now popular and proven method for creating larger irregular structures using DNA. The principle behind it, as illustrated in Figure~\ref{fig:dnaOrigami}, is to use short staple strands, each with one or more domains that are complementary to spatially separated domains on a viral scaffold strand. As the temperature is gradually lowered, the staples bind to the scaffold as seen in Figure~\ref{fig:dnaOrigami}. If done correctly, this ``folds'' the scaffold into the desired structure, hence the name ``origami''. However, care must be taken as to how the scaffold should be routed through the design to avoid kinetic traps from where the folding cannot be completed.
 
 With improved design software, it is becoming easier to design DNA origami structures of any given form. See Section~\ref{sec:design_tools} for an introduction to such tools.
 
@@ -61,11 +61,11 @@ In DNA origami, the size of the structure is limited by the length of the scaffo
 \label{sec:RNA_design}
 Another promising building material for self--assembly is ribonucleic acid (RNA). RNA is very similar to DNA, but with a backbone containing the sugar ribose, instead of the deoxyribose sugar found in DNA, and with the \emph{thymine} base (\textbf{T}) replaced by \emph{uracil} (\textbf{U}).
 
-Biologically, DNA is transcribed into RNA by the RNA polymerase enzyme as part of gene expression \cite{sadava2014life}. While DNA folding is easier to predict, the more reactive RNA backbone offers the possibility of a more functionalised structure; for example, by incorporating aptamers, enzymes, and other such modifications \cite{guo2010emerging}.
+Biologically, DNA is transcribed into RNA by the RNA polymerase enzyme as part of gene expression \cite{sadava2014life}. While DNA folding is easier to predict, the more reactive RNA backbone offers more chemical functionality and structural complexity \cite{guo2010emerging}.
 
 % TODO from Andrew: Check the above paragraph
 
-In 2014, Geary et al., from the Andersen lab in Aarhus, demonstrated a method \cite{geary2014single, sparvath2017computer, geary2021rna} for co--transcriptionally folded RNA origami, which also enables folding \emph{in vivo}. As shown in Figure~\ref{fig:rna_origami}, the design used a set of tertiary RNA motifs (such as kissing hairpins and double crossovers) as modules. These modules are combined to generate a blueprint for a single strand, enforcing the desired self--interactions. Finally, an iterative algorithm is used to find a sequence that should co--transcriptionally fold into the intended shape.
+In 2014, Geary et al., from the Andersen lab in Aarhus, demonstrated a method \cite{geary2014single, sparvath2017computer, geary2021rna} for co--transcriptionally folded RNA origami, which  is designed to enable folding \emph{in vivo}. As shown in Figure~\ref{fig:rna_origami}, the design used a set of tertiary RNA motifs (such as kissing hairpins and double crossovers) as modules. These modules are combined to generate a blueprint for a single strand, embodying the desired self--interactions. Finally, an iterative algorithm is used to find a sequence that should co--transcriptionally fold into the intended shape.
 
 \begin{figure}[h]
   \centering
@@ -116,7 +116,7 @@ The tiles attach using so--called \emph{sticky ends} where, as seen in Figure~\r
 % Andrew: Other RNA structures?
 
 %https://www.science.org/doi/abs/10.1126/science.1253920 
-As already covered in Section~\ref{sec:RNA_design}, it is possible to co--transcriptionally fold \emph{RNA origami} \cite{geary2014single}. This was first shown in 2014 by Geary et al., who folded RNA tiles that connect through complementary 120-degree kissing loop interactions, as seen in Figure~\ref{fig:rna_tiles}, forming a hexagonal lattice. A significant promise with co--transcriptionally folded RNA structures is that they can be assembled \emph{in vivo} \cite{guo2010emerging}, with a DNA gene being transcribed into RNA inside a cell.
+As already covered in Section~\ref{sec:RNA_design}, it is possible to co--transcriptionally fold \emph{RNA origami} \cite{geary2014single}. This was first shown in 2014 by Geary et al., who folded RNA tiles that connect through complementary 120-degree kissing loop interactions, as seen in Figure~\ref{fig:rna_tiles}, forming a hexagonal lattice. A significant promise with co--transcriptionally folded RNA structures is that they can be assembled \emph{in vivo} \cite{guo2010emerging}, with a DNA gene being transcribed into RNA which folds inside a cell.
 
 \begin{figure}[h]
   \centering
@@ -133,10 +133,9 @@ As already covered in Section~\ref{sec:RNA_design}, it is possible to co--transc
 % Bricks: https://www.nature.com/articles/nature24648
 
 A three--dimensional DNA ``canvas'' was created in 2017 by Ong et al. \cite{ong2017programmable}, using a technique called \emph{DNA bricks}. Structures were assembled from up to about 30,000 unique components, as seen in Figure~\ref{fig:dna_bricks}. 
-Each ``brick'' component consists of a single, 52 nucleotides long, DNA strand. The strand has four 13-nucleotide domains, each complementary domains to a domain in a neigbouring brick. A 13-nucleotide helix corresponds to approximately 1.25 turns, creating a 90$^{\circ}$ dihedral angle between the bricks, as Figure~\ref{fig:dna_bricks}.a shows.
+Each ``brick'' component consists of a single, 52 nucleotides long, DNA strand. The strand has four 13-nucleotide domains, each complementary to a domain in a neighbouring brick. A 13-nucleotide helix corresponds to approximately 1.25 turns, creating a 90$^{\circ}$ dihedral angle between the bricks, as Figure~\ref{fig:dna_bricks}.a shows.
 
-Since each brick is unique, custom shapes can be ``sculpted'' by leaving out the voxels (3D pixels) not required.
-
+Since each brick is unique, custom shapes can be ``sculpted'' by leaving out strands corresponding to voxels (3D pixels) not required.
 
 
 % Andrew: Again, a missed opportunity to describe what is going on (4x8-base domains - interactions with neighbours - helical repeat)
@@ -159,9 +158,9 @@ Since each brick is unique, custom shapes can be ``sculpted'' by leaving out the
 
 In 2017, Tikhomirov et al. \cite{tikhomirov2017fractal, tikhomirov2017programmable} used the DNA origami technique to demonstrate two--dimensional patterns assembled on the micrometre--scale using square tiles where each tile was a complete origami, as seen in Figure~\ref{fig:origamiArrays}. The tiles connect to each other through complementary single--stranded overhangs on their edges.
 
-The patterns could either be hierarchically assembled from unique tiles \cite{tikhomirov2017fractal} or assembled into random patterns from a small number of tile types \cite{tikhomirov2017programmable}. The binding strength could be adjusted using a variable amount of edge overhangs, as seen in Figure~\ref{fig:origamiArrays}.b). Arrays up to \(8 \times 8\) tiles were successfully produced, although larger arrays had a much smaller yield (Figure~\ref{fig:origamiArrays}.c).
+The patterns could either be hierarchically assembled from unique tiles \cite{tikhomirov2017fractal} or assembled into random patterns from a small number of tile types \cite{tikhomirov2017programmable}. The binding strength could be adjusted using a variable number of edge overhangs, as seen in Figure~\ref{fig:origamiArrays}.b). Arrays up to \(8 \times 8\) tiles were successfully produced, although larger arrays had a much smaller yield (Figure~\ref{fig:origamiArrays}.c).
 
-While the random tilings were generally unbounded, Tikhomirov et al. also showed how to program a finite grid, as seen in Figure~\ref{fig:origamiArrays}.d). These tiles are very similar to the polyomino model later described in Section~\ref{sec:polyomino}.
+While random tilings were generally unbounded, Tikhomirov et al. also showed how to program a finite grid, as seen in Figure~\ref{fig:origamiArrays}.d). These tiles are very similar to the polyomino model later described in Section~\ref{sec:polyomino}.
 
 \begin{figure}[h]
   \centering
@@ -182,7 +181,7 @@ While the random tilings were generally unbounded, Tikhomirov et al. also showed
 
 % Huge https://www.nature.com/articles/s41563-021-01020-4
 
-Also in 2017, Wagenbauer et al. \cite{wagenbauer2017gigadalton} used shape--complementarity to assemble DNA origami components into three--dimensional polyhedral shapes up to 450 nanometers in diameter. Later, in 2021, Sigl et al. assembled large shells from shape--complementary origami triangles, as seen in Figure~\ref{fig:shape-complementarity}. The triangular sides attach through protrusions and indentations of complementary shape, as seen in Figure~\ref{fig:shape-complementarity}.a). By having extra helices protruding from one triangle side, and a hole with a shape they would fit on the side of another triangle, the two components can binding together through stacking interactions at the helix ends, a method first shown by Woo et al. \cite{woo2011programmable}.
+Also in 2017, Wagenbauer et al. \cite{wagenbauer2017gigadalton} used shape--complementarity to assemble DNA origami components into three--dimensional polyhedral shapes up to 450 nanometers in diameter. Later, in 2021, Sigl et al. assembled large shells from shape--complementary origami triangles, as seen in Figure~\ref{fig:shape-complementarity}. The triangular sides attach through protrusions and indentations of complementary shape, as seen in Figure~\ref{fig:shape-complementarity}.a). By having extra helices protruding from one triangle side, and a hole with a shape they would fit on the side of another triangle, the two components can bind together through stacking interactions at the helix ends, a method first shown by Woo et al. \cite{woo2011programmable}.
 
 While the described experiments use triangular components, the general shape--complementary assembly method is a relevant option for a physical realization of the torsionally rigid polycube patches described in Chapter~\ref{ch:polycubes1}.
 
@@ -251,18 +250,18 @@ The DNA tiles by Winfree et al. \cite{winfree1998design}, presented in Section~\
 
 % Molecular algorithms https://www.nature.com/articles/s41586-019-1014-9
 
-The algorithmic Tile Assembly Model (aTAM), shown in Figure~\ref{fig:atam}, models the dynamic behaviour of the double crossover DNA tiles introduced by Winfree et al. \cite{winfree1998design}. Each tile has four patches, one on each edge, corresponding to the four sticky ends of the DNA tile. Furthermore, the patches can have different strengths, with a global temperature variable determining the total connection strength required for a tile to attach \cite{doty2012theory}.
+The algorithmic Tile Assembly Model (aTAM), shown in Figure~\ref{fig:atam}, models the dynamic behaviour of the double crossover DNA tiles introduced by Winfree et al. \cite{winfree1998design}. Each tile has four patches, one on each edge, corresponding to the four sticky ends of the DNA tile (such as those seen in Figure~\ref{fig:dna_tiles}). Furthermore, the patches can have different strengths, with a global temperature variable determining the total connection strength required for a tile to attach \cite{doty2012theory}.
 
-In the example seen in Figure~\ref{fig:atam}, the pattern grows from the initial bottom--right seed into the blue horizontal bottom row and the rightmost vertical column. This is because these tiles have ``strength-2'' glues with enough binding strength to attach by themselves \cite{doty2012theory}. The additional tiles have weaker ``strength-1'' glues (illustrated as thinner black connectors), so they need at least two complementary patches to achieve the binding strength threshold (temperature).
+In the example seen in Figure~\ref{fig:atam}, the pattern grows from the initial bottom--right seed into the blue horizontal bottom row and the rightmost vertical column. This is because these tiles have ``strength-2'' glues with enough binding strength to attach by themselves \cite{doty2012theory}. The additional tiles have weaker ``strength-1'' glues (illustrated as thinner black connectors), so they need at least two complementary patches to achieve the binding strength threshold set by the assembly temperature.
 
-Because of this so--called \emph{co--operative binding}, the tiles can be seen as logic gates performing computation; given the bottom and right patches as input bits, the matching tile attaches and produces two computed output bits (top and left).
+Because of this so--called \emph{co--operative binding}, the tiles can be seen as logic gates performing computation; given the south (bottom) and east (right) patches as input bits, the matching tile attaches and produces two computed output bits as the north (top) and west (left) patches.
 
 % Ard: You should mention that a key interest in this model is because it is thought to be Turing universal.
 
 
 \begin{figure}[h]
   \centering\includesvg[width=\textwidth]{figures/atam.svg}
-  \caption{Algorithmic self--assembly of a Sierpiński triangle. Adapted from \cite{doty2017}. A tile set (right) grows from an initial seed by co--operatively attaching self--complementary edges (without rotation). The \(0\) and \(0\) ``glues'' are weaker and require two matching bonds to attach (co--operative binding), compared to the \(W\) (west) and \(N\) (north) glues that are strong enough to bind alone.}
+  \caption{Algorithmic self--assembly of a Sierpiński triangle. Adapted from \cite{doty2017}. A tile set (right) grows from an initial seed by co--operatively attaching self--complementary edges (without rotation). The \(0\) and \(0\) ``glues'' are weaker and require two matching bonds to attach (co--operative binding), compared to the \(W\) (westward) and \(N\) (northward) glues that are strong enough to bind alone.}
   \label{fig:atam}
 \end{figure}
 
@@ -270,9 +269,9 @@ Because of this so--called \emph{co--operative binding}, the tiles can be seen a
 
 % Ard: I think you need a longer section on the background of the polyomino model here. This is very terse.
 
-The main inspiration for the \emph{polycube} model (presented in Chapter~\ref{ch:polycubes1}) is the polyomino model \cite{ahnert2010self, johnston2011evolutionary}. As noted in Section~\ref{sec:origamiArrays}, the 2D model is similar in assembly to the later experimental micrometer scale tile designs by Tikhomirov \cite{tikhomirov2017programmable} shown in Figure~\ref{fig:origamiArrays}.d). Compared to the aTAM model described in Section~\ref{sec:atam}, polyomino tiles are allowed to rotate (but not invert), creating further possibilities for symmetries. Also, the edge binding is not self--complementary, with complementary colour pairs used instead. Finally, polyominoes have a constant binding strength, assembling irreversibly and without co--operative binding (corresponding to ``strength-0'' glues).
+The main inspiration for the \emph{polycube} model (presented in Chapter~\ref{ch:polycubes1}) is the polyomino model \cite{ahnert2010self, johnston2011evolutionary}. As noted in Section~\ref{sec:origamiArrays}, the 2D poliomino model is similar in assembly to the later experimental micrometer scale tile designs by Tikhomirov \cite{tikhomirov2017programmable} shown in Figure~\ref{fig:origamiArrays}.d). Compared to the aTAM model described in Section~\ref{sec:atam}, polyomino tiles are allowed to rotate (but not invert), creating further possibilities for symmetries. Also, the edge binding is not self--complementary, with complementary colour pairs used instead. Finally, polyominoes have a constant binding strength, assembling irreversibly and without co--operative binding (corresponding to ``strength-0'' glues).
 
-See Figure~\ref{fig:polyominoes} for an illustration of the model, where an input \emph{genotype} (describing the four possible tile types) is mapped into an assembled output polyomino phenotype by stochastically growing the shape from an initial seed. The growth stops if, as in the figure, no more tiles can attach (since the colour \(0\) does not bind to anything). If the growth is infinite, the genotype is called \emph{unbounded}. A genotype is considered \emph{deterministic} if it assembles the same phenotype polyomino every time. Only output corresponding to bounded and deterministic genotypes are considered valid.
+See Figure~\ref{fig:polyominoes} for an illustration of the model, where an input \emph{genotype} (describing the four possible tile types) is mapped into an assembled output polyomino phenotype by stochastically growing the shape from an initial seed. The growth stops if, as in the figure, no more tiles can attach (since the colour \(0\) does not bind to anything). If the growth is infinite, the genotype is called \emph{unbounded}. A genotype is considered \emph{deterministic} if it assembles the same phenotype polyomino every time. Only output corresponding to bounded and deterministic genotypes are considered \emph{valid}.
 
 \begin{figure}[h]
     \centering
