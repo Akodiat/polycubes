@@ -17,10 +17,9 @@ The polycube assembly model was implemented in both C++ and JavaScript. The C++ 
 
 In order to speedup sampling, the c++ binary can be called multiple times in parallel and merged with the merge python script. For the results covered in Chapter~\ref{ch:polycubes1}, the sampling was done on 100 concurrent nodes and merged.
 
-% Andrew: On what hardware?
-The largest sampling done, the polyomino reference with 1e9 samples (described in Section~\ref{sec:refcalc}), took a total of 72 hours, 57 minutes, and 58 seconds to sample with 100 copies each performing 1e7 samples in parallel. The merging script then took another 197 hours, 40 minutes, and 24 seconds to run, but it clearly saved a significant amount of time compared to running a single sampling for 100 times longer (which would take almost 7300 hours or 304 days).
+The largest sampling done, the polyomino reference with 1e9 samples (described in Section~\ref{sec:refcalc}), took a total of 72 hours, 57 minutes, and 58 seconds to sample with 100 copies each performing 1e7 samples in parallel on 2.6 GHz CPUs. The merging script then took another 197 hours, 40 minutes, and 24 seconds to run, but it clearly saved a significant amount of time compared to running a single sampling for 100 times longer (which would take almost 7300 hours or 304 days). 
 
-Finally the analysis script took another 301 hours, 44 minutes, and 17 seconds to run.
+Finally the analysis script took another 301 hours, 44 minutes, and 17 seconds to run on the same hardware.
 
 %took 359 hours, 9 minutes, and 44 seconds
 

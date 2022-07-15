@@ -2,9 +2,9 @@
 
 \minitoc
 
-This chapter contains my results on my second project: how to design, simulate and analyse DNA and RNA nanostructures. 
+% Andrew: It still isn't completely clear what YOU did - I would not change the text, but perhaps add a summary table listing your contributions.
 
-%It starts with an introductory description of earlier approaches to this problem and will then describe how my contributions to the oxView tool have improved the previous methods and enabled new results.
+This chapter contains my results on my second project: how to design, simulate and analyse DNA and RNA nanostructures.
 
 As I started this DPhil, I was tasked with the issue of converting origami designs created in caDNAno (see Section~\ref{sec:cadnano}) so that they could be correctly simulated in oxDNA (see Section~\ref{sec:oxDNA}). You have seen some of the tools I tried introduced in Chapter \ref{ch:oxview_intro}. I collaborated with Hannah Fowler from the Doye group at Theoretical Chemistry, who simulated an extensive collection of DNA designs. This was a good opportunity to investigate why some structures were more problematic to convert and relax than others.
 
@@ -157,7 +157,7 @@ Any edit can also be undone and redone, either pressing Ctrl+Z or Ctrl+Z, or by 
 \section{Visualization options}
 Depending on the design, a user of oxView might want to modify the visualisation settings to make certain features of the structure more or less visible.
 
-\paragraph{Centring with periodic boundary conditions} A useful utility when visualising an oxDNA trajectory is to keep the structure centred at the origin, stopping it from drifting out of view. The method described in \cite{PBC_centring} was used to achieve centring while taking periodic boundary conditions into account.
+\paragraph{Centring with periodic boundary conditions} A useful utility when visualising an oxDNA trajectory is to keep the structure centred at the origin, stopping it from drifting out of view. I used the method described in \cite{PBC_centring} to achieve centring while taking periodic boundary conditions into account.
 
 % https://doi.org/10.1080/2151237X.2008.10129266
 % https://en.wikipedia.org/wiki/
@@ -224,6 +224,19 @@ Click ``Create video'' in the ``File'' menu, choose video type (trajectory or le
 For trajectory videos, the camera can be manually moved while the video is being recorded, thus showing the simulation from different angles.
 
 Another option for video creation is to follow the steps described in Section~\ref{sec:image_export}. When the structure is loaded into Blender, the camera can be animated (or the design rotated) using keyframes to render high--quality videos. To render an oxDNA simulation, use the ``traj2blender.py'' script, found at \url{https://github.com/Akodiat/traj2blender}, to automatically load keyframes corresponding to simulation steps.
+
+\section{Summary of oxView contributions}
+
+A summary of the main oxView features that I have personally implemented is provided here:
+\begin{itemize}
+  \item Rigid-body dynamics relaxation of clustered origami components.
+  \item Improved editing with an undo/redo stack, as well as transformation gizmos.
+  \item A re-implementation of the tacoxDNA set of converter scripts allowing native import of structures into oxView.
+  \item The option to export videos of simulation trajectories (and static configurations).
+  \item A more user-friendly interface, based on a ``ribbon'' menu design from the Metro4 UI library.
+  \item The option to export glTF files for use in other 3D software, including photo-realistic rendering tools.
+  \item Virtual reality visualisation using webXR.
+\end{itemize}
 
 \section{Converting RNA origami designs}
 \label{sec:converting_rna_origami}
