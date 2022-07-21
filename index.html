@@ -150,8 +150,8 @@
     <div id="info">
         Polycubes, by Joakim Bohlin. A 3D version of <a href="http://chaoticsymmetry.co.uk/polyominoes/index-old.php">Polyominoes</a><br>
         <button class="primary" onclick="toggleModal('examples')">Help</button>
-        <button onclick="system.resetRandom(); clearRules();">Random input</button>
-        <button onclick="system.resetRule(parseHexRule(mutateRule(system.getRuleStr()))); clearRules()">Mutate input</button>
+        <button onclick="system.resetRandom(); clearRule();">Random input</button>
+        <button onclick="system.resetRule(parseHexRule(mutateRule(system.getRuleStr()))); clearRule()">Mutate input</button>
         <button onclick="simplifyRule()">Simplify</button>
         <button onclick="simplifyRule2()">Simplify2</button>
         <fieldset>
@@ -191,6 +191,7 @@
     <script src="js/polycubeSystem.js"></script>
     <script src="js/view.js"></script>
     <script src="js/patchySimFiles.js"></script>
+    <script src="js/newPatchySimFiles.js"></script>
     <script src="js/oxviewIO.js"></script>
     <script src="js/dnaSimFiles.js"></script>
     <script src="js/init.js"></script>
