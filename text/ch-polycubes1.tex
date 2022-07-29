@@ -2,8 +2,10 @@
 
 \minitoc
 
-The previous chapter introduced a number of experimental projects and theoretical models concerning the design of multi-component objects, but while some coarse-grained tile models exist, there remains a need for methods to quickly explore the assembly of multi-component 3D structures.
-This chapter describes my \emph{polycube} model and details how it can be used to sample a large number of assembly rules, showing that, in line with Algorithmic Information Theory, some polycube shapes are significantly more common than others. The model supports both 3D polycubes and 2D polyominoes, as explained in the following sections. We will start by performing a reference sampling (Section~\ref{sec:refcalc}) to verify that the 2D polyomino model agrees with earlier results. We will then compare 2D and 3D results in Section~\ref{sec:maincalc}.
+The previous chapter introduced several experimental projects and theoretical models concerning the design of multi-component objects. However, while some coarse-grained tile models exist, there remains a need for fast methods to explore the assembly of multi-component 3D structures.
+This chapter extends the 2D polyomino model \cite{ahnert2010self,johnston2011evolutionary} to 3D, which we will call the \emph{polycube}\footnote{A polycube is the 3D equivalent of a polyomino, consisting of one or more equal-size cubes joined face to face.} model. The program simulating the 3D polycubes can also easily simulate 2D polyomino assembly.
+% and details how it can be used to sample a large number of assembly rules, showing that, in line with Algorithmic Information Theory, some polycube shapes are significantly more common than others. The model supports both 3D polycubes and 2D polyominoes, as explained in the following sections.
+We will start by performing a reference sampling (Section~\ref{sec:refcalc}) to verify that the 2D polyomino model agrees with earlier results. We will then compare 2D and 3D results in Section~\ref{sec:maincalc} and, in particular, see how the probability-complexity relationships compare to the predictions of the AIT coding theorem.
 
 The following chapter (Chapter~\ref{ch:polycubes2}) will then show how to explore the solution landscape of, and obtain the lowest complexity possible assembly rule for, a given shape.
 
@@ -30,18 +32,16 @@ The following chapter (Chapter~\ref{ch:polycubes2}) will then show how to explor
 
 A \emph{polycube} consists of multiple equally-sized cubes connected by their neighbouring faces (a three-dimensional analogue to how polyominoes are squares connected by their neighbouring edges). In the model presented here, a polycube is stochastically self-assembled according to a specified \emph{rule}, defining a set of available cube species. Each species describes a type of cube that can be present in the polycube, so cubes belonging to the same species are always identical. See, for example, Figure~\ref{fig:polycubeRule}, where an input rule with two species assembles into a double-cross output polycube with seven cubes.
 
-Each species has six patches; one on each face of the cube, and each patch has a ``colour'' and an orientation. The colour is indicated by a signed integer and the orientation is one of four possible rotations: \includegraphics[width=10pt]{figures/face.eps}\hspace{4pt}(\(0\)),
+Each species has six patches, one on each face of the cube, and each patch has a ``colour'' and an orientation. The colour is indicated by a signed integer and the orientation is one of four possible rotations: \includegraphics[width=10pt]{figures/face.eps}\hspace{4pt}(\(0\)),
 \begingroup\setbox0=\hbox{\includegraphics[width=10pt,angle=-90]{figures/face.eps}}\parbox{\wd0}{\box0}\endgroup\hspace{4pt}(\(\frac{\pi}{2}\)),
 \begingroup\setbox0=\hbox{\includegraphics[width=10pt,angle=180]{figures/face.eps}}\parbox{\wd0}{\box0}\endgroup\hspace{4pt}(\(\pi\)) or
-\begingroup\setbox0=\hbox{\includegraphics[width=10pt,angle=90]{figures/face.eps}}\parbox{\wd0}{\box0}\endgroup\hspace{4pt}(\(\frac{3\pi}{2}\)), saved as an integer 0, 1, 2, or 3.
-
-For each of the patches, facing left \(\left[-1, 0, 0\right]\), right \(\left[1, 0, 0\right]\), bottom \(\left[0, -1, 0\right]\), top \(\left[0, 1, 0\right]\), back \(\left[0, 0, -1\right]\) and front \(\left[0, 0, 1\right]\) respectively, the default (\(0\)) orientation (\includegraphics[width=10pt]{figures/face.eps}) corresponds to the vectors \(\left[0, -1, 0\right]\), \(\left[0, 1, 0\right]\), \(\left[0, 0, -1\right]\), \(\left[0, 0, 1\right]\), \(\left[-1, 0, 0\right]\), and \(\left[1, 0, 0\right]\).
+\begingroup\setbox0=\hbox{\includegraphics[width=10pt,angle=90]{figures/face.eps}}\parbox{\wd0}{\box0}\endgroup\hspace{4pt}(\(\frac{3\pi}{2}\)), saved as an integer 0, 1, 2, or 3. For each of the patches, facing left \(\left[-1, 0, 0\right]\), right \(\left[1, 0, 0\right]\), bottom \(\left[0, -1, 0\right]\), top \(\left[0, 1, 0\right]\), back \(\left[0, 0, -1\right]\) and front \(\left[0, 0, 1\right]\) respectively, the default (\(0\)) orientation (\includegraphics[width=10pt]{figures/face.eps}) corresponds to the vectors \(\left[0, -1, 0\right]\), \(\left[0, 1, 0\right]\), \(\left[0, 0, -1\right]\), \(\left[0, 0, 1\right]\), \(\left[-1, 0, 0\right]\), and \(\left[1, 0, 0\right]\).
 
 A patch can bind to another patch if and only if they have complementary colours and the same (global) orientation. In Figure~\ref{fig:polycubeRule}, the patch color \(1\) is shown as bright red while the complementary \(-1\) is a darker red colour. If the patch colour is zero, the patch is shown as empty and will not bind to anything. All opposite colours are defined as complementary, such that \(n\) pairs with \(-n\). The model could, however, be expanded to more complicated colour interaction matrices or changed to pair odd integers with each subsequent integer as in the polyomino model \cite{ahnert2010self,johnston2011evolutionary} described in Section~\ref{sec:polyomino}.
 
 By constraining the input space not to use the back and front patches, while orienting the remaining patches to point towards the front direction, the output space will correspond to 2D polyominoes.
 
-\subsection{String representation}
+\subsection{String representation of the input rules}
 \label{sec:string_repr}
 
 Polycube rules can be described in a hexadecimal representation, as seen in Figure~\ref{fig:polycubeRule}.c). Each species is described by 12 hexadecimal digits, two digits per patch. The two hexadecimal digits are then converted into eight binary digits (bits). The first six bits represent the patch colour as a signed integer (allowing for decimal values 0-31); the remaining two encodes one of the four possible patch orientations.
@@ -57,9 +57,7 @@ Moves are then processed until the list of moves is empty, or the polycube grows
 
 While the list of moves is not empty, a random move is chosen at each step. The input rule is then randomly searched for a species fitting the move. Cubes can be rotated to fit, and if a fitting species is found, the corresponding cube is added to the assembly. If there is no fit to be found, the move is discarded.
  
-The assembly is repeated \(n_{times}\) times (default 100), and the outputs are compared for equality (allowing rotation) in order to determine if the rule is \emph{deterministic}. Note that this method is not rigorous, but it is enough to quickly detect a large fraction of the nondeterministic assemblies. Figure~\ref{fig:UND}.b) shows a non-deterministic structure where the blue ``neck'' species can bind to itself. Thus, the output depends on how many cubes from the blue species bind before a green species cube stops the growth. Both species are equally likely to bind, so the probability of assembling a neck with \(l\) blue cubes is \(2^{-l}\).
-
-Unbounded or non-deterministic structures are considered \emph{undefined} and are not included in the sampling result. This is in line with the earlier polyomino model and comparable to how unbounded protein complexes are highly deleterious \cite{johnston2021}.
+The assembly is repeated \(n_{times}\) times (default 100), and the outputs are compared for equality (allowing rotation) in order to determine if the rule is \emph{deterministic}. Note that this method is not rigorous, but it is enough to quickly detect a large fraction of the nondeterministic assemblies. Figure~\ref{fig:UND}.b) shows a non-deterministic structure where the blue ``neck'' species can bind to itself. Thus, the output depends on how many cubes from the blue species bind before a green species cube stops the growth. Both species are equally likely to bind, so the probability of assembling a neck with \(l\) blue cubes is \(2^{-l}\). Unbounded or non-deterministic structures are considered \emph{undefined} and are not included in the sampling result. This is inspired by the idea that unbounded protein complexes are highly deleterious \cite{johnston2021}.
 
 
 % Unbounded = https://akodiat.github.io/polycubes?rule=05050a08000085858a880000
@@ -116,15 +114,16 @@ Having now understood the assembly model, let us use it to explore how the space
 
 \subsection{Sampling vs exhaustive search}
 First of all, trying every input in a brute-force approach would be unfeasible for most input spaces. For a 3D polycube space with \(\widetilde{K}_s\) species and \(\widetilde{K}_c\) colours, four possible patch orientations, and six patches per species, we get the following input space size, where \(I_{\widetilde{K}_s, \widetilde{K}_c}^{3D}\) is the set of all inputs:
-\[
+\begin{equation}\label{eq:inputSize3D}
 \left\lvert I_{\widetilde{K}_s, \widetilde{K}_c}^{3D}\right\rvert = (4 \times (1+2\widetilde{K}_c))^{6\widetilde{K}_s}
-\] Even for relatively small values of \(\widetilde{K}_s=3\) species and \(\widetilde{K}_c=2\) colours, we get \(I_{2, 3}^3 \approx 2.62 \times 10^{23}\). Both \(\widetilde{K}\) measures here can be seen as proxies for Kolmogorov complexity, as discussed in Section \ref{sec:AIT}.
+\end{equation} 
+Even for relatively small values of \(\widetilde{K}_s=3\) species and \(\widetilde{K}_c=2\) colours, we get \(I_{2, 3}^3 \approx 2.62 \times 10^{23}\). Both \(\widetilde{K}\) measures here can be seen as proxies for Kolmogorov complexity, as discussed in Section \ref{sec:AIT}.
 
 For 2D, it is a bit easier since there are only four patches per species and a fixed patch orientation:
 
-\[
+\begin{equation}\label{eq:inputSize2D}
 \left\lvert I_{\widetilde{K}_s, \widetilde{K}_c}^{2D}\right\rvert = (1+2\widetilde{K}_c)^{4\widetilde{K}_s}
-\]
+\end{equation}, but the space still grows exponentially.
 
 However, even if the space of possible input rules is too large to explore fully, we can still get an idea of how likely it is for an input rule to map to a particular output shape through uniform sampling and assembly of a large number of random rules. The results of these samplings will be covered in the following sub-sections. 
 
@@ -136,7 +135,7 @@ As described in Section~\ref{sec:stochastic_assembly}, rules growing larger than
     \item[\(\widetilde{K}_{lz}\)] - The length of the binary rule after Lempel-Ziv compression \cite{lempel-ziv}. 
 \end{description}
 
-The Lempel-Ziv compression measure was choosen for its use in previous literature \cite{johnston2021, dingle2018input} and because of the connection between Kolmogorov complexity and compression \cite{johnston2021}. It is defined as in \cite{dingle2018input}, where \(N_w(x)\) is the number of patterns (words) in a binary string \(x\) (converted from the hexadecimal string representation described in Section \ref{sec:string_repr}):
+The Lempel-Ziv compression measure was chosen for its use in previous literature \cite{johnston2021, dingle2018input} and because of the connection between Kolmogorov complexity and compression \cite{johnston2021}. It is defined as in \cite{dingle2018input}, where \(N_w(x)\) is the number of patterns (words) in a binary string \(x\) (converted from the hexadecimal string representation described in Section \ref{sec:string_repr}):
 
 \[
     \widetilde{K}_{lz} = \left\{ \begin{array}{cl}
@@ -145,7 +144,7 @@ The Lempel-Ziv compression measure was choosen for its use in previous literatur
         \end{array} \right.
 \]
 
-To more fairly compare them, each rule was simplified before the complexity measures were calculated. This simplification was done by removing all patches without a complementary colour in the same rule, as well as setting the orientation of all empty (zero-coloured) patches to zero. Finally, the colour indices were updated to avoid any gaps in the numbering.
+Each rule was simplified before the complexity measures were calculated in order to compare them more fairly. This simplification was done by removing all patches without a complementary colour in the same rule, as well as setting the orientation of all empty (zero-coloured) patches to zero. Finally, the colour indices were updated to avoid any gaps in the numbering.
 
 \subsection{Input spaces sampled}
 
@@ -175,7 +174,8 @@ Multiple samplings were done to explore how the input space parameters affect th
 \section{Polyomino reference sampling}
 \label{sec:refcalc}
 % 2D, seeded, 1e9 samples, 16 species, 31 colours
-In order to verify the model against earlier polyomino results \cite{johnston2021}, a large reference sampling of the 2D space was performed. Limiting the input space to 16 species and 31 colours (\(I_{16,31}^{2D}\)), one billion (\(10^9\)) random rules were assembled using the seeded assembly mode (Table~\ref{tab:polycubeSamplings}).
+In order to verify the model against earlier polyomino results \cite{johnston2021}, a large reference sampling of the 2D space was performed. Limiting the input space to 16 species and 31 colours (\(I_{16,31}^{2D}\)), one billion (\(10^9\)) random rules were assembled using the seeded assembly mode (Table~\ref{tab:polycubeSamplings}). 
+The total number of possible rules for the space is \(\left\lvert I_{16,31}^{2D}\right\rvert = 63^{64} \approx 1.4 \times 10^{115}\) (see Equation~\ref{eq:inputSize2D}).
 
 \subsection{Input space analysis}
 
@@ -183,7 +183,7 @@ Let us start by looking at the sampled input space. How much of the input maps t
 
 \begin{figure}[h]
     \centering\includesvg[width=\textwidth]{figures/refcalc/rule_validity.svg}
-    \caption{Proportion of valid rules when sampling \(I_{16_s,31_c}^{2D}\). From a total of 1,000,000,000 sampled rules, 44,545,570 were found to be valid, while 871,155,425 were  unbounded and 84,299,005 were non-deterministic}
+    \caption{Proportion of valid rules when sampling \(I_{16_s,31_c}^{2D}\) using seeded assembly. From a total of 1,000,000,000 sampled rules, 44,545,570 were found to be valid, while 871,155,425 were  unbounded and 84,299,005 were non-deterministic}
     \label{fig:ref_validity}
 \end{figure}
 
@@ -204,11 +204,11 @@ In Figure~\ref{fig:ref_outputdistr}, the blue bars show how many polyominoes wer
 
 % Andrew I may be being slow, but it is not clear to me whether the increased frequency of 4N otratmers is real or a sampling artefact:
 
-For the larger sizes, we again see the bias toward shapes with a multiple of four tiles. This shows that not only do these polyomino sizes have more input rules assembling them, but that a larger number of unique polyomino shapes are also found for them. The OEIS (On-line Encyclopedia of Integer Sequences) data shows no such bias in the actual size counts. Following the earlier argument that few additional species are required to extend a shape with a multiple of four tiles, those additional tiles can be placed in various (still symmetric) configurations to create different shapes. Larger shapes leave room for more such permutations, leading to the increasing bias seen in the figure. Thus, this is not a sampling artefact but rather a bias in the polyomino input-output map. 
+For the larger sizes, we again see the bias toward shapes with a multiple of four tiles. This shows that not only do these polyomino sizes have more input rules assembling them, but that a larger number of unique polyomino shapes are also found for them. The OEIS (On-line Encyclopedia of Integer Sequences) data shows no such bias in the actual size counts. Following the earlier argument that few additional species are required to extend a shape with a multiple of four tiles, those additional tiles can be placed in various (still symmetric) configurations to create different shapes. Larger shapes leave room for more such permutations, leading to the increasing bias seen in the figure. Thus, this is not a sampling artefact but rather an intrinsic bias in the polyomino input-output map. 
 
 \begin{figure}[h]
     \centering\includesvg[width=\textwidth]{figures/refcalc/pheno_size_distribution.svg}
-    \caption{Number of output polyominoes per output size. Count of unique output polyominoes found sampling \(10^9\) input rules in \(I_{16_s,31_c}^{2D}\). The red line shows the actual number of polyominoes of each size, obtained from OEIS A000988 \cite{sloane1995encyclopedia, oeisA000988}.
+    \caption{Number of output polyominoes per output size. Count of unique output polyominoes found sampling \(10^9\) input rules in \(I_{16_s,31_c}^{2D}\). The red line shows the total number of polyominoes of each size, obtained from OEIS A000988 \cite{sloane1995encyclopedia, oeisA000988}. For larger sizes, only the most likely structures appear due to sampling constraints.
     }
     \label{fig:ref_outputdistr}
 \end{figure}
@@ -218,13 +218,13 @@ With the sampling details explained, we move on to the main polyomino results. L
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{figures/16-mers_2d.png}
-    \caption{The 50 most common 2-dimensional 16--mers, scaled proportional to their frequency. Found while sampling the \(I_{16,31}^{2D}\) input space.}
+    \caption{The 50 most common 2-dimensional 16--mers, scaled in proportion to their frequency. Found while sampling the \(I_{16,31}^{2D}\) input space.}
     \label{fig:16-mer_2d_zoo}
 \end{figure}
 
 \subsection{Symmetry}
 
-Noting that frequent 16-mers look more symmetrical, we quantify symmetry by calculating the rotation and reflection symmetries for 2D polyominoes on the lattice. Corresponding symmetries could also be calculated for 3D polycubes, but we focus on polyominoes as their symmetry groups are fewer and since this will enable us to compare the results to those of Johnston et al \cite{johnston2021} seen in Figure~\ref{fig:polyomino_symmetries}.
+Noting that frequent 16-mers look more symmetrical, we quantify symmetry by calculating the rotation and reflection symmetries for 2D polyominoes on the lattice. Corresponding symmetries could also be calculated for 3D polycubes, but we focus on polyominoes as their symmetry groups are fewer and since this will enable us to compare the results to those of Johnston et al.\\cite{johnston2021} seen in Figure~\ref{fig:polyomino_symmetries}.
 
 A 2D polyomino has four possible rotations, corresponding to the matrices $\big(\begin{smallmatrix}
     1 & 0 & 0\\
@@ -264,7 +264,7 @@ In the simplified context of these lattice shapes, we assign 2D symmetry groups 
 
 Consider again the simplicity bias presented in Section~\ref{sec:polyomino_evolve}. Can we show such a trend for the current model as well? As can be seen in Figure~\ref{fig:freq_vs_compl_refcalc}, there is a log-linear relationship between the probability of finding a rule that assembles into a particular structure and the information needed to specify the structure, as predicted in \cite{dingle2018input, dingle2020generic}.
 
-Comparing this with Figure~\ref{fig:polyomino_symmetries}, it is clear that the same simplicity bias is present, reproducing the result from \cite{johnston2021} with the polycube model implementation presented in this thesis. Note again how high-frequency low-complexity shapes tend to be more symmetric.
+Comparing this with Figure~\ref{fig:polyomino_symmetries}, it is clear that the same simplicity bias is present here. Note that Figure~\ref{fig:polyomino_symmetries} shows results from an evolutionary run, but that Johnston et al.\ also show simplicity bias for sampled data in the supporting information of the article \cite{johnston2021}. %  with the polycube model implementation presented in this thesis. Note again how high-frequency low-complexity shapes tend to be more symmetric.
 
 The unusually low frequency of the two C2 polyominoes with \(\widetilde{K}_c = 4\) is an example of how the \(\widetilde{K}_c\) measure is an imperfect proxy for Komologrov complexity; both have higher complexity using alternative measures (\(\widetilde{K}_s\)=11 and \(\widetilde{K}_{lz} \approx 211\)).
 
@@ -401,7 +401,7 @@ One apparent break from the trend shown is the mostly constant \(\widetilde{K}_s
 \section{Conclusion}
 The polycube model provides a simple way to self--assemble and design modular shapes. The stochastic assembler presented provides a method to quickly evaluate input candidates, ensuring that they give the intended output.
 
-We have shown how large samples of the input space give valuable insight into the frequency of complex and simple shapes. Following Algorithmic Information Theory arguments, we expected low--complexity shapes to have a higher frequency, something we have now confirmed to also be the case, both when verifying the polycube model against previous 2D data and for the novel three--dimensional polycube mapping. This simplicity bias was shown to hold true for two different assembly modes and three different proxies for Komologrov complexity, as seen in \ref{fig:freq_vs_compl}.
+We have shown how large samples of the input space give valuable insight into the frequency of complex and simple shapes. Following AIT arguments, we expected low--complexity shapes to have a higher frequency, something we have now confirmed to also be the case, both when verifying the polycube model against previous 2D data and for the novel three--dimensional polycube mapping. This simplicity bias was shown to hold true for two different assembly modes and three different proxies for Komologrov complexity, as seen in \ref{fig:freq_vs_compl}.
 %With low complexity polycubes exponentially more common than their high complexity counterparts (during random sampling), we can imagine how some simplicity in nature is not necessarily an evolutionary adaption but simply a more probable outcome.
 
 % Andrew: There is not enough discussion of this in Chapter 3 
