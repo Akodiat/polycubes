@@ -46,7 +46,7 @@ class polysat:
     relsat_executable  = 'relsat'
     minisat_executable = 'minisat'
 
-    def __init__(self, topology, nCubeTypes, nColors, nDim=3, torsionalPatches=True):
+    def __init__(self, topology, nCubeTypes, nColors, nDim=3, torsionalPatches=True, allParticles=True, allPatches=True, forbidEmptySpecies=False):
         #topology, empty = utils.topFromFile(topPath, nDim)
 
         # Number of distinct cube types for the solver
@@ -75,11 +75,17 @@ class polysat:
         self.set_crystal_topology(topology)
         self.generate_constraints()
 
-        # Solution must use all particles
-        self.add_constraints_all_particles()
+        if allParticles:
+            # Solution must use all particles
+            self.add_constraints_all_particles()
 
-        # Solution must use all patches, except color 0 which should not bind
-        self.add_constraints_all_patches_except(0)
+        if allPatches:
+            # Solution must use all patches, except color 0 which should not bind
+            self.add_constraints_all_patches_except(0)
+
+        if forbidEmptySpecies:
+            # Solutions cannot have any empty species
+            self.add_constraints_no_empty_species()
 
         # A color cannot bind to itself
         self.add_constraints_no_self_complementarity()
@@ -483,7 +489,7 @@ class polysat:
                 output.write(vname+'\n')
 
     def convert_solution2(self, sols):
-        assert len(sols) <= len(self.variables)
+        assert len(sols) <= len(self.variables), "Solution has more variables ({}) than expected ({})".format(len(sols), len(self.variables))
         out = ""
 
         for vname, vnum in sorted(self.variables.items()):
@@ -582,13 +588,17 @@ class polysat:
             else:
                 return False, None
 
+    def add_constraints_no_empty_species(self):
+        for s in range(self.nS):
+            self.basic_sat_clauses.append([self.C(s, 0, c) for c in range(2, self.nC)])
+
     def add_constraints_all_particles(self):
         for s in range(self.nS):
-            self.basic_sat_clauses.append( [self.P(l,s,r) for l in range(self.nL) for r in range(self.nR)]  )
+            self.basic_sat_clauses.append([self.P(l,s,r) for l in range(self.nL) for r in range(self.nR)])
 
     def add_constraints_all_patches(self):
         for c in range(self.nC):
-            self.basic_sat_clauses.append( [self.C(s,p,c) for s in range(self.nS) for p in range(self.nP)]  )
+            self.basic_sat_clauses.append([self.C(s,p,c) for s in range(self.nS) for p in range(self.nP)])
 
     def add_constraints_all_patches_except(self, forbidden):
         for c in range(self.nC):
