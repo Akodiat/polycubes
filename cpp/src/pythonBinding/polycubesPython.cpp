@@ -27,13 +27,12 @@ bool checkEqualityWrapper(std::string rule1, std::string rule2, std::string asse
     );
 }
 
-double assembleRatioWrapper(Eigen::Matrix3Xf coords, std::string rule, int nTries, std::string assemblyMode, bool isHexString, bool torsion, size_t nMaxCubes) {
+double assembleRatioWrapper(Eigen::Matrix3Xf coords, std::string rule, int nTries, std::string assemblyMode, bool isHexString, bool torsion) {
     return assembleRatio(
         coords, rule, nTries,
         parseAssemblyMode(assemblyMode),
         isHexString,
-        torsion,
-        nMaxCubes
+        torsion
     );
 }
 
@@ -90,7 +89,7 @@ PYBIND11_MODULE(libpolycubes, m) {
         "rule1"_a, "rule2"_a, "assemblyMode"_a = "stochastic", "nMaxCubes"_a = 100
     );
     m.def("assembleRatio", &assembleRatioWrapper, "Calculate the ratio of times the rule assembles into the provided shape",
-        "coords"_a, "rule"_a, "nTries"_a = 100, "assemblyMode"_a = "stochastic", "isHexString"_a = true, "torsion"_a = true, "nMaxCubes"_a = 100
+        "coords"_a, "rule"_a, "nTries"_a = 100, "assemblyMode"_a = "stochastic", "isHexString"_a = true, "torsion"_a = true
     );
     m.def("sampleShapes", &sampleShapes, "Sample set of shapes that a rule assembles",
         "rule"_a, "nSamples"_a = 100, "assemblyMode"_a = "stochastic", "isHexString"_a = true, "nMaxCubes"_a = 100

@@ -52,7 +52,7 @@ public:
 std::string assemblyModeToString(AssemblyMode m);
 AssemblyMode parseAssemblyMode(std::string s);
 
-double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion, size_t nMaxCubes);
+double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion);
 
 Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex = true, size_t nMaxCubes = 100);
 

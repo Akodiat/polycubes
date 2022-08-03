@@ -66,12 +66,13 @@ std::vector<Rule> parseRules(std::string ruleStr) {
     return rules;
 }
 
-double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion, size_t nMaxCubes
+double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion
 ) {
+    // Set maxNCubes to the specified number of cubes
+    int maxNCubes = coords.cols();
     int nEqual = 0;
-
     for (int i=0; i<nTries; i++) {
-        if (checkEquality(rulestr, coords, assemblyMode, ruleIsHex, torsion)) {
+        if (checkEquality(rulestr, coords, assemblyMode, ruleIsHex, torsion, maxNCubes)) {
             nEqual++;
         }
     }
