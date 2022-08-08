@@ -62,7 +62,7 @@ std::vector<Rule> parseDecRule(std::string ruleStr);
 std::vector<Rule> parseRules(std::string ruleStr);
 
 bool checkEquality(std::string rule1, std::string rule2, AssemblyMode assemblyMode, bool torsion = true, size_t nMaxCubes = 100);
-bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode, bool ruleIsHex = true, bool torsion = true, size_t nMaxCubes = 100);
+bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode, bool ruleIsHex = true, bool torsion = true);
 
 // Split string, from https://stackoverflow.com/a/10058725
 std::vector<std::string> splitString(std::string s, char delim);

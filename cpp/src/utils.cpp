@@ -68,11 +68,9 @@ std::vector<Rule> parseRules(std::string ruleStr) {
 
 double assembleRatio(Eigen::Matrix3Xf coords, std::string rulestr, int nTries, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion
 ) {
-    // Set maxNCubes to the specified number of cubes
-    int maxNCubes = coords.cols();
     int nEqual = 0;
     for (int i=0; i<nTries; i++) {
-        if (checkEquality(rulestr, coords, assemblyMode, ruleIsHex, torsion, maxNCubes)) {
+        if (checkEquality(rulestr, coords, assemblyMode, ruleIsHex, torsion)) {
             nEqual++;
         }
     }
@@ -123,11 +121,14 @@ Result runTries(std::string rulestr, int nTries, AssemblyMode assemblyMode, bool
 }
 
 // Check if a rule forms a given polycube shape
-bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion, size_t nMaxCubes) {
+bool checkEquality(std::string rule, Eigen::Matrix3Xf coords, AssemblyMode assemblyMode, bool ruleIsHex, bool torsion) {
     PolycubeSystem* p = new PolycubeSystem(
         ruleIsHex ? parseRules(rule) : parseDecRule(rule),
         assemblyMode,
-        nMaxCubes
+        // Set nMaxCubes to one more than what we want to check against.
+        // This way, we don't assemble longer than neccesary, but can also
+        // rule out detect unbounded rules.
+        coords.cols() + 1
     );
     p->setTorsion(torsion);
     p->seed();
