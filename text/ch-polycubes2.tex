@@ -40,18 +40,16 @@ So, how do we find alternative and simpler input rules for a shape? Surely, ther
 
 Building upon a published method for determining patchy particle interactions for unbounded structures \cite{romano2020designing}, it is possible to formulate and solve satisfiability problems that map onto assembly rules for the bounded polycubes.
 
-In essence, we formulate a boolean expression that, if true, means it is possible to assemble a given polycube topology using a given number of colours and species. We can then use a satisfiability solver such as Glucose \cite{audemard2009glucose, imms-sat18} to check if that expression is indeed solvable and, if it is, extract an assembly rule from the solution.
+In essence, we formulate a Boolean expression that, if true, means it is possible to assemble a given polycube topology using a given number of colours and species. We can then use a satisfiability solver such as Glucose \cite{audemard2009glucose, imms-sat18} to check if that expression is indeed solvable and, if it is, extract an assembly rule from the solution.
 
 \subsection{Boolean expressions}
 
-The boolean expression is written in conjunctive normal form (CNF), where variables are composed into clauses using \emph{NOT} (\(\lnot\)) and \emph{OR} (\(\lor\)) operators and where the clauses are joined by \emph{AND} (\(\land\)) operators. As a simple example, see the expression below:
-
+The Boolean expression is written in conjunctive normal form (CNF), where variables are composed into clauses using \emph{NOT} (\(\lnot\)) and \emph{OR} (\(\lor\)) operators and where the clauses are joined by \emph{AND} (\(\land\)) operators. As a simple example, see the expression below:
 \[
     (\lnot x_{rain} \lor x_{umbrella} \lor  \lnot x_{walk}) \land
     (\lnot x_{rainbow} \lor x_{rain}) \land
     (\lnot x_{rainbow} \lor x_{sunny})
 \]
-
 The first clause is \({true}\) for all values except when \(x_{rain}={true}\), \(x_{umbrella}={false}\) and \(x_{walk}=true\); so the solution of taking a walk in the rain without an umbrella is forbidden. This could also be written as an \emph{implication}: \(x_{rain} \land x_{walk} \implies x_{umbrella}\).
 
 The following two clauses in the example above are the CNF form of another implication: \(x_{rainbow} \implies  x_{rain} \land x_{sunshine}\), stating that a rainbow implies that we have both rain and sunshine (we cannot have a rainbow without rain or without sunshine). The full expression is satisfiable, for example, if we set \(x_{sun}=true\), \(x_{rain}=false\), \(x_{walk}=false\), \(x_{umbrella}=false\), and \(x_{rainbow}=false\); ignoring the walk in the sunshine and remaining inside to work.
@@ -506,7 +504,7 @@ Figure~\ref{fig:solidCubePotentials} shows yield plots for the solid \(3 \times 
     \label{fig:solidCubePotentials}
 \end{figure*}
 
-Finally, Figure~\ref{fig:cube4_potentials} shows the yield plots for the solid \(4 \times 4 \times 4\) cube from Figure~\ref{fig:cube4}, for the fully addressable solution with 64 species and the minimal solution with only six species.
+Finally, Figure~\ref{fig:cube4_potentials} shows the yield plots for the solid \(4 \times 4 \times 4\) cube from Figure~\ref{fig:cube4}, for the fully addressable solution with 64 species and the minimal solution with only six species. As seen for Figures~\ref{fig:cubePotentials} and~\ref{fig:solidCubePotentials}, for the narrower patches, the minimal solution again assembles better than the fully addressable solution does.
 
 \begin{figure}[h]
     \centering\includesvg[width=\textwidth, inkscapelatex=false]{figures/patchysim/cube4.svg}
@@ -576,6 +574,6 @@ The design pipeline shown here can explore the landscape of assembly solutions f
 
 For highly specific binding domains (such as those relevant for protein assembly), the minimal solution assembles better than more complex designs. This result suggests an interesting evolutionary hypothesis:  The recently discovered non-adaptive bias towards minimal protein complex designs~\cite{johnston2021} may produce complexes that will assemble better, providing an additional adaptive evolutionary driver towards simpler and therefore more symmetric structures.
 
-Similarly, these results indicate that not only does a minimum assembly design presents an advantage in terms of manufacturing costs for certain experimental realisations and conditions, but it is also predicted to better assemble than the fully addressable option. Generally, the kinetics of assembly is slower for narrower patch interactions, as random collisions are less likely to lead to successful bond formation. Additionally, two randomly chosen particles are less likely to have compatible interfaces for the fully addressable system. Hence, the structure growth is expected to be slower than for the minimal solution.
+Similarly, these results indicate that not only does a minimum assembly design presents an advantage in terms of manufacturing costs for certain experimental realisations and conditions, but it is also predicted to better assemble than the fully addressable option. Generally, the kinetics of assembly is slower for narrower patch interactions, as random collisions are less likely to lead to successful bond formation. Additionally, two randomly chosen particles are less likely to have compatible interfaces for the fully addressable system. Hence, the structure growth is expected to be slower for a fully addressable solution than for a minimal solution.
 
 These results are likely to benefit the DNA nanotechnology field: the requirement for fewer unique components would mean significant savings in both time and resources, and we have developed a new automated design tool that can convert target structure design to a nucleotide-level coarse-grained DNA nanostructure representation for computational verification or for guiding an experimental design. Finally, the inverse design method is also applicable to other designed self-assembling systems, such as multi-component protein structures or coated nanoparticles \cite{zhu2021protein,xiong2020three}.

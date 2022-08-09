@@ -183,7 +183,7 @@ In 2010, a coarse--grained simulation software called oxDNA was introduced by Th
       \end{center}
   \end{figure}
 
-oxDNA runs both Molecular Dynamics (MD) and Monte Carlo (MC) simulations of DNA modelled at the level of individual nucleotides. The Molecular Dynamics simulations update the positions and orientations of the nucleotides according to Newton's laws of motion. Since there is no explicit solvent (that is, no water particles), the thermostat is used to ensure diffusive motion \cite{sengar2021primer}. If two particles are very close together, the simulation is likely to become numerically unstable. This instability can be mitigated by using a smaller integration time step and a temporary (non--physical) limit on the maximum interaction force. 
+oxDNA runs both Molecular Dynamics (MD) and Monte Carlo (MC) simulations of DNA modelled at the level of individual nucleotides. The MD simulations update the positions and orientations of the nucleotides according to Newton's laws of motion. Since there is no explicit solvent (that is, no water particles), the thermostat is used to ensure diffusive motion \cite{sengar2021primer}. If two particles are very close together, the simulation is likely to become numerically unstable. This instability can be mitigated by using a smaller integration time step and a temporary (non--physical) limit on the maximum interaction force. 
 
 An alternative solution is to use the Monte Carlo dynamics, which instead updates the particles according to random moves sampled from the same Boltzmann distribution \cite{sengar2021primer}. Particle overlaps can be removed by first simulating a system using MC dynamics (as the probability of overlaps are zero), thus ``relaxing'' the system in preparation for MD simulation \cite{doye2020oxdna}. Further relaxation can also be done in MD simulation using a maximum backbone force, gently shortening unnaturally extended backbone bonds. 
 
@@ -197,9 +197,7 @@ While oxDNA can be very useful for modelling a structure, it has traditionally n
 
 \subsection{mrDNA}
 \label{sec:mrdna}
-The mrDNA simulation model \cite{maffeo2019mrdna} is a multi--resolution model representing a user--defined number of base pairs as a rigid--body bead.
-
-Since mrDNA is implemented in Python and has a spline--based helix representation, users can write scripts to edit the structure, translating and rotating parts before starting the simulation. Thus, with some skill, topological issues or over--stretched bonds can be resolved even before starting to simulate.
+The mrDNA simulation model \cite{maffeo2019mrdna} is a multi--resolution model representing a user--defined number of base pairs as a rigid--body bead. Since mrDNA is implemented in Python and has a spline--based helix representation, users can write scripts to edit the structure, translating and rotating parts before starting the simulation. Thus, with some skill, topological issues or over--stretched bonds can be resolved even before starting to simulate.
 
 \begin{figure}[ht]
   \begin{center}

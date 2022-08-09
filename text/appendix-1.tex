@@ -189,17 +189,17 @@ $\pm \mathbf{e}_1, \pm \mathbf{e}_2$, or $\pm \mathbf{e}_3$, which are the base 
 
 We model the interaction between patches using point--like patch interaction, where the interaction between two patches $a$ and $b$ on two distinct particles $i$ and $j$ is given by the following interaction potential:
 \begin{equation}
-V_{\rm patch}(\mathbf{r}_{ij},\mathbf{\Omega}_{ij}) = \delta_{ab} V_{\rm pdist}(r_p) V_{\rm angle}(\theta_a, \theta_b, \theta_t), 
+V_{\rm patch}(\mathbf{r}_{ij},\mathbf{\Omega}_{ij}) = \delta_{ab} V_{\rm pdist}(r_p) V_{\rm angle}(\theta_a, \theta_b, \theta_t)\,, 
 \end{equation}
  where $\delta_{ab}$ is 1 if colours assigned to patch $a$ and $b$ are compatible and 0 otherwise. The patch potential consists of two components: potential $V_{\rm pdist}$ that only depends on distance between the two patches $r_{ab}$, and $V_{\rm angle}(\theta_a, \theta_b, \theta_t)$ which depends on the mutual orientation $\mathbf{\Omega}_{ij}$ of the two particles as given by angles that are calculated as follows:
 \begin{equation}
 \cos \theta_a =  \mathbf{\hat{r}}_{ij} \cdot \mathbf{\hat{p}}_a, \quad \cos \theta_b =  \mathbf{-\hat{r}}_{ij} \cdot \mathbf{\hat{p}}_b, \quad 
-\cos \theta_t =  \mathbf{o}_{a} \cdot \mathbf{o}_b,
+\cos \theta_t =  \mathbf{o}_{a} \cdot \mathbf{o}_b\,,
 \end{equation}
 where the above vectors are normalised to 1, as indicated by the hat symbol. As seen in Figure~\ref{fig:pp}, angles $\theta_a$ and $\theta_b$ correspond to the angle between the normalised vector between the centres of mass of patchy particle $i$ and $j$ and the normalised vector pointing to patch $a$ or $b$ respectively. Angle $\theta_t$ corresponds to the angle between the orientations associated with the respective patches. The interaction potential is 
 \begin{equation}
     V_{\rm angle}(\theta_a, \theta_b, \theta_t) = V_{\rm angmod}(\theta_a) V_{\rm agmod}(\theta_b)
-    V_{\rm agmod}(\theta_t) ,
+    V_{\rm agmod}(\theta_t)\,,
 \end{equation}
 where $V_{\rm agmod}$ is angular modulation function defined to be equal to one if the angle $\theta$ equals to the desired angle $\theta_0$ (which are set to $0$, requiring perfect alignment of the respective vectors), and parameters $a$ and  $\Delta$ then define the width of the potential.
 \begin{equation}
@@ -208,16 +208,16 @@ V_{\rm angmod}(\theta) = \begin{cases}
 	V_{\rm smooth} (\theta, b, \theta_0 - \Delta_c) & \text{if $\theta_0 - \Delta_c < \theta < \theta_0-\Delta $},\\
 	V_{\rm smooth} (\theta, b, \theta_0 + \Delta_c) & \text{if $\theta_0 + \Delta < \theta < \theta_0+\Delta_c$},\\
 	0 & \text{otherwise}.
-	\end{cases} 
+	\end{cases} \,,
 \end{equation}
 where the additional parameters $b$ and $\Delta_c$ are set so that the piece--wise function $V_{\rm angmod}(\theta)$ is differentiable (See Figure~\ref{fig:narrow_types}). The potentials used in the definition are 
 \begin{equation}
 \label{eq:smooth}
-V_{\rm smooth} (x, b, x_c) = b(x_c - x)^2, 
+V_{\rm smooth} (x, b, x_c) = b(x_c - x)^2
 \end{equation}
 and
 \begin{equation}
-V_{\rm mod} (\theta, a, \theta_0) = 1 - a (\theta-\theta_0)^2.
+V_{\rm mod} (\theta, a, \theta_0) = 1 - a (\theta-\theta_0)^2\,.
 \end{equation}
 
 Unless otherwise specified, the default narrow type 0 was used, with 
@@ -249,7 +249,8 @@ The additional distance--modulation term in the potential between a pair of patc
                           -1.001  \exp{\left[- \left( \frac{r_p}{\alpha} \right)^{10}\right]} + C & \text{if $r_p \leq r_{\rm pmax}  $} \\
                           0 & \text{otherwise}
                         \end{cases}
-    %e^{ -\left( \frac{r - \delta}{\sigma} \right)^2} 
+    %e^{ -\left( \frac{r - \delta}{\sigma} \right)^2}
+    \,,
 \end{equation}
 where $r_p$ is the distances between a pair of patches, and $\alpha = 0.12\, {\rm d.u.}$ sets the patch width. The constant $C$ is set so that $V_{\rm patch}(r_{\rm pmax}) = 0$ for $r_{\rm pmax} = 0.18\, \rm{d.u.}$. The patchy particles further interact through excluded volume interactions ensuring that two particles do not overlap:
 \begin{equation}
@@ -257,7 +258,8 @@ where $r_p$ is the distances between a pair of patches, and $\alpha = 0.12\, {\r
 	V_{\rm LJ}(r, \epsilon, \sigma) & \text{if $r < r^{\star} $},\\
 	\epsilon V_{\rm smooth} (r, b, r^c) & \text{if $r^{\star} < r < r^c$},\\
 	0 & \text{otherwise}.
-	\end{cases} 
+	\end{cases}
+  \,,
 \end{equation}
 where $r$ is the distance between the centers of mass of the patchy particles, and $\sigma$ is set to $2R = 1.0$ distance units, twice the desired radius of the patchy particle.
 The repulsive potential is a piecewise function consisting of the Lennard--Jones potential function:

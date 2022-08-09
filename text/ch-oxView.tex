@@ -4,7 +4,7 @@
 
 % Andrew: It still isn't completely clear what YOU did - I would not change the text, but perhaps add a summary table listing your contributions.
 
-This chapter contains my results on my second project: how to design, simulate and analyse DNA and RNA nanostructures.
+This chapter contains the key results of my second project: how to design, simulate and analyse DNA and RNA nanostructures.
 
 As I started this DPhil, I was tasked with the issue of converting origami designs created in caDNAno (see Section~\ref{sec:cadnano}) so that they could be correctly simulated in oxDNA (see Section~\ref{sec:oxDNA}). You have seen some of the tools I tried introduced in Chapter \ref{ch:oxview_intro}. I collaborated with Hannah Fowler in the Doye group at Theoretical Chemistry, who simulated an extensive collection of DNA designs. This was a good opportunity to investigate why some structures were more problematic to convert and relax than others. At this time, the available method for converting a caDNAno design into the oxDNA format was to use an old Python script included in the UTILS directory of the oxDNA repository. However, the script was not easy to use, and it failed for many structures. At the end of 2018, the tacoxDNA webserver \cite{suma2019tacoxdna} was launched, updating the conversion script and making it more accessible. Still, since caDNAno structures are drawn on a lattice, where all helices have to be parallel to each other (as was shown in Figure~\ref{fig:oxDNA_sims}), the resulting oxDNA configurations often had unnaturally extended backbone bonds, requiring time--consuming relaxation.
 
@@ -178,12 +178,10 @@ Depending on the design, a user of oxView might want to modify the visualisation
 % https://en.wikipedia.org/wiki/
 
 In essence, for each coordinate \(p^j = \left(p_x^j, p_y^j, p_z^j\right) \) in the centring set of size \(n\), each dimension \(i \in \left\{x,y,z\right\}\) gets averaged in its own variable \(\alpha_i\), representing its 1D interval as a 2D circle (where the circumference \(b_i\) is the bounding box side length):
-
 \[
-  c_i = \frac{1}{n} \sum_{j = 1}^{n} \left[ \cos \left( \alpha_i^j \right), \sin \left( \alpha_i^j \right) \right]
+  c_i = \frac{1}{n} \sum_{j = 1}^{n} \left[ \cos \left( \alpha_i^j \right), \sin \left( \alpha_i^j \right) \right]\,,
 \]
-
-, where \(\alpha_i^j = \frac{2 \pi}{b_i} p_i^j\) is the angle on the unit circle and \(c_i\) is the average 2D position representing dimension \(i\). Finally, the averages are converted back to cartesian coordinates: 
+where \(\alpha_i^j = \frac{2 \pi}{b_i} p_i^j\) is the angle on the unit circle and \(c_i\) is the average 2D position representing dimension \(i\). Finally, the averages are converted back to cartesian coordinates: 
 \(
   \widetilde{p}_i = \pi + \frac{b_i}{2\pi} atan2(-c_{i,y}, -c_{i, x})
 \).

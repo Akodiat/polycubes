@@ -263,7 +263,7 @@ Because of this so--called \emph{co--operative binding}, the tiles can be seen a
 
 % Ard: I think you need a longer section on the background of the polyomino model here. This is very terse.
 
-The main inspiration for the \emph{polycube} model (presented in Chapter~\ref{ch:polycubes1}) is the polyomino model \cite{ahnert2010self, johnston2011evolutionary}. As noted in Section~\ref{sec:origamiArrays}, the 2D poliomino model is similar in assembly to the later experimental micrometer scale tile designs by Tikhomirov \cite{tikhomirov2017programmable} shown in Figure~\ref{fig:origamiArrays}.d). Compared to the aTAM model described in Section~\ref{sec:atam}, polyomino tiles are allowed to rotate (but not invert), creating further possibilities for symmetries. Also, the edge binding is not self--complementary, with complementary colour pairs used instead. Finally, polyominoes have a constant binding strength, assembling irreversibly and without co--operative binding (corresponding to ``strength-0'' glues).
+The main inspiration for the \emph{polycube} model (presented in Chapter~\ref{ch:polycubes1}) is the polyomino model \cite{ahnert2010self, johnston2011evolutionary, greenbury2014tractable}. As noted in Section~\ref{sec:origamiArrays}, the 2D poliomino model is similar in assembly to the later experimental micrometer scale tile designs by Tikhomirov \cite{tikhomirov2017programmable} shown in Figure~\ref{fig:origamiArrays}.d). Compared to the aTAM model described in Section~\ref{sec:atam}, polyomino tiles are allowed to rotate (but not invert), creating further possibilities for symmetries. Also, the edge binding is not self--complementary, with complementary colour pairs used instead. Finally, polyominoes have a constant binding strength, assembling irreversibly and without co--operative binding (corresponding to ``strength-0'' glues).
 
 See Figure~\ref{fig:polyominoes} for an illustration of the model, where an input \emph{genotype} (describing the four possible tile types) is mapped into an assembled output polyomino phenotype by stochastically growing the shape from an initial seed. The growth stops if, as in the figure, no more tiles can attach (since the colour \(0\) does not bind to anything). If the growth is infinite, the genotype is called \emph{unbounded}. A genotype is considered \emph{deterministic} if it assembles the same phenotype polyomino every time. Only output corresponding to bounded and deterministic genotypes are considered \emph{valid}.
 
@@ -274,7 +274,7 @@ See Figure~\ref{fig:polyominoes} for an illustration of the model, where an inpu
     \label{fig:polyominoes}
 \end{figure}
 
-\subsection{Algorithmic Information Theory and input-output maps}
+\subsection{Algorithmic information theory and input-output maps}
 \label{sec:AIT}
 % https://www.ox.ac.uk/news/science-blog/%E2%80%98simplicity-bias%E2%80%99-science
 
@@ -296,13 +296,10 @@ Let us first consider the complexity of text strings. If you have a monkey press
 \end{lstlisting}
 
 But what if we described our strings using algorithms, rather than a full listing of the letters it contains? For example, string number three above could, similarly to the others, then be described using the C programming language as the algorithm:
-
 \begin{lstlisting}[language=c]
 printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 \end{lstlisting}
-
 But now, a much shorter description also exists:
-
 \begin{lstlisting}[language=c]
 for(int i=50; i--;) printf("A");
 \end{lstlisting}
@@ -310,26 +307,25 @@ for(int i=50; i--;) printf("A");
 There are also a number of possible valid variations of the code above, with different variable names and coding conventions, all producing the same output. In other words, not only is the description shorter than writing out the full string but multiple inputs map to the same output, increasing the probability of that particular output further. The arguments above capture the intuition that a string repeating a single letter, or having some other pattern, should be less complex than a random alternative with no shorter description than simply printing the string. 
 %It also feels intuitive that a string repeating a single letter should be less complex than a random--looking alternative, so this definition of complexity feels reasonable.
 
-The intuition above can be formalised within the field of Algoritmic Information Theory (AIT), where the central concept is the Kolmogorow complexity (or Solomonoff–Kolmogorov–Chaitin to give full credit), which is defined as the shortest possible computer program to describe a string \cite{LiMing2019AitK}. More specifically, the Kolmogorov complexity \(K(x)\) of an output \(x\) is the length of the shortest program that generates \(x\) on a Universal Turing Machine (UTM) \cite{LiMing2019AitK}.
+The intuition above can be formalised within the field of algorithmic information theory (AIT), where the central concept is the Kolmogorov complexity (or Solomonoff–Kolmogorov–Chaitin to give full credit), which is defined as the shortest possible computer program to describe a string \cite{LiMing2019AitK}. More specifically, the Kolmogorov complexity \(K(x)\) of an output \(x\) is the length of the shortest program that generates \(x\) on a Universal Turing Machine (UTM) \cite{LiMing2019AitK}.
 
-AIT leads to many interesting fundamental results. For example, while technically Kolmogorov complexity \(K_U(x)\) is always defined for a specific UTM \(U\), because any UTM can simulate any other UTM at constant information cost, asymptotically, the choice of reference machine washes out, and we speak simply of \(K(x)\). This concept is called the invariance theorem. Another important quantity in AIT is the algorithmic probability \(P_U(x)\), defined as the probability that, upon randomly selected input programs, a UTM will generate the output \(x\) and then halt. There are some technical requirements for such UTMs (for example, they must be prefix machines, meaning that no code contains another code when reading from start to finish). Following a similar invariance theorem, we frequently talk about just \(P(x)\), ignoring the choice of UTM. A key property of \(P(x)\) is that it can be bounded, as described by the coding theorem, which states that \(2^{-K(x)} \le P(x) \le 2^{-K(x) + \mathcal{O} (1)}\). In other words, low--complexity outputs are exponentially more likely to be generated by random input compared to high--complexity outputs. This could be compared to how there are many more programs generating the ``simple'' string number three above compared to the randomly generated string two or the carefully selected string one.
+AIT leads to many interesting fundamental results. For example, while technically Kolmogorov complexity \(K_U(x)\) is always defined for a specific UTM \(U\), because any UTM can simulate any other UTM at constant information cost, asymptotically, the choice of reference machine washes out, and we speak simply of \(K(x)\). This concept is called the invariance theorem. Another important quantity in AIT is the algorithmic probability \(P_U(x)\), defined as the probability that, upon randomly selected input programs, a UTM \(U\) will generate the output \(x\) and then halt. There are some technical requirements for such UTMs (for example, they must be prefix machines, meaning that no code contains another code when reading from start to finish). Following a similar invariance theorem, we frequently talk about just \(P(x)\), ignoring the choice of UTM. A key property of \(P(x)\) is that it can be bounded, as described by the coding theorem, which states that \(2^{-K(x)} \le P(x) \le 2^{-K(x) + \mathcal{O} (1)}\). In other words, low--complexity outputs are exponentially more likely to be generated by random input compared to high--complexity outputs. This could be compared to how there are many more programs generating the ``simple'' string number three above compared to the randomly generated string two or the carefully selected string one.
 
 However, a problem with using the coding theorem above is that Komologrov complexity is formally uncomputable due to the halting problem \cite{LiMing2019AitK}. Fortunately, Dingle et al.\ \cite{dingle2018input} were able to derive a computable upper bound to the probability:
-
 \begin{equation}\label{eq:altCodingTheorem}
-  P(x) \lesssim 2^{-a\widetilde{K}(x) -b}
-\end{equation}
-
-where the constants \(a\) and \(b\) depend on the input--output map used (but are independent of \(x\)) and where \(\widetilde{K}(x)\) is a computable approximation to the true Kolmogorov complexity.  Dingle et al.\ \cite{dingle2018input} showed that many different input-output maps follow this upper bound. Moreover, they showed a statistical lower bound, meaning that most randomly sampled programs will generate outputs close to the upper bound \cite{dingle2020generic}. This theorem can be used to connect the probability that a self-assembling shape appears upon a random sampling of rules to the length of the shortest input rule that can make the shape, as will be seen in Section~\ref{sec:polyomino_evolve} and Chapter~\ref{ch:polycubes1}.
+  P(x) \lesssim 2^{-a\widetilde{K}(x) -b}\,,
+\end{equation} where the constants \(a\) and \(b\) depend on the input--output map used (but are independent of \(x\)) and where \(\widetilde{K}(x)\) is a computable approximation to the true Kolmogorov complexity.  Dingle et al.\ \cite{dingle2018input} showed that many different input-output maps follow this upper bound. Moreover, they showed a statistical lower bound, meaning that most randomly sampled programs will generate outputs close to the upper bound \cite{dingle2020generic}. This theorem can be used to connect the probability that a self-assembling shape appears upon a random sampling of rules to the length of the shortest input rule that can make the shape, as will be seen in Section~\ref{sec:polyomino_evolve} and Chapter~\ref{ch:polycubes1}.
 
 \subsection{Evolving polyominoes}
 \label{sec:polyomino_evolve}
 
-In a recent paper [31] the evolution of self-assembling protein complexes was modelled by running a genetic algorithm on the self-assembly of 2D polyominoes.  As illustrated in Figure~\ref{fig:polyomino_symmetries}, the authors found a strong bias toward structures with low complexity and high symmetry for both systems.  In addition, they showed that randomly sampling assembly programmes gave a very similar probability-complexity relationship for the polyominoes as was found for the evolutionary runs. Therefore the simplicity does not arise from natural selection but is instead a property of the mapping, as predicted by the alternate coding theorem (Equation~\ref{eq:altCodingTheorem}) of Dingle et al.\ \cite{dingle2018input}.  
+In a recent paper [31] the evolution of self-assembling protein complexes was modelled by running a genetic algorithm on the self-assembly of 2D polyominoes.  As illustrated in Figure~\ref{fig:polyomino_symmetries}, the authors found a strong bias toward structures with low complexity and high symmetry for both systems. 
+The evolutionary fitness of the polyominoes only depended on their size (16--mers had the highest fitness), but not on any other property such as symmetry. On the basis of this fitness function, one might expect every possible 16--mer polyomino to fix with the same probability, but this is not what was observed.
+In addition, they showed that randomly sampling assembly programmes gave a very similar probability-complexity relationship for the polyominoes as was found for the evolutionary runs. Therefore the simplicity does not arise from natural selection but is instead a property of the mapping, as predicted by the alternate coding theorem (Equation~\ref{eq:altCodingTheorem}) of Dingle et al.\ \cite{dingle2018input}.  
 
 %Evolutionary runs of polyominoes, where a genetic algorithm mutates a genotype population and selects surviving shapes depending on their size, showed a clear bias toward structures with low complexity and high symmetry \cite{johnston2021}. See Figure~\ref{fig:polyomino_symmetries}, where the frequency of protein complexes and polyominoes are compared to their complexity. The number of interface types required (number of patch colours in the polyomino case) is used as a proxy measure for the Komologrov complexity of the structure (see Section~\ref{sec:AIT}).
 
-The evolutionary fitness of the polyominoes only depended on their size (16--mers had the highest fitness).
+
 %, so the simplicity was not selected for but is instead a property of the mapping. This finding is in line with the Algorithmic Information Theory arguments made by Dingle et al. \cite{dingle2018input}, who showed the same simplicity bias for a set of various input--output maps.
 
 \begin{figure}[h]
