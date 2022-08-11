@@ -1,3 +1,4 @@
+from collections import Counter
 import numpy as np
 from scipy.spatial.transform import Rotation as R
 import json
@@ -262,6 +263,34 @@ def posToString(pos):
     return ",".join(str(x) for x in pos)
 def bindingStr(a, b):
     return "{} {}".format(*sorted([posToString(a), posToString(b)]))
+
+def simplifyRule(rule):
+    colors = Counter([face['color'] for species in rule for face in species])
+    newRuleset = []
+    for iCube, species in enumerate(rule):
+        allZero = True
+        for iFace, face in enumerate(species):
+            if colors[face['color']*-1] == 0:
+                # Remove patch if there is no matching color
+                face['color'] = 0
+            if face['color'] == 0:
+                # Reset orientation if there is no patch color
+                face['alignDir'] = getFaceRotations()[iFace]
+            else:
+                allZero = False
+        if not allZero or iCube==0:
+            newRuleset.append(species)
+    colorset = [x for x in {
+        abs(face['color']) for species in newRuleset for face in species
+    }.difference({0})]
+    for species in newRuleset:
+        for face in species:
+            c = face['color']
+            if c != 0:
+                face['color'] = colorset.index(abs(c)) + 1
+                if c < 0:
+                    face['color'] *= -1
+    return newRuleset
 
 def getFullyAdressableRule(topology):
     coordMaps = calcCoordmapFromTop(topology)
