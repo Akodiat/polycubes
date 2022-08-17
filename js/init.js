@@ -33,7 +33,7 @@ function createPolycubeSystem() {
     }
 
 
-    let nMaxCubes = parseInt(getUrlParam("nMaxCubes", 100));
+    let nMaxCubes = parseInt(getUrlParam("nMaxCubes", 1000));
     let maxCoord = parseInt(getUrlParam("maxCoord", 100));
 
     let torsion = document.getElementById('torsion').checked;
