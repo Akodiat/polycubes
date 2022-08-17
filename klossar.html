@@ -141,11 +141,11 @@
     <div id="info">
         Klossar, by Joakim Bohlin. A generalised version of <a href="./">Polycubes</a><br>
         <button class="primary" onclick="toggleModal('examples')">Help</button>
-        <button onclick="system.resetRandom(); clearRules();">Random input</button>
-        <button onclick="system.resetRule(parseHexRule(mutateRule(polycubeSystem.getRuleStr()))); clearRules()">Mutate input</button>
+        <button onclick="system.resetRandom(); clearRule();">Random input</button>
+        <button onclick="system.resetRule(parseHexRule(mutateRule(polycubeSystem.getRuleStr()))); clearRule()">Mutate input</button>
         <button onclick="simplifyRule()">Simplify</button>
         <label for="patchselect">Patch orientation type:</label>
-        <select name="patchselect" id="patchselect" onchange="clearRules()">
+        <select name="patchselect" id="patchselect" onchange="clearRule()">
           <option value="quaternion">Quaternion</option>
           <option value="euler">Euler angles</option>
           <option value="vector">Unit vectors</option>
@@ -248,7 +248,7 @@
                         particlesReader.result,
                         patchesReader.result
                     ));
-                    clearRules();
+                    clearRule();
                 }, false);
                 patchesReader.readAsText(patchFile);
             }, false);

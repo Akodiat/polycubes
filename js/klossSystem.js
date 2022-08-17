@@ -177,12 +177,14 @@ class KlossSystem {
         );
         nColors = Math.max(nColors, 2) //Avoid getting only red colors
 
+        /*
         for (let i=0; i<nColors; i++) {
             let colorMaterial = new THREE.MeshLambertMaterial({
                 color: selectColor(i)
             });
             this.colorMaterials.push(colorMaterial);
         }
+        */
 
         for (let i=0; i<rule.length; i++) {
             let particleMaterial = new THREE.MeshLambertMaterial({color: selectColor(i)});

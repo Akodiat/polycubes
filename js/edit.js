@@ -136,7 +136,7 @@ function addSpecies(patches) {
         add.style.margin = "0px";
         add.onclick = ()=>{
             patches.push(new Patch(0, new THREE.Vector3(1,0,0), new THREE.Quaternion()));
-            clearRule();
+            clearRules();
         }
         ruleField.appendChild(add);
     }

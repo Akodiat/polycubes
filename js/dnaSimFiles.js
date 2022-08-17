@@ -121,9 +121,8 @@ async function generateOxViewFile({rule=system.rule, name='polycube', assemblyMo
 }
 
 // Pre-load helix strings
-let helixStr, nickedHelixStr;
+let helixStr;
 getText('js/resources/21bp.oxview').then(str=>helixStr=str);
-getText('js/resources/21bp_nicked.oxview').then(str=>nickedHelixStr=str);
 
 function insertHelix(oxSys, nucIdA, keyA, nucIdB, keyB, helixKey, color) {
     const nA = oxSys.getNuc(nucIdA, keyA);
