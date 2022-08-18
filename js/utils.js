@@ -65,23 +65,33 @@ function vecToStr(v) {
     return `(${v.x},${v.y},${v.z})`;
 }
 
-function ruleToDec(rule) {
+function ruleToDec2(rule) {
+    return ruleToDec(rule, '_', '|',':');
+}
+
+function ruleToDec(rule, speciesSep='_', faceSep='.', rotSep='r') {
     return rule.map(s=>s.map((face,i)=>{
         if (face.color === 0) {
             return '';
         } else {
             let orientation = Math.round(getSignedAngle(faceRotations[i], face.alignDir, ruleOrder[i])*(2/Math.PI)+4)%4;
-            return `${face.color}:${orientation}`;
+            return `${face.color}`+ (orientation ? `${rotSep}${orientation}` : '');
         }
-    }).join('|')).join('_');
+    }).join(faceSep)).join(speciesSep);
 }
 
+// Accepts either ~ or | as face separators
+// and either . or : as rotation separators
 function parseDecRule(ruleStr) {
-    return ruleStr.split('_').map(s=>s.split('|').map((face,i)=>{
+    return ruleStr.split('_').map(s=>s.split(/[|.]/).map((face,i)=>{
         let color = 0;
         let orientation = 0;
         if (face !== '') {
-            [color, orientation] = face.split(':').map(v=>parseInt(v));
+            let faceVal = face.split(/[r:]/).map(v=>parseInt(v));
+            color = faceVal[0]
+            if (faceVal.length > 1){
+                orientation = faceVal[1];
+            }
         }
         let r = faceRotations[i].clone();
         r.applyAxisAngle(ruleOrder[i], orientation*Math.PI/2).round();

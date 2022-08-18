@@ -113,12 +113,7 @@ class PolycubeSystem {
         this.reset();
         this.seed();
         this.processMoves();
-
-        if (typeof window !== 'undefined') {
-            render();
-            let argstr = "?assemblyMode="+this.assemblyMode + (this.rule.length > 0 ? "&rule="+this.getRuleStr() : "");
-            window.history.pushState(null, null, argstr);
-        }
+        render();
     }
 
     resetRandom() {
@@ -128,8 +123,7 @@ class PolycubeSystem {
         while(ruleSize--) {
             hexRule += (Math.abs(Math.random()*0xFFFFFFFFFFFF<<0)).toString(16);
         }
-        let argstr = "?hexRule="+hexRule;
-        window.history.pushState(null, null, argstr);
+        setUrlRule(this.rule)
         this.resetRule(parseHexRule(hexRule));
     }
 
@@ -165,6 +159,7 @@ class PolycubeSystem {
         this.processMoves();
 
         if (!this.background) {
+            setUrlRule(system.rule);
             render();
         }
     }

@@ -209,15 +209,6 @@ class KlossSystem {
         this.reset();
         this.seed();
         this.processMoves();
-
-        if (typeof window !== 'undefined') {
-            render();
-            let argstr = "?assemblyMode="+this.assemblyMode + (this.rule.length > 0 ? "&rule="+this.getRuleStr() : "");
-            window.history.pushState(null, null, argstr);
-            if (transform) {
-                transform.detach();
-            }
-        }
     }
 
     getMismatchRatio() {

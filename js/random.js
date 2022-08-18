@@ -35,9 +35,7 @@ function regenerate() {
     while(ruleSize--) {
         hexRule += (Math.abs(Math.random()*0xFFFFFFFFFFFF<<0)).toString(16);
     }
-    let argstr = "?hexRule="+hexRule;
-    window.history.pushState(null, null, argstr);
-    
+    setUrlRule(parseHexRule(hexRule))
     // Parse rule
     rules = parseHexRule(hexRule);
     system.resetRule(rules);

@@ -332,17 +332,42 @@ function toggleModal(id) {
 
 // From: https://html-online.com/articles/get-url-parameters-javascript/
 function getUrlVars() {
-    let vars = {};
-    let parts = window.location.href.replace(
-        /[?&]+([^=&]+)=([^&]*)/gi, 
-        function(m,key,value) {vars[key] = value;}
+    let vars = new Map();
+    window.location.href.replace(
+        /[?&]+([^=&]+)=([^&]*)/gi,
+        (_,key,value)=>{
+            vars.set(key, value);
+        }
     );
     return vars;
 }
 
 function getUrlParam(param, defaultVal) {
     let vars = getUrlVars();
-    return param in vars ? vars[param] : defaultVal;
+    return vars.has(param) ? vars[param] : defaultVal;
+}
+
+function setUrlRule(rule=system.rule) {
+    if (typeof window !== 'undefined') {
+        render();
+        let vars = getUrlVars();
+        let varstrs = []
+        for (const [key, value] of vars) {
+            if (!['rule', 'hexRule', 'decRule'].includes(key)) {
+                varstrs.push(key + "=" + value);
+            }
+        }
+        let maxColor = Math.max.apply(Math, rule.map(x => Math.max.apply(
+            Math, x.map(r => Math.abs(r.color))))
+        );
+        if (maxColor > 31) {
+            varstrs.push('decRule='+ruleToDec(rule))
+        } else {
+            varstrs.push('rule='+ruleToHex(rule));
+        }
+        let argstr = '?' + varstrs.join('&');
+        window.history.pushState(null, null, argstr);
+    }
 }
 
 function onWindowResize() {

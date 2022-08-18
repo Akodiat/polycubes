@@ -170,6 +170,7 @@ function updateRuleColor(e, patches, faceIdx) {
     e.parentElement.style.backgroundColor = c;
     system.rule[ruleIdx][faceIdx].color = value;
     if(document.getElementById("autoUpdate").checked) {
+        setUrlRule(system.rule);
         system.regenerate();
     }
 }
@@ -182,6 +183,7 @@ function updateRuleRot(e, patches, faceIdx) {
     r.applyAxisAngle(ruleOrder[faceIdx], e.value*Math.PI/2);
     system.rule[ruleIdx][faceIdx].alignDir = r.round();
     if(document.getElementById("autoUpdate").checked) {
+        setUrlRule(system.rule);
         system.regenerate();
     };
 }
@@ -191,6 +193,7 @@ function removeRule(patches, ruleField) {
     ruleField.parentNode.removeChild(ruleField);
     system.rule.splice(ruleIdx, 1);
     if(document.getElementById("autoUpdate").checked) {
+        setUrlRule(system.rule);
         system.regenerate();
     }
 }

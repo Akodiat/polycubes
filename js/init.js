@@ -3,26 +3,14 @@ function createPolycubeSystem() {
 
     // Parse rule
     let vars = getUrlVars();
-    if ("rule" in vars) {
-        rule = parseHexRule(vars["rule"]);
-    } else if ("hexRule" in vars) {
-        rule = parseHexRule(vars["hexRule"]);
-    } else if ("decRule" in vars) {
-        rule = parseDecRule(vars["decRule"]);
+    if (vars.has("rule")) {
+        rule = parseHexRule(vars.get("rule"));
+    } else if (vars.has("hexRule")) {
+        rule = parseHexRule(vars.get("hexRule"));
+    } else if (vars.has("decRule")) {
+        rule = parseDecRule(vars.get("decRule"));
     } else {
-        defaultRule = "[[1,1,1,1,1,1],[-1,0,0,0,0,0]]";
-        rule = JSON.parse(getUrlParam("rules",defaultRule));
-
-        // Replace rotation number with vector
-        rule = rule.map(function(species) {return species.map(function(face, i) {
-            let r = faceRotations[i].clone();
-            if(typeof face == "number") {
-                return {'color':face, 'alignDir':r};
-            } else {
-                r.applyAxisAngle(ruleOrder[i], face[1]*Math.PI/2);
-                return {'color':face[0], 'alignDir':r};
-            }
-        });});
+        rule = parseHexRule("040404040404840000000000");
     }
     let assemblyMode = getUrlParam("assemblyMode", 'seeded');
 
@@ -31,7 +19,6 @@ function createPolycubeSystem() {
     } catch (error) {
         ; // Might not have an assembly mode DOM
     }
-
 
     let nMaxCubes = parseInt(getUrlParam("nMaxCubes", 1000));
     let maxCoord = parseInt(getUrlParam("maxCoord", 100));
