@@ -336,7 +336,7 @@ function getUrlVars() {
     window.location.href.replace(
         /[?&]+([^=&]+)=([^&]*)/gi,
         (_,key,value)=>{
-            vars.set(key, value);
+            vars.set(decodeURI(key), decodeURI(value));
         }
     );
     return vars;
@@ -344,7 +344,7 @@ function getUrlVars() {
 
 function getUrlParam(param, defaultVal) {
     let vars = getUrlVars();
-    return vars.has(param) ? vars[param] : defaultVal;
+    return vars.has(param) ? vars.get(param) : defaultVal;
 }
 
 function setUrlRule(rule=system.rule) {

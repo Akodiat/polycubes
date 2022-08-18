@@ -123,12 +123,13 @@ class PolycubeSystem {
         while(ruleSize--) {
             hexRule += (Math.abs(Math.random()*0xFFFFFFFFFFFF<<0)).toString(16);
         }
-        setUrlRule(this.rule)
+        setUrlRule(this.rule);
         this.resetRule(parseHexRule(hexRule));
     }
 
     resetAssemblyMode(assemblyMode) {
         this.assemblyMode = assemblyMode;
+        setUrlRule(this.rule);
         this.regenerate();
     }
 
