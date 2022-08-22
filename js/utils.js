@@ -3,6 +3,177 @@ function selectColor(number) {
     return `hsl(${hue},50%,65%)`;
 }
 
+function createEmptySpecies() {
+    species = []
+    for (i=0; i<6; i++) {
+        species.push({
+            'color': 0,
+            'alignDir': faceRotations[i].clone()
+        })
+    }
+    return species;
+}
+function createHollowCubeRule(radius=1) {
+    // Add core cube
+    let rule = parseHexRule('050506040000');
+    let core = rule[0];
+    let colorCounter = 1; // 1 is already used
+
+    // Build a branching line of cubes from a colour
+    let buildOut = (fromColor, length, maxDepth=2)=> {
+        let c = fromColor;
+        let stem = [];
+        let species;
+        let oldBranchA = [];
+        let oldBranchB = [];
+        for (let l=0; l<length; l++) {
+            species = createEmptySpecies();
+            species[0].color = -c;
+            if (l < length-1) {
+                c = ++colorCounter;
+                species[1].color = c;
+                species[1].alignDir = species[4].alignDir = species[5].alignDir = species[0].alignDir;
+            } else {
+                if (maxDepth > 1) {
+                    //species[2].color = species[0].color;
+                    //species[2].alignDir = faceRotations[4];
+                }
+            }
+            if (maxDepth > 1) {
+                let corner = createEmptySpecies();
+                corner[1].color = ++colorCounter;
+                corner[4].color = ++colorCounter;
+                corner[4].alignDir = corner[1].alignDir;
+                let lastA, lastB;
+                if (l>0) {
+                    species[4].color = ++colorCounter;
+                    species[5].color = ++colorCounter;
+                    species[1].alignDir = species[4].alignDir = species[5].alignDir = species[0].alignDir;
+                    let branchA = buildOut(species[4].color, l, maxDepth-1);
+                    let branchB = buildOut(species[5].color, l, maxDepth-1);
+                    oldBranchA.forEach((s,i)=>{
+                        s[5].color = ++colorCounter;
+                        branchA[i][4].color = -s[5].color;
+                    });
+                    oldBranchB.forEach((s,i)=>{
+                        s[4].color = ++colorCounter;
+                        branchB[i][5].color = -s[4].color;
+                    });
+                    oldBranchA = branchA;
+                    oldBranchB = branchB;
+                    lastA = branchA.splice(-1)[0][1];
+                    lastB = branchB.splice(-1)[0][1];
+                } else {
+                    lastA = species[4];
+                    lastB = species[5];
+                }
+                lastA.color = -corner[1].color;
+                lastA.alignDir = species[0].alignDir;
+                lastB.color = -corner[4].color;
+                lastB.alignDir = species[0].alignDir;
+                stem.push(corner);
+                rule.push(corner);
+            }
+            stem.push(species);
+            rule.push(species);
+        }
+        return stem;
+    }
+    buildOut(core[0].color, radius);
+
+    return rule
+}
+function createSolidCubeRule(radius=1) {
+    // Add core cube
+    let rule = parseHexRule('040404040404');
+    let core = rule[0];
+    let colorCounter = 1; // 1 is already used
+
+    // Build a branching line of cubes from a colour
+    let buildOut = (fromColor, length, maxDepth=2)=> {
+        let c = fromColor;
+        let stem = [];
+        let species;
+        let oldBranchA = [];
+        let oldBranchB = [];
+        let oldBranchC = [];
+        let oldBranchD = [];
+        for (let l=0; l<length; l++) {
+            species = createEmptySpecies();
+            species[0].color = -c;
+            if (l < length-1) {
+                c = ++colorCounter;
+                species[1].color = c;
+                species[1].alignDir = species[4].alignDir = species[5].alignDir = species[0].alignDir;
+            }
+            if (maxDepth > 1) {
+                let corner = createEmptySpecies();
+                corner[1].color = ++colorCounter;
+                corner[4].color = ++colorCounter;
+                corner[4].alignDir = corner[1].alignDir;
+                let lastA, lastB, lastC, lastD;
+                if (l>0) {
+                    species[2].color = ++colorCounter;
+                    species[3].color = ++colorCounter;
+                    species[4].color = ++colorCounter;
+                    species[5].color = ++colorCounter;
+                    species[1].alignDir = species[4].alignDir = species[5].alignDir = species[0].alignDir;
+                    /*
+                    let branchA = buildOut(species[2].color, l, maxDepth-1);
+                    let branchB = buildOut(species[3].color, l, maxDepth-1);
+                    let branchC = buildOut(species[5].color, l, maxDepth-1);
+                    let branchD = buildOut(species[5].color, l, maxDepth-1);
+                    oldBranchA.forEach((s,i)=>{
+                        //s[5].color = ++colorCounter;
+                        //branchA[i][4].color = -s[5].color;
+                    });
+                    oldBranchB.forEach((s,i)=>{
+                        //s[4].color = ++colorCounter;
+                        //branchB[i][5].color = -s[4].color;
+                    });
+                    oldBranchC.forEach((s,i)=>{
+                        s[5].color = ++colorCounter;
+                        branchC[i][4].color = -s[5].color;
+                    });
+                    oldBranchD.forEach((s,i)=>{
+                        s[4].color = ++colorCounter;
+                        branchD[i][5].color = -s[4].color;
+                    });
+                    oldBranchA = branchA;
+                    oldBranchB = branchB;
+                    oldBranchC = branchC;
+                    oldBranchD = branchD;
+                    lastA = branchA.splice(-1)[0][1];
+                    lastB = branchB.splice(-1)[0][1];
+                    lastC = branchC.splice(-1)[0][1];
+                    lastD = branchD.splice(-1)[0][1];
+                    */
+                } else {
+                    lastA = species[2];
+                    lastB = species[3];
+                    lastC = species[4];
+                    lastD = species[5];
+                }
+                lastA.color = -corner[2].color;
+                lastA.alignDir = species[0].alignDir;
+                lastB.color = -corner[3].color;
+                lastB.alignDir = species[0].alignDir;
+                lastC.color = -corner[1].color;
+                lastC.alignDir = species[0].alignDir;
+                lastD.color = -corner[4].color;
+                lastD.alignDir = species[0].alignDir;
+                stem.push(corner);
+                rule.push(corner);
+            }
+            stem.push(species);
+            rule.push(species);
+        }
+        return stem;
+    }
+    buildOut(core[0].color, radius);
+
+    return rule
+}
 /**
  * Emulating https://docs.python.org/3.8/library/stdtypes.html#dict.setdefault
  * If key is in the dictionary, return its value.
