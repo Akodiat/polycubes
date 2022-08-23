@@ -33,7 +33,7 @@ function addSpecies(patches) {
         }
         if (system.isPolycubeSystem()) {
             let rotation = document.createElement("img");
-            rotation.value = faceRotations[i].angleTo(patches[i].alignDir)*(2/Math.PI);
+            rotation.value = Math.round(getSignedAngle(faceRotations[i], patches[i].alignDir, ruleOrder[i])*(2/Math.PI)+4)%4;
 
             rotation.src = "doc/face.svg"
             rotation.height = "35";
@@ -218,10 +218,6 @@ function clearRule() {
     if(document.getElementById("autoUpdate").checked) {
         system.regenerate();
     }
-}
-
-function rgbToHex(rgb) {
-    return "#" + ((1 << 24) + (rgb.r*255 << 16) + (rgb.g*255 << 8) + rgb.b*255).toString(16).slice(1);
 }
 
 function toggleRuleSet() {
