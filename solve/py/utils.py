@@ -247,7 +247,7 @@ def calcCoordmapFromTop(top, nDim=3):
     return pmaps
 
 def calcCoordsFromTop(top, nDim=3):
-    pmaps = calcCoordmapFromTop(top, nDim=3)
+    pmaps = calcCoordmapFromTop(top, nDim=nDim)
     return [np.array([v for v in posmap.values()]).T for posmap in pmaps]
 
 def countParticlesAndBindings(topology):
