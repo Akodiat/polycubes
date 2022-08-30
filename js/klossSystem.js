@@ -112,7 +112,6 @@ class KlossSystem {
             let particleMaterial = new THREE.MeshLambertMaterial({
                 transparent: true,
                 opacity: 0.5,
-                //side: THREE.DoubleSide,
                 color: selectColor(i)
             });
             this.particleMaterials.push(particleMaterial);
@@ -176,15 +175,6 @@ class KlossSystem {
             Math, x.map(r => Math.abs(r.color))))
         );
         nColors = Math.max(nColors, 2) //Avoid getting only red colors
-
-        /*
-        for (let i=0; i<nColors; i++) {
-            let colorMaterial = new THREE.MeshLambertMaterial({
-                color: selectColor(i)
-            });
-            this.colorMaterials.push(colorMaterial);
-        }
-        */
 
         for (let i=0; i<rule.length; i++) {
             let particleMaterial = new THREE.MeshLambertMaterial({color: selectColor(i)});
@@ -252,38 +242,37 @@ class KlossSystem {
         // Traverse rule patches in random order
         let r = this.randOrdering(length);
         // Make sure patch is not empty
-        //if (patch.color != 0) {
-            let facingDir = patch.dir.clone().negate();
-            // Check each patch in species
-            for (let rib=0; rib<length; rib++) {
-                let i = r[rib];
-                // If we find an equal color
-                if (this.compatibleColors(patch.color, species[i].color)) {
-                    // Set the same orientation
-                    let q = patch.q.clone().multiply(species[i].q.clone().invert());
-                    //let q = species[i].q.clone().multiply(patch.q.clone().invert());
 
-                    q.premultiply(new THREE.Quaternion().setFromAxisAngle(
-                        patch.alignDir, Math.PI)
-                    );
+        let facingDir = patch.dir.clone().negate();
+        // Check each patch in species
+        for (let rib=0; rib<length; rib++) {
+            let i = r[rib];
+            // If we find an equal color
+            if (this.compatibleColors(patch.color, species[i].color)) {
+                // Set the same orientation
+                let q = patch.q.clone().multiply(species[i].q.clone().invert());
+                //let q = species[i].q.clone().multiply(patch.q.clone().invert());
 
-                    species = this.rotatePatches(species, q);
-                    console.assert(
-                        facingDir.distanceTo(species[i].dir) < 1e-4,
-                        'Still facing wrong direction'
-                    );
-                    console.assert(
-                        patch.alignDir.distanceTo(species[i].alignDir) < 1e-4,
-                        'Still having incorrect alignment'
-                    );
+                q.premultiply(new THREE.Quaternion().setFromAxisAngle(
+                    patch.alignDir, Math.PI)
+                );
 
-                    return {
-                        'i': i,
-                        'q': q//q1.multiply(q2)
-                    };
-                }
+                species = this.rotatePatches(species, q);
+                console.assert(
+                    facingDir.distanceTo(species[i].dir) < 1e-4,
+                    'Still facing wrong direction'
+                );
+                console.assert(
+                    patch.alignDir.distanceTo(species[i].alignDir) < 1e-4,
+                    'Still having incorrect alignment'
+                );
+
+                return {
+                    'i': i,
+                    'q': q//q1.multiply(q2)
+                };
             }
-        //}
+        }
         // Return false if we didn't find any matching faces
         return false;
     }
@@ -373,12 +362,6 @@ class KlossSystem {
                 continue;
             }
             let patch = rotatedSpecies[i];
-            /*
-            if (patch.color == 0) {
-                // Zero patches doesn't bind
-                continue;
-            }
-            */
             let patchPos = position.clone().add(patch.pos);
 
             if (Math.abs(patchPos.x)>this.maxCoord ||
@@ -410,7 +393,7 @@ class KlossSystem {
         render();
     }
 
-    drawParticle(position, q, species, ruleIdx) {
+    drawParticle(position, q, species, ruleIdx, parent=this.objGroup) {
         let particle = new THREE.Group();
         const linePoints = [new THREE.Vector3];
 
@@ -468,7 +451,6 @@ class KlossSystem {
         particle.applyQuaternion(q);
         particle.position.copy(position);
         particle.name = "Particle";
-        this.objGroup.add(particle);
+        parent.add(particle);
     }
-
 }

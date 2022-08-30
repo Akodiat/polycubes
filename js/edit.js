@@ -136,7 +136,7 @@ function addSpecies(patches) {
         add.style.margin = "0px";
         add.onclick = ()=>{
             patches.push(new Patch(0, new THREE.Vector3(1,0,0), new THREE.Quaternion()));
-            clearRules();
+            clearRule();
         }
         ruleField.appendChild(add);
     }
@@ -156,9 +156,9 @@ function updateRuleColor(e, patches, faceIdx) {
     let c;
     let value = parseInt(e.value);
     if(value != 0) {
-        while (Math.abs(value) > system.colorMaterials.length) {
+        while (system.colorMaterials && Math.abs(value) > system.colorMaterials.length) {
             let colorMaterial = new THREE.MeshLambertMaterial({
-                color: selectColor(system.colorMaterials.length-1)
+                color: selectColor(Math.abs(value)-1)
             });
             system.colorMaterials.push(colorMaterial);
         }

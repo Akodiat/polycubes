@@ -9,6 +9,7 @@ transform.addEventListener('dragging-changed', event=>{
     orbit.enabled = !event.value;
     if (!event.value && transform.object) {
         transform.object.patch.update(undefined, transform.object.position, transform.object.quaternion);
+        setUrlRule(system.rule);
         clearRule();
     }
 });

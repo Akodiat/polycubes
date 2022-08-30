@@ -357,13 +357,17 @@ function setUrlRule(rule=system.rule) {
                 varstrs.push(key + "=" + value);
             }
         }
-        let maxColor = Math.max.apply(Math, rule.map(x => Math.max.apply(
-            Math, x.map(r => Math.abs(r.color))))
-        );
-        if (maxColor > 31) {
-            varstrs.push('decRule='+ruleToDec(rule))
+        if (system.isPolycubeSystem()) {
+            let maxColor = Math.max.apply(Math, rule.map(x => Math.max.apply(
+                Math, x.map(r => Math.abs(r.color))))
+            );
+            if (maxColor > 31) {
+                varstrs.push('decRule='+ruleToDec(rule))
+            } else {
+                varstrs.push('rule='+ruleToHex(rule));
+            }
         } else {
-            varstrs.push('rule='+ruleToHex(rule));
+            varstrs.push('rule='+system.getRuleStr())
         }
         let argstr = '?' + varstrs.join('&');
         window.history.pushState(null, null, argstr);

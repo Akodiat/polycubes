@@ -37,12 +37,12 @@ function createPolycubeSystem() {
 
 function createKlossSystem() {
     let vars = getUrlVars();
-    if ("rule" in vars) {
-        rule = parseKlossString(vars["rule"]);
-    } else if ("hexRule" in vars) {
-        rule = polycubeRuleToKloss(parseHexRule(vars["hexRule"]));
-    } else if ("decRule" in vars) {
-        rule = polycubeRuleToKloss(parseDecRule(vars["decRule"]));
+    if (vars.has("rule")) {
+        rule = parseKlossString(vars.get("rule"));
+    } else if (vars.has("hexRule")) {
+        rule = polycubeRuleToKloss(parseHexRule(vars.get("hexRule")));
+    } else if (vars.has("decRule")) {
+        rule = polycubeRuleToKloss(parseDecRule(vars.get("decRule")));
     } else {
         let defaultRule = "[[[1,-1.25,0,0,-0.5,1,0,0],[1,-1,-1,0,-1,0,0,0],[1,0.5,0,0,1,1,-0,0],[1,0,-0.5,0,-1,0,1,0],[1,0,0.5,0,0,-1,0,1],[1,0,0,-0.5,-0,1,-1,0],[1,0,0,0.5,1,0,0,1]],[[-1,-0.5,0,0,-1,1,0,0]]]";
         rule = parseKlossString(defaultRule);
