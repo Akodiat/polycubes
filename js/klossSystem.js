@@ -251,7 +251,6 @@ class KlossSystem {
             if (this.compatibleColors(patch.color, species[i].color)) {
                 // Set the same orientation
                 let q = patch.q.clone().multiply(species[i].q.clone().invert());
-                //let q = species[i].q.clone().multiply(patch.q.clone().invert());
 
                 q.premultiply(new THREE.Quaternion().setFromAxisAngle(
                     patch.alignDir, Math.PI)
@@ -269,7 +268,7 @@ class KlossSystem {
 
                 return {
                     'i': i,
-                    'q': q//q1.multiply(q2)
+                    'q': q
                 };
             }
         }

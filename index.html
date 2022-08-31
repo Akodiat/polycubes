@@ -162,11 +162,10 @@
             <button onclick="system.regenerate()">Update</button>
             <input type="checkbox" id="autoUpdate" checked="True", onchange="system.regenerate()">Auto update
         </span>
-        <label for="assemblyMode">Assembly mode:</label>
+        <label for="assemblyMode">Seeding:</label>
         <select id="assemblyMode" onchange="system.resetAssemblyMode(this.value)">
-            <option value="stochastic">Stochastic</option>
+            <option value="stochastic">Unseeded</option>
             <option value="seeded" selected>Seeded</option>
-            <option value="ordered">Ordered</option>
         </select>
         <span style="display: flex;">
             <input type="checkbox" id="torsion" checked="True", onchange="system.torsion=this.checked; system.regenerate()">Torsion

@@ -14,6 +14,12 @@ function createPolycubeSystem() {
     }
     let assemblyMode = getUrlParam("assemblyMode", 'seeded');
 
+    let groupsStr = getUrlParam("groups", undefined);
+    let groups
+    if (groupsStr) {
+        groups = JSON.parse(groupsStr)
+    }
+
     try {
         document.getElementById('assemblyMode').value = assemblyMode;
     } catch (error) {
@@ -26,7 +32,7 @@ function createPolycubeSystem() {
     let torsion = document.getElementById('torsion').checked;
     let allowMismatches = document.getElementById('mismatches').checked;
 
-    system = new PolycubeSystem(rule, scene, nMaxCubes, maxCoord, assemblyMode, undefined, torsion, allowMismatches);
+    system = new PolycubeSystem(rule, scene, nMaxCubes, maxCoord, assemblyMode, undefined, torsion, allowMismatches, groups);
 
     orbit.target = system.centerOfMass;
 

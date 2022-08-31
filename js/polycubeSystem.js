@@ -1,8 +1,9 @@
 class PolycubeSystem {
 
-    constructor(rule, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded', buildConfmap=true, torsion = true, allowMismatches = true) {
+    constructor(rule, scene, nMaxCubes=1000, maxCoord=100, assemblyMode='seeded', buildConfmap=true, torsion = true, allowMismatches = true, groups=undefined) {
         this.moves = {};
         this.moveKeys = [];
+        this.untried = [];
         this.cubeMap = new Map();
         this.centerOfMass = new THREE.Vector3();
         this.nMaxCubes = nMaxCubes;
@@ -11,7 +12,9 @@ class PolycubeSystem {
         this.allowMismatches = allowMismatches;
 
         this.assemblyMode = assemblyMode;
-        this.orderIndex = 0;
+
+        this.groupIndex = 0;
+        this.groups = groups;
 
         this.cubeTypeCount = rule.map(r=>0);
 
@@ -88,6 +91,7 @@ class PolycubeSystem {
         this.objGroup.children = [];
         this.moves = {};
         this.moveKeys = [];
+        this.untried = [];
         this.cubeMap = new Map();
         if (this.confMap) {
             this.confMap = new Map;
@@ -103,7 +107,7 @@ class PolycubeSystem {
             m.transparent = false;
             m.opacity = 1;
         });
-        this.orderIndex = 0;
+        this.groupIndex = 0;
         if (!this.background) {
             render();
         }
@@ -135,6 +139,7 @@ class PolycubeSystem {
 
     resetRule(rule) {
         this.reset();
+        this.groups = undefined;
         this.rule = rule;
 
         let nColors = Math.max.apply(Math, rule.map(x => Math.max.apply(
@@ -259,80 +264,51 @@ class PolycubeSystem {
     }
 
     processMoves() {
-        let nMoves = this.moveKeys.length;
-        if (nMoves > 0) { // While we have moves to process
-            // If we should assemble everything in order
-            if (this.assemblyMode == 'ordered') {
-                // Go through moves in random order
-                let tried = new Set();
-                let untried = this.moveKeys.slice(); //Make shallow copy
-                while(untried.length > 0){
-                    // Get a random untried move key
-                    let i = Math.floor(untried.length * Math.random());
-                    let key = untried[i];
-                    // Try to add the current cube type
-                    let result = this.tryProcessMove(key, this.orderIndex);
-                    if (result) {
-                        // Remove processed move
-                        delete this.moves[key];
-                        this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
-                    }
-                    tried.add(key);
-                    // Movekeys might have updated, if we added cubes
-                    untried = this.moveKeys.filter(i=>!tried.has(i));
-
-                    // Check if polycube is getting too large
-                    if (this.cubeMap.size >= this.nMaxCubes) {
-                        if (!this.background) {
-                            render();
-                            window.dispatchEvent(new Event('oub'));
-                        }
-                        console.log("Unbounded");
-                        return 'oub';
-                    }
-                }
-                // When we have tried the current cube type for all moves
-                // in queue, increase index to try the next one next time
-                this.orderIndex++;
-                if (this.orderIndex >= this.rule.length) {
-                    if (!this.background) {
-                        window.dispatchEvent(new Event('movesProcessed'));
-                    }
-                    return true;
-                }
-            } else {
-                // Pick a random move
-                let key = this.moveKeys[Math.floor(Math.random()*nMoves)];
-                // Pick a random rule order
-                let ruleIdxs = randOrdering(this.rule.length);
-                // Check if we have a rule that fits this move
-                for (let r=0; r<this.rule.length; r++) {
-                    let result = this.tryProcessMove(key, ruleIdxs[r]);
-                    if (result) {
-                        break;
-                    }
-                }
-                // Remove processed move
-                delete this.moves[key];
-                this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
-            }
-
-            // Check if polycube is getting too large
-            if (this.cubeMap.size >= this.nMaxCubes) {
-                if (!this.background) {
-                    render();
-                    window.dispatchEvent(new Event('oub'));
-                }
-                console.log("Unbounded");
-                return 'oub';
-            }
+        let groups;
+        if (this.groups === undefined) {
+            // Add all species to a single group
+            groups = [this.rule.map((_,i)=>i)];
         } else {
+            groups = this.groups;
+        }
+        if (this.untried.length == 0) {
+            this.groupIndex++;
+            this.untried = this.moveKeys.slice();
+        }
+        if (this.groupIndex >= groups.length) {
             if (!this.background) {
                 window.dispatchEvent(new Event('movesProcessed'));
             }
             return true;
+        } 
+        let group = groups[this.groupIndex];
+        console.log(`Trying group ${group}`)
+        // Traverse in random order
+        let key = this.untried[Math.floor(Math.random()*this.untried.length)];
+        console.log(`Trying key ${key}`)
+        // Traverse the species in this group in a random order
+        let shuffledGroup = randOrdering(group.length).map(i=>group[i]);
+        // Check if we have a species that fits this move
+        for (let i=0; i<group.length; i++) {
+            let result = this.tryProcessMove(key, shuffledGroup[i]);
+            if (result) {
+                // Remove processed move
+                delete this.moves[key];
+                // Remove key
+                this.moveKeys.splice(this.moveKeys.indexOf(key), 1);
+                // Check if polycube is getting too large
+                if (this.cubeMap.size >= this.nMaxCubes) {
+                    if (!this.background) {
+                        render();
+                        window.dispatchEvent(new Event('oub'));
+                    }
+                    console.log("Unbounded");
+                    return 'oub';
+                }
+                break;
+            }
         }
-        //render();
+        this.untried.splice(this.untried.indexOf(key), 1);
         if (!this.background) {
             requestAnimationFrame(this.processMoves.bind(this, false));
         }
@@ -367,6 +343,7 @@ class PolycubeSystem {
                     'pos': movePos,
                     'rule': [null,null,null,null,null,null]};
                 this.moveKeys.push(key);
+                this.untried.push(key);
             }
             let r = position.clone().sub(movePos);
             let dirIdx = ruleOrder.findIndex(
