@@ -36,6 +36,66 @@ function getSignedAngle(v1, v2, axis) {
     return a;
 }
 
+// A species is an array of patches
+class Species extends Array {
+    draw(system, ruleIdx) {
+        let particle = new THREE.Group();
+        const linePoints = [new THREE.Vector3];
+
+        this.forEach((patch,i)=>{
+            let patchGroup = new THREE.Group();
+
+            let material = new THREE.MeshLambertMaterial({
+                color: selectColor(Math.abs(patch.color) - 1)
+            });
+            if (patch.color >= 0) {
+                material.emissive = material.color.clone().addScalar(-0.5);
+            }
+
+            let connector = new THREE.Mesh(
+                system.connectorGeo, material
+            );
+            connector.lookAt(patch.dirBase);
+
+            patchGroup.add(connector);
+
+            let connectorPointer = new THREE.Mesh(
+                system.connectorPointerGeo, material
+            );
+            connectorPointer.lookAt(patch.alignBase);
+            connectorPointer.position.add(patch.alignBase.clone().multiplyScalar(0.1));
+
+            patchGroup.add(connectorPointer);
+
+            const nPoints = 4;
+            for (let i=0; i<nPoints; i++) {
+                let diff = patch.alignDir.clone().multiplyScalar(0.05);
+                diff.applyAxisAngle(patch.dir, i * 2*Math.PI/nPoints);
+                linePoints.push(
+                    patch.pos.clone().sub(patch.dir.clone().multiplyScalar(0.2)).add(diff)
+                );
+            }
+
+            patchGroup.children.forEach(c=>{
+                c.position.sub(patch.dirBase.clone().multiplyScalar(0.1));
+            });
+
+            patchGroup.applyQuaternion(patch.q);
+            patchGroup.position.copy(patch.pos);
+            system.patchObjects.push(patchGroup);
+            patchGroup['patch'] = system.rule[ruleIdx][i];
+
+            particle.add(patchGroup);
+        });
+
+        let particleGeometry = new ConvexGeometry(linePoints);
+        let particleObject = new THREE.Mesh(particleGeometry, system.particleMaterials[ruleIdx]);
+
+        particle.add(particleObject);
+        return particle;
+    }
+}
+
 class Patch {
     constructor(color, pos, q) {
         this.pos = pos;
@@ -184,7 +244,11 @@ class KlossSystem {
         this.addParticle(new THREE.Vector3(), new THREE.Quaternion(), rule[0], 0);
 
         this.processMoves();
-        render();
+
+        if (!this.background) {
+            setUrlRule(system.rule);
+            render();
+        }
     }
 
     seed() {
@@ -393,60 +457,7 @@ class KlossSystem {
     }
 
     drawParticle(position, q, species, ruleIdx, parent=this.objGroup) {
-        let particle = new THREE.Group();
-        const linePoints = [new THREE.Vector3];
-
-        species.forEach((patch,i)=>{
-            let patchGroup = new THREE.Group();
-
-            let material = new THREE.MeshLambertMaterial({
-                color: selectColor(Math.abs(patch.color) - 1)
-            });
-            if (patch.color >= 0) {
-                material.emissive = material.color.clone().addScalar(-0.5);
-            }
-
-            let connector = new THREE.Mesh(
-                this.connectorGeo, material
-            );
-            connector.lookAt(patch.dirBase);
-
-            patchGroup.add(connector);
-
-            let connectorPointer = new THREE.Mesh(
-                this.connectorPointerGeo, material
-            );
-            connectorPointer.lookAt(patch.alignBase);
-            connectorPointer.position.add(patch.alignBase.clone().multiplyScalar(0.1));
-
-            patchGroup.add(connectorPointer);
-
-            const nPoints = 4;
-            for (let i=0; i<nPoints; i++) {
-                let diff = patch.alignDir.clone().multiplyScalar(0.25);
-                diff.applyAxisAngle(patch.dir, i * 2*Math.PI/nPoints);
-                linePoints.push(
-                    patch.pos.clone().sub(patch.dir.clone().multiplyScalar(0.2)).add(diff)
-                );
-            }
-
-            patchGroup.children.forEach(c=>{
-                c.position.sub(patch.dirBase.clone().multiplyScalar(0.1));
-            });
-
-            patchGroup.applyQuaternion(patch.q);
-            patchGroup.position.copy(patch.pos);
-            this.patchObjects.push(patchGroup);
-            patchGroup['patch'] = this.rule[ruleIdx][i];
-
-            particle.add(patchGroup);
-        });
-
-        let particleGeometry = new ConvexGeometry(linePoints);
-        let particleObject = new THREE.Mesh(particleGeometry, this.particleMaterials[ruleIdx]);
-
-        particle.add(particleObject);
-
+        let particle = species.draw(this, ruleIdx);
         particle.applyQuaternion(q);
         particle.position.copy(position);
         particle.name = "Particle";

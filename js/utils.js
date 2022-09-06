@@ -313,12 +313,12 @@ function ruleToHex(rule) {
 }
 
 function parseKlossString(ruleStr) {
-    return JSON.parse(ruleStr).map(patches => patches.map(function(p) {
+    return JSON.parse(ruleStr).map(patches => new Species(...patches.map((p) => {
         let color = p[0];
         let pos = new THREE.Vector3(p[1], p[2], p[3]);
         let q = new THREE.Quaternion(p[4], p[5], p[6], p[7]);
         return new Patch(color, pos, q);
-    }));
+    })));
 }
 
 function patchySpecToKloss(particlesStr, patchesStr) {
@@ -394,7 +394,7 @@ function patchySpecToKloss(particlesStr, patchesStr) {
     }
 
     const species = particles.map(particle=>{
-        return particle['patches'].map(patch=>{
+        return new Species(...particle['patches'].map(patch=>{
             let p = new Patch(
                 patch.color,
                 patch.position,
@@ -405,7 +405,7 @@ function patchySpecToKloss(particlesStr, patchesStr) {
                 patch.a2, patch.a1
             ));
             return p;
-        })
+        }))
     });
 
     return species
@@ -414,7 +414,7 @@ function patchySpecToKloss(particlesStr, patchesStr) {
 function polycubeRuleToKloss(cubeRule) {
     let klossRule = [];
     cubeRule.forEach(species=>{
-        let klossSpecies = [];
+        let klossSpecies = new Species();
         species.forEach((patch,i)=>{
             if (patch.color !== 0) {
                 let p = new Patch(
@@ -442,6 +442,24 @@ function polycubeRuleToKloss(cubeRule) {
         klossRule.push(klossSpecies);
     });
     return klossRule;
+}
+
+function createEquilateralKloss(n, r, alpha, colors=[]) {
+    let klossSpecies = new Species();
+    const dA = (2*Math.PI)/n;
+
+    for (let i=0; i<n; i++) {
+        let a = dA*i
+        let q = new THREE.Quaternion().setFromEuler(new THREE.Euler(
+            a, 0, -alpha
+        ));
+        let p = new THREE.Vector3().setFromSphericalCoords(r, a, 0);
+        let patch = new Patch(
+            colors[i], p, q
+        );
+        klossSpecies.push(patch);
+    }
+   return klossSpecies;
 }
 
 function getSignedAngle(v1, v2, axis) {
@@ -535,7 +553,7 @@ function randOrdering(length) {
 }
 
 function getCoords(rule, assemblyMode='seeded') {
-    let system = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode);
+    let system = new PolycubeSystem(rule, undefined, 1000, 1000, assemblyMode);
     system.seed();
     while (!system.processMoves(true));
     return [...system.cubeMap.values()];
@@ -544,7 +562,7 @@ function getCoords(rule, assemblyMode='seeded') {
 function getCubeTypeCount(rule, assemblyMode='seeded', nTries=1) {
     let count = [];
     for (let i=0; i<nTries; i++) {
-        let sys = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode);
+        let sys = new PolycubeSystem(rule, undefined, 1000, 1000, assemblyMode);
         sys.seed();
         let processed = false;
         while (!processed) {
@@ -566,7 +584,7 @@ function getCubeTypeCount(rule, assemblyMode='seeded', nTries=1) {
 function isBoundedAndDeterministic(rule, nTries=15, assemblyMode='seeded') {
     let oldCoords;
     while (nTries--) {
-        let system = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode);
+        let system = new PolycubeSystem(rule, undefined, 1000, 1000, assemblyMode);
         system.seed();
         let processed = false;
         while (!processed) {
