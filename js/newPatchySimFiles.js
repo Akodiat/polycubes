@@ -11,7 +11,7 @@ backend = CPU
 CUDA_list = verlet
 #backend_precision = double
 #debug = 1
-seed = 4982
+#seed = 4982
 
 DPS_KF_cosmax = 0.7
 DPS_KF_delta = 0.2
@@ -46,10 +46,10 @@ check_energy_every = 10000
 check_energy_threshold = 1.e-4
 
 interaction_type = DetailedPatchySwapInteraction
-DPS_lambda = 1
+DPS_lambda = 0
 DPS_interaction_matrix_file = LORO.interaction_matrix.txt
-DPS_is_KF = 1
-#DPS_alpha = 0.12
+DPS_is_KF = 0
+DPS_alpha = 0.12
 
 ##############################
 ####    INPUT / OUTPUT    ####
@@ -82,7 +82,7 @@ data_output_1 = {
 `
 }
 
-function generateLoroConf(rule, assemblyMode='seeded', scale=1.25) {
+function generateLoroConf(rule, assemblyMode='seeded', scale=1.4) {
     let sys = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode, true);
     sys.seed();
     let processed = false;
@@ -123,7 +123,10 @@ function generateLoroConf(rule, assemblyMode='seeded', scale=1.25) {
         });
     }
     conf.sort((a,b)=>a['species'] - b['species']);
-    let confStr = `t = 0\nb = ${box.toArray().join(' ')}\nE = 0 0 0\n` + 
+    // It is safer to have a cubic box.
+    // Also make sure to round it and have it at least 10
+    let boxSide = Math.ceil(Math.max(10, ...box.toArray()));
+    let confStr = `t = 0\nb = ${[boxSide, boxSide, boxSide].join(' ')}\nE = 0 0 0\n` + 
         conf.map(c=>c['conf']).join('\n');
     return confStr;
 }
@@ -133,7 +136,7 @@ function getNewPatchySimFiles({rule=system.rule, nAssemblies=1, name='sim',
     temperatures = ['0.01'],
     confDensity = 0.2,
     multifarious = false
-}) {
+}={}) {
     let zip = new JSZip();
 
     const cubeTypeCount = multifarious ? getCubeTypeCount(rule, 'stochastic', 1000) : getCubeTypeCount(rule);
