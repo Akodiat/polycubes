@@ -284,10 +284,8 @@ class PolycubeSystem {
             return true;
         } 
         let group = groups[this.groupIndex];
-        console.log(`Trying group ${group}`)
         // Traverse in random order
         let key = this.untried[Math.floor(Math.random()*this.untried.length)];
-        console.log(`Trying key ${key}`)
         // Traverse the species in this group in a random order
         let shuffledGroup = randOrdering(group.length).map(i=>group[i]);
         // Check if we have a species that fits this move
