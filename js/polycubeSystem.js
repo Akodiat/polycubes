@@ -147,6 +147,7 @@ class PolycubeSystem {
         );
         nColors = Math.max(nColors, 2) //Avoid getting only red colors
 
+        this.colorMaterials = [];
         for (let i=0; i<nColors; i++) {
             let colorMaterial = new THREE.MeshLambertMaterial({
                 color: selectColor(i)
@@ -154,6 +155,7 @@ class PolycubeSystem {
             this.colorMaterials.push(colorMaterial);
         }
 
+        this.particleMaterials = [];
         for (let i=0; i<rule.length; i++) {
             let cubeMaterial = new THREE.MeshLambertMaterial({
                 color: selectColor(i),
