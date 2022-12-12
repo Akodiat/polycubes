@@ -2,6 +2,19 @@
 const structMap = new Map([
     ['cube', {
         'path': 'js/resources/cube.oxview',
+        'scale': 55,
+        'patchPositions': [
+            [13503, 13267, 13556, 13835], // Red
+            [13358, 13757, 13932, 14026], // Cyan
+            [13704, 13411, 14258, 13651], // Yellow
+            [14177, 13464, 14085, 14448 ], // Green
+            [13796, 14124, 13888, 14568], // Blue
+            [13305, 13227, 14311, 14515], // Magenta
+        ],
+        'connectingHelix': '9bp'
+    }],
+    ['smallCube', {
+        'path': 'js/resources/smallCube.oxview',
         'scale': 40,
         'patchPositions': [
             [4620, 6786, 6728, 5549], // Red
@@ -10,7 +23,8 @@ const structMap = new Map([
             [5438, 4513, 6672, 6614], // Green
             [5494, 5143, 5661, 5382], // Blue
             [3762, 6384, 7599, 7528], // Magenta
-        ]
+        ],
+        'connectingHelix': '21bp'
     }],
     ['square', {
         'path': 'js/resources/square.oxview',
@@ -20,10 +34,31 @@ const structMap = new Map([
             [5238,5269,12549,12580,12691,12722,12851,12882,13039,13070,13434,13465,13673,13704,13826,13857,14002,14033,14122,14091],
             [3478,3509,3540,3571,3682,3713,3842,3873,4030,4061,4467,4498,4706,4737,4859,4890,5035,5066,5155,5124],
             [0,31,62,93,204,235,364,395,552,583,989,1020,1228,1259,1381,1412,1557,1588,1677,1646]
-        ]
+        ],
+        'connectingHelix': '21bp'
     }],
     [3, 'three'],
 ]);
+
+const connectingHelices = new Map([
+    ['21bp', {
+        'path': 'js/resources/21bp.oxview',
+        '5pA': 41,
+        '5pB': 0,
+        'toNick': 10
+    }],
+    ['9bp', {
+        'path': 'js/resources/9bp.oxview',
+        '5pA': 17,
+        '5pB': 0,
+        'toNick': 4
+    }]
+]);
+
+// Pre-load helix strings
+for (const [name, spec] of connectingHelices) {
+    getText(spec['path']).then(str=>connectingHelices.get(name)['str']=str);
+}
 
 function vectorClear(v, clearingV) {
     let clearedV = v.clone()
@@ -110,7 +145,8 @@ async function generateOxViewFile({rule=system.rule, name='polycube', assemblyMo
 
                 insertHelix(oxSys, nucIdA, keyA, closest, keyB, 
                     `${keyA}-${keyB}(${nucIdA})`,
-                    debugColors ? undefined : new THREE.Color(selectColor(color-1))
+                    debugColors ? undefined : new THREE.Color(selectColor(color-1)),
+                    shapeInfo.connectingHelix
                 );
             }
         }
@@ -120,11 +156,9 @@ async function generateOxViewFile({rule=system.rule, name='polycube', assemblyMo
     })
 }
 
-// Pre-load helix strings
-let helixStr;
-getText('js/resources/21bp.oxview').then(str=>helixStr=str);
+function insertHelix(oxSys, nucIdA, keyA, nucIdB, keyB, helixKey, color, helixName='21bp') {
+    const helixSpec = connectingHelices.get(helixName);
 
-function insertHelix(oxSys, nucIdA, keyA, nucIdB, keyB, helixKey, color) {
     const nA = oxSys.getNuc(nucIdA, keyA);
     const nB = oxSys.getNuc(nucIdB, keyB);
 
@@ -137,7 +171,7 @@ function insertHelix(oxSys, nucIdA, keyA, nucIdB, keyB, helixKey, color) {
     const q = new THREE.Quaternion().setFromUnitVectors(
         new THREE.Vector3(0,0,-1), pB.clone().sub(pA).normalize()
     );
-    oxSys.addFromJSON(JSON.parse(helixStr), p, q, helixKey, color, true);
+    oxSys.addFromJSON(JSON.parse(helixSpec.str), p, q, helixKey, color, true);
 
     if (color === undefined) {
         const [sA, _nA] = oxSys.findById(oxSys.idMaps.get(helixKey).get(41));
@@ -148,8 +182,8 @@ function insertHelix(oxSys, nucIdA, keyA, nucIdB, keyB, helixKey, color) {
         sB.monomers.forEach(n=>{n.color=cB});
     }
 
-    const hA = oxSys.getNuc(41, helixKey); // Strand 1, 5'
-    const hB = oxSys.getNuc(0, helixKey);  // Strand 0, 5'
+    const hA = oxSys.getNuc(helixSpec["5pA"], helixKey); // Strand 1, 5'
+    const hB = oxSys.getNuc(helixSpec["5pB"], helixKey);  // Strand 0, 5'
 
     if (nA.n3 === undefined && nB.n3 === undefined) {
         // Connect two 3' ends to 5' ends of inserted helix
@@ -160,13 +194,13 @@ function insertHelix(oxSys, nucIdA, keyA, nucIdB, keyB, helixKey, color) {
         oxSys.ligate(hA.bp, nA.id);
         oxSys.ligate(hB.bp, nB.id);
     } else if (nA.n3 === undefined && nB.n5 === undefined) {
-        oxSys.nick(oxSys.getNuc(10, helixKey).id);
+        oxSys.nick(oxSys.getNuc(helixSpec['toNick'], helixKey).id);
         // Connect 3' end nA to one 5' end of inserted helix
         oxSys.ligate(hA.id, nA.id);
         // Connect 5' end nB to one 3' end of inserted helix
         oxSys.ligate(hB.bp, nB.id);
     } else if (nA.n5 === undefined && nB.n3 === undefined) {
-        oxSys.nick(oxSys.getNuc(10, helixKey).id);
+        oxSys.nick(oxSys.getNuc(helixSpec['toNick'], helixKey).id);
         // Connect 5' end nA to one 3' end of inserted helix
         oxSys.ligate(hA.bp, nA.id);
         // Connect 3' end nB to one 5' end of inserted helix
