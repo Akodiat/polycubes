@@ -20,12 +20,13 @@ class OxViewSystem {
     }
 
     saveToFile(filename) {
+        const s = JSON.stringify(this,
+            undefined, 2  // Indent
+            ).replace(    // But not too much
+                /(".+": \[)([^\]]+)/g, (_, a, b) => a + b.replace(/\s+/g, ' ')
+        )
         saveString(
-            JSON.stringify(this,
-                undefined, 2  // Indent
-                ).replace(    // But not too much
-                    /(".+": \[)([^\]]+)/g, (_, a, b) => a + b.replace(/\s+/g, ' ')
-            ), filename
+            s, filename
         );
     }
 

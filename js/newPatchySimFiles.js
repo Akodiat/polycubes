@@ -9,7 +9,7 @@ function generateNewPatchyInput(
 #############################
 backend = CPU
 CUDA_list = verlet
-#backend_precision = double
+#backend_precision = mixed
 #debug = 1
 #seed = 4982
 
@@ -159,9 +159,11 @@ function getNewPatchySimFiles({rule=system.rule, nAssemblies=1, name='sim',
                 const patchId = patchCounter++;
                 patchIds.push(patchId)
 				patchSpecs.push(
-                    ruleOrder[j].clone().multiplyScalar(
+                    ruleOrder[j].clone().multiplyScalar( // Patch position
                         particleRadius
-                    ).toArray().join(' ')
+                    ).toArray().join(' ') + ' ' +
+                    ruleOrder[j].toArray().join(' ') + ' ' + // Patch direction
+                    faceRotations[j].toArray().join(' ') // Patch alignment
                 );
                 if (!interactionMap.has(f.color)) {
                     interactionMap.set(f.color, [])

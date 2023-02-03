@@ -13,6 +13,153 @@ function createEmptySpecies() {
     }
     return species;
 }
+
+function interspaceCurrentRule() {
+    system.resetRule(interspaceRule(system.rule))
+}
+
+function interspaceRule(rule) {
+    let newRule = parseDecRule(ruleToDec(rule)); // Copy
+    let colors = new Set(newRule.flatMap(s=>s.map(f=>Math.abs(f.color))));
+    let colorCounter = Math.max(...colors);
+    let colorMap = new Map();
+    let newSpeciesMap = new Map();
+    let newSpecies = [];
+    colors.forEach(c=>{
+        // Create a new species and add it
+        // in between each current connection
+        let s = createEmptySpecies();
+        s[0].color = - c;
+        s[1].color = ++colorCounter;
+        s[1].alignDir = s[0].alignDir;
+        colorMap.set(c, s[1].color)
+        newSpeciesMap.set(c, s);
+        newSpecies.push(s);
+    });
+    // Replace negative colours to connect to the new species
+    newRule.forEach(s=>s.forEach(f=>{
+        if (f.color < 0) {
+            f.color = - colorMap.get(Math.abs(f.color));
+        }
+    }));
+
+    return newRule.concat(newSpecies);
+}
+
+function fillOneGap(rule, minNeighbours=2) {
+    let newRule = parseDecRule(ruleToDec(rule)); // Copy
+    let colors = new Set(newRule.flatMap(s=>s.map(f=>Math.abs(f.color))));
+    let colorCounter = Math.max(...colors);
+    let sys = new PolycubeSystem(newRule, undefined, 1000, 1000, 'seeded');
+    sys.seed();
+    while (!sys.processMoves(true));
+    let maxCoords = new THREE.Vector3();
+    let minCoords = new THREE.Vector3();
+    let mean = new THREE.Vector3();
+    sys.cubeMap.forEach(pos=>{
+        for(let i=0; i<3; i++) {
+            maxCoords.setComponent(i, Math.max(
+                pos.getComponent(i),
+                maxCoords.getComponent(i)
+            ));
+            minCoords.setComponent(i, Math.min(
+                pos.getComponent(i),
+                minCoords.getComponent(i)
+            ));
+        }
+        mean.add(pos)
+    });
+    mean.divideScalar(sys.cubeMap.size);
+    for (let x=minCoords.x; x<=maxCoords.x; x++) {
+        for (let y=minCoords.y; y<=maxCoords.y; y++) {
+            for (let z=minCoords.z; z<=maxCoords.z; z++) {
+                let p = new THREE.Vector3(x,y,z);
+                // If we have a gap
+                if (!sys.cubeMap.has(vecToStr(p))) {
+                    let neighbourSpecies = new Map();
+                    let neighbourQs = new Map();
+                    let neighbourStrs = [];
+                    let nNeighbours = 0;
+                    let s = createEmptySpecies();
+                    // Check if we have neighbouring cubes
+                    ruleOrder.forEach((dP, dPi)=>{
+                        const nStr = vecToStr(p.clone().add(dP));
+                        if (sys.cubeMap.has(nStr)) {
+                            nNeighbours++;
+
+                            // Find the neighbouring patch to connect to
+                            const nConf = sys.confMap.get(nStr);
+                            const ruleDir = dP.clone().negate().applyQuaternion(nConf.q.clone().conjugate()).round();
+                            const iFace = ruleOrder.findIndex((d)=>d.equals(ruleDir));
+                            const nS = newRule[nConf.ruleIdx];
+                            console.log(`Species ${nConf.ruleIdx} is a neighbour at ${nStr}.`);
+                            // Have we found another neighbour with the
+                            // same species?
+                            if (neighbourSpecies.has(nConf.ruleIdx)) {
+                                let iOther = neighbourSpecies.get(nConf.ruleIdx)[0];
+                                nS[iFace].color = -s[iOther].color;
+                            }
+
+                            if (nS[iFace].color === 0) {
+                                nS[iFace].color = ++colorCounter;
+                            }
+                            s[dPi].color = -nS[iFace].color;
+
+                            s[dPi].alignDir = nS[iFace].alignDir.clone().applyQuaternion(nConf.q).round();
+
+                            // Save some info
+                            if (!neighbourSpecies.has(nConf.ruleIdx)) {
+                                neighbourSpecies.set(nConf.ruleIdx, []);
+                                neighbourQs.set(nConf.ruleIdx, []);
+                            }
+                            neighbourSpecies.get(nConf.ruleIdx).push(iFace);
+                            neighbourQs.get(nConf.ruleIdx).push(sys.confMap.get(nStr));
+                            neighbourStrs.push(nStr)
+
+                        }
+                    });
+                    if (nNeighbours >= minNeighbours) {
+                        console.log(`Filling gap with ${nNeighbours} neighbours`);
+
+                        // See if we can align all the patches in the same
+                        // direction
+                        let sum = new THREE.Vector3();
+                        neighbourStrs.forEach(str=>{
+                            sum.add(vectorAbs(sys.cubeMap.get(str).clone().sub(p)));
+                        });
+                        let i = sum.toArray().indexOf(0);
+                        if (i>=0) {
+                            let dir = new THREE.Vector3();
+                            dir.setComponent(i, -1);
+                            neighbourStrs.forEach(str=>{
+                                let q = sys.confMap.get(str).q;
+                                let patchDir = p.clone().sub(
+                                    sys.cubeMap.get(str)
+                                ).applyQuaternion(
+                                    q.clone().conjugate()
+                                );
+                                let other = newRule[sys.confMap.get(str).ruleIdx];
+                                let patchIdx = ruleOrder.findIndex(
+                                    e=>patchDir.distanceTo(e)<1e-5
+                                );
+                                other[patchIdx].alignDir = dir.clone().applyQuaternion(q.clone().conjugate());
+                            });
+                            s.forEach(f=>{
+                                if (f.color !== 0) {
+                                    f.alignDir = dir;
+                                }
+                            });
+                        }
+                        newRule.push(s);
+                        return newRule;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
 function createHollowCubeRule(radius=1) {
     // Add core cube
     let rule = parseHexRule('050506040000');
@@ -73,107 +220,19 @@ function createHollowCubeRule(radius=1) {
                 lastB.alignDir = species[0].alignDir;
                 stem.push(corner);
                 rule.push(corner);
+                oldCorner = corner;
             }
             stem.push(species);
             rule.push(species);
         }
+        console.log(`Finished stem of length ${stem.length}`);
         return stem;
     }
     buildOut(core[0].color, radius);
 
     return rule
 }
-function createSolidCubeRule(radius=1) {
-    // Add core cube
-    let rule = parseHexRule('040404040404');
-    let core = rule[0];
-    let colorCounter = 1; // 1 is already used
 
-    // Build a branching line of cubes from a colour
-    let buildOut = (fromColor, length, maxDepth=2)=> {
-        let c = fromColor;
-        let stem = [];
-        let species;
-        let oldBranchA = [];
-        let oldBranchB = [];
-        let oldBranchC = [];
-        let oldBranchD = [];
-        for (let l=0; l<length; l++) {
-            species = createEmptySpecies();
-            species[0].color = -c;
-            if (l < length-1) {
-                c = ++colorCounter;
-                species[1].color = c;
-                species[1].alignDir = species[4].alignDir = species[5].alignDir = species[0].alignDir;
-            }
-            if (maxDepth > 1) {
-                let corner = createEmptySpecies();
-                corner[1].color = ++colorCounter;
-                corner[4].color = ++colorCounter;
-                corner[4].alignDir = corner[1].alignDir;
-                let lastA, lastB, lastC, lastD;
-                if (l>0) {
-                    species[2].color = ++colorCounter;
-                    species[3].color = ++colorCounter;
-                    species[4].color = ++colorCounter;
-                    species[5].color = ++colorCounter;
-                    species[1].alignDir = species[4].alignDir = species[5].alignDir = species[0].alignDir;
-                    /*
-                    let branchA = buildOut(species[2].color, l, maxDepth-1);
-                    let branchB = buildOut(species[3].color, l, maxDepth-1);
-                    let branchC = buildOut(species[5].color, l, maxDepth-1);
-                    let branchD = buildOut(species[5].color, l, maxDepth-1);
-                    oldBranchA.forEach((s,i)=>{
-                        //s[5].color = ++colorCounter;
-                        //branchA[i][4].color = -s[5].color;
-                    });
-                    oldBranchB.forEach((s,i)=>{
-                        //s[4].color = ++colorCounter;
-                        //branchB[i][5].color = -s[4].color;
-                    });
-                    oldBranchC.forEach((s,i)=>{
-                        s[5].color = ++colorCounter;
-                        branchC[i][4].color = -s[5].color;
-                    });
-                    oldBranchD.forEach((s,i)=>{
-                        s[4].color = ++colorCounter;
-                        branchD[i][5].color = -s[4].color;
-                    });
-                    oldBranchA = branchA;
-                    oldBranchB = branchB;
-                    oldBranchC = branchC;
-                    oldBranchD = branchD;
-                    lastA = branchA.splice(-1)[0][1];
-                    lastB = branchB.splice(-1)[0][1];
-                    lastC = branchC.splice(-1)[0][1];
-                    lastD = branchD.splice(-1)[0][1];
-                    */
-                } else {
-                    lastA = species[2];
-                    lastB = species[3];
-                    lastC = species[4];
-                    lastD = species[5];
-                }
-                lastA.color = -corner[2].color;
-                lastA.alignDir = species[0].alignDir;
-                lastB.color = -corner[3].color;
-                lastB.alignDir = species[0].alignDir;
-                lastC.color = -corner[1].color;
-                lastC.alignDir = species[0].alignDir;
-                lastD.color = -corner[4].color;
-                lastD.alignDir = species[0].alignDir;
-                stem.push(corner);
-                rule.push(corner);
-            }
-            stem.push(species);
-            rule.push(species);
-        }
-        return stem;
-    }
-    buildOut(core[0].color, radius);
-
-    return rule
-}
 /**
  * Emulating https://docs.python.org/3.8/library/stdtypes.html#dict.setdefault
  * If key is in the dictionary, return its value.
