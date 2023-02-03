@@ -295,6 +295,10 @@ function vecToStr(v) {
     return `(${v.x},${v.y},${v.z})`;
 }
 
+function mod(n, m) {
+    return ((n % m) + m) % m;
+}
+
 function ruleToDec2(rule) {
     return ruleToDec(rule, '_', '|',':');
 }

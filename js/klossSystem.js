@@ -1,16 +1,7 @@
-function vecToStr(v) {
-    return `(${v.x},${v.y},${v.z})`;
-}
-
-function mod(n, m) {
-    return ((n % m) + m) % m;
-}
-
 function round(val, nDecimals) {
     let factor = Math.pow(10, nDecimals);
     return Math.round((val + Number.EPSILON) * factor) / factor;
 }
-
 
 function saveString(text, filename) {
     let element = document.createElement('a');

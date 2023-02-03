@@ -29,6 +29,11 @@ class PolycubeSystem {
         this.connections = [];
         this.lineViewFactor = 2;
 
+        // Set to THREE.Vector3() to use
+        // periodic boundaries
+        this.periodicBox = undefined;
+        this.boxObj = undefined;
+
         this.objGroup = new THREE.Group();
         this.lineGroup = new THREE.Group();
         if (scene) {
@@ -84,7 +89,11 @@ class PolycubeSystem {
         if(this.assemblyMode == 'stochastic') {
             i = Math.floor(Math.random() * this.rule.length);
         }
-        this.addParticle(new THREE.Vector3(), this.rule[i], i);
+        let origin = new THREE.Vector3();
+        if (this.periodicBox) {
+            origin = this.periodicBox.clone().divideScalar(2).floor();
+        }
+        this.addParticle(origin, this.rule[i], i);
     }
 
     reset() {
@@ -241,7 +250,7 @@ class PolycubeSystem {
         rule = this.ruleFits(this.moves[movekey].rule, rule);
         if(rule) {
             for (let i=0; i<rule.length; i++) {
-                let neigb = this.moves[movekey].rule[i]
+                let neigb = this.moves[movekey].rule[i];
                 if (neigb != null) {
                     if (this.compatibleColors(neigb.color, rule[i].color) && neigb.alignDir.equals(rule[i].alignDir)) {
                         this.matches++;
@@ -323,7 +332,25 @@ class PolycubeSystem {
             if (species[i].color == 0) {
                 continue;
             }
-            let movePos = position.clone().add(ruleOrder[i])
+            let movePos = position.clone().add(ruleOrder[i]);
+
+            let r = position.clone().sub(movePos);
+            let dirIdx = ruleOrder.findIndex(
+                function(element){return r.equals(element)}
+            );
+
+            // Apply periodic boundaries if we have a defined
+            // periodic bounding box
+            if (this.periodicBox) {
+                movePos.x = mod(movePos.x, this.periodicBox.x);
+                movePos.y = mod(movePos.y, this.periodicBox.y);
+                movePos.z = mod(movePos.z, this.periodicBox.z);
+
+                position.x = mod(position.x, this.periodicBox.x);
+                position.y = mod(position.y, this.periodicBox.y);
+                position.z = mod(position.z, this.periodicBox.z);
+            }
+
             if (Math.abs(movePos.x)>this.maxCoord ||
                Math.abs(movePos.y)>this.maxCoord ||
                Math.abs(movePos.z)>this.maxCoord)
@@ -345,10 +372,6 @@ class PolycubeSystem {
                 this.moveKeys.push(key);
                 this.untried.push(key);
             }
-            let r = position.clone().sub(movePos);
-            let dirIdx = ruleOrder.findIndex(
-                function(element){return r.equals(element)}
-            );
 
             //Make sure we haven't written anything here before:
             if (this.moves[key].rule[dirIdx]) {
@@ -425,6 +448,45 @@ class PolycubeSystem {
             });
         }
         fitCamera();
+    }
+    
+    drawBox(size, position=new THREE.Vector3()) {
+        let material = new THREE.LineBasicMaterial({color: new THREE.Color(0x888888)});
+        let points = [];
+
+        let a = position.clone().subScalar(0.5);
+        let b = size.clone().add(a);
+
+        let f = (xComp, yComp, zComp)=>new THREE.Vector3(xComp.x, yComp.y, zComp.z);
+
+        // I'm sure there's a clever way to do this in a loop...
+        points.push(f(a,a,a)); points.push(f(b,a,a));
+        points.push(f(a,a,b)); points.push(f(b,a,b));
+        points.push(f(a,b,a)); points.push(f(b,b,a));
+        points.push(f(a,b,b)); points.push(f(b,b,b));
+
+        points.push(f(a,a,a)); points.push(f(a,b,a));
+        points.push(f(a,a,b)); points.push(f(a,b,b));
+        points.push(f(b,a,a)); points.push(f(b,b,a));
+        points.push(f(b,a,b)); points.push(f(b,b,b));
+
+        points.push(f(a,a,b)); points.push(f(a,a,a));
+        points.push(f(a,b,b)); points.push(f(a,b,a));
+        points.push(f(b,a,b)); points.push(f(b,a,a));
+        points.push(f(b,b,b)); points.push(f(b,b,a));
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        if (this.boxObj){
+            scene.remove(this.boxObj); // Clear old box
+        }
+        this.boxObj = new THREE.LineSegments(geometry, material);
+        scene.add(this.boxObj); // Add new box
+    }
+
+    setPeriodicBoundaries(box) {
+        this.drawBox(box);
+        this.periodicBox = box;
+        this.regenerate();
     }
 
     changeToSpheres() {
