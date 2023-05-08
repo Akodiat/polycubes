@@ -30,7 +30,7 @@ class OxViewSystem {
         );
     }
 
-    addFromJSON(data, position, orientation, uuid, color, randSeq = false) {
+    addFromJSON(data, position, orientation, uuid, color, randSeq = false, customSeq) {
         const cluster = this.clusterCounter++;
         const idMap = new Map();
         let newStrands = [];
@@ -111,18 +111,33 @@ class OxViewSystem {
         // Save id map to use in ligation
         this.idMaps.set(uuid, idMap);
 
+        const compl = new Map([
+            ['A', 'T'], ['T', 'A'],
+            ['G', 'C'], ['C', 'G']
+        ]);
 
         if (randSeq) {
             newStrands.forEach(s=>{s.monomers.forEach(monomer=>{
-                let [rndType, rndBpType] = randomChoice([
-                    ['A', 'T'], ['T', 'A'],
-                    ['G', 'C'], ['C', 'G']
-                ]);
+                let rndType = randomChoice(['A', 'T', 'G', 'C']);
                 monomer.type = rndType;
                 if (monomer.bp !== undefined) {
-                    this.findById(monomer.bp)[1].type = rndBpType;
+                    this.findById(monomer.bp)[1].type = compl.get(monomer.type);
                 }
             })});
+        }
+
+        if (customSeq) {
+            const s = newStrands[0];
+            if (customSeq.length != s.monomers.length) {
+                throw `The length of the provided sequence ${customSeq} (${customSeq.length}bp) does not match the length of strand 0 (${s.monomers.length}bp)`
+            } else {
+                s.monomers.forEach((monomer, i)=>{
+                    monomer.type = customSeq[i];
+                    if (monomer.bp !== undefined) {
+                        this.findById(monomer.bp)[1].type = compl.get(monomer.type);
+                    }
+                });
+            }
         }
     }
 

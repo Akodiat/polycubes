@@ -70,7 +70,7 @@ function vectorClear(v, clearingV) {
     return clearedV;
 }
 
-async function generateOxViewFile({rule=system.rule, name='polycube', assemblyMode='seeded', scale = 1, debugColors=false, allowMismatches=true, shape='cube'}={}) {
+async function generateOxViewFile({rule=system.rule, name='polycube', assemblyMode='seeded', scale = 1, debugColors=false, allowMismatches=true, shape='cube', colorSequenceMap}={}) {
     const shapeInfo = structMap.get(shape);
     let sys = new PolycubeSystem(rule, undefined, 100, 100, assemblyMode, true, undefined, allowMismatches);
     sys.seed();
@@ -92,10 +92,6 @@ async function generateOxViewFile({rule=system.rule, name='polycube', assemblyMo
             console.log(`Adding ${shape} at key ${key}`);
             oxSys.addFromJSON(JSON.parse(shapeStr), p, c.q, key, debugColors ? undefined : new THREE.Color(selectColor(c.ruleIdx)));
         }
-
-        const orientationFromAlignDir = (v, i) => Math.round(getSignedAngle(
-            faceRotations[i], v, ruleOrder[i]
-        )*(2/Math.PI)+4)%4;
 
         // Connect cubes together
         for (const c of sys.connections) {
@@ -143,10 +139,20 @@ async function generateOxViewFile({rule=system.rule, name='polycube', assemblyMo
                     }
                 }
 
+                let patchSequence = undefined;
+                if (colorSequenceMap !== undefined) {
+                    if (!colorSequenceMap.has(color)) {
+                        console.warn(`colorSequenceMap is provided, but no sequence is defined for the color "${color}". Using random sequence instead.`);
+                    } else {
+                        patchSequence = colorSequenceMap.get(color);
+                    }
+                }
+
                 insertHelix(oxSys, nucIdA, keyA, closest, keyB, 
                     `${keyA}-${keyB}(${nucIdA})`,
                     debugColors ? undefined : new THREE.Color(selectColor(color-1)),
-                    shapeInfo.connectingHelix
+                    shapeInfo.connectingHelix,
+                    patchSequence
                 );
             }
         }
@@ -156,7 +162,7 @@ async function generateOxViewFile({rule=system.rule, name='polycube', assemblyMo
     })
 }
 
-function insertHelix(oxSys, nucIdA, keyA, nucIdB, keyB, helixKey, color, helixName='21bp') {
+function insertHelix(oxSys, nucIdA, keyA, nucIdB, keyB, helixKey, color, helixName='21bp', sequence) {
     const helixSpec = connectingHelices.get(helixName);
 
     const nA = oxSys.getNuc(nucIdA, keyA);
@@ -171,7 +177,12 @@ function insertHelix(oxSys, nucIdA, keyA, nucIdB, keyB, helixKey, color, helixNa
     const q = new THREE.Quaternion().setFromUnitVectors(
         new THREE.Vector3(0,0,-1), pB.clone().sub(pA).normalize()
     );
-    oxSys.addFromJSON(JSON.parse(helixSpec.str), p, q, helixKey, color, true);
+
+    if (sequence !== undefined) {
+        oxSys.addFromJSON(JSON.parse(helixSpec.str), p, q, helixKey, color, false, sequence);
+    } else {
+        oxSys.addFromJSON(JSON.parse(helixSpec.str), p, q, helixKey, color, true);
+    }
 
     if (color === undefined) {
         const [sA, _nA] = oxSys.findById(oxSys.idMaps.get(helixKey).get(41));
@@ -183,7 +194,7 @@ function insertHelix(oxSys, nucIdA, keyA, nucIdB, keyB, helixKey, color, helixNa
     }
 
     const hA = oxSys.getNuc(helixSpec["5pA"], helixKey); // Strand 1, 5'
-    const hB = oxSys.getNuc(helixSpec["5pB"], helixKey);  // Strand 0, 5'
+    const hB = oxSys.getNuc(helixSpec["5pB"], helixKey); // Strand 0, 5'
 
     if (nA.n3 === undefined && nB.n3 === undefined) {
         // Connect two 3' ends to 5' ends of inserted helix
