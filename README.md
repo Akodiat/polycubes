@@ -3,6 +3,12 @@
 Try out the browser version of the stochastic assembler at https://akodiat.github.io/polycubes/
 There is also a c++ implementation, found in the cpp directory.
 
+If you use this code, please cite the following paper:
+Bohlin, J., Turberfield, A. J., Louis, A. A., & Sulc, P. (2023). Designing the self-assembly of arbitrary shapes using minimal complexity building blocks. ACS nano, 17(6), 5387-5398. https://pubs.acs.org/doi/full/10.1021/acsnano.2c09677
+As well as my thesis:
+Bohlin, J. (2022). Design and modular self-assembly of nanostructures (Doctoral dissertation, University of Oxford). https://ora.ox.ac.uk/objects/uuid:5dc4bc2a-fa46-4615-b0a1-8ac2ddc6f9ab.
+Appendix A in the thesis contains further information about this codebase.
+
 ## Stochastic assembler
 The stochastic assembly code is implemented in both C++ (for efficiency) and JavaScript (for interactivity and visualisation). The C++ implementation also has a python binding to make it easier to interface with. 
 

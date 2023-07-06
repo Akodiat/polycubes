@@ -2,21 +2,21 @@
 Polycube SAT specification adapted from Lukas chrystal one.
 
 "Atoms" are "movable and rotatable", have 6 slots
-"Positions" are fixed in the crystal, have 6 slots and bind according to spec
+"Positions" are fixed in the polycube, have 6 slots and bind according to spec
 The problem has 2 parts:
-A. find color bindings and colorings of position slots where each patch neightbors according to crystal model have
+A. find color bindings and colorings of position slots where each patch neightbors according to polycube shape have
     colors that bind
-B. find colorings of atoms s.t. all crystal positions are identical to (some) species rotation. The species definitions
+B. find colorings of atoms s.t. all shape positions are identical to (some) species rotation. The species definitions
     must not allow for bad 2-binds
 
 indexes:
 - colors:   1...c...#c (variable number)
 - atoms:    1...s...#s (variable number)
 - slots:    0...p...5=#p-1 (bindings places on atoms - 0,1,2 on one side, 3,4,5 on the other)
-- position: 1...l...16=#l (number of positions in the crystal)
+- position: 1...l...16=#l (number of positions in the polycube)
 - rotation: 1...r...6=#r possible rotations of an species
-- condition: 1...d...#d conditions to avoid bad crystal
-- qualification: 0..#q (0 for good crystal, one more for each bad one)
+- condition: 1...d...#d conditions to avoid bad polycube
+- qualification: 0..#q (0 for good polycube, one more for each bad one)
 
 (boolean) variables:
 - B(c1, c2): color c1 binds with c2 (n=#c*#c)
@@ -296,7 +296,7 @@ class polysat:
                     constraints.extend(self._exactly_one([self.O(s, p, o) for o in range(self.nO)]))
 
 
-        # ADD CRYSTAL and COLORS:
+        # ADD SHAPE and COLORS:
         # - Legal position patch coloring:
         # "Every position patch has exactly one color"
         # 	for all l, p exactly one c st. F(l, p, c)
@@ -312,18 +312,18 @@ class polysat:
                 for p in range(self.nP):
                     constraints.extend(self._exactly_one([self.A(l, p, o) for o in range(self.nO)]))
 
-        # - Forms desired crystal:
+        # - Forms desired shape:
         # "Specified binds have compatible colors"
-        # 	forall (l1, p1) binding with (l2, p2) from crystal spec:
+        # 	forall (l1, p1) binding with (l2, p2) from shape spec:
         # 		forall c1, c2: F(l1, p1, c1) and F(l2, p2, c2) => B(c1, c2)
         for (l1, p1), (l2, p2) in self.bindings.items():
             for c1 in range(self.nC):
                 for c2 in range(self.nC):
                     constraints.append((-self.F(l1, p1, c1), -self.F(l2, p2, c2), self.B(c1, c2)))
 
-        # - Forms desired crystal:
+        # - Forms desired shape:
         # "Specified binds have compatible orientations"
-        # 	forall (l1, p1) binding with (l2, p2) from crystal spec:
+        # 	forall (l1, p1) binding with (l2, p2) from shape spec:
         # 		forall o1, o2: A(l1, p1, o1) and A(l2, p2, o2) => D(c1, c2)
         if self.torsionalPatches:
             for (l1, p1), (l2, p2) in self.bindings.items():
