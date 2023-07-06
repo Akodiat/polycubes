@@ -316,7 +316,7 @@ def newSolve(solveSpecPath, nCubeTypes, nColors, ratioLimit=1.0, maxTries=1000):
             for shape in shapes:
                 ratio = libpolycubes.assembleRatio(shape, decRule, isHexString=False, assemblyMode='seeded', torsion=solveSpec['torsion'])
                 if ratio == 0:
-                    print("Shape {} never assembled".format((("{}").format(shape) if len(shapes)>1 else '')))
+                    print("Shape {} never assembled (tried {})".format((("{}").format(shape) if len(shapes)>1 else ''), utils.ruleToDec(rule)))
                     ratiosum = 0
                     break
                 else:

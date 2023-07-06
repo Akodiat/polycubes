@@ -23,11 +23,11 @@ def parseDecRule(decRule):
         rule.append(faces)
     return rule
 
-def ruleToDec(ruleset):
-    return '_'.join(
-        '|'.join(
-            "{}:{}".format(
-                f['color'], f['orientation']
+def ruleToDec(ruleset, speciesSep='_', faceSep='|', rotSep=':'):
+    return speciesSep.join(
+        faceSep.join(
+            "{}{}{}".format(
+                f['color'], rotSep, f['orientation']
             ) for f in s
         ) for s in ruleset
     )

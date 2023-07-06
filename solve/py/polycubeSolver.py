@@ -80,8 +80,10 @@ class polysat:
             self.add_constraints_all_particles()
 
         if allPatches:
-            # Solution must use all patches, except color 0 which should not bind
-            self.add_constraints_all_patches_except(0)
+            # Solution must use all patches, except color 0 which should not bind.
+            # It is not necessary for a solution to have empty patches (e.g. if we
+            # actually want an unbounded solution, so we don't require color 1)
+            self.add_constraints_all_patches_except([0],[1])
 
         if forbidEmptySpecies:
             # Solutions cannot have any empty species
@@ -600,16 +602,17 @@ class polysat:
         for c in range(self.nC):
             self.basic_sat_clauses.append([self.C(s,p,c) for s in range(self.nS) for p in range(self.nP)])
 
-    def add_constraints_all_patches_except(self, forbidden):
+    def add_constraints_all_patches_except(self, forbidden, nonRequired):
         for c in range(self.nC):
-            if c != forbidden:
+            if c not in forbidden and c not in nonRequired:
                 self.basic_sat_clauses.append([self.C(s, p, c) for s in range(self.nS) for p in range(self.nP)])
             # Do not use forbidden color
             for p in range(self.nP):
                 for s in range(self.nS):
-                    self.basic_sat_clauses.append(
-                            [-self.C(s, p, forbidden)]
-                    )
+                    for nForbidden in forbidden:
+                        self.basic_sat_clauses.append(
+                                [-self.C(s, p, nForbidden)]
+                        )
 
     def add_constraints_fixed_blank_orientation(self):
         for p in range(self.nP):
