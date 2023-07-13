@@ -30,6 +30,162 @@ class OxViewSystem {
         );
     }
 
+    draw(
+        sequence,
+        startPos = new THREE.Vector3(0,0,1),
+        direction = new THREE.Vector3(0,0,-1),
+        orientation = new THREE.Vector3(0,-1,0),
+        duplex = false, type = 'DNA', cluster = undefined, uuid
+    ) {
+        // Set up constants for DNA/RNA. Adapted from oxView code, which in turn
+        // is adapted from python code in the oxDNA UTILS directory
+        let rot, rise, fudge;
+        let r1, r2, inclination;
+        if (type == 'DNA') {
+            rot = -35.9 * Math.PI / 180;
+            rise = -0.3897628551303122;
+            fudge = 0.6;
+        } else if (type == 'RNA') {
+            rot = -32.7 * Math.PI / 180;
+            rise = -0.3287;
+            fudge = 0.4;
+            inclination = -15.5 * Math.PI / 180;
+            [r1, r2] = calcR1R2(direction, orientation, inclination);
+        } else {
+            throw `Unknown type: "${type}". Use "DNA" or "RNA".`
+        }
+
+        // Make one cluster per drawn strand (for a duplex the cluster is set
+        // to be the same for both strands)
+        if (cluster === undefined) {
+            cluster = this.clusterCounter++; // Get new cluster
+        } else {
+            // Make sure clusterCounter is up to date
+            this.clusterCounter = Math.max(this.clusterCounter, cluster+1);
+        }
+
+        direction.normalize();
+        orientation.normalize();
+
+        // You may either supply a string sequence, or a just the number of bases.
+        // If a number, generate a random sequence.
+        if (typeof sequence !== 'string') {
+            if (typeof(sequence) === 'number') {
+                let actualSeq = "";
+                for (let i=0; i<sequence; i++) {
+                    actualSeq += UTILS.randomElement(["A", type==='DNA' ? "T": "U", "C", "G"]);
+                }
+                sequence = actualSeq;
+            } else {
+                console.log("Please provide either a sequence string or a sequence length")
+            }
+        }
+
+        const idMap = new Map();
+
+        // Create the strand
+        let newStrand = {
+            id: this.strandIdCounter++,
+            monomers: [],
+            class: "NucleicAcidStrand"
+        };
+
+        // Create the monomers
+        sequence.split("").map((base, i)=>{
+            let a1, a3, p;
+
+            if (type == "DNA") {
+                a1 = orientation.clone().applyAxisAngle(direction, rot * i);
+                a3 = direction.clone();
+                p = startPos.clone().add(
+                    direction.clone().multiplyScalar(rise * i)
+                ).sub(a1.clone().multiplyScalar(fudge));
+            } else {
+                const localR1 = r1.clone().applyAxisAngle(direction, rot * i).add(direction.clone().multiplyScalar(rise * i));
+                const localR2 = r2.clone().applyAxisAngle(direction, rot * i).add(direction.clone().multiplyScalar(rise * i));
+                a1 = localR2.clone().sub(localR1).normalize();
+
+                const a1proj = a1.clone().projectOnPlane(direction).normalize();
+                a3 = direction.clone().multiplyScalar(-Math.cos(inclination)).add(a1proj.multiplyScalar(Math.sin(inclination))).normalize();
+
+                a1.negate();
+                a3.negate();
+
+                p = startPos.clone().add(a1.clone().multiplyScalar(fudge)).add(localR2);
+            }
+
+            // We create new monomers, so they get new IDs. Thus, the idMap just maps numbers to themselves
+            let id = this.monomerIdCounter++;
+            idMap.set(id, id);
+
+            // Add monomer to strand
+            newStrand.monomers.push({
+                id: id,
+                p: p.toArray(),
+                a1: a1.toArray(),
+                a3: a3.toArray(),
+                class: type,
+                type: base,
+                cluster: cluster
+            });
+
+            // Resize box
+            this.box = Math.max(this.box,
+                Math.abs(4*p.x),
+                Math.abs(4*p.y),
+                Math.abs(4*p.z)
+            );
+        });
+
+        const count = newStrand.monomers.length;
+
+        // Connect monomers with their strand neighbours.
+        for (let i=0; i<count; i++) {
+            if (i-1 >= 0) {
+                newStrand.monomers[i].n5 = newStrand.monomers[i-1].id;
+            }
+            if (i+1 < count) {
+                newStrand.monomers[i].n3 = newStrand.monomers[i+1].id;
+            }
+        }
+
+        // Specify strand endpoints (it is a doubly linked list, even if we
+        // also have an array with the data)
+        newStrand.end5 = newStrand.monomers[0].id;
+        newStrand.end3 = newStrand.monomers.slice(-1)[0].id;
+
+        // Add strand to system
+        this.strands.push(newStrand);
+
+        if (duplex) {
+            // Find starting point for complementary strand
+            const last = newStrand.monomers.slice(-1)[0];
+            const complSeq = sequence.split("").reverse().map(c=>getComplementaryType(c, type==='RNA')).join("");
+            const lastA1 = new THREE.Vector3().fromArray(last.a1);
+            const p = startPos.clone().add(direction.clone().multiplyScalar(rise * (count-1)));
+
+            // Call this function again, to recursively draw the complementary strand (but only one recursion since duplex is now false).
+            const complStrand = this.draw(complSeq, p, direction.clone().negate(), lastA1.clone().negate(), false, type, cluster, uuid);
+
+            // Specify basepairs
+            for (let i=0; i<count; i++) {
+                newStrand.monomers[i].bp = complStrand.monomers[count-i-1].id;
+                complStrand.monomers[count-i-1].bp = newStrand.monomers[i].id;
+            }
+        }
+
+        // Save id map to use in ligation
+        // Really quite pointless, but needed to be compatible with
+        // parts added from JSON. Both strands in a duplex share the same map
+        if (this.idMaps.has(uuid)) {
+            this.idMaps.set(uuid, new Map([...this.idMaps.get(uuid), ...idMap]));
+        } else {
+            this.idMaps.set(uuid, idMap);
+        }
+
+        return newStrand;
+    }
+
     addFromJSON(data, position, orientation, uuid, color, randSeq = false, customSeq) {
         const cluster = this.clusterCounter++;
         const idMap = new Map();
@@ -314,4 +470,55 @@ class OxViewSystem {
             return s;
         }
     }
+}
+
+// Helper functions
+
+function getComplementaryType(type, RNA=false) {
+    console.assert(RNA && type !== 'T' || !RNA && type !== 'U', `Type cannot be ${type} in ${RNA?'RNA':'DNA'}!`);
+    let tu = RNA ? 'U':'T';
+    let map = {'A': tu, 'G': 'C', 'C': 'G'};
+    map[tu] = 'A';
+    let complType = map[type];
+    console.assert(complType !== undefined, `Type ${type} has no defined complementary type! (for ${RNA?'RNA':'DNA'})`);
+    return complType;
+}
+
+// Code adapted from RNA.js in oxView
+function calcR1R2(dir, orientation,
+    inclination = -15.5 * Math.PI / 180,
+    bp_backbone_distance = 2,
+    diameter = 2.35
+) {
+    const cord = Math.cos(inclination) * bp_backbone_distance;
+    const center_to_cord = Math.sqrt(Math.pow(diameter / 2, 2) - Math.pow(cord / 2, 2));
+
+    const x1 = center_to_cord;
+    const y1 = -cord / 2;
+    const z1 = -(bp_backbone_distance / 2) * Math.sin(inclination);
+    const x2 = center_to_cord;
+    const y2 = cord / 2;
+    const z2 = (bp_backbone_distance / 2) * Math.sin(inclination);
+    let r1 = new THREE.Vector3(x1, y1, z1);
+    let r2 = new THREE.Vector3(x2, y2, z2);
+
+    let q1 = new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0, 0, 1), dir);
+    r1.applyQuaternion(q1);
+    r2.applyQuaternion(q1);
+
+    const r1_to_r2 = r1.clone().sub(r2);
+    r1_to_r2.normalize();
+    let rotAxis2 = dir.clone();
+    rotAxis2.normalize();
+    let rotAngle2 = r1_to_r2.clone().projectOnPlane(dir).angleTo(orientation.clone().projectOnPlane(dir));
+    let cross2 = r1_to_r2.clone().cross(orientation);
+    if (cross2.dot(dir) < 0) {
+        rotAngle2 = -rotAngle2;
+    }
+    let q2 = new THREE.Quaternion();
+    q2.setFromAxisAngle(rotAxis2, rotAngle2);
+    r1.applyQuaternion(q2);
+    r2.applyQuaternion(q2);
+
+    return [r1, r2];
 }
